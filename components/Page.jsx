@@ -3,6 +3,16 @@ import styled, { createGlobalStyle } from 'styled-components';
 import Head from 'next/head';
 
 const GlobalStyle = createGlobalStyle`
+  @import url('https://rsms.me/inter/inter.css');
+  html {
+    font-family: 'Inter', sans-serif;
+  }
+
+  @supports (font-variation-settings: normal) {
+  html {
+    font-family: 'Inter var', sans-serif;
+  }
+
   * {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
@@ -22,7 +32,7 @@ const GlobalStyle = createGlobalStyle`
     color: #111111;
     background-color: #FDFDFD;
     font-size: 16px;
-    font-family: "Inter";
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
   }
 
   ::selection {

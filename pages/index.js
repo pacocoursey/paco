@@ -1,5 +1,5 @@
-import React, { createRef } from 'react'
-import styled, { css, keyframes } from 'styled-components'
+import React, { createRef } from 'react';
+import styled, { css, keyframes } from 'styled-components';
 import Page from '../components/Page';
 
 const Cover = styled.div`
@@ -45,11 +45,21 @@ const Image = styled.div`
   top: 0;
   height: 100vh;
   width: 100vw;
-  opacity: 0.05;
+  opacity: 0.1;
   z-index: -1;
   background-image: url("/static/white.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    background-image: linear-gradient(to top, #fdfdfd, transparent);
+  }
 `;
 
 const Text = styled.p`
@@ -94,11 +104,11 @@ export default class Index extends React.Component {
     showArrow: true,
   }
 
+  section = createRef()
+
   componentDidMount = () => {
     this.scrollSpy();
   }
-
-  section = createRef()
 
   scrollSpy = () => {
     this.scrollSpyID = requestAnimationFrame(() => {
@@ -110,7 +120,6 @@ export default class Index extends React.Component {
       }
 
       this.lastFrameScroll = scrollY;
-      let { showArrow } = this.state;
       const scrollOffset = (innerHeight / 2) + scrollY;
 
       if (scrollOffset > this.section.current.offsetTop) {
@@ -123,8 +132,8 @@ export default class Index extends React.Component {
         });
       }
 
-      this.scrollSpy();
-    })
+      return this.scrollSpy();
+    });
   }
 
 
@@ -133,24 +142,29 @@ export default class Index extends React.Component {
 
     return (
       <Page>
-      <Image />
+        <Image />
 
-      <Cover>
-        <Hello>Hello, I&apos;m</Hello>
-        <Title>PACO</Title>
+        <Cover>
+          <Hello>Hello, I&apos;m</Hello>
+          <Title>PACO</Title>
 
-        <ArrowWrapper show={showArrow}>
-          <DownArrow>&#x2193;</DownArrow>
-        </ArrowWrapper>
-      </Cover>
+          <ArrowWrapper show={showArrow}>
+            <DownArrow>&#x2193;</DownArrow>
+          </ArrowWrapper>
+        </Cover>
 
-      <Cover ref={this.section}>
-        <Text>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris lacinia iaculis mi in egestas. Donec sed fringilla lacus. Vestibulum vestibulum ut nunc at suscipit. Pellentesque diam massa, faucibus tempor mi aliquam, pretium ullamcorper risus. Mauris blandit augue ac nisl accumsan, ut egestas libero imperdiet. Nunc et ante nec eros lobortis molestie. Vestibulum euismod nisi vitae turpis luctus pharetra. Ut aliquet quis arcu nec ultricies. Aliquam finibus egestas eros sit amet ullamcorper. Vivamus ullamcorper volutpat quam sed fermentum. Mauris pharetra et urna ac venenatis. Proin imperdiet nisi id est eleifend ultrices. Maecenas sodales mi eu sapien congue, vel lacinia eros luctus. In at efficitur nibh. Sed eu consequat orci. Cras rutrum aliquam suscipit.
-        </Text>
-      </Cover>
-    </Page>
+        <Cover ref={this.section}>
+          <Text>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Mauris lacinia iaculis mi in egestas. Donec sed fringilla lacus.
+            Vestibulum vestibulum ut nunc at suscipit.
+            Pellentesque diam massa, faucibus tempor mi aliquam, pretium ullamcorper risus.
+            Mauris blandit augue ac nisl accumsan, ut egestas libero imperdiet.
+            Nunc et ante nec eros lobortis molestie.
+            Vestibulum euismod nisi vitae turpis luctus pharetra.
+          </Text>
+        </Cover>
+      </Page>
     );
   }
-
 }
