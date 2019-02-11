@@ -7,6 +7,9 @@ const Cover = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+
+  position: relative;
 `;
 
 const Hello = styled.h3`
@@ -61,10 +64,19 @@ const Image = styled.div`
   }
 `;
 
-const Text = styled.p`
-  font-size: 16px;
+const Text = styled.div`
   line-height: 1.5;
-  max-width: 500px;
+  max-width: 420px;
+  position: relative;
+  overflow: hidden;
+
+  p {
+    font-size: 1.25rem;
+
+    span {
+      background: #111;
+    }
+  }
 `;
 
 const bob = keyframes`
@@ -81,7 +93,7 @@ const bob = keyframes`
 const ArrowWrapper = styled.div`
   position: absolute;
   align-self: center;
-  bottom: 50px;
+  bottom: 100px;
 
 
   ${props => (!props.show ? css`opacity: 0;` : '')};
@@ -97,10 +109,58 @@ const DownArrow = styled.div`
   animation-delay: 3s;
 `;
 
+const Menu = styled.div`
+  position: sticky;
+  top: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
+const Item = styled.div`
+
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`;
+
+const Toggle = styled.div`
+  cursor: pointer;
+  position: sticky;
+  top: 3rem;
+  left: 3rem;
+
+  margin: 10px;
+  opacity: 0;
+
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  border: 2px solid #111;
+
+  z-index: 2;
+
+  transition: background 150ms, opacity 150ms;
+
+  ${props => (props.show ? 'opacity: 1' : '')};
+
+  &:hover {
+    background: #111;
+  }
+`;
+
 
 export default class Index extends React.Component {
   state = {
-    showArrow: true,
+    pastIntroduction: false,
   }
 
   section = createRef()
@@ -121,13 +181,16 @@ export default class Index extends React.Component {
       this.lastFrameScroll = scrollY;
       const scrollOffset = (innerHeight / 2) + scrollY;
 
+      console.log(scrollOffset);
+
+
       if (scrollOffset > this.section.current.offsetTop) {
         this.setState({
-          showArrow: false,
+          pastIntroduction: true,
         });
       } else {
         this.setState({
-          showArrow: true,
+          pastIntroduction: false,
         });
       }
 
@@ -137,30 +200,34 @@ export default class Index extends React.Component {
 
 
   render() {
-    const { showArrow } = this.state;
+    const { pastIntroduction } = this.state;
 
     return (
       <Page>
+        <Toggle show={pastIntroduction} />
         <Image />
 
         <Cover>
-          <Hello>Hello, I&apos;m</Hello>
-          <Title>PACO</Title>
+          <div>
+            <Hello>Hello, I&apos;m</Hello>
+            <Title>PACO</Title>
+          </div>
 
-          <ArrowWrapper show={showArrow}>
+          <ArrowWrapper show={!pastIntroduction}>
             <DownArrow>&#x2193;</DownArrow>
           </ArrowWrapper>
         </Cover>
 
         <Cover ref={this.section}>
           <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Mauris lacinia iaculis mi in egestas. Donec sed fringilla lacus.
-            Vestibulum vestibulum ut nunc at suscipit.
-            Pellentesque diam massa, faucibus tempor mi aliquam, pretium ullamcorper risus.
-            Mauris blandit augue ac nisl accumsan, ut egestas libero imperdiet.
-            Nunc et ante nec eros lobortis molestie.
-            Vestibulum euismod nisi vitae turpis luctus pharetra.
+            <h2>I&apos;m a software developer.</h2>
+            <p><span>I enjoy building websites, writing JavaScript, and working on open-source projects.</span></p>
+          </Text>
+        </Cover>
+
+        <Cover>
+          <Text>
+            a;sldkfjas dfjlasd ;jal sdfjas l;dfjkas;ld fjdkls;fj ;
           </Text>
         </Cover>
       </Page>

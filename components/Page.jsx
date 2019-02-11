@@ -23,7 +23,6 @@ const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     margin: 0;
-    overflow-x: hidden;
   }
 
   body {
@@ -47,7 +46,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
 `;
 
 export default ({ children }) => (
@@ -55,6 +54,7 @@ export default ({ children }) => (
     <Head>
       <title>Paco Coursey</title>
     </Head>
+
     {children}
 
     <GlobalStyle />
