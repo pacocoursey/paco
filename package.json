@@ -1,5 +1,5 @@
 {
-  "name": "with-styled-components",
+  "name": "paco",
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
@@ -8,7 +8,7 @@
     "lint": "eslint --ignore-path .gitignore ."
   },
   "dependencies": {
-    "next": "^7.0.2",
+    "next": "^8.0.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "styled-components": "^4.0.0"
@@ -22,5 +22,5 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4"
   },
-  "license": "ISC"
+  "license": "MIT"
 }

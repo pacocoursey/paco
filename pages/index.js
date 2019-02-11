@@ -9,7 +9,6 @@ const Cover = styled.div`
   justify-content: center;
 `;
 
-
 const Hello = styled.h3`
   text-transform: uppercase;
   font-weight: lighter;
