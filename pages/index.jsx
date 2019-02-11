@@ -109,19 +109,6 @@ const DownArrow = styled.div`
   animation-delay: 3s;
 `;
 
-const Menu = styled.div`
-  position: sticky;
-  top: 1rem;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-`;
-
-const Item = styled.div`
-
-`;
-
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -129,6 +116,44 @@ const fadeIn = keyframes`
 
   to {
     opacity: 1;
+    transform: translate(0, -50%);
+  }
+`;
+
+const Menu = styled.div`
+  position: fixed;
+  top: 50vh;
+  transform: translate(-100%, -50%);
+  left: 15vw;
+
+  opacity: 0;
+  z-index: 2;
+
+  transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+  ${props => (props.show ? css`opacity: 1; transform: translate(0, -50%)` : '')};
+
+  line-height: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
+const Item = styled.div`
+  font-weight: 300;
+  position: relative;
+  padding-right: 20px;
+  color: #999;
+
+  transition: color 150ms ease-in-out;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &.active {
+    color: #111;
   }
 `;
 
@@ -161,9 +186,12 @@ const Toggle = styled.div`
 export default class Index extends React.Component {
   state = {
     pastIntroduction: false,
+    activeSection: '#about',
   }
 
-  section = createRef()
+  about = createRef()
+  works = createRef()
+  contact = createRef()
 
   componentDidMount = () => {
     this.scrollSpy();
@@ -179,33 +207,63 @@ export default class Index extends React.Component {
       }
 
       this.lastFrameScroll = scrollY;
+      let { activeSection } = this.state;
       const scrollOffset = (innerHeight / 2) + scrollY;
+      // const scrollOffset = innerHeight + scrollY;
 
-      console.log(scrollOffset);
 
-
-      if (scrollOffset > this.section.current.offsetTop) {
+      if (scrollOffset > this.about.current.offsetTop) {
         this.setState({
           pastIntroduction: true,
         });
+        activeSection = '#about';
       } else {
         this.setState({
           pastIntroduction: false,
         });
       }
 
-      return this.scrollSpy();
+      if (scrollOffset > this.works.current.offsetTop) {
+        activeSection = '#works';
+      }
+
+      if (scrollOffset > this.contact.current.offsetTop) {
+        activeSection = '#contact';
+        console.log('YEEE');
+
+      }
+
+      if (activeSection !== this.state.activeSection) {
+        window.history.pushState(null, null, activeSection);
+        this.setState({ activeSection }, this.scrollSpy);
+      } else {
+        this.scrollSpy();
+      }
     });
   }
 
 
   render() {
-    const { pastIntroduction } = this.state;
+    const { pastIntroduction, activeSection } = this.state;
 
     return (
       <Page>
         <Toggle show={pastIntroduction} />
         <Image />
+
+        <Menu show={pastIntroduction}>
+          <Item className={activeSection === '#about' ? 'active' : ''}>
+            <a href="#">about</a>
+          </Item>
+
+          <Item className={activeSection === '#works' ? 'active' : ''}>
+            <a href="#">works</a>
+          </Item>
+
+          <Item className={activeSection === '#contact' ? 'active' : ''}>
+            <a href="#">contact</a>
+          </Item>
+        </Menu>
 
         <Cover>
           <div>
@@ -218,18 +276,26 @@ export default class Index extends React.Component {
           </ArrowWrapper>
         </Cover>
 
-        <Cover ref={this.section}>
-          <Text>
-            <h2>I&apos;m a software developer.</h2>
-            <p><span>I enjoy building websites, writing JavaScript, and working on open-source projects.</span></p>
-          </Text>
-        </Cover>
+        <div>
+          <Cover ref={this.about}>
+            <Text>
+              <h2>I&apos;m a software developer.</h2>
+              <p><span>I enjoy building websites, writing JavaScript, and working on open-source projects.</span></p>
+            </Text>
+          </Cover>
 
-        <Cover>
-          <Text>
-            a;sldkfjas dfjlasd ;jal sdfjas l;dfjkas;ld fjdkls;fj ;
-          </Text>
-        </Cover>
+          <Cover ref={this.works}>
+            <Text>
+              a;sldkfjas dfjlasd ;jal sdfjas l;dfjkas;ld fjdkls;fj ;
+            </Text>
+          </Cover>
+
+          <Cover ref={this.contact}>
+            <Text>
+              email m
+            </Text>
+          </Cover>
+        </div>
       </Page>
     );
   }
