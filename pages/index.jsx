@@ -230,12 +230,16 @@ export default class Index extends React.Component {
     activeSection: '#about',
   }
 
-  about = createRef()
-  works = createRef()
-  contact = createRef()
+  about = createRef();
+
+  education = createRef();
+
+  works = createRef();
+
+  contact = createRef();
 
   componentDidMount = () => {
-    // this.scrollSpy();
+    this.scrollSpy();
   }
 
   scrollSpy = () => {
@@ -250,8 +254,6 @@ export default class Index extends React.Component {
       this.lastFrameScroll = scrollY;
       let { activeSection } = this.state;
       const scrollOffset = (innerHeight / 2) + scrollY;
-      // const scrollOffset = innerHeight + scrollY;
-
 
       if (scrollOffset > this.about.current.offsetTop) {
         this.setState({
@@ -264,14 +266,16 @@ export default class Index extends React.Component {
         });
       }
 
+      if (scrollOffset > this.education.current.offsetTop) {
+        activeSection = '#education';
+      }
+
       if (scrollOffset > this.works.current.offsetTop) {
         activeSection = '#works';
       }
 
       if (scrollOffset > this.contact.current.offsetTop) {
         activeSection = '#contact';
-        console.log('YEEE');
-
       }
 
       if (activeSection !== this.state.activeSection) {
@@ -295,6 +299,10 @@ export default class Index extends React.Component {
         <Menu show={pastIntroduction}>
           <Item className={activeSection === '#about' ? 'active' : ''}>
             <a href="#about">about</a>
+          </Item>
+
+          <Item className={activeSection === '#education' ? 'active' : ''}>
+            <a href="#education">education</a>
           </Item>
 
           <Item className={activeSection === '#works' ? 'active' : ''}>
@@ -328,6 +336,19 @@ export default class Index extends React.Component {
                   {' '}
                   <a href="/blog">here</a>
                   .
+                </span>
+              </p>
+            </Text>
+          </Cover>
+
+          <Cover ref={this.education} id="education">
+            <Text>
+              <h2>I&apos;m a student.</h2>
+              <p>
+                <span>
+                  As a senior Computer Science student,
+                  I have studied advanced algorithms, data structures,
+                  computer architecture, operating systems, and compiler writing.
                 </span>
               </p>
             </Text>
