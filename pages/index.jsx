@@ -14,7 +14,7 @@ const Cover = styled.div`
 
 const Hello = styled.h3`
   text-transform: uppercase;
-  font-weight: lighter;
+  font-weight: normal;
   letter-spacing: 5px;
 
   margin: 0 0 -20px 0;
@@ -66,7 +66,7 @@ const Image = styled.div`
 
 const Text = styled.div`
   line-height: 1.5;
-  max-width: 420px;
+  max-width: 450px;
   position: relative;
   overflow: hidden;
 
@@ -74,8 +74,14 @@ const Text = styled.div`
     font-size: 1.25rem;
 
     span {
-      background: #111;
+      /* background: #111; */
     }
+  }
+
+  a {
+    text-decoration: none;
+    font-weight: bold;
+    color: inherit;
   }
 `;
 
@@ -109,17 +115,6 @@ const DownArrow = styled.div`
   animation-delay: 3s;
 `;
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-    transform: translate(0, -50%);
-  }
-`;
-
 const Menu = styled.div`
   position: fixed;
   top: 50vh;
@@ -129,7 +124,7 @@ const Menu = styled.div`
   opacity: 0;
   z-index: 2;
 
-  transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+  transition: opacity 150ms ease-in-out, transform 500ms ease-in-out;
   ${props => (props.show ? css`opacity: 1; transform: translate(0, -50%)` : '')};
 
   line-height: 2;
@@ -141,6 +136,7 @@ const Menu = styled.div`
 
 const Item = styled.div`
   font-weight: 300;
+  font-size: 1.25rem;
   position: relative;
   padding-right: 20px;
   color: #999;
@@ -153,6 +149,10 @@ const Item = styled.div`
   }
 
   &.active {
+    color: #111;
+  }
+
+  &:hover {
     color: #111;
   }
 `;
@@ -182,6 +182,47 @@ const Toggle = styled.div`
   }
 `;
 
+const Emojis = styled.div`
+  width: 100vw;
+  height: 200px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+const emojiCycle = keyframes`
+  0%, 100% {
+    content: "▲";
+  }
+
+  20% {
+    content: "🌙";
+  }
+
+  40% {
+    content: "🌑";
+  }
+
+  60% {
+    content: "✨";
+  }
+
+  80% {
+    content: "🖤";
+  }
+`;
+
+const Emoji = styled.div`
+  font-size: 2rem;
+
+  &::after {
+    content: "";
+    animation: ${emojiCycle} 3s linear forwards infinite;
+  }
+`;
+
 
 export default class Index extends React.Component {
   state = {
@@ -194,7 +235,7 @@ export default class Index extends React.Component {
   contact = createRef()
 
   componentDidMount = () => {
-    this.scrollSpy();
+    // this.scrollSpy();
   }
 
   scrollSpy = () => {
@@ -253,15 +294,15 @@ export default class Index extends React.Component {
 
         <Menu show={pastIntroduction}>
           <Item className={activeSection === '#about' ? 'active' : ''}>
-            <a href="#">about</a>
+            <a href="#about">about</a>
           </Item>
 
           <Item className={activeSection === '#works' ? 'active' : ''}>
-            <a href="#">works</a>
+            <a href="#works">works</a>
           </Item>
 
           <Item className={activeSection === '#contact' ? 'active' : ''}>
-            <a href="#">contact</a>
+            <a href="#contact">contact</a>
           </Item>
         </Menu>
 
@@ -277,24 +318,36 @@ export default class Index extends React.Component {
         </Cover>
 
         <div>
-          <Cover ref={this.about}>
+          <Cover ref={this.about} id="about">
             <Text>
               <h2>I&apos;m a software developer.</h2>
-              <p><span>I enjoy building websites, writing JavaScript, and working on open-source projects.</span></p>
+              <p>
+                <span>
+                  I enjoy building websites, writing JavaScript,
+                  and working on open-source projects. I write about programming
+                  {' '}
+                  <a href="/blog">here</a>
+                  .
+                </span>
+              </p>
             </Text>
           </Cover>
 
-          <Cover ref={this.works}>
+          <Cover ref={this.works} id="works">
             <Text>
               a;sldkfjas dfjlasd ;jal sdfjas l;dfjkas;ld fjdkls;fj ;
             </Text>
           </Cover>
 
-          <Cover ref={this.contact}>
+          <Cover ref={this.contact} id="contact">
             <Text>
-              email m
+              email me
             </Text>
           </Cover>
+
+          <Emojis>
+            <Emoji />
+          </Emojis>
         </div>
       </Page>
     );
