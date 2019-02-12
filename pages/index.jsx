@@ -1,6 +1,9 @@
 import React, { createRef } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import Page from '../components/Page';
+import GitHub from '../components/GitHub';
+import Twitter from '../components/Twitter';
+import Mail from '../components/Mail';
 
 const Cover = styled.div`
   min-height: 100vh;
@@ -82,6 +85,10 @@ const Text = styled.div`
     text-decoration: none;
     font-weight: bold;
     color: inherit;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
@@ -166,10 +173,10 @@ const Toggle = styled.div`
   margin: 10px;
   opacity: 0;
 
-  width: 12px;
-  height: 12px;
+  width: 20px;
+  height: 20px;
   border-radius: 100%;
-  border: 2px solid #111;
+  border: 3px solid #111;
 
   z-index: 2;
 
@@ -184,7 +191,7 @@ const Toggle = styled.div`
 
 const Emojis = styled.div`
   width: 100vw;
-  height: 200px;
+  height: 100px;
 
   display: flex;
   flex-direction: row;
@@ -198,19 +205,19 @@ const emojiCycle = keyframes`
   }
 
   20% {
-    content: "🌙";
-  }
-
-  40% {
     content: "🌑";
   }
 
+  40% {
+    content: "☾";
+  }
+
   60% {
-    content: "✨";
+    content: "🖤";
   }
 
   80% {
-    content: "🖤";
+    content: "🖥";
   }
 `;
 
@@ -220,6 +227,72 @@ const Emoji = styled.div`
   &::after {
     content: "";
     animation: ${emojiCycle} 3s linear forwards infinite;
+  }
+`;
+
+const MediaLinks = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
+const Link = styled.button`
+  cursor: pointer;
+  width: 80px;
+  height: 80px;
+  border: 2px solid #111;
+  background-color: transparent;
+
+  outline: none;
+
+  margin-right: 10px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  transition: background 150ms ease-in-out;
+
+  svg {
+    width: 30px;
+
+    path {
+      transition: fill 150ms ease-in-out, stroke 150ms ease-in-out;
+    }
+  }
+
+  &:hover {
+    svg path {
+      transition: fill 150ms ease-in-out, stroke 150ms ease-in-out;
+    }
+  }
+
+  &#github:hover {
+    background-color: #111;
+    svg path { fill: #fff; }
+  }
+
+  &#twitter {
+    border-color: #1DA1F2;
+
+    &:hover {
+      background-color: #1DA1F2;
+      svg path { fill: #fff; }
+    }
+  }
+
+  &#email {
+    border-color: #FF0080;
+
+    svg path {
+      fill: #FF0080;
+    }
+
+    &:hover {
+      background-color: #FF0080;
+      svg path { fill: #fff; }
+    }
   }
 `;
 
@@ -320,6 +393,10 @@ export default class Index extends React.Component {
             <Title>PACO</Title>
           </div>
 
+          <Emojis>
+            <Emoji />
+          </Emojis>
+
           <ArrowWrapper show={!pastIntroduction}>
             <DownArrow>&#x2193;</DownArrow>
           </ArrowWrapper>
@@ -332,10 +409,16 @@ export default class Index extends React.Component {
               <p>
                 <span>
                   I enjoy building websites, writing JavaScript,
-                  and working on open-source projects. I write about programming
+                  and working on open-source projects. I write about programming on my
                   {' '}
-                  <a href="/blog">here</a>
+                  <a href="/blog">blog</a>
                   .
+                </span>
+              </p>
+
+              <p>
+                <span>
+                  I&apos;m into UX/UI design. My designs tend to be clear, simple, and minimal.
                 </span>
               </p>
             </Text>
@@ -346,9 +429,20 @@ export default class Index extends React.Component {
               <h2>I&apos;m a student.</h2>
               <p>
                 <span>
-                  As a senior Computer Science student,
-                  I have studied advanced algorithms, data structures,
-                  computer architecture, operating systems, and compiler writing.
+                  I&apos;m a senior at
+                  {' '}
+                  <a href="http://nmt.edu">New Mexico Tech</a>
+                  , pursuing a Bachelor&apos;s in Computer Science.
+                </span>
+              </p>
+
+              <p>
+                <span>
+                  My web skills are self-taught, and I&apos;m always learning.
+                  I learn best through
+                  {' '}
+                  <a href="https://github.com/pacocoursey">side projects</a>
+                  .
                 </span>
               </p>
             </Text>
@@ -362,13 +456,32 @@ export default class Index extends React.Component {
 
           <Cover ref={this.contact} id="contact">
             <Text>
-              email me
+              <h2>Get in touch.</h2>
+              <MediaLinks>
+                <a href="https://github.com/pacocoursey">
+                  <Link id="github">
+                    <GitHub />
+                  </Link>
+                </a>
+
+                <a href="https://twitter.com/pacocoursey">
+                  <Link id="twitter">
+                    <Twitter />
+                  </Link>
+                </a>
+
+                <a href="mailto:p@paco.im">
+                  <Link id="email" href="mailto:p@paco.im">
+                    <Mail />
+                  </Link>
+                </a>
+              </MediaLinks>
             </Text>
           </Cover>
 
-          <Emojis>
-            <Emoji />
-          </Emojis>
+          {/* <Footer>
+            <Logo />
+          </Footer> */}
         </div>
       </Page>
     );
