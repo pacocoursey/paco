@@ -76,26 +76,6 @@ const Text = styled.div`
   line-height: 1.5;
   font-size: 1.25rem;
   max-width: 450px;
-  position: relative;
-  overflow: hidden;
-
-  div:nth-child(2) span { animation-delay: 0.3s; }
-  div:nth-child(3) span { animation-delay: 0.6s; }
-  div:nth-child(4) span { animation-delay: 0.9s; }
-  div:nth-child(5) span { animation-delay: 1.2s; }
-  div:nth-child(6) span { animation-delay: 1.5s; }
-  div:nth-child(7) span { animation-delay: 1.8s; }
-
-  div {
-    position: relative;
-    overflow: hidden;
-
-    span {
-      display: inline-block;
-      transform: translateY(100%);
-      animation: ${fadeUp} 1s cubic-bezier(0.39, 0.58, 0.57, 1) forwards;
-    }
-  }
 
   a {
     text-decoration: none;
@@ -184,7 +164,9 @@ const Toggle = styled.div`
   cursor: pointer;
   position: sticky;
   top: 3rem;
-  left: 3rem;
+  right: 3rem;
+
+  align-self: flex-end;
 
   margin: 10px;
   opacity: 0;
@@ -417,16 +399,14 @@ export default class Index extends React.Component {
           <Cover ref={this.about} id="about">
             <Text>
               <h2>I&apos;m a software developer.</h2>
-              <div><span>I enjoy building websites, writing JavaScript,</span></div>
-              <div><span>and working on open-source projects. I write</span></div>
-              <div>
-                <span>
-                  about programming on my
-                  {' '}
-                  <a href="/blog">blog</a>
-                  .
-                </span>
-              </div>
+              <p>
+                I enjoy building websites, writing JavaScript,
+                and working on open-source projects. I write
+                about programming on my
+                {' '}
+                <a href="/blog">blog</a>
+                .
+              </p>
 
               <div><span>I&apos;m into UX/UI design. My designs tend to be</span></div>
               <div><span>clear, simple, and minimal.</span></div>
@@ -459,7 +439,7 @@ export default class Index extends React.Component {
 
           <Cover ref={this.works} id="works">
             <Text>
-              a;sldkfjas dfjlasd ;jal sdfjas l;dfjkas;ld fjdkls;fj ;
+              <h2>Selected works:</h2>
             </Text>
           </Cover>
 
