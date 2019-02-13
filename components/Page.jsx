@@ -27,7 +27,6 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     min-height: 100vh;
-    min-width: 100vw;
     color: #111111;
     background-color: #FDFDFD;
     font-size: 16px;
@@ -42,7 +41,7 @@ const GlobalStyle = createGlobalStyle`
 
 const Wrapper = styled.div`
   min-height: 100vh;
-  min-width: 100vw;
+  min-width: 50vw;
   display: flex;
   flex-direction: column;
   justify-content: center;

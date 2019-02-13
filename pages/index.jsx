@@ -48,8 +48,8 @@ const Dots = styled.div`
 const Image = styled.div`
   position: absolute;
   top: 0;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   opacity: 0.1;
   z-index: -1;
   background-image: url("/static/white.jpg");
@@ -190,8 +190,7 @@ const Toggle = styled.div`
 `;
 
 const Emojis = styled.div`
-  width: 100vw;
-  height: 100px;
+  height: 150px;
 
   display: flex;
   flex-direction: row;
@@ -226,7 +225,7 @@ const Emoji = styled.div`
 
   &::after {
     content: "";
-    animation: ${emojiCycle} 3s linear forwards infinite;
+    animation: ${emojiCycle} 2s linear forwards infinite;
   }
 `;
 
@@ -393,10 +392,6 @@ export default class Index extends React.Component {
             <Title>PACO</Title>
           </div>
 
-          <Emojis>
-            <Emoji />
-          </Emojis>
-
           <ArrowWrapper show={!pastIntroduction}>
             <DownArrow>&#x2193;</DownArrow>
           </ArrowWrapper>
@@ -483,6 +478,10 @@ export default class Index extends React.Component {
             <Logo />
           </Footer> */}
         </div>
+
+        <Emojis>
+          <Emoji />
+        </Emojis>
       </Page>
     );
   }
