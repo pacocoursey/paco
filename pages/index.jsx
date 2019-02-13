@@ -67,17 +67,33 @@ const Image = styled.div`
   }
 `;
 
+const fadeUp = keyframes`
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+`;
+
 const Text = styled.div`
   line-height: 1.5;
+  font-size: 1.25rem;
   max-width: 450px;
   position: relative;
   overflow: hidden;
 
-  p {
-    font-size: 1.25rem;
+  div:nth-child(2) span { animation-delay: 0.3s; }
+  div:nth-child(3) span { animation-delay: 0.6s; }
+  div:nth-child(4) span { animation-delay: 0.9s; }
+  div:nth-child(5) span { animation-delay: 1.2s; }
+  div:nth-child(6) span { animation-delay: 1.5s; }
+  div:nth-child(7) span { animation-delay: 1.8s; }
+
+  div {
+    position: relative;
+    overflow: hidden;
 
     span {
-      /* background: #111; */
+      display: inline-block;
+      transform: translateY(100%);
+      animation: ${fadeUp} 1s cubic-bezier(0.39, 0.58, 0.57, 1) forwards;
     }
   }
 
@@ -401,21 +417,19 @@ export default class Index extends React.Component {
           <Cover ref={this.about} id="about">
             <Text>
               <h2>I&apos;m a software developer.</h2>
-              <p>
+              <div><span>I enjoy building websites, writing JavaScript,</span></div>
+              <div><span>and working on open-source projects. I write</span></div>
+              <div>
                 <span>
-                  I enjoy building websites, writing JavaScript,
-                  and working on open-source projects. I write about programming on my
+                  about programming on my
                   {' '}
                   <a href="/blog">blog</a>
                   .
                 </span>
-              </p>
+              </div>
 
-              <p>
-                <span>
-                  I&apos;m into UX/UI design. My designs tend to be clear, simple, and minimal.
-                </span>
-              </p>
+              <div><span>I&apos;m into UX/UI design. My designs tend to be</span></div>
+              <div><span>clear, simple, and minimal.</span></div>
             </Text>
           </Cover>
 
