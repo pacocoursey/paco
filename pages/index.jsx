@@ -18,7 +18,8 @@ const Cover = styled.div`
 const Hello = styled.h3`
   text-transform: uppercase;
   font-weight: normal;
-  letter-spacing: 5px;
+  font-size: 1.25vw;
+  letter-spacing: 0.5vw;
 
   margin: 0 0 -20px 0;
 `;
@@ -28,8 +29,8 @@ const Title = styled.h1`
   font-weight: 900;
   font-style: italic;
   text-transform: uppercase;
-  font-size: 140px;
-  letter-spacing: -10px;
+  font-size: 13vw;
+  letter-spacing: -0.8vw;
   margin: 0;
 `;
 
