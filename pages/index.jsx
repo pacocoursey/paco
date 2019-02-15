@@ -4,6 +4,20 @@ import Page from '../components/Page';
 import GitHub from '../components/GitHub';
 import Twitter from '../components/Twitter';
 import Mail from '../components/Mail';
+import Logo from '../components/Logo';
+import Burger from '../components/Burger';
+
+const fadeUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 const Cover = styled.div`
   min-height: 100vh;
@@ -13,6 +27,13 @@ const Cover = styled.div`
   align-items: center;
 
   position: relative;
+
+  opacity: 0;
+  transform: translateY(100%);
+
+  &.active {
+    animation: ${fadeUp} 500ms ease-in-out forwards;
+  }
 `;
 
 const Hello = styled.h3`
@@ -68,11 +89,6 @@ const Image = styled.div`
   }
 `;
 
-const fadeUp = keyframes`
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-`;
-
 const Text = styled.div`
   line-height: 1.5;
   font-size: 1.25rem;
@@ -119,69 +135,14 @@ const DownArrow = styled.div`
   animation-delay: 3s;
 `;
 
-const Menu = styled.div`
-  position: fixed;
-  top: 50vh;
-  transform: translate(-100%, -50%);
-  left: 15vw;
-
-  opacity: 0;
-  z-index: 2;
-
-  transition: opacity 150ms ease-in-out, transform 500ms ease-in-out;
-  ${props => (props.show ? css`opacity: 1; transform: translate(0, -50%)` : '')};
-
-  line-height: 2;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-`;
-
-const Item = styled.div`
-  font-weight: 300;
-  font-size: 1.25rem;
-  position: relative;
-  padding-right: 20px;
-  color: #999;
-
-  transition: color 150ms ease-in-out;
-
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  &.active {
-    color: #111;
-  }
-
-  &:hover {
-    color: #111;
-  }
-`;
-
 const Toggle = styled.div`
   cursor: pointer;
-  position: sticky;
-  top: 3rem;
-  right: 3rem;
-
-  align-self: flex-end;
-
-  margin: 10px;
-  opacity: 0;
-
   width: 20px;
   height: 20px;
   border-radius: 100%;
   border: 3px solid #111;
 
-  z-index: 2;
-
-  transition: background 150ms, opacity 150ms;
-
-  ${props => (props.show ? 'opacity: 1' : '')};
+  transition: background 150ms ease-in-out;
 
   &:hover {
     background: #111;
@@ -267,7 +228,7 @@ const Link = styled.button`
   }
 
   &#github:hover {
-    background-color: #111;
+    background-color: #7CE5E7;
     svg path { fill: #fff; }
   }
 
@@ -294,11 +255,39 @@ const Link = styled.button`
   }
 `;
 
+const Menu = styled.div`
+  z-index: 2;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100px;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 50px 0;
+
+  opacity: 0;
+
+  transform: translateX(-100%);
+
+  transition: opacity 150ms ease-in-out, transform 300ms ease-in-out;
+
+  ${props => (props.show ? 'transform: translateX(0); opacity: 1' : '')};
+
+  svg {
+    cursor: pointer;
+  }
+`;
+
 
 export default class Index extends React.Component {
   state = {
     pastIntroduction: false,
-    activeSection: '#about',
+    activeSection: '',
   }
 
   about = createRef();
@@ -350,7 +339,6 @@ export default class Index extends React.Component {
       }
 
       if (activeSection !== this.state.activeSection) {
-        window.history.pushState(null, null, activeSection);
         this.setState({ activeSection }, this.scrollSpy);
       } else {
         this.scrollSpy();
@@ -364,28 +352,15 @@ export default class Index extends React.Component {
 
     return (
       <Page>
-        <Toggle show={pastIntroduction} />
         <Image />
 
         <Menu show={pastIntroduction}>
-          <Item className={activeSection === '#about' ? 'active' : ''}>
-            <a href="#about">about</a>
-          </Item>
-
-          <Item className={activeSection === '#education' ? 'active' : ''}>
-            <a href="#education">education</a>
-          </Item>
-
-          <Item className={activeSection === '#works' ? 'active' : ''}>
-            <a href="#works">works</a>
-          </Item>
-
-          <Item className={activeSection === '#contact' ? 'active' : ''}>
-            <a href="#contact">contact</a>
-          </Item>
+          <Logo />
+          <Burger />
+          <Toggle />
         </Menu>
 
-        <Cover>
+        <Cover className="active">
           <div>
             <Hello>Hello, I&apos;m</Hello>
             <Title>PACO</Title>
@@ -397,7 +372,10 @@ export default class Index extends React.Component {
         </Cover>
 
         <div>
-          <Cover ref={this.about} id="about">
+          <Cover
+            ref={this.about}
+            className={activeSection === '#about' ? 'active' : ''}
+          >
             <Text>
               <h2>I&apos;m a software developer.</h2>
               <p>
@@ -414,7 +392,10 @@ export default class Index extends React.Component {
             </Text>
           </Cover>
 
-          <Cover ref={this.education} id="education">
+          <Cover
+            ref={this.education}
+            className={activeSection === '#education' ? 'active' : ''}
+          >
             <Text>
               <h2>I&apos;m a student.</h2>
               <p>
@@ -438,13 +419,19 @@ export default class Index extends React.Component {
             </Text>
           </Cover>
 
-          <Cover ref={this.works} id="works">
+          <Cover
+            ref={this.works}
+            className={activeSection === '#works' ? 'active' : ''}
+          >
             <Text>
               <h2>Selected works:</h2>
             </Text>
           </Cover>
 
-          <Cover ref={this.contact} id="contact">
+          <Cover
+            ref={this.contact}
+            className={activeSection === '#contact' ? 'active' : ''}
+          >
             <Text>
               <h2>Get in touch.</h2>
               <MediaLinks>
