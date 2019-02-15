@@ -1,23 +1,14 @@
 import React, { createRef } from 'react';
 import styled, { css, keyframes } from 'styled-components';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 import Page from '../components/Page';
 import GitHub from '../components/GitHub';
 import Twitter from '../components/Twitter';
 import Mail from '../components/Mail';
 import Logo from '../components/Logo';
 import Burger from '../components/Burger';
-
-const fadeUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
 
 const Cover = styled.div`
   min-height: 100vh;
@@ -27,13 +18,6 @@ const Cover = styled.div`
   align-items: center;
 
   position: relative;
-
-  opacity: 0;
-  transform: translateY(100%);
-
-  &.active {
-    animation: ${fadeUp} 500ms ease-in-out forwards;
-  }
 `;
 
 const Hello = styled.h3`
@@ -53,18 +37,6 @@ const Title = styled.h1`
   font-size: 13vw;
   letter-spacing: -0.8vw;
   margin: 0;
-`;
-
-const Dots = styled.div`
-  width: 100vw;
-  height: 400px;
-  transform: rotate(-30deg);
-  position: absolute;
-  z-index: -1;
-
-  background-size: 50px 50px;
-  background-image: radial-gradient(rgba(0, 0, 0, 0.9) 1px, #fff 1px);
-  background-position: center;
 `;
 
 const Image = styled.div`
@@ -119,8 +91,7 @@ const bob = keyframes`
 const ArrowWrapper = styled.div`
   position: absolute;
   align-self: center;
-  bottom: 100px;
-
+  bottom: 50px;
 
   ${props => (!props.show ? css`opacity: 0;` : '')};
   transition: opacity 1.5s ease-in-out;
@@ -159,25 +130,11 @@ const Emojis = styled.div`
 `;
 
 const emojiCycle = keyframes`
-  0%, 100% {
-    content: "▲";
-  }
-
-  20% {
-    content: "🌑";
-  }
-
-  40% {
-    content: "☾";
-  }
-
-  60% {
-    content: "🖤";
-  }
-
-  80% {
-    content: "🖥";
-  }
+  0%, 100% { content: "▲"; }
+  20% { content: "🌑"; }
+  40% { content: "☾"; }
+  60% { content: "🖤"; }
+  80% { content: "🖥"; }
 `;
 
 const Emoji = styled.div`
@@ -269,9 +226,7 @@ const Menu = styled.div`
   align-items: center;
 
   padding: 50px 0;
-
   opacity: 0;
-
   transform: translateX(-100%);
 
   transition: opacity 150ms ease-in-out, transform 300ms ease-in-out;
@@ -287,7 +242,6 @@ const Menu = styled.div`
 export default class Index extends React.Component {
   state = {
     pastIntroduction: false,
-    activeSection: '',
   }
 
   about = createRef();
@@ -300,6 +254,10 @@ export default class Index extends React.Component {
 
   componentDidMount = () => {
     this.scrollSpy();
+    AOS.init({
+      duration: 500,
+      easing: 'ease-in-out',
+    });
   }
 
   scrollSpy = () => {
@@ -312,43 +270,21 @@ export default class Index extends React.Component {
       }
 
       this.lastFrameScroll = scrollY;
-      let { activeSection } = this.state;
       const scrollOffset = (innerHeight / 2) + scrollY;
 
       if (scrollOffset > this.about.current.offsetTop) {
-        this.setState({
-          pastIntroduction: true,
-        });
-        activeSection = '#about';
+        this.setState({ pastIntroduction: true });
       } else {
-        this.setState({
-          pastIntroduction: false,
-        });
+        this.setState({ pastIntroduction: false });
       }
 
-      if (scrollOffset > this.education.current.offsetTop) {
-        activeSection = '#education';
-      }
-
-      if (scrollOffset > this.works.current.offsetTop) {
-        activeSection = '#works';
-      }
-
-      if (scrollOffset > this.contact.current.offsetTop) {
-        activeSection = '#contact';
-      }
-
-      if (activeSection !== this.state.activeSection) {
-        this.setState({ activeSection }, this.scrollSpy);
-      } else {
-        this.scrollSpy();
-      }
+      return this.scrollSpy();
     });
   }
 
 
   render() {
-    const { pastIntroduction, activeSection } = this.state;
+    const { pastIntroduction } = this.state;
 
     return (
       <Page>
@@ -372,11 +308,8 @@ export default class Index extends React.Component {
         </Cover>
 
         <div>
-          <Cover
-            ref={this.about}
-            className={activeSection === '#about' ? 'active' : ''}
-          >
-            <Text>
+          <Cover ref={this.about}>
+            <Text data-aos="fade-up" data-aos-anchor-placement="top-center">
               <h2>I&apos;m a software developer.</h2>
               <p>
                 I enjoy building websites, writing JavaScript,
@@ -392,11 +325,8 @@ export default class Index extends React.Component {
             </Text>
           </Cover>
 
-          <Cover
-            ref={this.education}
-            className={activeSection === '#education' ? 'active' : ''}
-          >
-            <Text>
+          <Cover ref={this.education}>
+            <Text data-aos="fade-up" data-aos-anchor-placement="top-center">
               <h2>I&apos;m a student.</h2>
               <p>
                 <span>
@@ -419,20 +349,14 @@ export default class Index extends React.Component {
             </Text>
           </Cover>
 
-          <Cover
-            ref={this.works}
-            className={activeSection === '#works' ? 'active' : ''}
-          >
-            <Text>
+          <Cover ref={this.works}>
+            <Text data-aos="fade-up" data-aos-anchor-placement="top-center">
               <h2>Selected works:</h2>
             </Text>
           </Cover>
 
-          <Cover
-            ref={this.contact}
-            className={activeSection === '#contact' ? 'active' : ''}
-          >
-            <Text>
+          <Cover ref={this.contact}>
+            <Text data-aos="fade-up" data-aos-anchor-placement="top-center">
               <h2>Get in touch.</h2>
               <MediaLinks>
                 <a href="https://github.com/pacocoursey">
@@ -455,10 +379,6 @@ export default class Index extends React.Component {
               </MediaLinks>
             </Text>
           </Cover>
-
-          {/* <Footer>
-            <Logo />
-          </Footer> */}
         </div>
 
         <Emojis>

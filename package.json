@@ -6,9 +6,12 @@
     "build": "next build",
     "start": "next start",
     "export": "next build && next export",
-    "lint": "eslint --ignore-path .gitignore ."
+    "lint": "eslint --ignore-path .gitignore **/*.jsx",
+    "deploy": "now && now alias"
   },
   "dependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "aos": "^2.3.4",
     "next": "^8.0.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
