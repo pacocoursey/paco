@@ -3,12 +3,8 @@ import styled, { css, keyframes } from 'styled-components';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+import * as Icons from '../components/icons';
 import Page from '../components/Page';
-import GitHub from '../components/GitHub';
-import Twitter from '../components/Twitter';
-import Mail from '../components/Mail';
-import Logo from '../components/Logo';
-import Burger from '../components/Burger';
 
 const Cover = styled.div`
   min-height: 100vh;
@@ -106,7 +102,7 @@ const DownArrow = styled.div`
   animation-delay: 3s;
 `;
 
-const Toggle = styled.div`
+const Toggle = styled.span`
   cursor: pointer;
   width: 20px;
   height: 20px;
@@ -233,8 +229,80 @@ const Menu = styled.div`
 
   ${props => (props.show ? 'transform: translateX(0); opacity: 1' : '')};
 
-  svg {
+  svg, span {
     cursor: pointer;
+    transition: opacity 150ms ease-in-out;
+  }
+
+  > svg, > span {
+    ${props => (props.showIcons ? '' : 'opacity: 0')};
+  }
+`;
+
+const MenuItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+
+  ${props => (props.show ? 'opacity: 1' : '')};
+
+  h3 {
+    font-size: 14px;
+    user-select: none;
+    opacity: 0;
+    transition: opacity 150ms ease-in-out;
+  }
+
+  &:hover {
+    h3 {
+      opacity: 1;
+    }
+  }
+`;
+
+const Up = styled(MenuItem)`
+  transform: translateY(20px);
+
+  ${props => (props.show ? css`transform: translateY(0)` : '')};
+`;
+
+const Down = styled(MenuItem)`
+  flex-direction: column-reverse;
+  transform: translateY(-20px);
+  ${props => (props.show ? css`transform: translateY(0)` : '')};
+`;
+
+const Burger = styled.div`
+  width: 40px;
+  height: 24px;
+  position: relative;
+
+  div {
+    &::before {
+      content: "";
+      top: -8px;
+    }
+
+    &::after {
+      content: "";
+      bottom: -8px;
+    }
+  }
+
+  div, div::after, div::before {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    border-radius: 3px;
+    background-color: #111;
+
+    transition: top 150ms ease-in-out, bottom 150ms ease-in-out;
+
+    ${props => (props.showX ? css`top: 0; bottom: 0;` : '')};
   }
 `;
 
@@ -242,6 +310,7 @@ const Menu = styled.div`
 export default class Index extends React.Component {
   state = {
     pastIntroduction: false,
+    showSubMenu: false,
   }
 
   about = createRef();
@@ -270,7 +339,7 @@ export default class Index extends React.Component {
       }
 
       this.lastFrameScroll = scrollY;
-      const scrollOffset = (innerHeight / 2) + scrollY;
+      const scrollOffset = (innerHeight / 3) + scrollY;
 
       if (scrollOffset > this.about.current.offsetTop) {
         this.setState({ pastIntroduction: true });
@@ -282,17 +351,36 @@ export default class Index extends React.Component {
     });
   }
 
+  toggleSubMenu() {
+    this.setState(state => ({
+      showSubMenu: !state.showSubMenu,
+    }));
+  }
 
   render() {
-    const { pastIntroduction } = this.state;
+    const { pastIntroduction, showSubMenu } = this.state;
 
     return (
       <Page>
         <Image />
 
-        <Menu show={pastIntroduction}>
-          <Logo />
-          <Burger />
+        <Menu show={pastIntroduction} showIcons={!showSubMenu}>
+          <Icons.Logo />
+
+          <Up show={showSubMenu}>
+            <h3>Blog</h3>
+            <Icons.Blog />
+          </Up>
+
+          <Burger onClick={() => this.toggleSubMenu()} showX={showSubMenu}>
+            <div />
+          </Burger>
+
+          <Down show={showSubMenu}>
+            <h3>Projects</h3>
+            <Icons.Projects />
+          </Down>
+
           <Toggle />
         </Menu>
 
@@ -361,19 +449,19 @@ export default class Index extends React.Component {
               <MediaLinks>
                 <a href="https://github.com/pacocoursey">
                   <Link id="github">
-                    <GitHub />
+                    <Icons.GitHub />
                   </Link>
                 </a>
 
                 <a href="https://twitter.com/pacocoursey">
                   <Link id="twitter">
-                    <Twitter />
+                    <Icons.Twitter />
                   </Link>
                 </a>
 
                 <a href="mailto:p@paco.im">
                   <Link id="email" href="mailto:p@paco.im">
-                    <Mail />
+                    <Icons.Mail />
                   </Link>
                 </a>
               </MediaLinks>
