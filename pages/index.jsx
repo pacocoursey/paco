@@ -104,10 +104,10 @@ const DownArrow = styled.div`
 
 const Toggle = styled.span`
   cursor: pointer;
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   border-radius: 100%;
-  border: 3px solid #111;
+  border: 2px solid #111;
 
   transition: background 300ms ease-in-out;
 
@@ -238,7 +238,7 @@ const Menu = styled.div`
   }
 
   #logo, #toggle {
-    ${props => (props.showIcons ? '' : 'opacity: 0')};
+    ${props => (props.showIcons ? '' : 'opacity: 0; pointer-events: none;')};
   }
 `;
 
@@ -300,13 +300,17 @@ const Burger = styled.div`
 `;
 
 const Logo = styled.div`
-  svg path {
+  /* svg path {
     transition: fill 300ms ease-in-out;
   }
 
   &:hover svg path {
     fill: #111;
     transition: fill 300ms ease-in-out;
+  } */
+
+  &:hover {
+    opacity: 0.5;
   }
 `;
 
@@ -439,7 +443,7 @@ export default class Index extends React.Component {
                   My web skills are self-taught, and I&apos;m always learning.
                   I learn best through
                   {' '}
-                  <a href="https://github.com/pacocoursey">side projects</a>
+                  <a href="https://github.com/pacocoursey">projects</a>
                   .
                 </span>
               </p>
