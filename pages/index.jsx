@@ -181,7 +181,7 @@ const Link = styled.button`
   }
 
   &#github:hover {
-    background-color: #7CE5E7;
+    background-color: #111;
     svg path { fill: #fff; }
   }
 
@@ -277,33 +277,19 @@ const Down = styled(MenuItem)`
 `;
 
 const Burger = styled.div`
-  width: 40px;
-  height: 24px;
-  position: relative;
-
-  div {
-    &::before {
-      content: "";
-      top: -8px;
-    }
-
-    &::after {
-      content: "";
-      bottom: -8px;
-    }
+  svg path {
+    transition: transform 150ms ease-in-out;
   }
 
-  div, div::after, div::before {
-    position: absolute;
-    width: 100%;
-    height: 3px;
-    border-radius: 3px;
-    background-color: #111;
+  ${props => (props.on ? css`
+    svg path:first-child {
+      transform: translateY(42%);
+    }
 
-    transition: top 150ms ease-in-out, bottom 150ms ease-in-out;
-
-    ${props => (props.showX ? css`top: 0; bottom: 0;` : '')};
-  }
+    svg path:nth-child(3) {
+      transform: translateY(-42%);
+    }
+  ` : '')}
 `;
 
 
@@ -372,8 +358,8 @@ export default class Index extends React.Component {
             <Icons.Blog />
           </Up>
 
-          <Burger onClick={() => this.toggleSubMenu()} showX={showSubMenu}>
-            <div />
+          <Burger onClick={() => this.toggleSubMenu()} on={showSubMenu}>
+            <Icons.Burger />
           </Burger>
 
           <Down show={showSubMenu}>
