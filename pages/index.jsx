@@ -1,5 +1,6 @@
 import React, { createRef } from 'react';
 import styled, { css, keyframes } from 'styled-components';
+import NextLink from 'next/link';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -7,7 +8,7 @@ import * as Icons from '../components/icons';
 import Page from '../components/Page';
 
 const Cover = styled.div`
-  min-height: 100vh;
+  ${props => (props.height ? `min-height: ${props.height}` : 'min-height: 50vh')};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,7 +44,6 @@ const Image = styled.div`
   opacity: 0.1;
   z-index: -1;
   background-image: url("/static/white.jpg");
-  background-size: cover;
   background-repeat: no-repeat;
 
   &::after {
@@ -109,7 +109,7 @@ const Toggle = styled.span`
   border-radius: 100%;
   border: 3px solid #111;
 
-  transition: background 150ms ease-in-out;
+  transition: background 300ms ease-in-out;
 
   &:hover {
     background: #111;
@@ -164,19 +164,19 @@ const Link = styled.button`
   justify-content: center;
   align-items: center;
 
-  transition: background 150ms ease-in-out;
+  transition: background 300ms ease-in-out;
 
   svg {
     width: 30px;
 
     path {
-      transition: fill 150ms ease-in-out, stroke 150ms ease-in-out;
+      transition: fill 300ms ease-in-out, stroke 300ms ease-in-out;
     }
   }
 
   &:hover {
     svg path {
-      transition: fill 150ms ease-in-out, stroke 150ms ease-in-out;
+      transition: fill 300ms ease-in-out, stroke 300ms ease-in-out;
     }
   }
 
@@ -213,48 +213,53 @@ const Menu = styled.div`
   position: fixed;
   left: 0;
   top: 0;
-  width: 100px;
-  height: 100vh;
+  width: 100vw;
+  height: 100px;
+
+  background-color: #fdfdfd;
+  border-bottom: 1px solid #efefef;
 
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 
-  padding: 50px 0;
+  padding: 0 20%;
   opacity: 0;
-  transform: translateX(-100%);
+  transform: translateY(-100%);
 
-  transition: opacity 150ms ease-in-out, transform 300ms ease-in-out;
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
 
-  ${props => (props.show ? 'transform: translateX(0); opacity: 1' : '')};
+  ${props => (props.show ? 'transform: translateY(0); opacity: 1' : '')};
 
-  svg, span {
+  #logo, #toggle {
     cursor: pointer;
-    transition: opacity 150ms ease-in-out;
+    transition: opacity 300ms ease-in-out;
   }
 
-  > svg, > span {
+  #logo, #toggle {
     ${props => (props.showIcons ? '' : 'opacity: 0')};
   }
 `;
 
 const MenuItem = styled.div`
+  cursor: pointer;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 
   opacity: 0;
-  transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
 
   ${props => (props.show ? 'opacity: 1' : '')};
 
   h3 {
     font-size: 14px;
     user-select: none;
+    margin: 0 20px;
     opacity: 0;
-    transition: opacity 150ms ease-in-out;
+    transition: opacity 300ms ease-in-out;
   }
 
   &:hover {
@@ -264,21 +269,23 @@ const MenuItem = styled.div`
   }
 `;
 
-const Up = styled(MenuItem)`
-  transform: translateY(20px);
+const Left = styled(MenuItem)`
+  transform: translateX(20px);
 
   ${props => (props.show ? css`transform: translateY(0)` : '')};
 `;
 
-const Down = styled(MenuItem)`
-  flex-direction: column-reverse;
-  transform: translateY(-20px);
+const Right = styled(MenuItem)`
+  flex-direction: row-reverse;
+  transform: translateX(-20px);
   ${props => (props.show ? css`transform: translateY(0)` : '')};
 `;
 
 const Burger = styled.div`
+  cursor: pointer;
+
   svg path {
-    transition: transform 150ms ease-in-out;
+    transition: transform 300ms ease-in-out;
   }
 
   ${props => (props.on ? css`
@@ -292,6 +299,16 @@ const Burger = styled.div`
   ` : '')}
 `;
 
+const Logo = styled.div`
+  svg path {
+    transition: fill 300ms ease-in-out;
+  }
+
+  &:hover svg path {
+    fill: #111;
+    transition: fill 300ms ease-in-out;
+  }
+`;
 
 export default class Index extends React.Component {
   state = {
@@ -351,26 +368,32 @@ export default class Index extends React.Component {
         <Image />
 
         <Menu show={pastIntroduction} showIcons={!showSubMenu}>
-          <Icons.Logo />
+          <Logo id="logo">
+            <Icons.Logo />
+          </Logo>
 
-          <Up show={showSubMenu}>
-            <h3>Blog</h3>
-            <Icons.Blog />
-          </Up>
+          <NextLink href="/blog">
+            <Left show={showSubMenu}>
+              <h3>Blog</h3>
+              <Icons.Blog />
+            </Left>
+          </NextLink>
 
           <Burger onClick={() => this.toggleSubMenu()} on={showSubMenu}>
             <Icons.Burger />
           </Burger>
 
-          <Down show={showSubMenu}>
-            <h3>Projects</h3>
-            <Icons.Projects />
-          </Down>
+          <NextLink href="/projects">
+            <Right show={showSubMenu}>
+              <h3>Projects</h3>
+              <Icons.Projects />
+            </Right>
+          </NextLink>
 
-          <Toggle />
+          <Toggle id="toggle" />
         </Menu>
 
-        <Cover className="active">
+        <Cover className="active" height="100vh">
           <div>
             <Hello>Hello, I&apos;m</Hello>
             <Title>PACO</Title>
@@ -383,7 +406,7 @@ export default class Index extends React.Component {
 
         <div>
           <Cover ref={this.about}>
-            <Text data-aos="fade-up" data-aos-anchor-placement="top-center">
+            <Text data-aos="fade-up">
               <h2>I&apos;m a software developer.</h2>
               <p>
                 I enjoy building websites, writing JavaScript,
@@ -400,7 +423,7 @@ export default class Index extends React.Component {
           </Cover>
 
           <Cover ref={this.education}>
-            <Text data-aos="fade-up" data-aos-anchor-placement="top-center">
+            <Text data-aos="fade-up">
               <h2>I&apos;m a student.</h2>
               <p>
                 <span>
@@ -424,13 +447,13 @@ export default class Index extends React.Component {
           </Cover>
 
           <Cover ref={this.works}>
-            <Text data-aos="fade-up" data-aos-anchor-placement="top-center">
+            <Text data-aos="fade-up">
               <h2>Selected works:</h2>
             </Text>
           </Cover>
 
           <Cover ref={this.contact}>
-            <Text data-aos="fade-up" data-aos-anchor-placement="top-center">
+            <Text data-aos="fade-up">
               <h2>Get in touch.</h2>
               <MediaLinks>
                 <a href="https://github.com/pacocoursey">
