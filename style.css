@@ -1,0 +1,144 @@
+:root {
+  --black: #111;
+  --white: #fdfdfd;
+
+  --color: var(--white);
+  --bg: var(--black);
+}
+
+@import url('https://rsms.me/inter/inter.css');
+html {
+  font-family: 'Inter', sans-serif;
+}
+
+@supports (font-variation-settings: normal) {
+html {
+  font-family: 'Inter var', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: var(--bg);
+  color: var(--color);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 16px;
+}
+
+.cover {
+  height: 100vh;
+  width: 100vw;
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 30px 0;
+}
+
+.toggle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid var(--color);
+}
+
+.logo svg path {
+  stroke: var(--color);
+  fill: var(--bg);
+}
+
+.burger svg path {
+  stroke: var(--color);
+}
+
+.main {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 50px 30px 50px 170px;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.title h6 {
+  margin: 0;
+  font-size: 2vw;
+  text-transform: uppercase;
+  font-weight: lighter;
+  letter-spacing: 2px;
+}
+
+.title h1 {
+  margin: 0 0 20px 0;
+  font-weight: 900;
+  font-size: 15vw;
+  font-style: italic;
+  letter-spacing: -0.8vw;
+  line-height: 1;
+}
+
+.paragraph {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.paragraph p {
+  font-size: 1rem;
+  margin-right: 50px;
+  max-width: 350px;
+  line-height: 1.4;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a.inline:hover {
+  text-decoration: underline;
+}
+
+a i {
+  margin-left: 5px;
+  font-style: normal;
+  display: inline-block;
+  transition: transform 300ms ease-in-out;
+}
+
+a:hover i {
+  transform: translateX(10px);
+  transition: transform 300ms ease-in-out;
+}
