@@ -168,29 +168,52 @@ body {
   align-items: flex-start;
 }
 
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: matrix(1, -0.1, 0, 1, 0, 50);
+  }
+
+  to {
+    opacity: 1;
+    transform: matrix(1, 0, 0, 1, 0, 0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .title h6 {
   margin: 0;
+  opacity: 0;
   font-size: 2vw;
   text-transform: uppercase;
   font-weight: lighter;
   letter-spacing: 2px;
+  animation: fadeUp 500ms 1s ease-in-out forwards;
 }
 
 .title h1 {
   margin: 0 0 20px 0;
+  opacity: 0;
   font-weight: 900;
   font-size: 15vw;
   font-style: italic;
   letter-spacing: -0.8vw;
   line-height: 1;
+  animation: fadeUp 500ms 1.5s ease-in-out forwards;
 }
 
 .paragraph {
   flex: 1;
+  opacity: 0;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  animation: fadeIn 500ms 2s ease-in-out forwards;
 }
 
 .paragraph p {
