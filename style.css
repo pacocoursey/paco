@@ -20,6 +20,10 @@ html {
   box-sizing: border-box;
 }
 
+body {
+  transition: color 300ms ease-in-out, background 300ms ease-in-out;
+}
+
 html,
 body {
   padding: 0;
@@ -40,6 +44,8 @@ body {
   width: 100vw;
 }
 
+/* Menu */
+
 .menu {
   position: fixed;
   top: 0;
@@ -55,21 +61,94 @@ body {
   padding: 30px 0;
 }
 
+.toggle, .logo, .burger {
+  cursor: pointer;
+}
+
+.logo {
+  transition: opacity 300ms ease-in-out;
+}
+
 .toggle {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 3px solid var(--color);
+  border: 2px solid var(--color);
+  transition: background 300ms ease-in-out, border 300ms ease-in-out, opacity 300ms ease-in-out;
 }
 
-.logo svg path {
+.toggle:hover {
+  background-color: var(--color);
+  transition: background 300ms ease-in-out, border 300ms ease-in-out;
+}
+
+.blog, .projects {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+
+.blog a, .projects a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.blog h2,
+.projects h2 {
+  user-select: none;
+  font-size: 1rem;
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.blog { transform: translateY(20px); }
+.projects { transform: translateY(-20px); }
+
+.blog:hover h2,
+.projects:hover h2 {
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+}
+
+.logo svg path,
+.burger svg path,
+.blog svg path,
+.projects svg path {
   stroke: var(--color);
   fill: var(--bg);
+  transition: stroke 300ms ease-in-out, fill 300ms ease-in-out;
+}
+
+.menu.visible .logo,
+.menu.visible .toggle {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.menu.visible .blog,
+.menu.visible .projects {
+  pointer-events: all;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .burger svg path {
-  stroke: var(--color);
+  transition: stroke 300ms ease-in-out, fill 300ms ease-in-out, transform 300ms ease-in-out;
 }
+
+.menu.visible .burger svg path:nth-child(1) {
+  transform: translateY(42%);
+  transition: transform 300ms ease-in-out;
+}
+
+.menu.visible .burger svg path:nth-child(3) {
+  transform: translateY(-42%);
+  transition: transform 300ms ease-in-out;
+}
+
+/* Main content */
 
 .main {
   min-height: 100vh;
