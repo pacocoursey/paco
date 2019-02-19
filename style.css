@@ -4,16 +4,21 @@
 
   --color: var(--white);
   --bg: var(--black);
+  --gray: #7f7f7f;
+  --light-gray: #f0f0f0;
+
+  --sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --monospace: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
 @import url('https://rsms.me/inter/inter.css');
 html {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', var(--sans-serif);
 }
 
 @supports (font-variation-settings: normal) {
 html {
-  font-family: 'Inter var', sans-serif;
+  font-family: 'Inter var', var(--sans-serif);
 }
 
 * {
@@ -32,10 +37,9 @@ body {
 
 body {
   min-height: 100vh;
-  min-width: 100vw;
   background-color: var(--bg);
   color: var(--color);
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: var(--sans-serif);
   font-size: 16px;
 }
 
@@ -159,19 +163,6 @@ body {
   padding: 50px 30px 50px 170px;
 }
 
-.article {
-  justify-content: flex-start;
-}
-
-.article article {
-  max-width: 42rem;
-}
-
-article {
-  font-size: 1.25rem;
-  line-height: 1.5;
-}
-
 .intro {
   display: flex;
   flex-direction: column;
@@ -203,7 +194,7 @@ article {
   text-transform: uppercase;
   font-weight: lighter;
   letter-spacing: 2px;
-  animation: fadeUp 500ms 1s ease-in-out forwards;
+  animation: fadeUp 500ms 0.5s ease-in-out forwards;
 }
 
 .title h1 {
@@ -214,7 +205,7 @@ article {
   font-style: italic;
   letter-spacing: -0.8vw;
   line-height: 1;
-  animation: fadeUp 500ms 1.1s ease-in-out forwards;
+  animation: fadeUp 500ms 0.6s ease-in-out forwards;
 }
 
 .paragraph {
@@ -224,7 +215,7 @@ article {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  animation: fadeIn 500ms 1.2s ease-in-out forwards;
+  animation: fadeIn 500ms 0.7s ease-in-out forwards;
 }
 
 .paragraph p {
@@ -254,4 +245,61 @@ a i {
 a:hover i {
   transform: translateX(10px);
   transition: transform 300ms ease-in-out;
+}
+
+/* Blog */
+
+article, article img {
+  max-width: 42rem;
+}
+
+article {
+  font-size: 1.25rem;
+  letter-spacing: -0.022rem;
+  line-height: 1.7;
+}
+
+article p {
+  margin: 1.875rem 0;
+}
+
+article header {
+  margin: 2rem 0;
+}
+
+article header h1 {
+  margin-bottom: 0.5rem;
+}
+
+article header p {
+  margin: 0;
+  color: var(--gray);
+  font-size: 1rem;
+}
+
+code {
+  padding: 0.25rem 1rem;
+  font-family: var(--monospace);
+  background-color: var(--light-gray);
+  border-radius: 5px;
+  transition: background 300ms ease-in-out;
+}
+
+hr {
+  width: 20%;
+  border: none;
+  height: 1px;
+  background-color: var(--gray);
+  margin: 3rem auto;
+}
+
+.footnotes {
+  counter-reset: footnote;
+  font-size: 1rem;
+}
+
+.footnotes p::before {
+  margin-right: 10px;
+  counter-increment: footnote;
+  content: counters(footnote, ".") " ";
 }
