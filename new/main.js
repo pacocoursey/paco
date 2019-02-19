@@ -37,18 +37,19 @@ function initTheme() {
 function initMenu() {
   const menu = document.querySelector('.menu');
   const burger = document.querySelector('.burger');
-  const isVisible = false;
 
   burger.addEventListener('click', () => {
     menu.classList.toggle('visible');
   });
 }
 
-if (theme === 'white') {
-  setTheme('#111', '#fdfdfd');
-}
-
 window.addEventListener('load', () => {
+  document.body.classList.remove('preload');
+
+  if (theme === 'white') {
+    setTheme(true);
+  }
+
   initTheme();
   initMenu();
 });
