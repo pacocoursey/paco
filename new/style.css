@@ -260,6 +260,8 @@ article {
   font-size: 1.25rem;
   letter-spacing: -0.022rem;
   line-height: 1.7;
+  opacity: 0;
+  animation: fadeIn 500ms 0.6s ease-in-out forwards;
 }
 
 article p {
@@ -267,7 +269,14 @@ article p {
 }
 
 article header {
+  opacity: 0;
+  animation: fadeUp 500ms 0.5s ease-in-out forwards;
   margin: 2rem 0;
+}
+
+article footer {
+  opacity: 0;
+  animation: fadeUp 500ms 0.7s ease-in-out forwards;
 }
 
 article header h1 {
