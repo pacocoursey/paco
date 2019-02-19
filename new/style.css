@@ -118,6 +118,10 @@ body {
   transition: opacity 300ms ease-in-out;
 }
 
+.burger svg path {
+  transition: transform 300ms ease-in-out;
+}
+
 .logo svg path,
 .burger svg path,
 .blog svg path,
