@@ -12,7 +12,7 @@ const stopProgress = () => {
 };
 
 Router.onRouteChangeStart = () => {
-  progress = setTimeout(Progress.start, 200);
+  progress = Progress.start();
 };
 
 Router.onRouteChangeComplete = stopProgress;

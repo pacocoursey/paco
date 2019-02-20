@@ -6,12 +6,19 @@ class Menu extends React.Component {
     super(props);
     this.state = {
       isSubMenuVisible: false,
+      isWhite: false,
     };
   }
 
   toggleMenu() {
     this.setState(state => ({
       isSubMenuVisible: !state.isSubMenuVisible,
+    }));
+  }
+
+  toggleTheme() {
+    this.setState(state => ({
+      isWhite: !state.isWhite,
     }));
   }
 
@@ -61,7 +68,7 @@ class Menu extends React.Component {
           </Link>
         </div>
 
-        <div className="toggle" />
+        <div className="toggle" onClick={() => {this.toggleTheme()}} />
 
         <style jsx>
           {`
@@ -164,6 +171,17 @@ class Menu extends React.Component {
             transition: transform 300ms ease-in-out;
           }
       `}
+        </style>
+
+        <style jsx global>
+          {`
+          :root {
+            --color: ${this.state.isWhite ? '#111' : '#fff'};
+            --bg: ${this.state.isWhite ? '#fff' : '#111'};
+            --light-gray: ${this.state.isWhite ? '#f0f0f0' : '#333'}
+            --gray: ${this.state.isWhite ? '#7f7f7f' : '#666'}
+          }
+          `}
         </style>
       </div>
     );
