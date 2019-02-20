@@ -1,5 +1,105 @@
 import React from 'react';
 import Link from 'next/link';
+import styled from 'styled-components';
+
+const M = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 0;
+
+  .toggle, .logo, .burger, .blog, .projects {
+    cursor: pointer;
+  }
+
+  .logo {
+    transition: opacity 300ms ease-in-out;
+  }
+
+  .toggle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--color);
+    transition: background 300ms ease-in-out, border 300ms ease-in-out, opacity 300ms ease-in-out;
+  }
+
+  .toggle:hover {
+    background-color: var(--color);
+    transition: background 300ms ease-in-out, border 300ms ease-in-out;
+  }
+
+  .blog, .projects {
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+  }
+
+  .blog div, .projects div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .blog h2,
+  .projects h2 {
+    user-select: none;
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+  }
+
+  .blog { transform: translateY(20px); }
+  .projects { transform: translateY(-20px); }
+
+  .blog:hover h2,
+  .projects:hover h2 {
+    opacity: 1;
+    transition: opacity 300ms ease-in-out;
+  }
+
+  .burger svg path {
+    transition: transform 300ms ease-in-out;
+  }
+
+  .logo svg path,
+  .burger svg path,
+  .blog svg path,
+  .projects svg path {
+    stroke: var(--color);
+    fill: var(--bg);
+  }
+
+  &.visible .logo,
+  &.visible .toggle {
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+  }
+
+  &.visible .blog,
+  &.visible .projects {
+    pointer-events: all;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &.visible .burger svg path:nth-child(1) {
+    transform: translateY(42%);
+    transition: transform 300ms ease-in-out;
+  }
+
+  &.visible .burger svg path:nth-child(3) {
+    transform: translateY(-42%);
+    transition: transform 300ms ease-in-out;
+  }
+`;
 
 class Menu extends React.Component {
   constructor(props) {
@@ -19,7 +119,7 @@ class Menu extends React.Component {
     const { isSubMenuVisible } = this.state;
 
     return (
-      <div className={isSubMenuVisible ? 'menu visible' : 'menu'}>
+      <M className={isSubMenuVisible ? 'visible' : ''}>
         <Link href="/">
           <div className="logo">
             <svg width="30" viewBox="0 0 390 462" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -62,110 +162,7 @@ class Menu extends React.Component {
         </div>
 
         <div className="toggle" />
-
-        <style jsx>
-          {`
-          .menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100px;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 0;
-          }
-
-          .toggle, .logo, .burger {
-            cursor: pointer;
-          }
-
-          .logo {
-            transition: opacity 300ms ease-in-out;
-          }
-
-          .toggle {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid var(--color);
-            transition: background 300ms ease-in-out, border 300ms ease-in-out, opacity 300ms ease-in-out;
-          }
-
-          .toggle:hover {
-            background-color: var(--color);
-            transition: background 300ms ease-in-out, border 300ms ease-in-out;
-          }
-
-          .blog, .projects {
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
-          }
-
-          .blog a, .projects a {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-          }
-
-          .blog h2,
-          .projects h2 {
-            user-select: none;
-            font-size: 1rem;
-            opacity: 0;
-            transition: opacity 300ms ease-in-out;
-          }
-
-          .blog { transform: translateY(20px); }
-          .projects { transform: translateY(-20px); }
-
-          .blog:hover h2,
-          .projects:hover h2 {
-            opacity: 1;
-            transition: opacity 300ms ease-in-out;
-          }
-
-          .burger svg path {
-            transition: transform 300ms ease-in-out;
-          }
-
-          .logo svg path,
-          .burger svg path,
-          .blog svg path,
-          .projects svg path {
-            stroke: var(--color);
-            fill: var(--bg);
-          }
-
-          .menu.visible .logo,
-          .menu.visible .toggle {
-            opacity: 0;
-            transition: opacity 300ms ease-in-out;
-          }
-
-          .menu.visible .blog,
-          .menu.visible .projects {
-            pointer-events: all;
-            opacity: 1;
-            transform: translateY(0);
-          }
-
-          .menu.visible .burger svg path:nth-child(1) {
-            transform: translateY(42%);
-            transition: transform 300ms ease-in-out;
-          }
-
-          .menu.visible .burger svg path:nth-child(3) {
-            transform: translateY(-42%);
-            transition: transform 300ms ease-in-out;
-          }
-      `}
-        </style>
-      </div>
+      </M>
     );
   }
 }

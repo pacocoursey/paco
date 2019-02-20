@@ -1,6 +1,65 @@
 import React from 'react';
 import Link from 'next/link';
+import styled, { keyframes } from 'styled-components';
+
 import Page from '../components/Page';
+
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const fadeUp = keyframes`
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+const Intro = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
+const Title = styled.div`
+  h6 {
+    margin: 0;
+    opacity: 0;
+    font-size: 2vw;
+    text-transform: uppercase;
+    font-weight: lighter;
+    letter-spacing: 2px;
+    animation: ${fadeUp} 500ms 0.5s ease-in-out forwards;
+  }
+
+  h1 {
+    margin: 0 0 20px 0;
+    opacity: 0;
+    font-weight: 900;
+    font-size: 15vw;
+    font-style: italic;
+    letter-spacing: -0.8vw;
+    line-height: 1;
+    animation: ${fadeUp} 500ms 0.6s ease-in-out forwards;
+  }
+`;
+
+const Paragraph = styled.div`
+  flex: 1;
+  opacity: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  animation: ${fadeIn} 500ms 0.7s ease-in-out forwards;
+
+  p {
+    font-size: 1rem;
+    margin-right: 50px;
+    max-width: 350px;
+    line-height: 1.4;
+  }
+`;
 
 class Index extends React.Component {
   constructor(props) {
@@ -20,13 +79,13 @@ class Index extends React.Component {
 
     return (
       <Page>
-        <div className="intro">
-          <div className="title">
+        <Intro>
+          <Title>
             <h6>Hello, I&apos;m</h6>
             <h1>PACO</h1>
-          </div>
+          </Title>
 
-          <div className="paragraph">
+          <Paragraph>
             <div>
               <p>
                 I&apos;m a
@@ -69,67 +128,8 @@ class Index extends React.Component {
                 </a>
               </Link>
             </div>
-          </div>
-        </div>
-
-        <style jsx>
-          {`
-          @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-
-          @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-          }
-
-          .intro {
-            dislpay: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-          }
-
-          .title h6 {
-            margin: 0;
-            opacity: 0;
-            font-size: 2vw;
-            text-transform: uppercase;
-            font-weight: lighter;
-            letter-spacing: 2px;
-            animation: fadeUp 500ms 0.5s ease-in-out forwards;
-          }
-
-          .title h1 {
-            margin: 0 0 20px 0;
-            opacity: 0;
-            font-weight: 900;
-            font-size: 15vw;
-            font-style: italic;
-            letter-spacing: -0.8vw;
-            line-height: 1;
-            animation: fadeUp 500ms 0.6s ease-in-out forwards;
-          }
-
-          .paragraph {
-            flex: 1;
-            opacity: 0;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-            animation: fadeIn 500ms 0.7s ease-in-out forwards;
-          }
-
-          .paragraph p {
-            font-size: 1rem;
-            margin-right: 50px;
-            max-width: 350px;
-            line-height: 1.4;
-          }
-          `}
-        </style>
+          </Paragraph>
+        </Intro>
       </Page>
     );
   }
