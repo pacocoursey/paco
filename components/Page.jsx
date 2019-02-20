@@ -1,7 +1,22 @@
 import React from 'react';
 import Head from 'next/head';
+import Router from 'next/router';
+import Progress from 'nprogress';
 
 import Menu from './Menu';
+
+let progress;
+const stopProgress = () => {
+  clearInterval(progress);
+  Progress.done();
+};
+
+Router.onRouteChangeStart = () => {
+  progress = setTimeout(Progress.start, 200);
+};
+
+Router.onRouteChangeComplete = stopProgress;
+Router.onRouteChangeError = stopProgress;
 
 export default ({ children, title }) => (
   <div>
@@ -140,6 +155,19 @@ export default ({ children, title }) => (
         height: 1px;
         background-color: var(--gray);
         margin: 3rem auto;
+      }
+
+      #nprogress {
+        pointer-events: none;
+      }
+
+      #nprogress .bar {
+        background: var(--color);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
       }
       `}
     </style>

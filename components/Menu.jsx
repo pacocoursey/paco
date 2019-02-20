@@ -78,7 +78,7 @@ class Menu extends React.Component {
             padding: 30px 0;
           }
 
-          .toggle, .logo, .burger {
+          .toggle, .logo, .burger, .blog, .projects {
             cursor: pointer;
           }
 
@@ -105,7 +105,7 @@ class Menu extends React.Component {
             transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
           }
 
-          .blog a, .projects a {
+          .blog div, .projects div {
             display: flex;
             flex-direction: column;
             justify-content: center;

@@ -24,9 +24,9 @@ export default ({ children, title }) => (
         }
 
         article {
-          font-size: 1.25rem;
+          font-size: 1.15rem;
           letter-spacing: -0.022rem;
-          line-height: 1.7;
+          line-height: 1.8;
           opacity: 0;
           animation: fadeIn 500ms 0.6s ease-in-out forwards;
         }
