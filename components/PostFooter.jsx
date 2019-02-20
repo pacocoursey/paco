@@ -5,16 +5,19 @@ export default ({ children }) => (
     <hr />
 
     <div className="footnotes">
-      <p>asdf</p>
-      <p>asdfasdf</p>
       {children}
     </div>
 
     <style jsx>
       {`
-      article footer {
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      footer {
         opacity: 0;
-        animation: fadeUp 500ms 0.7 ease-in-out forwards;
+        animation: fadeUp 500ms 0.7s ease-in-out forwards;
       }
 
       .footnotes {
@@ -22,7 +25,7 @@ export default ({ children }) => (
         font-size: 1rem;
       }
 
-      .footnotes p::before {
+      .footnotes :global(p::before) {
         margin-right: 10px;
         counter-increment: footnote;
         content: counters(footnote, ".") " ";

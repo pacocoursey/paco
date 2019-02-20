@@ -30,6 +30,27 @@ export default ({ children, title }) => (
           opacity: 0;
           animation: fadeIn 500ms 0.6s ease-in-out forwards;
         }
+
+        article :global(p) {
+          margin: 1.875rem 0;
+        }
+
+        article :global(header) {
+          opacity: 0;
+          margin: 2rem 0;
+          animation: fadeUp 500ms 0.5s ease-in-out forwards;
+        }
+
+        article :global(header h1) {
+          color: inherit;
+          margin-bottom: 0.5rem;
+        }
+
+        article :global(header p) {
+          margin: 0;
+          color: var(--gray);
+          font-size: 1rem;
+        }
         `}
       </style>
     </article>

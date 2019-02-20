@@ -1,18 +1,16 @@
 import React from 'react';
 
 import Post from '../components/Post';
-import Header from '../components/PostHeader';
 import Footer from '../components/PostFooter';
 
 const title = 'Understanding package.json';
 
 export default () => (
   <Post title={title}>
-    <Header date="February 18, 2019">
-      Understanding
-      {' '}
-      <code>package.json</code>
-    </Header>
+    <header>
+      <h1>Understanding <code>package.json</code></h1>
+      <p>February 18, 2019</p>
+    </header>
 
     <p>Alright guys, Persiflage here.</p>
 
