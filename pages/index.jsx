@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 import Page from '../components/Page';
 
@@ -15,6 +15,8 @@ const fadeUp = keyframes`
 `;
 
 const Intro = styled.div`
+  min-height: 100vh;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -45,7 +47,6 @@ const Title = styled.div`
 `;
 
 const Paragraph = styled.div`
-  flex: 1;
   opacity: 0;
   display: flex;
   flex-direction: row;
@@ -58,6 +59,89 @@ const Paragraph = styled.div`
     margin-right: 50px;
     max-width: 350px;
     line-height: 1.4;
+  }
+`;
+
+const List = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const Item = styled.div`
+  flex: 0 1 50%;
+
+  width: 350px;
+  height: 200px;
+
+  padding: 10px;
+`;
+
+const Overlay = styled.div`
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(to top right, #222, #333);
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom left,
+      transparent 20%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
+    z-index: 2;
+
+    opacity: 0.5;
+    transition: opacity 300ms ease-in-out;
+  }
+
+  .overlay-content {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    overflow: hidden;
+    z-index: 3;
+
+    transform: translateY(60%);
+    transition: transform 300ms ease-in-out;
+
+    h1 {
+      margin: 0;
+      font-weight: 500;
+      font-size: 1.5rem;
+    }
+
+    p {
+      margin: 0;
+      opacity: 0;
+      transition: opacity 300ms ease-in-out;
+      color: #e6e6e6;
+      font-weight: normal;
+    }
+  }
+
+  &:hover {
+    .overlay-content {
+      transform: translateY(0);
+
+      p {
+        opacity: 1;
+      }
+    }
+
+    &::after {
+      opacity: 1;
+    }
   }
 `;
 
@@ -129,6 +213,55 @@ class Index extends React.Component {
               </Link>
             </div>
           </Paragraph>
+        </Intro>
+
+        <Intro>
+          <List>
+            <Item>
+              <a href="https://github.com/pacocoursey/viv" target="_blank" rel="noopener noreferrer">
+                <Overlay
+                  css={css`
+                    background-image: url(https://via.placeholder.com/350x200);
+                  `}
+                >
+                  <div className="overlay-content">
+                    <h1>Opus</h1>
+                    <p>Note-taking</p>
+                  </div>
+                </Overlay>
+              </a>
+            </Item>
+
+            <Item>
+              <a href="https://github.com/pacocoursey/viv" target="_blank" rel="noopener noreferrer">
+                <Overlay
+                  css={css`
+                    background-image: url(https://via.placeholder.com/350x200);
+                  `}
+                >
+                  <div className="overlay-content">
+                    <h1>Dusk</h1>
+                    <p>Customizable icons</p>
+                  </div>
+                </Overlay>
+              </a>
+            </Item>
+
+            <Item>
+              <a href="https://github.com/pacocoursey/viv" target="_blank" rel="noopener noreferrer">
+                <Overlay
+                  css={css`
+                    background-image: url(https://via.placeholder.com/350x200);
+                  `}
+                >
+                  <div className="overlay-content">
+                    <h1>Viv</h1>
+                    <p>Mousekeys</p>
+                  </div>
+                </Overlay>
+              </a>
+            </Item>
+          </List>
         </Intro>
       </Page>
     );
