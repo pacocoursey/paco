@@ -3,8 +3,6 @@ import Head from 'next/head';
 import Router from 'next/router';
 import Progress from 'nprogress';
 
-import Menu from './Menu';
-
 let progress;
 const stopProgress = () => {
   clearInterval(progress);
@@ -37,8 +35,6 @@ export default ({ children, title }) => (
       <meta name="theme-color" content="#ffffff" />
     </Head>
 
-    <Menu />
-
     <div className="main">
       {children}
     </div>
@@ -61,11 +57,8 @@ export default ({ children, title }) => (
     <style global jsx>
       {`
       :root {
-        --black: #111;
-        --white: #fdfdfd;
-
-        --color: var(--white);
-        --bg: var(--black);
+        --color: #fdfdfd;
+        --bg: #111;
         --gray: #666;
         --light-gray: #333;
 

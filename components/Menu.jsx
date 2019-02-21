@@ -8,6 +8,29 @@ class Menu extends React.Component {
       isSubMenuVisible: false,
       isWhite: false,
     };
+
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('click', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.addEventListener('click', this.handleClickOutside);
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  handleClickOutside(e) {
+    if (this.wrapperRef && !this.wrapperRef.contains(e.target)) {
+      this.setState({
+        isSubMenuVisible: false,
+      });
+    }
   }
 
   toggleMenu() {
@@ -26,7 +49,7 @@ class Menu extends React.Component {
     const { isSubMenuVisible } = this.state;
 
     return (
-      <div className={isSubMenuVisible ? 'menu visible' : 'menu'}>
+      <div className={isSubMenuVisible ? 'menu visible' : 'menu'} ref={this.setWrapperRef}>
         <Link href="/">
           <div className="logo">
             <svg width="30" viewBox="0 0 390 462" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,7 +64,7 @@ class Menu extends React.Component {
             <div>
               <h2>Blog</h2>
               <svg viewBox="0 0 24 24" height="30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17 3C17.2626 2.73735 17.5744 2.52901 17.9176 2.38687C18.2608 2.24473 18.6286 2.17157 19 2.17157C19.3714 2.17157 19.7392 2.24473 20.0824 2.38687C20.4256 2.52901 20.7374 2.73735 21 3C21.2626 3.26264 21.471 3.57444 21.6131 3.9176C21.7553 4.26077 21.8284 4.62856 21.8284 5C21.8284 5.37143 21.7553 5.73923 21.6131 6.08239C21.471 6.42555 21.2626 6.73735 21 7L7.5 20.5L2 22L3.5 16.5L17 3Z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M17 3C17.2626 2.73735 17.5744 2.52901 17.9176 2.38687C18.2608 2.24473 18.6286 2.17157 19 2.17157C19.3714 2.17157 19.7392 2.24473 20.0824 2.38687C20.4256 2.52901 20.7374 2.73735 21 3C21.2626 3.26264 21.471 3.57444 21.6131 3.9176C21.7553 4.26077 21.8284 4.62856 21.8284 5C21.8284 5.37143 21.7553 5.73923 21.6131 6.08239C21.471 6.42555 21.2626 6.73735 21 7L7.5 20.5L2 22L3.5 16.5L17 3Z" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
           </Link>
@@ -59,9 +82,9 @@ class Menu extends React.Component {
           <Link href="/projects">
             <div>
               <svg height="30" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11 1L1 6L11 11L21 6L11 1Z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M1 16L11 21L21 16" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M1 11L11 16L21 11" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M11 1L1 6L11 11L21 6L11 1Z" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M1 16L11 21L21 16" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M1 11L11 16L21 11" stroke="black" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               <h2>Projects</h2>
             </div>
@@ -176,10 +199,10 @@ class Menu extends React.Component {
         <style jsx global>
           {`
           :root {
-            --color: ${this.state.isWhite ? '#111' : '#fff'};
-            --bg: ${this.state.isWhite ? '#fff' : '#111'};
-            --light-gray: ${this.state.isWhite ? '#f0f0f0' : '#333'}
-            --gray: ${this.state.isWhite ? '#7f7f7f' : '#666'}
+            --color: ${this.state.isWhite ? '#111' : '#fdfdfd'};
+            --bg: ${this.state.isWhite ? '#fdfdfd' : '#111'};
+            --gray: ${this.state.isWhite ? '#7f7f7f' : '#666'};
+            --light-gray: ${this.state.isWhite ? '#f0f0f0' : '#333'};
           }
           `}
         </style>

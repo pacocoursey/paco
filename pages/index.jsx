@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import Page from '../components/Page';
+// import Page from '../components/Page';
 
 class Index extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class Index extends React.Component {
     const { isWhite } = this.state;
 
     return (
-      <Page>
+      <div>
         <div className="intro">
           <div className="title">
             <h6>Hello, I&apos;m</h6>
@@ -130,7 +130,7 @@ class Index extends React.Component {
           }
           `}
         </style>
-      </Page>
+      </div>
     );
   }
 }
