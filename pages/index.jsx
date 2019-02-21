@@ -1,8 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import styled, { keyframes, css } from 'styled-components';
-
-import Page from '../components/Page';
+// import Page from '../components/Page';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -162,9 +160,9 @@ class Index extends React.Component {
     const { isWhite } = this.state;
 
     return (
-      <Page>
-        <Intro>
-          <Title>
+      <div>
+        <div className="intro">
+          <div className="title">
             <h6>Hello, I&apos;m</h6>
             <h1>PACO</h1>
           </Title>
@@ -212,58 +210,68 @@ class Index extends React.Component {
                 </a>
               </Link>
             </div>
-          </Paragraph>
-        </Intro>
+          </div>
+        </div>
 
-        <Intro>
-          <List>
-            <Item>
-              <a href="https://github.com/pacocoursey/viv" target="_blank" rel="noopener noreferrer">
-                <Overlay
-                  css={css`
-                    background-image: url(https://via.placeholder.com/350x200);
-                  `}
-                >
-                  <div className="overlay-content">
-                    <h1>Opus</h1>
-                    <p>Note-taking</p>
-                  </div>
-                </Overlay>
-              </a>
-            </Item>
+        <style jsx>
+          {`
+          @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
 
-            <Item>
-              <a href="https://github.com/pacocoursey/viv" target="_blank" rel="noopener noreferrer">
-                <Overlay
-                  css={css`
-                    background-image: url(https://via.placeholder.com/350x200);
-                  `}
-                >
-                  <div className="overlay-content">
-                    <h1>Dusk</h1>
-                    <p>Customizable icons</p>
-                  </div>
-                </Overlay>
-              </a>
-            </Item>
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
 
-            <Item>
-              <a href="https://github.com/pacocoursey/viv" target="_blank" rel="noopener noreferrer">
-                <Overlay
-                  css={css`
-                    background-image: url(https://via.placeholder.com/350x200);
-                  `}
-                >
-                  <div className="overlay-content">
-                    <h1>Viv</h1>
-                    <p>Mousekeys</p>
-                  </div>
-                </Overlay>
-              </a>
-            </Item>
-          </List>
-        </Intro>
-      </Page>
+          .intro {
+            dislpay: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+          }
+
+          .title h6 {
+            margin: 0;
+            opacity: 0;
+            font-size: 2vw;
+            text-transform: uppercase;
+            font-weight: lighter;
+            letter-spacing: 2px;
+            animation: fadeUp 500ms 0.5s ease-in-out forwards;
+          }
+
+          .title h1 {
+            margin: 0 0 20px 0;
+            opacity: 0;
+            font-weight: 900;
+            font-size: 15vw;
+            font-style: italic;
+            letter-spacing: -0.8vw;
+            line-height: 1;
+            animation: fadeUp 500ms 0.6s ease-in-out forwards;
+          }
+
+          .paragraph {
+            flex: 1;
+            opacity: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            animation: fadeIn 500ms 0.7s ease-in-out forwards;
+          }
+
+          .paragraph p {
+            font-size: 1rem;
+            margin-right: 50px;
+            max-width: 350px;
+            line-height: 1.4;
+          }
+          `}
+        </style>
+      </div>
     );
   }
 }
