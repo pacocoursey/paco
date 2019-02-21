@@ -8,13 +8,11 @@ class Menu extends React.Component {
       isSubMenuVisible: false,
       isWhite: false,
     };
-
-    this.setWrapperRef = this.setWrapperRef.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener('click', this.handleClickOutside);
+    document.addEventListener('click', e => this.handleClickOutside(e));
+    document.addEventListener('keydown', e => this.handleKey(e));
   }
 
   componentWillUnmount() {
@@ -33,10 +31,31 @@ class Menu extends React.Component {
     }
   }
 
-  toggleMenu() {
-    this.setState(state => ({
-      isSubMenuVisible: !state.isSubMenuVisible,
-    }));
+  handleKey(e) {
+    if (e.keyCode === 27) {
+      // Close menu on 'ESC'
+      this.setState({
+        isSubMenuVisible: false,
+      });
+    } else if (e.keyCode === 77) {
+      // Toggle menu on 'M'
+      this.toggleMenu();
+    } else if (e.keyCode === 84) {
+      // Toggle theme on 'T'
+      this.toggleTheme();
+    }
+  }
+
+  toggleMenu(s) {
+    if (s) {
+      this.setState({
+        isSubMenuVisible: s,
+      });
+    } else {
+      this.setState(state => ({
+        isSubMenuVisible: !state.isSubMenuVisible,
+      }));
+    }
   }
 
   toggleTheme() {
@@ -49,7 +68,7 @@ class Menu extends React.Component {
     const { isSubMenuVisible } = this.state;
 
     return (
-      <div className={isSubMenuVisible ? 'menu visible' : 'menu'} ref={this.setWrapperRef}>
+      <div className={isSubMenuVisible ? 'menu visible' : 'menu'} ref={n => this.setWrapperRef(n)}>
         <Link href="/">
           <div className="logo">
             <svg width="30" viewBox="0 0 390 462" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +78,7 @@ class Menu extends React.Component {
           </div>
         </Link>
 
-        <div className="blog">
+        <div className="blog" onClick={() => {this.toggleMenu(false)}}>
           <Link href="/blog">
             <div>
               <h2>Blog</h2>
@@ -70,7 +89,7 @@ class Menu extends React.Component {
           </Link>
         </div>
 
-        <div className="burger" onClick={() => {this.toggleMenu()}}>
+        <div className="burger" onClick={() => {this.toggleMenu()}} onKeyDown={() => {this.handleKey()}}>
           <svg width="25" viewBox="0 0 131 106" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 8H130.5" stroke="black" strokeWidth="10" />
             <path d="M0 53H130.5" stroke="black" strokeWidth="10" />
@@ -78,7 +97,7 @@ class Menu extends React.Component {
           </svg>
         </div>
 
-        <div className="projects">
+        <div className="projects" onClick={() => {this.toggleMenu(false)}}>
           <Link href="/projects">
             <div>
               <svg height="30" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
