@@ -1,112 +1,17 @@
+/* global document */
+
 import React from 'react';
 import Link from 'next/link';
-import styled from 'styled-components';
-
-const M = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100px;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px 0;
-
-  .toggle, .logo, .burger, .blog, .projects {
-    cursor: pointer;
-  }
-
-  .logo {
-    transition: opacity 300ms ease-in-out;
-  }
-
-  .toggle {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 2px solid var(--color);
-    transition: background 300ms ease-in-out, border 300ms ease-in-out, opacity 300ms ease-in-out;
-  }
-
-  .toggle:hover {
-    background-color: var(--color);
-    transition: background 300ms ease-in-out, border 300ms ease-in-out;
-  }
-
-  .blog, .projects {
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
-  }
-
-  .blog div, .projects div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .blog h2,
-  .projects h2 {
-    user-select: none;
-    font-size: 1rem;
-    opacity: 0;
-    transition: opacity 300ms ease-in-out;
-  }
-
-  .blog { transform: translateY(20px); }
-  .projects { transform: translateY(-20px); }
-
-  .blog:hover h2,
-  .projects:hover h2 {
-    opacity: 1;
-    transition: opacity 300ms ease-in-out;
-  }
-
-  .burger svg path {
-    transition: transform 300ms ease-in-out;
-  }
-
-  .logo svg path,
-  .burger svg path,
-  .blog svg path,
-  .projects svg path {
-    stroke: var(--color);
-    fill: var(--bg);
-  }
-
-  &.visible .logo,
-  &.visible .toggle {
-    opacity: 0;
-    transition: opacity 300ms ease-in-out;
-  }
-
-  &.visible .blog,
-  &.visible .projects {
-    pointer-events: all;
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  &.visible .burger svg path:nth-child(1) {
-    transform: translateY(42%);
-    transition: transform 300ms ease-in-out;
-  }
-
-  &.visible .burger svg path:nth-child(3) {
-    transform: translateY(-42%);
-    transition: transform 300ms ease-in-out;
-  }
-`;
 
 class Menu extends React.Component {
+
   constructor(props) {
     super(props);
+
+    const { theme } = this.props;
     this.state = {
       isSubMenuVisible: false,
-      isWhite: false,
+      isWhite: theme === 'white',
     };
   }
 
@@ -116,7 +21,9 @@ class Menu extends React.Component {
   }
 
   componentWillUnmount() {
-    document.addEventListener('click', this.handleClickOutside);
+    // TODO: fix these remove event listeners? Arrow function removable?
+    document.removeEventListener('click', this.handleClickOutside);
+    document.removeEventListener('keydown', this.handleKey);
   }
 
   setWrapperRef(node) {
@@ -161,7 +68,12 @@ class Menu extends React.Component {
   toggleTheme() {
     this.setState(state => ({
       isWhite: !state.isWhite,
-    }));
+    }), () => {
+      const { isWhite } = this.state;
+      const theme = isWhite ? 'white' : 'black';
+      console.log(`Setting cookie: ${theme}`);
+      document.cookie = `theme=${theme}`;
+    });
   }
 
   render() {
@@ -318,10 +230,10 @@ class Menu extends React.Component {
         <style jsx global>
           {`
           :root {
-            --color: ${this.state.isWhite ? '#111' : '#fdfdfd'};
-            --bg: ${this.state.isWhite ? '#fdfdfd' : '#111'};
-            --gray: ${this.state.isWhite ? '#7f7f7f' : '#666'};
-            --light-gray: ${this.state.isWhite ? '#f0f0f0' : '#333'};
+            --color: ${this.state.isWhite ? '#111' : '#fdfdfd'} !important;
+            --bg: ${this.state.isWhite ? '#fdfdfd' : '#111'} !important;
+            --gray: ${this.state.isWhite ? '#7f7f7f' : '#666'} !important;
+            --light-gray: ${this.state.isWhite ? '#f0f0f0' : '#333'} !important;
           }
           `}
         </style>
