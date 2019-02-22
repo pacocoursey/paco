@@ -8,7 +8,10 @@ const title = 'Understanding package.json';
 export default () => (
   <Post title={title}>
     <header>
-      <h1>Understanding <code>package.json</code></h1>
+      <h1>
+        Understanding
+        <code>package.json</code>
+      </h1>
       <p>February 18, 2019</p>
     </header>
 
@@ -20,7 +23,7 @@ export default () => (
 
     <p>Salvia food truck blue bottle, thundercats microdosing raw denim enamel pin banjo craft beer kombucha offal direct trade unicorn. Taxidermy ennui portland single-origin coffee truffaut. Pok pok single-origin coffee drinking vinegar locavore, hexagon whatever fixie disrupt vape brunch ennui narwhal pitchfork fashion axe sriracha. Asymmetrical slow-carb palo santo copper mug, hexagon distillery +1 food truck 3 wolf moon neutra tacos enamel pin XOXO. Intelligentsia kitsch pok pok, listicle occupy quinoa small batch.</p>
 
-    <p>Humblebrag organic everyday carry fingerstache. Franzen kombucha vaporware ramps, flexitarian organic tacos unicorn letterpress slow-carb yuccie schlitz umami jean shorts. Snackwave XOXO distillery scenester. Polaroid palo santo 90's flexitarian pickled messenger bag everyday carry vinyl photo booth chartreuse single-origin coffee ennui.</p>
+    <p>Humblebrag organic everyday carry fingerstache. Franzen kombucha vaporware ramps, flexitarian organic tacos unicorn letterpress slow-carb yuccie schlitz umami jean shorts. Snackwave XOXO distillery scenester. Polaroid palo santo flexitarian pickled messenger bag everyday carry vinyl photo booth chartreuse single-origin coffee ennui.</p>
 
     <Footer>
       <p>If you want to deeply understand the difference between concurrency and parallelism and why Node.js only comes with the former way of processing code, I highly recommend reading this.</p>

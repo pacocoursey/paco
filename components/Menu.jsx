@@ -8,7 +8,7 @@ import {
   Blog,
   Burger,
   Projects,
-} from '../components/icons';
+} from './icons';
 
 class Menu extends React.Component {
   constructor(props) {
@@ -19,11 +19,14 @@ class Menu extends React.Component {
       isSubMenuVisible: false,
       isWhite: theme === 'white',
     };
+
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.handleKey = this.handleKey.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener('click', e => this.handleClickOutside(e));
-    document.addEventListener('keydown', e => this.handleKey(e));
+    document.addEventListener('click', this.handleClickOutside);
+    document.addEventListener('keydown', this.handleKey);
   }
 
   componentWillUnmount() {
@@ -77,45 +80,62 @@ class Menu extends React.Component {
     }), () => {
       const { isWhite } = this.state;
       const theme = isWhite ? 'white' : 'black';
-      console.log(`Setting cookie: ${theme}`);
       document.cookie = `theme=${theme}`;
     });
   }
 
   render() {
-    const { isSubMenuVisible } = this.state;
+    const { isSubMenuVisible, isWhite } = this.state;
 
     return (
-      <div className={isSubMenuVisible ? 'menu visible' : 'menu'} ref={n => this.setWrapperRef(n)}>
+      <div
+        className={isSubMenuVisible ? 'menu visible' : 'menu'}
+        ref={n => this.setWrapperRef(n)}
+      >
         <Link href="/">
-          <div className="logo">
+          <a className="logo">
             <Logo />
-          </div>
+          </a>
         </Link>
 
-        <div className="blog" onClick={() => {this.toggleMenu(false)}}>
-          <Link href="/blog">
+
+        <Link href="/blog">
+          <a
+            className="blog"
+            type="button"
+          >
             <div>
               <h2>Blog</h2>
               <Blog />
             </div>
-          </Link>
-        </div>
+          </a>
+        </Link>
 
-        <div className="burger" onClick={() => {this.toggleMenu()}} onKeyDown={() => {this.handleKey()}}>
+        <div
+          className="burger"
+          onClick={() => { this.toggleMenu(); }}
+        >
           <Burger />
         </div>
 
-        <div className="projects" onClick={() => {this.toggleMenu(false)}}>
-          <Link href="/projects">
+
+        <Link href="/projects">
+          <a
+            className="projects"
+            onClick={() => { this.toggleMenu(false); }}
+          >
             <div>
               <Projects />
               <h2>Projects</h2>
             </div>
-          </Link>
-        </div>
+          </a>
+        </Link>
 
-        <div className="toggle" onClick={() => {this.toggleTheme()}} />
+        <button
+          className="toggle"
+          type="button"
+          onClick={() => { this.toggleTheme(); }}
+        />
 
         <style jsx>
           {`
@@ -136,6 +156,13 @@ class Menu extends React.Component {
             cursor: pointer;
           }
 
+          .projects:focus,
+          .projects:focus h2,
+          .blog:focus,
+          .blog:focus h2 {
+            opacity: 1;
+          }
+
           .logo {
             transition: opacity 300ms ease-in-out;
           }
@@ -145,6 +172,7 @@ class Menu extends React.Component {
             height: 20px;
             border-radius: 50%;
             border: 2px solid var(--color);
+            background: transparent;
             transition: background 300ms ease-in-out, border 300ms ease-in-out, opacity 300ms ease-in-out;
           }
 
@@ -223,10 +251,10 @@ class Menu extends React.Component {
         <style jsx global>
           {`
           :root {
-            --color: ${this.state.isWhite ? '#111' : '#fdfdfd'} !important;
-            --bg: ${this.state.isWhite ? '#fdfdfd' : '#111'} !important;
-            --gray: ${this.state.isWhite ? '#7f7f7f' : '#666'} !important;
-            --light-gray: ${this.state.isWhite ? '#f0f0f0' : '#333'} !important;
+            --color: ${isWhite ? '#111' : '#fdfdfd'} !important;
+            --bg: ${isWhite ? '#fdfdfd' : '#111'} !important;
+            --gray: ${isWhite ? '#7f7f7f' : '#666'} !important;
+            --light-gray: ${isWhite ? '#f0f0f0' : '#333'} !important;
           }
           `}
         </style>
