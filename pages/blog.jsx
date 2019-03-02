@@ -10,6 +10,7 @@ export default () => (
     <header>
       <h1>
         Understanding
+        {' '}
         <code>package.json</code>
       </h1>
       <p>February 18, 2019</p>
