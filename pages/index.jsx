@@ -240,7 +240,7 @@ export default () => (
         filter: grayscale(1);
         border: 1px solid var(--light-gray);
         box-shadow: var(--big-shadow);
-        transition: filter 300ms ease-in-out;
+        transition: filter 300ms ease-in-out, box-shadow 300ms ease-in-out, border 300ms ease-in-out;
       }
 
       section img:hover {
@@ -294,6 +294,7 @@ export default () => (
         font-size: 1rem;
         color: var(--color);
         text-align: right;
+        transition: color 300ms ease-in-out;
       }
 
       .eyebrow {

@@ -99,6 +99,8 @@ class Menu extends React.Component {
             align-items: center;
             padding: 30px 0;
 
+            transition: border 300ms ease-in-out;
+
             border-right: 1px solid var(--light-gray);
           }
 
@@ -135,14 +137,14 @@ class Menu extends React.Component {
           .toggle :global(svg path) {
             stroke: var(--color);
             fill: var(--bg);
-            transition: fill 300ms ease-in-out;
+            transition: fill 300ms ease-in-out, stroke 300ms ease-in-out;
           }
 
           .logo:hover :global(svg path),
           .blog:hover :global(svg path),
           .toggle:hover :global(svg path) {
             fill: var(--color);
-            transiton: fill 300ms ease-in-out;
+            transiton: fill 300ms ease-in-out, stroke 300ms ease-in-out;
           }
       `}
         </style>

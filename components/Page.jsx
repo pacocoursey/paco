@@ -57,11 +57,6 @@ export default ({ children, title }) => (
     <style global jsx>
       {`
       :root {
-        --color: #ffffff;
-        --bg: #111;
-        --gray: #666;
-        --light-gray: #333;
-
         --sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         --monospace: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
       }
@@ -100,6 +95,8 @@ export default ({ children, title }) => (
         color: var(--color);
         font-family: var(--sans-serif);
         font-size: 16px;
+
+        transition: background 300ms ease-in-out, color 300ms ease-in-out;
       }
 
       .main {
@@ -129,10 +126,11 @@ export default ({ children, title }) => (
         width: 100%;
         height: 30%;
         background-color: var(--light-gray);
-        transition: height 300ms ease-in-out;
+        transition: height 300ms ease-in-out, background 300ms ease-in-out;
       }
 
-      a.inline:hover::after {
+      a.inline:hover::after,
+      a.inline:focus::after {
         height: 100%;
         transition: height 300ms ease-in-out;
       }
@@ -145,7 +143,8 @@ export default ({ children, title }) => (
         transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
       }
 
-      a:hover i {
+      a:hover i,
+      a:focus i {
         opacity: 1;
         transform: translateX(30px);
         transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
@@ -156,6 +155,7 @@ export default ({ children, title }) => (
         font-family: var(--monospace);
         background-color: var(--light-gray);
         border-radius: 5px;
+        transition: background 300ms ease-in-out;
       }
 
       hr {
