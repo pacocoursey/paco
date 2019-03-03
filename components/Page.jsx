@@ -137,6 +137,20 @@ export default ({ children, title }) => (
         transition: height 300ms ease-in-out;
       }
 
+      a i {
+        opacity: 0;
+        margin-left: 5px;
+        font-style: normal;
+        display: inline-block;
+        transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+      }
+
+      a:hover i {
+        opacity: 1;
+        transform: translateX(30px);
+        transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+      }
+
       code {
         padding: 0.25rem 1rem;
         font-family: var(--monospace);

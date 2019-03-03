@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
+import Footer from '../components/Footer';
+
 export default () => (
   <div className="wrapper">
     <div className="intro">
@@ -117,9 +119,6 @@ export default () => (
                 F2PRS
               </a>
             </h1>
-            <p>
-              <a href="#">Visit <i>-></i></a>
-            </p>
             <p>Accurate F2P tracking and hiscores for the online game RuneScape.</p>
           </div>
 
@@ -183,6 +182,36 @@ export default () => (
 
         <img src="/static/img/paco.png" alt="paco.im Screenshot" />
       </div>
+
+      <div className="project">
+        <div className="info">
+          <div className="info-left">
+            <h1>
+              <a href="https://github.com/pacocoursey/ehp-rs" className="inline">
+                EHP
+              </a>
+            </h1>
+            <p>Website for the RuneScape clan EHP.</p>
+          </div>
+
+          <div className="info-right">
+            <div className="eyebrow">Stack</div>
+            <p>
+              React / Next.js
+              <br />
+              styled-components
+              <br />
+              Node.js
+              <br />
+              Now v2
+            </p>
+          </div>
+        </div>
+
+        <img src="/static/img/ehp.png" alt="EHP Screenshot" />
+      </div>
+
+      <Footer />
     </section>
 
     <style jsx>
@@ -211,6 +240,12 @@ export default () => (
         filter: grayscale(1);
         border: 1px solid var(--light-gray);
         box-shadow: var(--big-shadow);
+        transition: filter 300ms ease-in-out;
+      }
+
+      section img:hover {
+        filter: none;
+        transition: filter 300ms ease-in-out;
       }
 
       .project {
@@ -311,20 +346,6 @@ export default () => (
         max-width: 350px;
         line-height: 1.4;
         letter-spacing: -0.27px;
-      }
-
-      a i {
-        opacity: 0;
-        margin-left: 5px;
-        font-style: normal;
-        display: inline-block;
-        transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
-      }
-
-      a:hover i {
-        opacity: 1;
-        transform: translateX(30px);
-        transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
       }
       `}
     </style>
