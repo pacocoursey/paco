@@ -63,13 +63,15 @@ export default () => (
           </div>
 
           <div className="info-right">
-            <div className="eyebrow">Using</div>
+            <div className="eyebrow">Stack</div>
             <p>
-              ES6 JavaScript
-              <br />
-              Electron
+              ES6
               <br />
               Node.js
+              <br />
+              CSS
+              <br />
+              Electron
             </p>
           </div>
         </div>
@@ -89,13 +91,13 @@ export default () => (
           </div>
 
           <div className="info-right">
-            <div className="eyebrow">Using</div>
+            <div className="eyebrow">Stack</div>
             <p>
               React / Next.js
               <br />
               styled-components
               <br />
-              Node.js CLI
+              Node.js
               <br />
               SVG
               <br />
@@ -104,7 +106,82 @@ export default () => (
           </div>
         </div>
 
-        <img src="https://pbs.twimg.com/media/DsRO-tnUcAAiKGu.png" alt="Dusk Screenshot" />
+        <img src="/static/img/dusk.png" alt="Dusk Screenshot" />
+      </div>
+
+      <div className="project">
+        <div className="info">
+          <div className="info-left">
+            <h1>
+              <a href="https://github.com/pacocoursey/f2prs" className="inline">
+                F2PRS
+              </a>
+            </h1>
+            <p>
+              <a href="#">Visit <i>-></i></a>
+            </p>
+            <p>Accurate F2P tracking and hiscores for the online game RuneScape.</p>
+          </div>
+
+          <div className="info-right">
+            <div className="eyebrow">Stack</div>
+            <p>
+              PHP
+              <br />
+              MySQL
+              <br />
+              AJAX
+            </p>
+          </div>
+        </div>
+
+        <img src="/static/img/f2prs.png" alt="F2PRS Screenshot" />
+      </div>
+
+      <div className="project">
+        <div className="info">
+          <div className="info-left">
+            <h1>
+              <a href="https://github.com/pacocoursey/xi" className="inline">
+                Xi
+              </a>
+            </h1>
+            <p>Minimal monochrome UI theme for Atom.</p>
+          </div>
+
+          <div className="info-right">
+            <div className="eyebrow">Stack</div>
+            <p>LESS</p>
+          </div>
+        </div>
+
+        <img src="/static/img/xi.png" alt="Xi Screenshot" />
+      </div>
+
+      <div className="project">
+        <div className="info">
+          <div className="info-left">
+            <h1>
+              <a href="https://github.com/pacocoursey/paco" className="inline">
+                paco.im
+              </a>
+            </h1>
+            <p>Personal website and blog.</p>
+          </div>
+
+          <div className="info-right">
+            <div className="eyebrow">Stack</div>
+            <p>
+              React / Next.js
+              <br />
+              styled-jsx
+              <br />
+              Figma
+            </p>
+          </div>
+        </div>
+
+        <img src="/static/img/paco.png" alt="paco.im Screenshot" />
       </div>
     </section>
 
@@ -132,6 +209,8 @@ export default () => (
         border-radius: 10px;
         overflow: hidden;
         filter: grayscale(1);
+        border: 1px solid var(--light-gray);
+        box-shadow: var(--big-shadow);
       }
 
       .project {
@@ -170,9 +249,6 @@ export default () => (
 
       .info-right {
         padding-left: 100px;
-      }
-
-      .info-right {
         display: flex;
         flex-direction: column;
         justify-content: center;

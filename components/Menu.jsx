@@ -157,6 +157,8 @@ class Menu extends React.Component {
             --bg: ${isWhite ? '#ffffff' : '#111'} !important;
             --gray: ${isWhite ? '#7f7f7f' : '#666'} !important;
             --light-gray: ${isWhite ? '#f0f0f0' : '#333'} !important;
+
+            --big-shadow: 0 30px 100px 5px ${isWhite ? 'var(--light-gray)' : '#000'};
           }
           `}
         </style>
