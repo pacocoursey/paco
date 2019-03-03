@@ -2,26 +2,21 @@ import React from 'react';
 import Link from 'next/link';
 
 export default () => (
-  <div>
+  <div className="section">
     <div className="intro">
       <div className="title">
-        <h6>Hello, I&apos;m</h6>
-        <h1>PACO</h1>
+        <h1>Web developer at the intersection of design and code.</h1>
       </div>
 
       <div className="paragraph">
         <div>
           <p>
-            I&apos;m a
-            {' '}
-            <b>software developer</b>
-            {' '}
-            focused on
-            {' '}
-            <b>web development</b>
-            . I enjoy writing JavaScript and working on
+            Hello, I&apos;m Paco Coursey. I enjoy writing JavaScript and working on
             {' '}
             <b>open-source projects</b>
+            . I&apos;m looking for an
+            {' '}
+            <b>internship</b>
             .
           </p>
 
@@ -48,7 +43,7 @@ export default () => (
           <Link href="/projects">
             <a>
               My Projects
-              <i>&#x27f6;</i>
+              <i className="down">&#x02193;</i>
             </a>
           </Link>
         </div>
@@ -67,11 +62,20 @@ export default () => (
         to { opacity: 1; }
       }
 
+      .section {
+        max-width: 50rem;
+        padding-top: 100px;
+      }
+
       .intro {
         dislpay: flex;
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
+      }
+
+      .title {
+        margin-bottom: 50px;
       }
 
       .title h6 {
@@ -87,10 +91,8 @@ export default () => (
       .title h1 {
         margin: 0 0 20px 0;
         opacity: 0;
-        font-weight: 900;
-        font-size: 15vw;
-        font-style: italic;
-        letter-spacing: -0.8vw;
+        font-weight: 800;
+        font-size: 5rem;
         line-height: 1;
         animation: fadeUp 500ms 0.6s ease-in-out forwards;
       }
@@ -106,10 +108,28 @@ export default () => (
       }
 
       .paragraph p {
-        font-size: 1rem;
+        font-size: 1.15rem;
         margin-right: 50px;
         max-width: 350px;
         line-height: 1.4;
+        letter-spacing: -0.27px;
+      }
+
+      a i {
+        margin-left: 5px;
+        font-style: normal;
+        display: inline-block;
+        transition: transform 300ms ease-in-out;
+      }
+
+      a:hover i.down {
+        transform: translateY(10px);
+        transition: transform 300ms ease-in-out;
+      }
+
+      a:hover i {
+        transform: translateX(10px);
+        transition: transform 300ms ease-in-out;
       }
       `}
     </style>

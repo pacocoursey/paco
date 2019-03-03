@@ -46,10 +46,10 @@ export default ({ children, title }) => (
 
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
 
-        padding: 50px 30px 50px 170px;
+        padding: 100px 30px 100px 170px;
       }
       `}
     </style>
@@ -57,7 +57,7 @@ export default ({ children, title }) => (
     <style global jsx>
       {`
       :root {
-        --color: #fdfdfd;
+        --color: #ffffff;
         --bg: #111;
         --gray: #666;
         --light-gray: #333;
@@ -121,18 +121,6 @@ export default ({ children, title }) => (
 
       a.inline:hover {
         text-decoration: underline;
-      }
-
-      a i {
-        margin-left: 5px;
-        font-style: normal;
-        display: inline-block;
-        transition: transform 300ms ease-in-out;
-      }
-
-      a:hover i {
-        transform: translateX(10px);
-        transition: transform 300ms ease-in-out;
       }
 
       code {

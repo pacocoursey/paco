@@ -16,61 +16,24 @@ class Menu extends React.Component {
 
     const { theme } = this.props;
     this.state = {
-      isSubMenuVisible: false,
       isWhite: theme === 'white',
     };
 
-    this.handleClickOutside = this.handleClickOutside.bind(this);
     this.handleKey = this.handleKey.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener('click', this.handleClickOutside);
     document.addEventListener('keydown', this.handleKey);
   }
 
   componentWillUnmount() {
-    // TODO: fix these remove event listeners? Arrow function removable?
-    document.removeEventListener('click', this.handleClickOutside);
     document.removeEventListener('keydown', this.handleKey);
   }
 
-  setWrapperRef(node) {
-    this.wrapperRef = node;
-  }
-
-  handleClickOutside(e) {
-    if (this.wrapperRef && !this.wrapperRef.contains(e.target)) {
-      this.setState({
-        isSubMenuVisible: false,
-      });
-    }
-  }
-
   handleKey(e) {
-    if (e.keyCode === 27) {
-      // Close menu on 'ESC'
-      this.setState({
-        isSubMenuVisible: false,
-      });
-    } else if (e.keyCode === 77) {
-      // Toggle menu on 'M'
-      this.toggleMenu();
-    } else if (e.keyCode === 84) {
+    if (e.keyCode === 84) {
       // Toggle theme on 'T'
       this.toggleTheme();
-    }
-  }
-
-  toggleMenu(s) {
-    if (s) {
-      this.setState({
-        isSubMenuVisible: s,
-      });
-    } else {
-      this.setState(state => ({
-        isSubMenuVisible: !state.isSubMenuVisible,
-      }));
     }
   }
 
@@ -85,57 +48,41 @@ class Menu extends React.Component {
   }
 
   render() {
-    const { isSubMenuVisible, isWhite } = this.state;
+    const { isWhite } = this.state;
 
     return (
-      <div
-        className={isSubMenuVisible ? 'menu visible' : 'menu'}
-        ref={n => this.setWrapperRef(n)}
-      >
-        <Link href="/">
-          <a className="logo">
-            <Logo />
-          </a>
-        </Link>
+      <div className="menu">
 
-
-        <Link href="/blog">
-          <a
-            className="blog"
-            type="button"
-          >
-            <div>
-              <h2>Blog</h2>
-              <Blog />
+        <div className="top">
+          <Link href="/">
+            <div className="menu-item">
+              <a className="logo">
+                <Logo />
+              </a>
             </div>
-          </a>
-        </Link>
+          </Link>
 
-        <div
-          className="burger"
-          onClick={() => { this.toggleMenu(); }}
-        >
-          <Burger />
+          <Link href="/blog">
+            <div className="menu-item">
+              <a
+                className="blog"
+                type="button"
+              >
+                <Blog />
+              </a>
+            </div>
+          </Link>
+
+          <button
+            className="toggle menu-item"
+            type="button"
+            onClick={() => { this.toggleTheme(); }}
+          />
         </div>
 
-
-        <Link href="/projects">
-          <a
-            className="projects"
-            onClick={() => { this.toggleMenu(false); }}
-          >
-            <div>
-              <Projects />
-              <h2>Projects</h2>
-            </div>
-          </a>
-        </Link>
-
-        <button
-          className="toggle"
-          type="button"
-          onClick={() => { this.toggleTheme(); }}
-        />
+        <div className="bottom">
+          <a href="mailto:p@paco.im" className="inline">p@paco.im</a>
+        </div>
 
         <style jsx>
           {`
@@ -150,21 +97,28 @@ class Menu extends React.Component {
             justify-content: space-between;
             align-items: center;
             padding: 30px 0;
+
+            border-right: 1px solid var(--light-gray);
           }
 
-          .toggle, .logo, .burger, .blog, .projects {
+          .top {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+          }
+
+          .bottom {
+            writing-mode: vertical-rl;
+            transform: rotate(-180deg);
+          }
+
+          .menu .menu-item {
+            margin: 30px 0;
+          }
+
+          .toggle, .logo, .blog {
             cursor: pointer;
-          }
-
-          .projects:focus,
-          .projects:focus h2,
-          .blog:focus,
-          .blog:focus h2 {
-            opacity: 1;
-          }
-
-          .logo {
-            transition: opacity 300ms ease-in-out;
           }
 
           .toggle {
@@ -181,69 +135,17 @@ class Menu extends React.Component {
             transition: background 300ms ease-in-out, border 300ms ease-in-out;
           }
 
-          .blog, .projects {
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
-          }
-
-          .blog div, .projects div {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-          }
-
-          .blog h2,
-          .projects h2 {
-            user-select: none;
-            font-size: 1rem;
-            opacity: 0;
-            transition: opacity 300ms ease-in-out;
-          }
-
-          .blog { transform: translateY(20px); }
-          .projects { transform: translateY(-20px); }
-
-          .blog:hover h2,
-          .projects:hover h2 {
-            opacity: 1;
-            transition: opacity 300ms ease-in-out;
-          }
-
-          .burger :global(svg path) {
-            transition: transform 300ms ease-in-out;
-          }
-
           .logo :global(svg path),
-          .burger :global(svg path),
-          .blog :global(svg path),
-          .projects :global(svg path) {
+          .blog :global(svg path) {
             stroke: var(--color);
             fill: var(--bg);
+            transition: fill 300ms ease-in-out;
           }
 
-          .menu.visible .logo,
-          .menu.visible .toggle {
-            opacity: 0;
-            transition: opacity 300ms ease-in-out;
-          }
-
-          .menu.visible .blog,
-          .menu.visible .projects {
-            pointer-events: all;
-            opacity: 1;
-            transform: translateY(0);
-          }
-
-          .menu.visible .burger svg path:nth-child(1) {
-            transform: translateY(42%);
-            transition: transform 300ms ease-in-out;
-          }
-
-          .menu.visible .burger svg path:nth-child(3) {
-            transform: translateY(-42%);
-            transition: transform 300ms ease-in-out;
+          .logo:hover :global(svg path),
+          .blog:hover :global(svg path) {
+            fill: var(--color);
+            transiton: fill 300ms ease-in-out;
           }
       `}
         </style>
@@ -251,8 +153,8 @@ class Menu extends React.Component {
         <style jsx global>
           {`
           :root {
-            --color: ${isWhite ? '#111' : '#fdfdfd'} !important;
-            --bg: ${isWhite ? '#fdfdfd' : '#111'} !important;
+            --color: ${isWhite ? '#111' : '#ffffff'} !important;
+            --bg: ${isWhite ? '#ffffff' : '#111'} !important;
             --gray: ${isWhite ? '#7f7f7f' : '#666'} !important;
             --light-gray: ${isWhite ? '#f0f0f0' : '#333'} !important;
           }
