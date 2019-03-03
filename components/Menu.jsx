@@ -81,7 +81,7 @@ class Menu extends React.Component {
         </div>
 
         <div className="bottom">
-          <a href="mailto:p@paco.im" className="inline">p@paco.im</a>
+          <a href="mailto:p@paco.im">p@paco.im</a>
         </div>
 
         <style jsx>

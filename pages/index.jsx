@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 export default () => (
-  <div className="section">
+  <div className="wrapper">
     <div className="intro">
       <div className="title">
         <h1>Web developer at the intersection of design and code.</h1>
@@ -23,7 +23,7 @@ export default () => (
           <Link href="/about">
             <a>
               Hire Me
-              <i>&#x27f6;</i>
+              <i>&#x2192;</i>
             </a>
           </Link>
         </div>
@@ -42,13 +42,71 @@ export default () => (
 
           <Link href="/projects">
             <a>
-              My Projects
-              <i className="down">&#x02193;</i>
+              My Blog
+              <i>&#x2192;</i>
             </a>
           </Link>
         </div>
       </div>
     </div>
+
+    <section>
+      <div className="project">
+        <div className="info">
+          <div className="info-left">
+            <h1>
+              <a href="https://github.com/pacocoursey/opus" className="inline">
+                Opus
+              </a>
+            </h1>
+            <p>Minimal note-taking application developed for my lecture notes.</p>
+          </div>
+
+          <div className="info-right">
+            <div className="eyebrow">Using</div>
+            <p>
+              ES6 JavaScript
+              <br />
+              Electron
+              <br />
+              Node.js
+            </p>
+          </div>
+        </div>
+
+        <img src="/static/img/opus.png" alt="Opus Screenshot" />
+      </div>
+
+      <div className="project">
+        <div className="info">
+          <div className="info-left">
+            <h1>
+              <a href="https://github.com/pacocoursey/dusk" className="inline">
+                Dusk
+              </a>
+            </h1>
+            <p>Collection of simple, customizable replacement macOS application icons.</p>
+          </div>
+
+          <div className="info-right">
+            <div className="eyebrow">Using</div>
+            <p>
+              React / Next.js
+              <br />
+              styled-components
+              <br />
+              Node.js CLI
+              <br />
+              SVG
+              <br />
+              Now
+            </p>
+          </div>
+        </div>
+
+        <img src="https://pbs.twimg.com/media/DsRO-tnUcAAiKGu.png" alt="Dusk Screenshot" />
+      </div>
+    </section>
 
     <style jsx>
       {`
@@ -62,16 +120,80 @@ export default () => (
         to { opacity: 1; }
       }
 
-      .section {
+      .intro {
+        height: 100vh;
         max-width: 50rem;
-        padding-top: 100px;
       }
 
-      .intro {
-        dislpay: flex;
+      section img {
+        margin: 50px 0;
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        overflow: hidden;
+        filter: grayscale(1);
+      }
+
+      .project {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        margin-bottom: 300px;
+      }
+
+      .info h1 {
+        font-size: 5rem;
+        margin: 0;
+      }
+
+      .info p {
+        color: var(--gray);
+        font-size: 1.25rem;
+        line-height: 1.7;
+        max-width: 30rem;
+      }
+
+      .info {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+      }
+
+      .info-left {
+        flex: 1;
+      }
+
+      .info-left p {
+        max-width: 25rem;
+      }
+
+      .info-right {
+        padding-left: 100px;
+      }
+
+      .info-right {
+        display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: flex-start;
+        align-items: flex-end;
+      }
+
+      .info-right p {
+        font-size: 1rem;
+        color: var(--color);
+        text-align: right;
+      }
+
+      .eyebrow {
+        text-transform: uppercase;
+        color: var(--gray);
+        font-weight: normal;
+      }
+
+      .wrapper {
+        max-width: 50rem;
+        padding-top: 100px;
       }
 
       .title {
@@ -116,20 +238,17 @@ export default () => (
       }
 
       a i {
+        opacity: 0;
         margin-left: 5px;
         font-style: normal;
         display: inline-block;
-        transition: transform 300ms ease-in-out;
-      }
-
-      a:hover i.down {
-        transform: translateY(10px);
-        transition: transform 300ms ease-in-out;
+        transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
       }
 
       a:hover i {
-        transform: translateX(10px);
-        transition: transform 300ms ease-in-out;
+        opacity: 1;
+        transform: translateX(30px);
+        transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
       }
       `}
     </style>

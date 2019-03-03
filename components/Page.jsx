@@ -117,10 +117,24 @@ export default ({ children, title }) => (
         color: inherit;
         text-decoration: none;
         font-weight: bold;
+        position: relative;
       }
 
-      a.inline:hover {
-        text-decoration: underline;
+      a.inline::after {
+        z-index: -1;
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 30%;
+        background-color: var(--light-gray);
+        transition: height 300ms ease-in-out;
+      }
+
+      a.inline:hover::after {
+        height: 100%;
+        transition: height 300ms ease-in-out;
       }
 
       code {
