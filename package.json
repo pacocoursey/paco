@@ -15,7 +15,8 @@
     "next-cookies": "^1.1.0",
     "nprogress": "^0.2.0",
     "react": "^16.8.1",
-    "react-dom": "^16.8.1"
+    "react-dom": "^16.8.1",
+    "react-simple-img": "^2.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
