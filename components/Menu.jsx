@@ -6,8 +6,7 @@ import Link from 'next/link';
 import {
   Logo,
   Blog,
-  Burger,
-  Projects,
+  Toggle,
 } from './icons';
 
 class Menu extends React.Component {
@@ -77,7 +76,9 @@ class Menu extends React.Component {
             className="toggle menu-item"
             type="button"
             onClick={() => { this.toggleTheme(); }}
-          />
+          >
+            <Toggle />
+          </button>
         </div>
 
         <div className="bottom">
@@ -121,29 +122,25 @@ class Menu extends React.Component {
             cursor: pointer;
           }
 
-          .toggle {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid var(--color);
+          button {
+            outline: none;
+            padding: 0;
+            cursor: pointer;
             background: transparent;
-            transition: background 300ms ease-in-out, border 300ms ease-in-out, opacity 300ms ease-in-out;
-          }
-
-          .toggle:hover {
-            background-color: var(--color);
-            transition: background 300ms ease-in-out, border 300ms ease-in-out;
+            border: none;
           }
 
           .logo :global(svg path),
-          .blog :global(svg path) {
+          .blog :global(svg path),
+          .toggle :global(svg path) {
             stroke: var(--color);
             fill: var(--bg);
             transition: fill 300ms ease-in-out;
           }
 
           .logo:hover :global(svg path),
-          .blog:hover :global(svg path) {
+          .blog:hover :global(svg path),
+          .toggle:hover :global(svg path) {
             fill: var(--color);
             transiton: fill 300ms ease-in-out;
           }
