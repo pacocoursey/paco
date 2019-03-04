@@ -10,6 +10,7 @@
     "deploy": "now && now alias"
   },
   "dependencies": {
+    "@zeit/next-css": "^1.0.1",
     "aos": "^2.3.4",
     "next": "^8.0.0",
     "next-cookies": "^1.1.0",

@@ -72,6 +72,7 @@ export default () => (
 
       .intro {
         height: 100vh;
+        min-height: 800px;
         max-width: 50rem;
       }
 

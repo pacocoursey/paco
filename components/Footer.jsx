@@ -2,9 +2,9 @@ import React from 'react';
 
 export default () => (
   <footer>
-    <emojis>
-      <emoji />
-    </emojis>
+    <div className="emojis">
+      <div className="emoji" />
+    </div>
 
     <style jsx>
       {`
@@ -12,7 +12,7 @@ export default () => (
         font-size: 3rem;
       }
 
-      emojis {
+      .emojis {
         height: 50px;
         display: flex;
         flex-direction: row;
@@ -28,11 +28,11 @@ export default () => (
         80% { content: "🖥"; }
       }
 
-      emoji {
+      .emoji {
         font-size: 2rem;
       }
 
-      emoji::after {
+      .emoji::after {
         content: "";
         animation: emojiCycle 2s linear forwards infinite;
       }
