@@ -7,8 +7,8 @@ const Image = ({ src, alt }) => (
     height="auto"
     src={src}
     alt={alt}
-    placeholder="var(--gray)"
-    animationDuration="1"
+    placeholder="var(--light-gray)"
+    animationDuration="2"
   />
 );
 
@@ -71,9 +71,11 @@ export default () => (
         </div>
       </div>
 
-      <div className="img">
-        <Image src="/static/img/dusk.png" alt="Dusk Screenshot" />
-      </div>
+      <a href="https://dusk.now.sh" target="_blank" rel="noopener noreferrer">
+        <div className="img">
+          <Image src="/static/img/dusk.png" alt="Dusk Screenshot" />
+        </div>
+      </a>
     </div>
 
     <div className="project">
@@ -99,16 +101,18 @@ export default () => (
         </div>
       </div>
 
-      <div className="img">
-        <Image src="/static/img/f2prs.png" alt="F2PRS Screenshot" />
-      </div>
+      <a href="http://f2prs.com" target="_blank" rel="noopener noreferrer">
+        <div className="img">
+          <Image src="/static/img/f2prs.png" alt="F2PRS Screenshot" />
+        </div>
+      </a>
     </div>
 
     <div className="project">
       <div className="info">
         <div className="info-left">
           <h1>
-            <a href="https://github.com/pacocoursey/xi" className="inline">
+            <a href="https://github.com/pacocoursey/xi" className="inline" target="_blank" rel="noopener noreferrer">
               Xi
             </a>
           </h1>
@@ -121,9 +125,11 @@ export default () => (
         </div>
       </div>
 
-      <div className="img">
-        <Image src="/static/img/xi.png" alt="Xi Screenshot" />
-      </div>
+      <a href="https://atom.io/packages/xi-ui" target="_blank" rel="noopener noreferrer">
+        <div className="img">
+          <Image src="/static/img/xi.png" alt="Xi Screenshot" />
+        </div>
+      </a>
     </div>
 
     <div className="project">
@@ -179,9 +185,11 @@ export default () => (
         </div>
       </div>
 
-      <div className="img">
-        <Image src="/static/img/ehp.png" alt="EHP Website Screenshot" />
-      </div>
+      <a href="https://ehp.now.sh" target="_blank" rel="noopener noreferrer">
+        <div className="img">
+          <Image src="/static/img/ehp.png" alt="EHP Website Screenshot" />
+        </div>
+      </a>
     </div>
 
     <style jsx>
@@ -190,6 +198,8 @@ export default () => (
         margin: 50px 0;
         border-radius: 10px;
         overflow: hidden;
+
+        background-color: var(--light-gray);
 
         filter: grayscale(1);
         border: 1px solid var(--light-gray);

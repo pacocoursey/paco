@@ -136,7 +136,6 @@ export default ({ children, title }) => (
       }
 
       a i {
-        opacity: 0;
         margin-left: 5px;
         font-style: normal;
         display: inline-block;

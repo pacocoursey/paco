@@ -23,7 +23,7 @@ class MyApp extends App {
     super(props);
 
     this.state = {
-      theme: this.props.cookies.theme || 'black',
+      theme: this.props.cookies.theme || 'white',
     };
   }
 
