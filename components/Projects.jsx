@@ -322,6 +322,27 @@ class Projects extends React.Component {
             text-align: center;
             font-size: 5rem;
           }
+
+          @media screen and (max-width: 950px) {
+            footer h1,
+            .info h1 {
+              font-size: 6vw;
+            }
+
+            .info {
+              flex-direction: column;
+            }
+
+            .info-right {
+              margin-top: 2rem;
+              padding: 0;
+              align-items: flex-start;
+            }
+
+            .info-right p {
+              text-align: left;
+            }
+          }
           `}
         </style>
       </div>

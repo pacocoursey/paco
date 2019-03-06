@@ -24,6 +24,7 @@ export default ({ children, title }) => (
       {/* Meta */}
       <meta charSet="utf-8" />
       <meta name="keywords" value="Paco Coursey" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
       {/* Favicon */}
       <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png" />
@@ -50,6 +51,12 @@ export default ({ children, title }) => (
         align-items: center;
 
         padding: 100px 50px 100px 150px;
+      }
+
+      @media screen and (max-width: 950px) {
+        .main {
+          padding: 100px 50px;
+        }
       }
       `}
     </style>

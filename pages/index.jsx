@@ -8,7 +8,9 @@ export default () => (
   <div className="wrapper">
     <div className="intro">
       <div className="title">
-        <h1>Web developer at the intersection of design and code.</h1>
+        <h1>Web developer at</h1>
+        <h1>the intersection of</h1>
+        <h1>design and code.</h1>
       </div>
 
       <div className="paragraph">
@@ -71,14 +73,17 @@ export default () => (
       }
 
       .intro {
+        margin-top: 100px;
         height: 100vh;
         min-height: 800px;
-        max-width: 50rem;
+        width: 100%;
       }
 
       .wrapper {
         max-width: 50rem;
-        padding-top: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
 
       .title {
@@ -90,7 +95,7 @@ export default () => (
         opacity: 0;
         font-weight: 800;
         font-size: 5rem;
-        line-height: 1;
+        line-height: 0.75;
         animation: fadeUp 500ms 0.5s ease-in-out forwards;
       }
 
@@ -110,6 +115,25 @@ export default () => (
         max-width: 350px;
         line-height: 1.4;
         letter-spacing: -0.27px;
+      }
+
+      @media screen and (max-width: 950px) {
+        .title h1 {
+          font-size: 6vw;
+        }
+
+        .paragraph {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .paragraph p {
+          max-width: 60vw;
+        }
+
+        .paragraph div {
+          margin-bottom: 3rem;
+        }
       }
       `}
     </style>

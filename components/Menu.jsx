@@ -102,6 +102,7 @@ class Menu extends React.Component {
             transition: border 300ms ease-in-out;
 
             border-right: 1px solid var(--light-gray);
+            border-bottom: 1px solid var(--light-gray);
           }
 
           .top {
@@ -145,6 +146,30 @@ class Menu extends React.Component {
           .toggle:hover :global(svg path) {
             fill: var(--color);
             transiton: fill 300ms ease-in-out, stroke 300ms ease-in-out;
+          }
+
+          @media screen and (max-width: 950px) {
+            .menu {
+              flex-direction: row;
+              justify-content: space-between;
+              height: 100px;
+              width: 100%;
+              padding: 0 50px;
+              background-color: var(--bg);
+              z-index: 2;
+
+              transition: background 300ms ease-in-out, border 300ms ease-in-out;
+            }
+
+            .top {
+              flex: 1;
+              flex-direction: row;
+              justify-content: space-between;
+            }
+
+            .bottom {
+              display: none;
+            }
           }
       `}
         </style>
