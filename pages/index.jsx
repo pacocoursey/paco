@@ -25,7 +25,7 @@ export default () => (
 
           <Link href="/about">
             <a>
-              Hire Me
+              About Me
               <i>&#x2192;</i>
             </a>
           </Link>

@@ -30,6 +30,8 @@ export default () => (
 
       .emoji {
         font-size: 2rem;
+        color: transparent;
+        text-shadow: 0 0 0 var(--color);
       }
 
       .emoji::after {
