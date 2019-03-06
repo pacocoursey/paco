@@ -73,7 +73,6 @@ export default () => (
       }
 
       .intro {
-        margin-top: 100px;
         height: 100vh;
         min-height: 800px;
         width: 100%;

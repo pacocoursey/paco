@@ -55,7 +55,7 @@ export default ({ children, title }) => (
 
       @media screen and (max-width: 950px) {
         .main {
-          padding: 100px 50px;
+          padding: 150px 50px 100px 50px;
         }
       }
       `}
@@ -165,10 +165,10 @@ export default ({ children, title }) => (
       }
 
       hr {
-        width: 20%;
+        width: 100%;
         border: none;
         height: 1px;
-        background-color: var(--gray);
+        background-color: var(--light-gray);
         margin: 3rem auto;
       }
 

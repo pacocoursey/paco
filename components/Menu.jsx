@@ -182,6 +182,7 @@ class Menu extends React.Component {
             --gray: ${isWhite ? '#7f7f7f' : '#666'} !important;
             --light-gray: ${isWhite ? '#f0f0f0' : '#333'} !important;
 
+            --small-shadow: rgba(0, 0, 0, 0.05) 0px 5px 50px;
             --big-shadow: 0 30px 100px 5px ${isWhite ? 'var(--light-gray)' : '#000'};
           }
           `}

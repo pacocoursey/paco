@@ -27,7 +27,7 @@ export default ({ children, title }) => (
         letter-spacing: -0.022rem;
         line-height: 1.8;
         opacity: 0;
-        animation: fadeIn 500ms 0.6s ease-in-out forwards;
+        animation: fadeIn 500ms 0.7s ease-in-out forwards;
       }
 
       article :global(p) {
@@ -36,13 +36,14 @@ export default ({ children, title }) => (
 
       article :global(header) {
         opacity: 0;
-        margin: 2rem 0;
+        margin-bottom: 2rem;
         animation: fadeUp 500ms 0.5s ease-in-out forwards;
       }
 
       article :global(header h1) {
         color: inherit;
-        margin-bottom: 0.5rem;
+        font-size: 2rem;
+        margin: 0 0 0.5rem 0;
       }
 
       article :global(header p) {

@@ -1,35 +1,146 @@
 import React from 'react';
-
-import Post from '../components/Post';
-import Footer from '../components/PostFooter';
-
-const title = 'Understanding package.json';
+import Link from 'next/link';
 
 export default () => (
-  <Post title={title}>
-    <header>
+  <div className="list">
+    <h1 className="title">Blog</h1>
+
+    <div className="post">
+      <span>March 14, 2019</span>
       <h1>
-        Understanding
-        {' '}
-        <code>package.json</code>
+        <Link href="/blog/understanding-package-json" prefetch>
+          <a className="inline">
+            Understanding package.json
+          </a>
+        </Link>
       </h1>
-      <p>February 18, 2019</p>
-    </header>
+      <p>The hidden environment of Node.</p>
+    </div>
 
-    <p>Alright guys, Persiflage here.</p>
+    <div className="post">
+      <span>March 19, 2019</span>
+      <h1>
+        <a href="#" className="inline">
+          Custom Emojis
+        </a>
+      </h1>
+      <p>A simple CSS trick to color emojis.</p>
+    </div>
 
-    <p>Such a riot of sea and wind strews the whole extent of beach with whatever has been lost or thrown overboard, or torn out of sunken ships. Many a man has made a good week’s work in a single day by what he has found while walking along the Beach when the surf was down.</p>
+    <div className="post">
+      <span>March 14, 2019</span>
+      <h1>
+        <a href="#" className="inline">
+          Understanding package.json
+        </a>
+      </h1>
+      <p>The hidden environment of Node.</p>
+    </div>
 
-    <p>Marfa normcore twee, waistcoat post-ironic crucifix prism pour-over. Vegan tousled echo park fashion axe adaptogen godard kogi humblebrag intelligentsia. Letterpress jean shorts meh, gastropub subway tile irony post-ironic skateboard flannel farm-to-table kale chips. 8-bit asymmetrical sartorial jean shorts master cleanse. Yr keffiyeh typewriter, raclette chambray umami occupy iceland. Meditation franzen 8-bit, iceland put a bird on it pour-over salvia normcore yr aesthetic four dollar toast vaporware man bun taiyaki drinking vinegar.</p>
+    <div className="post">
+      <span>March 19, 2019</span>
+      <h1>
+        <a href="#" className="inline">
+          Custom Emojis
+        </a>
+      </h1>
+      <p>A simple CSS trick to color emojis.</p>
+    </div>
 
-    <p>Salvia food truck blue bottle, thundercats microdosing raw denim enamel pin banjo craft beer kombucha offal direct trade unicorn. Taxidermy ennui portland single-origin coffee truffaut. Pok pok single-origin coffee drinking vinegar locavore, hexagon whatever fixie disrupt vape brunch ennui narwhal pitchfork fashion axe sriracha. Asymmetrical slow-carb palo santo copper mug, hexagon distillery +1 food truck 3 wolf moon neutra tacos enamel pin XOXO. Intelligentsia kitsch pok pok, listicle occupy quinoa small batch.</p>
+    <div className="post">
+      <span>March 14, 2019</span>
+      <h1>
+        <a href="#" className="inline">
+          Understanding package.json
+        </a>
+      </h1>
+      <p>The hidden environment of Node.</p>
+    </div>
 
-    <p>Humblebrag organic everyday carry fingerstache. Franzen kombucha vaporware ramps, flexitarian organic tacos unicorn letterpress slow-carb yuccie schlitz umami jean shorts. Snackwave XOXO distillery scenester. Polaroid palo santo flexitarian pickled messenger bag everyday carry vinyl photo booth chartreuse single-origin coffee ennui.</p>
+    <div className="post">
+      <span>March 19, 2019</span>
+      <h1>
+        <a href="#" className="inline">
+          Custom Emojis
+        </a>
+      </h1>
+      <p>A simple CSS trick to color emojis.</p>
+    </div>
 
-    <Footer>
-      <p>If you want to deeply understand the difference between concurrency and parallelism and why Node.js only comes with the former way of processing code, I highly recommend reading this.</p>
-      <p>This is super hot fire man, if you know what I mean.</p>
-    </Footer>
+    <div className="post">
+      <span>March 14, 2019</span>
+      <h1>
+        <a href="#" className="inline">
+          Understanding package.json
+        </a>
+      </h1>
+      <p>The hidden environment of Node.</p>
+    </div>
 
-  </Post>
+    <div className="post">
+      <span>March 19, 2019</span>
+      <h1>
+        <a href="#" className="inline">
+          Custom Emojis
+        </a>
+      </h1>
+      <p>A simple CSS trick to color emojis.</p>
+    </div>
+
+    <style jsx>
+      {`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .list {
+          opacity: 0;
+          animation: fadeIn 500ms 0.7s ease-in-out forwards;
+
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          max-width: 50rem;
+        }
+
+        .post {
+          width: 100%;
+          margin-bottom: 2rem;
+          padding: 1rem 1.5rem;
+          border-bottom: 1px solid var(--light-gray);
+
+          transition: border 300ms ease-in-out;
+        }
+
+        .post:last-child {
+          border-bottom: none;
+        }
+
+        .post h1 {
+          margin-top: 0.5rem;
+        }
+
+        .post span {
+          color: var(--gray);
+          font-size: 0.8rem;
+        }
+
+        .post p {
+          color: var(--gray);
+        }
+
+        .title {
+          margin-bottom: 3rem;
+          opacity: 0;
+          animation: fadeUp 500ms 0.5s ease-in-out forwards;
+        }
+      `}
+    </style>
+  </div>
 );
