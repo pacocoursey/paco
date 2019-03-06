@@ -23,7 +23,7 @@ export default () => (
       @keyframes emojiCycle {
         0%, 100% { content: "▲"; }
         20% { content: "🌑"; }
-        40% { content: "☾"; }
+        40% { content: "🌙"; }
         60% { content: "🖤"; }
         80% { content: "🖥"; }
       }
@@ -35,7 +35,7 @@ export default () => (
       }
 
       .emoji::after {
-        content: "";
+        content: "▲";
         animation: emojiCycle 2s linear forwards infinite;
       }
       `}
