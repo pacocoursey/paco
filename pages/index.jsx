@@ -85,23 +85,13 @@ export default () => (
         margin-bottom: 50px;
       }
 
-      .title h6 {
-        margin: 0;
-        opacity: 0;
-        font-size: 2vw;
-        text-transform: uppercase;
-        font-weight: lighter;
-        letter-spacing: 2px;
-        animation: fadeUp 500ms 0.5s ease-in-out forwards;
-      }
-
       .title h1 {
         margin: 0 0 20px 0;
         opacity: 0;
         font-weight: 800;
         font-size: 5rem;
         line-height: 1;
-        animation: fadeUp 500ms 0.6s ease-in-out forwards;
+        animation: fadeUp 500ms 0.5s ease-in-out forwards;
       }
 
       .paragraph {

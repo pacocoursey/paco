@@ -5,7 +5,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "export": "NODE_ENV=production next build && next export",
+    "export": "next build && next export",
     "lint": "eslint --ignore-path .gitignore **/*.jsx",
     "deploy": "now && now alias"
   },
