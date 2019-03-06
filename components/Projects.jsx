@@ -1,5 +1,6 @@
 import React from 'react';
 import { SimpleImg, initSimpleImg } from 'react-simple-img';
+import Link from 'next/link';
 
 const Image = ({ src, alt }) => (
   <SimpleImg
@@ -233,9 +234,11 @@ class Projects extends React.Component {
 
         <footer>
           <h1>
-            <a href="/about" className="inline">
-              Let&apos;s chat.
-            </a>
+            <Link href="/about" prefetch>
+              <a className="inline">
+                Let&apos;s chat.
+              </a>
+            </Link>
           </h1>
         </footer>
 

@@ -25,7 +25,7 @@ export default () => (
             .
           </p>
 
-          <Link href="/about">
+          <Link href="/about" prefetch>
             <a>
               About Me
               <i>&#x2192;</i>
@@ -45,7 +45,7 @@ export default () => (
             , and I&apos;m always learning.
           </p>
 
-          <Link href="/projects">
+          <Link href="/projects" prefetch>
             <a>
               My Blog
               <i>&#x2192;</i>

@@ -1,91 +1,35 @@
 import React from 'react';
 import Link from 'next/link';
 
+import posts from '../data/blog.json';
+
+// Sort the posts so that newest post is first
+posts.sort((a, b) => {
+  const dateA = new Date(a.date);
+  const dateB = new Date(b.date);
+
+  if (dateA < dateB) { return 1; }
+  if (dateA > dateB) { return -1; }
+  return 0;
+});
+
 export default () => (
   <div className="list">
     <h1 className="title">Blog</h1>
 
-    <div className="post">
-      <span>March 14, 2019</span>
-      <h1>
-        <Link href="/blog/understanding-package-json" prefetch>
-          <a className="inline">
-            Understanding package.json
-          </a>
-        </Link>
-      </h1>
-      <p>The hidden environment of Node.</p>
-    </div>
-
-    <div className="post">
-      <span>March 19, 2019</span>
-      <h1>
-        <a href="#" className="inline">
-          Custom Emojis
-        </a>
-      </h1>
-      <p>A simple CSS trick to color emojis.</p>
-    </div>
-
-    <div className="post">
-      <span>March 14, 2019</span>
-      <h1>
-        <a href="#" className="inline">
-          Understanding package.json
-        </a>
-      </h1>
-      <p>The hidden environment of Node.</p>
-    </div>
-
-    <div className="post">
-      <span>March 19, 2019</span>
-      <h1>
-        <a href="#" className="inline">
-          Custom Emojis
-        </a>
-      </h1>
-      <p>A simple CSS trick to color emojis.</p>
-    </div>
-
-    <div className="post">
-      <span>March 14, 2019</span>
-      <h1>
-        <a href="#" className="inline">
-          Understanding package.json
-        </a>
-      </h1>
-      <p>The hidden environment of Node.</p>
-    </div>
-
-    <div className="post">
-      <span>March 19, 2019</span>
-      <h1>
-        <a href="#" className="inline">
-          Custom Emojis
-        </a>
-      </h1>
-      <p>A simple CSS trick to color emojis.</p>
-    </div>
-
-    <div className="post">
-      <span>March 14, 2019</span>
-      <h1>
-        <a href="#" className="inline">
-          Understanding package.json
-        </a>
-      </h1>
-      <p>The hidden environment of Node.</p>
-    </div>
-
-    <div className="post">
-      <span>March 19, 2019</span>
-      <h1>
-        <a href="#" className="inline">
-          Custom Emojis
-        </a>
-      </h1>
-      <p>A simple CSS trick to color emojis.</p>
-    </div>
+    {posts.map(post => (
+      <div className="post">
+        <span>{post.date}</span>
+        <h1>
+          <Link href={post.link} prefetch>
+            <a className="inline">
+              {post.name}
+            </a>
+          </Link>
+        </h1>
+        <p>{post.description}</p>
+      </div>
+    ))}
 
     <style jsx>
       {`
