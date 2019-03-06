@@ -49,7 +49,7 @@ export default ({ children, title }) => (
         justify-content: flex-start;
         align-items: center;
 
-        padding: 100px 30px 100px 170px;
+        padding: 100px 50px 100px 150px;
       }
       `}
     </style>

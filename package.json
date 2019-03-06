@@ -5,14 +5,12 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "export": "next build && next export",
+    "export": "NODE_ENV=production next build && next export",
     "lint": "eslint --ignore-path .gitignore **/*.jsx",
     "deploy": "now && now alias"
   },
   "dependencies": {
-    "@zeit/next-css": "^1.0.1",
-    "aos": "^2.3.4",
-    "next": "^8.0.0",
+    "next": "^8.0.3",
     "next-cookies": "^1.1.0",
     "nprogress": "^0.2.0",
     "react": "^16.8.1",
