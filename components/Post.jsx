@@ -104,7 +104,7 @@ class Post extends React.Component {
             content: "";
             position: absolute;
             top: 0;
-            right: 0;
+            right: -1px;
             height: ${scrollHeight || '0%'};
             width: 1px;
             background-color: var(--color);
