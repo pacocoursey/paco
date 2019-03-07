@@ -18,7 +18,7 @@ export default () => (
     <h1 className="title">Blog</h1>
 
     {posts.map(post => (
-      <div className="post">
+      <div className="post" key={post.name}>
         <span>{post.date}</span>
         <h1>
           <Link href={post.link} prefetch>

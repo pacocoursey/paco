@@ -51,7 +51,6 @@ class Menu extends React.Component {
 
     return (
       <div className="menu">
-
         <div className="top">
           <Link href="/">
             <div className="menu-item">
@@ -99,10 +98,11 @@ class Menu extends React.Component {
             align-items: center;
             padding: 30px 0;
 
-            transition: border 300ms ease-in-out;
-
+            background-color: var(--bg);
             border-right: 1px solid var(--light-gray);
             border-bottom: 1px solid var(--light-gray);
+
+            transition: border 300ms ease-in-out, background 300ms ease-in-out;
           }
 
           .top {
@@ -117,7 +117,7 @@ class Menu extends React.Component {
             transform: rotate(-180deg);
           }
 
-          .menu .menu-item {
+          .menu-item {
             margin: 30px 0;
           }
 

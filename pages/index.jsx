@@ -95,6 +95,7 @@ export default () => (
         font-weight: 800;
         font-size: 5rem;
         line-height: 0.75;
+        letter-spacing: -1.78px;
         animation: fadeUp 500ms 0.5s ease-in-out forwards;
       }
 
@@ -112,13 +113,22 @@ export default () => (
         font-size: 1.15rem;
         margin-right: 50px;
         max-width: 350px;
-        line-height: 1.4;
+        line-height: 1.7;
         letter-spacing: -0.27px;
       }
 
       @media screen and (max-width: 950px) {
+        .title {
+          width: 70vw;
+        }
+
         .title h1 {
           font-size: 6vw;
+          letter-spacing: -0.2vw;
+        }
+
+        .wrapper {
+          width: 100%;
         }
 
         .paragraph {
@@ -127,7 +137,8 @@ export default () => (
         }
 
         .paragraph p {
-          max-width: 60vw;
+          margin-right: 0;
+          max-width: 400px;
         }
 
         .paragraph div {
