@@ -26,9 +26,8 @@ export default () => (
           </p>
 
           <Link href="/about" prefetch>
-            <a>
+            <a className="inline">
               About Me
-              <i>&#x2192;</i>
             </a>
           </Link>
         </div>
@@ -46,9 +45,8 @@ export default () => (
           </p>
 
           <Link href="/projects" prefetch>
-            <a>
+            <a className="inline">
               My Blog
-              <i>&#x2192;</i>
             </a>
           </Link>
         </div>
@@ -75,7 +73,7 @@ export default () => (
       .intro {
         height: 100vh;
         min-height: 800px;
-        width: 100%;
+        margin-top: 5rem;
       }
 
       .wrapper {
