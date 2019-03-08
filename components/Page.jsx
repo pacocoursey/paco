@@ -124,6 +124,36 @@ export default ({ children, title }) => (
         position: relative;
       }
 
+      a.inline {
+        // Red
+        //background-image: linear-gradient(to right, #ED213A 0%, #dd1818 100%);
+
+        // Orange
+        //background-image: linear-gradient(to right, #FDC830, #F37335);
+
+        // Pink / Purple
+        //background-image: linear-gradient(to right, #DA4453, #89216B);
+
+        // Orange 2
+        //background-image: linear-gradient(to right, #fc4a1a, #FDC830);
+
+        /*
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+        text-shadow: none;
+
+        border-bottom: 2px solid transparent;
+        transition: border 300ms ease-in-out;
+        */
+      }
+
+      /* a.inline:hover {
+        border-bottom: 2px solid #F37335;
+        transition: border 300ms ease-in-out;
+      } */
+
       a.inline::after {
         z-index: -1;
         content: "";
