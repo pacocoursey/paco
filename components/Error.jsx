@@ -33,9 +33,9 @@ const Error404 = () => (
         position: relative;
         overflow: hidden;
 
+        -webkit-mask-image: -webkit-radial-gradient(white, black);
         transition: background 300ms ease-in-out;
       }
-
       .wave {
         position: absolute;
         top: 50%;

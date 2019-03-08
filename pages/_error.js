@@ -12,6 +12,6 @@ export default class E extends React.Component {
 
     return (
       <Error code={statusCode} />
-    )
+    );
   }
 }
