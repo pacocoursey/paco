@@ -61,7 +61,7 @@ export default ({ children, title }) => (
       `}
     </style>
 
-    <style global jsx>
+    <style jsx global>
       {`
       :root {
         --sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";

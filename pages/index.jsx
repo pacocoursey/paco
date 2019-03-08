@@ -53,10 +53,10 @@ export default () => (
       </div>
     </div>
 
-    <section>
+    <div className="projects">
       <Projects />
       <Footer />
-    </section>
+    </div>
 
     <style jsx>
       {`
@@ -74,6 +74,10 @@ export default () => (
         height: 100vh;
         min-height: 800px;
         margin-top: 5rem;
+      }
+
+      .projects {
+        width: 100%;
       }
 
       .wrapper {

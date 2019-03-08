@@ -249,6 +249,9 @@ class Projects extends React.Component {
             border-radius: 10px;
             overflow: hidden;
 
+            width: 100%;
+
+
             background-color: var(--light-gray);
 
             filter: grayscale(1);
@@ -267,6 +270,7 @@ class Projects extends React.Component {
             flex-direction: column;
             align-items: flex-start;
 
+            width: 100%;
             margin-bottom: 300px;
           }
 
