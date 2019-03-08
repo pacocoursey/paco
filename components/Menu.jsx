@@ -42,7 +42,7 @@ class Menu extends React.Component {
     }), () => {
       const { isWhite } = this.state;
       const theme = isWhite ? 'white' : 'black';
-      document.cookie = `theme=${theme}`;
+      document.cookie = `theme=${theme}; path=/`;
     });
   }
 

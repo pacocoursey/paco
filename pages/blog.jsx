@@ -84,6 +84,17 @@ export default () => (
           opacity: 0;
           animation: fadeUp 500ms 0.5s ease-in-out forwards;
         }
+
+        @media screen and (max-width: 950px) {
+          .title {
+            width: 70vw;
+          }
+
+          .title h1 {
+            font-size: 6vw;
+            letter-spacing: -0.2vw;
+          }
+        }
       `}
     </style>
   </div>
