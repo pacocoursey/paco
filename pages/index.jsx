@@ -44,7 +44,7 @@ export default () => (
             , and I&apos;m always learning.
           </p>
 
-          <Link href="/projects" prefetch>
+          <Link href="/blog" prefetch>
             <a className="inline">
               My Blog
             </a>
