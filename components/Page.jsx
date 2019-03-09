@@ -40,27 +40,6 @@ export default ({ children, title }) => (
       {children}
     </div>
 
-    <style jsx>
-      {`
-      .main {
-        min-height: 100vh;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-
-        padding: 100px 50px 100px 150px;
-      }
-
-      @media screen and (max-width: 950px) {
-        .main {
-          padding: 150px 50px 100px 50px;
-        }
-      }
-      `}
-    </style>
-
     <style jsx global>
       {`
       :root {
@@ -111,10 +90,10 @@ export default ({ children, title }) => (
 
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
 
-        padding: 50px 30px 50px 170px;
+        padding: 100px 50px 100px 150px;
       }
 
       a {
@@ -123,36 +102,6 @@ export default ({ children, title }) => (
         font-weight: bold;
         position: relative;
       }
-
-      a.inline {
-        // Red
-        //background-image: linear-gradient(to right, #ED213A 0%, #dd1818 100%);
-
-        // Orange
-        //background-image: linear-gradient(to right, #FDC830, #F37335);
-
-        // Pink / Purple
-        //background-image: linear-gradient(to right, #DA4453, #89216B);
-
-        // Orange 2
-        //background-image: linear-gradient(to right, #fc4a1a, #FDC830);
-
-        /*
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        -webkit-box-decoration-break: clone;
-        box-decoration-break: clone;
-        text-shadow: none;
-
-        border-bottom: 2px solid transparent;
-        transition: border 300ms ease-in-out;
-        */
-      }
-
-      /* a.inline:hover {
-        border-bottom: 2px solid #F37335;
-        transition: border 300ms ease-in-out;
-      } */
 
       a.inline::after {
         z-index: -1;
@@ -187,7 +136,7 @@ export default ({ children, title }) => (
       }
 
       code {
-        padding: 0.25rem 1rem;
+        padding: 0.25rem 0.25rem;
         font-family: var(--monospace);
         background-color: var(--light-gray);
         border-radius: 5px;
@@ -213,6 +162,12 @@ export default ({ children, title }) => (
         left: 0;
         width: 100%;
         height: 2px;
+      }
+
+      @media screen and (max-width: 950px) {
+        .main {
+          padding: 150px 50px 100px 50px;
+        }
       }
       `}
     </style>
