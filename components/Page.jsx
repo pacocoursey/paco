@@ -135,14 +135,6 @@ export default ({ children, title }) => (
         transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
       }
 
-      code {
-        padding: 0.25rem 0.25rem;
-        font-family: var(--monospace);
-        background-color: var(--light-gray);
-        border-radius: 5px;
-        transition: background 300ms ease-in-out;
-      }
-
       hr {
         width: 100%;
         border: none;
