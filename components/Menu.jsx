@@ -9,188 +9,129 @@ import {
   Toggle,
 } from './icons';
 
-class Menu extends React.Component {
-  constructor(props) {
-    super(props);
+export default ({ toggleTheme }) => (
+  <div className="menu">
+    <div className="top">
+      <Link href="/">
+        <div className="menu-item">
+          <a className="logo">
+            <Logo />
+          </a>
+        </div>
+      </Link>
 
-    const { theme } = this.props;
-    this.state = {
-      isWhite: theme === 'white',
-    };
-
-    this.handleKey = this.handleKey.bind(this);
-  }
-
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKey);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKey);
-  }
-
-  handleKey(e) {
-    if (e.keyCode === 84) {
-      // Toggle theme on 'T'
-      this.toggleTheme();
-    }
-  }
-
-  toggleTheme() {
-    this.setState(state => ({
-      isWhite: !state.isWhite,
-    }), () => {
-      const { isWhite } = this.state;
-      const theme = isWhite ? 'white' : 'black';
-      document.cookie = `theme=${theme}; path=/`;
-    });
-  }
-
-  render() {
-    const { isWhite } = this.state;
-
-    return (
-      <div className="menu">
-        <div className="top">
-          <Link href="/">
-            <div className="menu-item">
-              <a className="logo">
-                <Logo />
-              </a>
-            </div>
-          </Link>
-
-          <Link href="/blog">
-            <div className="menu-item">
-              <a
-                className="blog"
-                type="button"
-              >
-                <Blog />
-              </a>
-            </div>
-          </Link>
-
-          <button
-            className="toggle menu-item"
+      <Link href="/blog">
+        <div className="menu-item">
+          <a
+            className="blog"
             type="button"
-            onClick={() => { this.toggleTheme(); }}
           >
-            <Toggle />
-          </button>
+            <Blog />
+          </a>
         </div>
+      </Link>
 
-        <div className="bottom">
-          <a href="mailto:p@paco.im">p@paco.im</a>
-        </div>
+      <button
+        className="toggle menu-item"
+        type="button"
+        onClick={() => { toggleTheme(); }}
+      >
+        <Toggle />
+      </button>
+    </div>
 
-        <style jsx>
-          {`
-          .menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100px;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 0;
+    <div className="bottom">
+      <a href="mailto:p@paco.im">p@paco.im</a>
+    </div>
 
-            background-color: var(--bg);
-            border-right: 1px solid var(--light-gray);
-            border-bottom: 1px solid var(--light-gray);
+    <style jsx>
+      {`
+      .menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100px;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px 0;
 
-            transition: border 300ms ease-in-out, background 300ms ease-in-out;
-          }
+        background-color: var(--bg);
+        border-right: 1px solid var(--light-gray);
+        border-bottom: 1px solid var(--light-gray);
 
-          .top {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-          }
+        transition: border 300ms ease-in-out, background 300ms ease-in-out;
+      }
 
-          .bottom {
-            writing-mode: vertical-rl;
-            transform: rotate(-180deg);
-          }
+      .top {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+      }
 
-          .menu-item {
-            margin: 30px 0;
-          }
+      .bottom {
+        writing-mode: vertical-rl;
+        transform: rotate(-180deg);
+      }
 
-          .toggle, .logo, .blog {
-            cursor: pointer;
-          }
+      .menu-item {
+        margin: 30px 0;
+      }
 
-          button {
-            outline: none;
-            padding: 0;
-            cursor: pointer;
-            background: transparent;
-            border: none;
-          }
+      .toggle, .logo, .blog {
+        cursor: pointer;
+      }
 
-          .logo :global(svg path),
-          .blog :global(svg path),
-          .toggle :global(svg path) {
-            stroke: var(--color);
-            fill: var(--bg);
-            transition: fill 300ms ease-in-out, stroke 300ms ease-in-out;
-          }
+      button {
+        outline: none;
+        padding: 0;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+      }
 
-          .logo:hover :global(svg path),
-          .blog:hover :global(svg path),
-          .toggle:hover :global(svg path) {
-            fill: var(--color);
-            transiton: fill 300ms ease-in-out, stroke 300ms ease-in-out;
-          }
+      .logo :global(svg path),
+      .blog :global(svg path),
+      .toggle :global(svg path) {
+        stroke: var(--color);
+        fill: var(--bg);
+        transition: fill 300ms ease-in-out, stroke 300ms ease-in-out;
+      }
 
-          @media screen and (max-width: 950px) {
-            .menu {
-              flex-direction: row;
-              justify-content: space-between;
-              height: 100px;
-              width: 100%;
-              padding: 0 50px;
-              background-color: var(--bg);
-              z-index: 2;
+      .logo:hover :global(svg path),
+      .blog:hover :global(svg path),
+      .toggle:hover :global(svg path) {
+        fill: var(--color);
+        transiton: fill 300ms ease-in-out, stroke 300ms ease-in-out;
+      }
 
-              transition: background 300ms ease-in-out, border 300ms ease-in-out;
-            }
+      @media screen and (max-width: 950px) {
+        .menu {
+          flex-direction: row;
+          justify-content: space-between;
+          height: 100px;
+          width: 100%;
+          padding: 0 50px;
+          background-color: var(--bg);
+          z-index: 2;
 
-            .top {
-              flex: 1;
-              flex-direction: row;
-              justify-content: space-between;
-            }
+          transition: background 300ms ease-in-out, border 300ms ease-in-out;
+        }
 
-            .bottom {
-              display: none;
-            }
-          }
-      `}
-        </style>
+        .top {
+          flex: 1;
+          flex-direction: row;
+          justify-content: space-between;
+        }
 
-        <style jsx global>
-          {`
-          :root {
-            --color: ${isWhite ? '#111' : '#ffffff'} !important;
-            --bg: ${isWhite ? '#ffffff' : '#111'} !important;
-            --gray: ${isWhite ? '#7f7f7f' : '#666'} !important;
-            --light-gray: ${isWhite ? '#f0f0f0' : '#333'} !important;
-            --lighter-gray: ${isWhite ? '#f0f0f0' : '#222'} !important;
-
-            --small-shadow: rgba(0, 0, 0, 0.05) 0px 5px 50px;
-            --big-shadow: 0 30px 100px 5px ${isWhite ? 'var(--light-gray)' : '#000'};
-          }
-          `}
-        </style>
-      </div>
-    );
-  }
-}
-
-export default Menu;
+        .bottom {
+          display: none;
+        }
+      }
+  `}
+    </style>
+  </div>
+);

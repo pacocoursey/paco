@@ -1,7 +1,10 @@
 import React from 'react';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { registerLanguage } from 'react-syntax-highlighter/dist/light';
-import style from 'react-syntax-highlighter/dist/styles/hljs/atom-one-dark';
+import light from 'react-syntax-highlighter/dist/styles/hljs/atom-one-light';
+import dark from 'react-syntax-highlighter/dist/styles/hljs/atom-one-dark';
+
+import ThemeContext from './ThemeContext';
 
 const styles = {
   margin: '30px 0',
@@ -14,7 +17,8 @@ const styles = {
   lineHeight: '1.5em',
   WebkitOverflowScrolling: 'touch',
   fontFamily:
-    'Menlo, Monaco, Lucida Console, Liberation Mono, Courier New, monospace, serif'
+    'Menlo, Monaco, Lucida Console, Liberation Mono, Courier New, monospace, serif',
+  transition: 'background 300ms ease-in-out, color 300ms ease-in-out',
 };
 
 class Code extends React.Component {
@@ -32,13 +36,17 @@ class Code extends React.Component {
     const { language, children } = this.props;
 
     return (
-      <SyntaxHighlighter
-        language={language}
-        style={style}
-        customStyle={styles}
-      >
-        {children}
-      </SyntaxHighlighter>
+      <ThemeContext.Consumer>
+        {value => (
+          <SyntaxHighlighter
+            language={language}
+            style={value === 'light' ? light : dark}
+            customStyle={styles}
+          >
+            {children}
+          </SyntaxHighlighter>
+        )}
+      </ThemeContext.Consumer>
     );
   }
 }
