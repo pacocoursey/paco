@@ -7,16 +7,7 @@ import Code from '../../components/Code';
 import Inline from '../../components/InlineCode';
 
 export default () => (
-  <Post title="Understanding package.json">
-    <header>
-      <h1>
-        Understanding
-        {' '}
-        <Inline>package.json</Inline>
-      </h1>
-      <p>March 9, 2019</p>
-    </header>
-
+  <Post id="understanding-package-json">
     <p>
       I began my Computer Science degree with an intensive introduction course in C. We used makefiles to compile and run each of our assignments.
     </p>

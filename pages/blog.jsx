@@ -21,7 +21,7 @@ export default () => (
       <div className="post" key={post.name}>
         <span>{post.date}</span>
         <h1>
-          <Link href={post.link} prefetch>
+          <Link href={`/blog/${post.id}`} prefetch>
             <a className="inline">
               {post.name}
             </a>

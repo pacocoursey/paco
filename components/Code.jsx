@@ -1,8 +1,8 @@
 import React from 'react';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { registerLanguage } from 'react-syntax-highlighter/dist/light';
-import light from 'react-syntax-highlighter/dist/styles/hljs/atom-one-light';
-import dark from 'react-syntax-highlighter/dist/styles/hljs/atom-one-dark';
+import light from 'react-syntax-highlighter/dist/styles/hljs/github-gist';
+import dark from 'react-syntax-highlighter/dist/styles/hljs/dark';
 
 import ThemeContext from './ThemeContext';
 

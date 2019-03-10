@@ -3,6 +3,10 @@
 import React from 'react';
 import Head from 'next/head';
 
+import posts from '../data/blog.json';
+
+const findPost = id => posts.find(post => post.id === id);
+
 class Post extends React.Component {
   constructor(props) {
     super(props);
@@ -42,12 +46,18 @@ class Post extends React.Component {
   }
 
   render() {
-    const { children, title } = this.props;
+    const { children, id } = this.props;
     const { scrollHeight } = this.state;
+
+    const post = findPost(id);
 
     return (
       <article>
-        <Head title={title} />
+        <header>
+          <h1>{post.title}</h1>
+          <p>{post.date}</p>
+        </header>
+
         {children}
 
         <style jsx>

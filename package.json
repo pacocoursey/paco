@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "highlight.js": "^9.15.6",
+    "markdown-in-js": "^1.1.4",
     "next": "^8.0.3",
     "next-cookies": "^1.1.0",
     "nprogress": "^0.2.0",
