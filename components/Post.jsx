@@ -1,32 +1,16 @@
 /* global window, document */
 
-import React from 'react';
-import Head from 'next/head';
+import React, { useState, useEffect } from 'react';
 
 import posts from '../data/blog.json';
 
 const findPost = id => posts.find(post => post.id === id);
 
-class Post extends React.Component {
-  constructor(props) {
-    super(props);
+const Post = ({ children, id }) => {
+  const [scrollHeight, setScrollHeight] = useState('0%');
+  const post = findPost(id);
 
-    this.state = {
-      scrollHeight: '0%',
-    };
-
-    this.handleScroll = this.handleScroll.bind(this);
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-  }
-
-  handleScroll() {
+  function handleScroll() {
     let ticking = false;
 
     if (!ticking) {
@@ -36,104 +20,111 @@ class Post extends React.Component {
         const st = 'scrollTop';
         const sh = 'scrollHeight';
         const percent = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
-        this.setState({
-          scrollHeight: `${percent}%`,
-        });
+        setScrollHeight(`${percent}%`);
       });
 
       ticking = true;
     }
   }
 
-  render() {
-    const { children, id } = this.props;
-    const { scrollHeight } = this.state;
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
 
-    const post = findPost(id);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
 
-    return (
-      <article>
-        <header>
-          <h1>{post.title}</h1>
-          <p>{post.date}</p>
-        </header>
+  return (
+    <article>
+      <header>
+        <h1>{post.title}</h1>
+        <p>{post.date}</p>
+      </header>
 
-        {children}
+      {children}
 
-        <style jsx>
-          {`
-          @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-          }
+      <style jsx>
+        {`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
 
-          @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
 
-          article, article img {
-            max-width: 42rem;
-          }
+        article, article img {
+          max-width: 42rem;
+        }
 
-          article {
-            font-size: 1.15rem;
-            letter-spacing: -0.022rem;
-            line-height: 1.8;
-            opacity: 0;
-            animation: fadeIn 500ms 0.7s ease-in-out forwards;
-          }
+        article {
+          font-size: 1.15rem;
+          letter-spacing: -0.022rem;
+          line-height: 1.8;
+          opacity: 0;
+          animation: fadeIn 500ms 0.7s ease-in-out forwards;
+        }
 
-          article :global(p) {
-            margin: 1.875rem 0;
-          }
+        article :global(p) {
+          margin: 1.875rem 0;
+        }
 
-          article :global(header) {
-            opacity: 0;
-            margin-bottom: 2rem;
-            animation: fadeUp 500ms 0.5s ease-in-out forwards;
-          }
+        article :global(header) {
+          opacity: 0;
+          margin-bottom: 2rem;
+          animation: fadeUp 500ms 0.5s ease-in-out forwards;
+        }
 
-          article :global(header h1) {
-            color: inherit;
-            font-size: 2rem;
-            margin: 0 0 0.5rem 0;
-          }
+        article :global(header h1) {
+          color: inherit;
+          font-size: 2rem;
+          margin: 0 0 0.5rem 0;
+        }
 
-          article :global(header p) {
-            margin: 0;
-            color: var(--gray);
-            font-size: 1rem;
-          }
-          `}
-        </style>
+        article :global(header p) {
+          margin: 0;
+          color: var(--gray);
+          font-size: 1rem;
+        }
 
-        <style jsx global>
-          {`
+        article :global(code:not(pre code)) {
+          padding: 0.25rem 0.25rem;
+          font-family: var(--monospace);
+          background-color: var(--light-gray);
+          border-radius: 5px;
+          transition: background 300ms ease-in-out;
+        }
+        `}
+      </style>
+
+      <style jsx global>
+        {`
+        .menu::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: -1px;
+          height: ${scrollHeight || '0%'};
+          width: 1px;
+          background-color: var(--color);
+
+          transition: background 300ms ease-in-out;
+        }
+
+        @media screen and (max-width: 950px) {
           .menu::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: -1px;
-            height: ${scrollHeight || '0%'};
-            width: 1px;
-            background-color: var(--color);
-
-            transition: background 300ms ease-in-out;
+            left: 0;
+            height: 1px;
+            width: ${scrollHeight || '0%'}
           }
-
-          @media screen and (max-width: 950px) {
-            .menu::after {
-              left: 0;
-              height: 1px;
-              width: ${scrollHeight || '0%'}
-            }
-          }
-          `}
-        </style>
-      </article>
-    );
-  }
-}
+        }
+        `}
+      </style>
+    </article>
+  );
+};
 
 export default Post;

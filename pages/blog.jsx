@@ -23,7 +23,7 @@ export default () => (
         <h1>
           <Link href={`/blog/${post.id}`} prefetch>
             <a className="inline">
-              {post.name}
+              {post.title}
             </a>
           </Link>
         </h1>
