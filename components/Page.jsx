@@ -141,6 +141,7 @@ export default ({ children, title }) => (
         height: 1px;
         background-color: var(--light-gray);
         margin: 3rem auto;
+        transition: background 300ms ease-in-out;
       }
 
       #nprogress {

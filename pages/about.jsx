@@ -5,7 +5,7 @@ export default () => (
   <div className="wrapper">
     <div className="intro">
       <div className="title">
-        <h1>Hi, I&apos;m Paco 👋</h1>
+        <h1>Hi, I&apos;m Paco.</h1>
       </div>
 
       <p>
