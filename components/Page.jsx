@@ -23,7 +23,8 @@ export default ({ children, title }) => (
 
       {/* Meta */}
       <meta charSet="utf-8" />
-      <meta name="keywords" value="Paco Coursey" />
+      <meta name="author" content="Paco Coursey" />
+      <meta name="keywords" content="paco, coursey, paco coursey, computer science, software, software engineering, web, web development, web design, developer, javascript, node, html, css" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
       {/* Favicon */}
@@ -34,6 +35,23 @@ export default ({ children, title }) => (
       <link rel="mask-icon" href="/static/safari-pinned-tab.svg" color="#111111" />
       <meta name="msapplication-TileColor" content="#ffffff" />
       <meta name="theme-color" content="#ffffff" />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      {/* TODO: open graph image generator */}
+      <meta name="twitter:description" content="Hey, I'm Paco." />
+      <meta name="twitter:creator" content="@pacocoursey" />
+      <meta name="twitter:site" content="@pacocoursey" />
+
+      {/* Facebook */}
+      <meta property="og:title" content="Paco Coursey" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://paco.im" />
+      {/* TODO: open graph image generator */}
+
+      {/* Misc */}
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     </Head>
 
     <div className="main">
