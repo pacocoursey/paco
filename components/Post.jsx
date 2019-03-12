@@ -1,6 +1,7 @@
 /* global window, document */
 
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 
 import posts from '../data/blog.json';
 
@@ -41,6 +42,14 @@ const Post = ({ children, id }) => {
         <h1>{post.title}</h1>
         <p>{post.date}</p>
       </header>
+
+      <Head>
+        <title>
+          {post.title}
+          {' '}
+          - Paco Coursey
+        </title>
+      </Head>
 
       {children}
 
@@ -90,12 +99,16 @@ const Post = ({ children, id }) => {
           font-size: 1rem;
         }
 
-        article :global(code:not(pre code)) {
+        article :global(code) {
           padding: 0.25rem 0.25rem;
           font-family: var(--monospace);
-          background-color: var(--light-gray);
+          background-color: var(--lighter-gray);
           border-radius: 5px;
           transition: background 300ms ease-in-out;
+        }
+
+        article :global(pre code) {
+          background: none;
         }
         `}
       </style>

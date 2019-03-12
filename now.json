@@ -1,7 +1,7 @@
 {
   "version": 2,
   "name": "paco",
-  "alias": "paco",
+  "alias": "paco.im",
   "builds": [
     { "src": "next.config.js", "use": "@now/next" }
   ],

@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 
 import posts from '../data/blog.json';
 
@@ -15,6 +16,10 @@ posts.sort((a, b) => {
 
 export default () => (
   <div className="list">
+    <Head>
+      <title>Blog - Paco Coursey</title>
+    </Head>
+
     <h1 className="title">Blog</h1>
 
     {posts.map(post => (

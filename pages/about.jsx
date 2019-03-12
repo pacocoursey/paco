@@ -1,8 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 
 export default () => (
   <div className="wrapper">
+    <Head>
+      <title>About - Paco Coursey</title>
+    </Head>
+
     <div className="intro">
       <div className="title">
         <h1>Hi, I&apos;m Paco.</h1>
