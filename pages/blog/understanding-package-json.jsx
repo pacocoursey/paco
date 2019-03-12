@@ -21,6 +21,7 @@ export default MarkdownPost({
 
   Packages in \`node_modules\` that define an executable will have that executable appended to the environment PATH before running any scripts. This can be confusing. Let's see an example:
 
+  <div>
   ${
   <Code language="json" syntax={json}>
     {`
@@ -32,6 +33,7 @@ export default MarkdownPost({
     }
     `}
   </Code>}
+  </div>
 
   Running \`yarn lint\` will work correctly. However, just running \`eslint .\` from the command line will fail!<sup>1</sup> This was extremely confusing at first, did I have installed ESLint or not?
 
@@ -39,7 +41,7 @@ export default MarkdownPost({
 
   This is a great advantage of the modular nature of the JavaScript ecosystem. You don't have to install any global scripts or clutter up your PATH to work with JavaScript projects, just \`yarn install\`.
 
-  ${<Footer>
-    <p>Unless you have installed ESLint globally, which does add the executable to your PATH.</p>
-  </Footer>}
+  <div>
+  ${<Footer><p>Unless you have installed ESLint globally, which does add the executable to your PATH.</p></Footer>}
+  </div>
 `);
