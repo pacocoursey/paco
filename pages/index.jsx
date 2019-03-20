@@ -19,9 +19,6 @@ export default () => (
             Hello, I&apos;m Paco Coursey. I enjoy writing JavaScript and working on
             {' '}
             <b>open-source projects</b>
-            . I&apos;m looking for an
-            {' '}
-            <b>internship</b>
             .
           </p>
 

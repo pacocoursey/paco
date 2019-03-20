@@ -11,22 +11,19 @@ export default ({ toggleTheme }) => (
   <div className="menu">
     <div className="top">
       <Link href="/">
-        <div className="menu-item">
-          <a className="logo">
+        <a className="logo">
+          <div className="menu-item">
             <Logo />
-          </a>
-        </div>
+          </div>
+        </a>
       </Link>
 
       <Link href="/blog">
-        <div className="menu-item">
-          <a
-            className="blog"
-            type="button"
-          >
+        <a className="blog">
+          <div className="menu-item">
             <Blog />
-          </a>
-        </div>
+          </div>
+        </a>
       </Link>
 
       <button

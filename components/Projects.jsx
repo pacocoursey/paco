@@ -257,12 +257,13 @@ class Projects extends React.Component {
             filter: grayscale(1);
             border: 1px solid var(--light-gray);
             box-shadow: var(--big-shadow);
-            transition: filter 300ms ease-in-out, box-shadow 300ms ease-in-out, border 300ms ease-in-out;
+            transition: filter 300ms ease-in-out, box-shadow 300ms ease-in-out, border 300ms ease-in-out, transform 300ms ease-in-out;
           }
 
           .img:hover {
             filter: none;
-            transition: filter 300ms ease-in-out;
+            transform: scale(1.01);
+            transition: filter 300ms ease-in-out, transform 300ms ease-in-out;
           }
 
           .project {

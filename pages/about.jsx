@@ -77,9 +77,7 @@ export default () => (
       }
 
       .intro {
-        height: 100vh;
-        min-height: 800px;
-        margin-top: 5rem;
+        margin: 5rem 0;
       }
 
       .title {
