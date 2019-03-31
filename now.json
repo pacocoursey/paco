@@ -1,7 +1,12 @@
 {
   "version": 2,
   "name": "paco",
-  "alias": "paco.im",
+  "alias": [
+    "paco.im",
+    "www.paco.im",
+    "pacocoursey.com",
+    "www.pacocoursey.com"
+  ],
   "builds": [
     { "src": "next.config.js", "use": "@now/next" }
   ],
