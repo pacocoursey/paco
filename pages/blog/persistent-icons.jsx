@@ -19,7 +19,7 @@ export default MarkdownPost({
     ${<Image
       src={`/static/blog/${id}/dock-1.png`}
       alt="Original Discord Icon in Dock"
-      height={ 188 / 2}
+      height={188 / 2}
       width={1248 / 2}
     />}
   </div>
@@ -43,7 +43,7 @@ export default MarkdownPost({
     ${<Image
       src={`/static/blog/${id}/icns.png`}
       alt="electron.icns in Contents/Resources Folder"
-      height={ 1022 / 2}
+      height={1022 / 2}
       width={1654 / 2}
     />}
   </div>
@@ -65,7 +65,7 @@ export default MarkdownPost({
     ${<Image
       src={`/static/blog/${id}/fixed-icns.png`}
       alt="New electron.icns File"
-      height={ 1096 / 2}
+      height={1096 / 2}
       width={1764 / 2}
     />}
   </div>
@@ -77,8 +77,8 @@ export default MarkdownPost({
       src={`/static/blog/${id}/dock-2.png`}
       alt="A Beautiful Dock"
       caption="Much better."
-      height={ 188 / 2}
-      width={1248  / 2}
+      height={188 / 2}
+      width={1248 / 2}
     />}
   </div>
 `);

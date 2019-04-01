@@ -7,7 +7,8 @@
     "start": "next start",
     "export": "next build && next export",
     "lint": "eslint --ignore-path .gitignore **/*.jsx",
-    "deploy": "now && now alias"
+    "deploy": "now",
+    "alias": "now alias"
   },
   "dependencies": {
     "highlight.js": "^9.15.6",

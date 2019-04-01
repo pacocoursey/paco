@@ -31,7 +31,12 @@ export default () => (
       </div>
 
       <div className="img">
-        <Image src="/static/img/opus.png" alt="Opus Screenshot" />
+        <Image
+          src="/static/img/opus.png"
+          alt="Opus Screenshot"
+          height={418}
+          width={800}
+        />
       </div>
     </div>
 
@@ -64,7 +69,12 @@ export default () => (
 
       <a href="https://dusk.now.sh" target="_blank" rel="noopener noreferrer">
         <div className="img">
-          <Image src="/static/img/dusk.png" alt="Dusk Screenshot" />
+          <Image
+            src="/static/img/dusk.png"
+            alt="Dusk Screenshot"
+            height={467}
+            width={800}
+          />
         </div>
       </a>
     </div>
@@ -94,7 +104,12 @@ export default () => (
 
       <a href="http://f2prs.com" target="_blank" rel="noopener noreferrer">
         <div className="img">
-          <Image src="/static/img/f2prs.png" alt="F2PRS Screenshot" />
+          <Image
+            src="/static/img/f2prs.png"
+            alt="F2PRS Screenshot"
+            height={397}
+            width={800}
+          />
         </div>
       </a>
     </div>
@@ -118,7 +133,12 @@ export default () => (
 
       <a href="https://atom.io/packages/xi-ui" target="_blank" rel="noopener noreferrer">
         <div className="img">
-          <Image src="/static/img/xi.png" alt="Xi Screenshot" />
+          <Image
+            src="/static/img/xi.png"
+            alt="Xi Screenshot"
+            height={419}
+            width={800}
+          />
         </div>
       </a>
     </div>
@@ -147,7 +167,12 @@ export default () => (
       </div>
 
       <div className="img">
-        <Image src="/static/img/paco.png" alt="paco.im Screenshot" />
+        <Image
+          src="/static/img/paco.png"
+          alt="paco.im Screenshot"
+          height={519}
+          width={800}
+        />
       </div>
     </div>
 
@@ -178,7 +203,12 @@ export default () => (
 
       <a href="https://ehp.now.sh" target="_blank" rel="noopener noreferrer">
         <div className="img">
-          <Image src="/static/img/ehp.png" alt="EHP Website Screenshot" />
+          <Image
+            src="/static/img/ehp.png"
+            alt="EHP Website Screenshot"
+            height={463}
+            width={800}
+          />
         </div>
       </a>
     </div>
@@ -208,7 +238,12 @@ export default () => (
 
       <a href="https://songbird-2.now.sh" target="_blank" rel="noopener noreferrer">
         <div className="img">
-          <Image src="/static/img/songbird.png" alt="Songbird Healing Studios Website Screenshot" />
+          <Image
+            src="/static/img/songbird.png"
+            alt="Songbird Healing Studios Website Screenshot"
+            height={482}
+            width={800}
+          />
         </div>
       </a>
     </div>
@@ -229,11 +264,6 @@ export default () => (
         margin: 50px 0;
         border-radius: 10px;
         overflow: hidden;
-
-        width: 100%;
-
-
-        background-color: var(--light-gray);
 
         filter: grayscale(1);
         border: 1px solid var(--light-gray);
