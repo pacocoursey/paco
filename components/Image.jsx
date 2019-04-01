@@ -1,30 +1,36 @@
 import React from 'react';
+import { SimpleImg } from 'react-simple-img';
 
-export default ({ src, alt, caption }) => (
-  <figure>
-    <img src={src} alt={alt} />
-    {caption ? <figcaption>{caption}</figcaption> : ''}
+export default ({
+  src, alt, height, width, caption,
+}) => (
+  <div>
+    <SimpleImg
+      src={src}
+      alt={alt}
+      height={height || 'auto'}
+      width={width || '100%'}
+      placeholder="transparent"
+      animationDuration="2"
+    />
+
+    {caption ? <span>{caption}</span> : ''}
 
     <style jsx>
       {`
-        figure {
+        div {
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
         }
 
-        figcaption {
+        span {
           margin-top: 2rem;
           color: var(--gray);
           font-size: 0.9rem;
         }
-
-        img {
-          max-width: 100%;
-          margin: 1rem 0;
-        }
       `}
     </style>
-  </figure>
+  </div>
 );
