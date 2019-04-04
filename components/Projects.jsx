@@ -67,16 +67,16 @@ export default () => (
         </div>
       </div>
 
-      <a href="https://dusk.now.sh" target="_blank" rel="noopener noreferrer">
-        <div className="img">
+      <div className="img">
+        <a href="https://dusk.now.sh" target="_blank" rel="noopener noreferrer">
           <Image
             src="/static/img/dusk.png"
             alt="Dusk Screenshot"
             height={467}
             width={800}
           />
-        </div>
-      </a>
+        </a>
+      </div>
     </div>
 
     <div className="project">
@@ -102,16 +102,16 @@ export default () => (
         </div>
       </div>
 
-      <a href="http://f2prs.com" target="_blank" rel="noopener noreferrer">
-        <div className="img">
+      <div className="img">
+        <a href="http://f2prs.com" target="_blank" rel="noopener noreferrer">
           <Image
             src="/static/img/f2prs.png"
             alt="F2PRS Screenshot"
             height={397}
             width={800}
           />
-        </div>
-      </a>
+        </a>
+      </div>
     </div>
 
     <div className="project">
@@ -131,16 +131,16 @@ export default () => (
         </div>
       </div>
 
-      <a href="https://atom.io/packages/xi-ui" target="_blank" rel="noopener noreferrer">
-        <div className="img">
+      <div className="img">
+        <a href="https://atom.io/packages/xi-ui" target="_blank" rel="noopener noreferrer">
           <Image
             src="/static/img/xi.png"
             alt="Xi Screenshot"
             height={419}
             width={800}
           />
-        </div>
-      </a>
+        </a>
+      </div>
     </div>
 
     <div className="project">
@@ -201,16 +201,16 @@ export default () => (
         </div>
       </div>
 
-      <a href="https://ehp.now.sh" target="_blank" rel="noopener noreferrer">
-        <div className="img">
+      <div className="img">
+        <a href="https://ehp.now.sh" target="_blank" rel="noopener noreferrer">
           <Image
             src="/static/img/ehp.png"
             alt="EHP Website Screenshot"
             height={463}
             width={800}
           />
-        </div>
-      </a>
+        </a>
+      </div>
     </div>
 
     <div className="project">
@@ -236,16 +236,16 @@ export default () => (
         </div>
       </div>
 
-      <a href="https://songbird-2.now.sh" target="_blank" rel="noopener noreferrer">
-        <div className="img">
+      <div className="img">
+        <a href="https://songbird-2.now.sh" target="_blank" rel="noopener noreferrer">
           <Image
             src="/static/img/songbird.png"
             alt="Songbird Healing Studios Website Screenshot"
             height={482}
             width={800}
           />
-        </div>
-      </a>
+        </a>
+      </div>
     </div>
 
     <footer>
@@ -261,6 +261,7 @@ export default () => (
     <style jsx>
       {`
       .img {
+        width: 100%;
         margin: 50px 0;
         border-radius: 10px;
         overflow: hidden;

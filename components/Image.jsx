@@ -4,7 +4,7 @@ import { SimpleImg } from 'react-simple-img';
 export default ({
   src, alt, height, width, caption,
 }) => (
-  <div>
+  <figure>
     <SimpleImg
       src={src}
       alt={alt}
@@ -12,25 +12,24 @@ export default ({
       width={width || '100%'}
       placeholder="transparent"
       animationDuration="2"
+      applyAspectRatio
     />
 
-    {caption ? <span>{caption}</span> : ''}
+    {caption ? <figcaption>{caption}</figcaption> : ''}
 
     <style jsx>
       {`
-        div {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
+        figure {
+          margin: 0;
         }
 
-        span {
+        figcaption {
+          text-align: center;
           margin-top: 2rem;
           color: var(--gray);
           font-size: 0.9rem;
         }
       `}
     </style>
-  </div>
+  </figure>
 );
