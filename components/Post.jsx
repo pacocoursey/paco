@@ -130,6 +130,8 @@ const Post = ({ children, id }) => {
         @media screen and (max-width: 950px) {
           .menu::after {
             left: 0;
+            top: unset;
+            bottom: -1px;
             height: 1px;
             width: ${scrollHeight || '0%'}
           }

@@ -105,6 +105,8 @@ export default ({ toggleTheme }) => (
 
       @media screen and (max-width: 950px) {
         .menu {
+          position: sticky;
+          top: -99px;
           flex-direction: row;
           justify-content: space-between;
           height: 100px;

@@ -177,7 +177,7 @@ export default ({ children, title }) => (
 
       @media screen and (max-width: 950px) {
         .main {
-          padding: 150px 50px 100px 50px;
+          padding: 50px 50px 100px 50px;
         }
       }
       `}
