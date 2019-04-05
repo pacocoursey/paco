@@ -66,7 +66,7 @@ export default ({ children, title }) => (
         --monospace: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
       }
 
-      @import url('https://rsms.me/inter/inter.css');
+      @import url('/static/font/inter.css');
       html {
         font-family: 'Inter', var(--sans-serif);
       }
