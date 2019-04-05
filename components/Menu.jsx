@@ -11,7 +11,7 @@ export default ({ toggleTheme }) => (
   <div className="menu">
     <div className="top">
       <Link href="/">
-        <a className="logo">
+        <a className="logo" aria-label="Navigate Home">
           <div className="menu-item">
             <Logo />
           </div>
@@ -19,7 +19,7 @@ export default ({ toggleTheme }) => (
       </Link>
 
       <Link href="/blog">
-        <a className="blog">
+        <a className="blog" aria-label="Navigate to the Blog">
           <div className="menu-item">
             <Blog />
           </div>
@@ -29,6 +29,7 @@ export default ({ toggleTheme }) => (
       <button
         className="toggle menu-item"
         type="button"
+        aria-label="Theme Toggle"
         onClick={() => { toggleTheme(); }}
       >
         <Toggle />

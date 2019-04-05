@@ -10,7 +10,7 @@ export default ({
       alt={alt}
       height={height || 'auto'}
       width={width || '100%'}
-      placeholder="transparent"
+      placeholder="var(--lighter-gray)"
       animationDuration="2"
       applyAspectRatio
     />

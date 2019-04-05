@@ -68,7 +68,12 @@ export default () => (
       </div>
 
       <div className="img">
-        <a href="https://dusk.now.sh" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://dusk.now.sh"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Dusk Website Link"
+        >
           <Image
             src="/static/img/dusk.png"
             alt="Dusk Screenshot"
@@ -103,7 +108,12 @@ export default () => (
       </div>
 
       <div className="img">
-        <a href="http://f2prs.com" target="_blank" rel="noopener noreferrer">
+        <a
+          href="http://f2prs.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="F2PRS Website Link"
+        >
           <Image
             src="/static/img/f2prs.png"
             alt="F2PRS Screenshot"
@@ -132,7 +142,12 @@ export default () => (
       </div>
 
       <div className="img">
-        <a href="https://atom.io/packages/xi-ui" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://atom.io/packages/xi-ui"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Xi Website Link"
+        >
           <Image
             src="/static/img/xi.png"
             alt="Xi Screenshot"
@@ -202,7 +217,12 @@ export default () => (
       </div>
 
       <div className="img">
-        <a href="https://ehp.now.sh" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://ehp.now.sh"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="EHP Website Link"
+        >
           <Image
             src="/static/img/ehp.png"
             alt="EHP Website Screenshot"
@@ -237,7 +257,12 @@ export default () => (
       </div>
 
       <div className="img">
-        <a href="https://songbird-2.now.sh" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://songbird-2.now.sh"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Songbird Website Link"
+        >
           <Image
             src="/static/img/songbird.png"
             alt="Songbird Healing Studios Website Screenshot"
