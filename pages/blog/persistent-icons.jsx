@@ -52,12 +52,8 @@ export default MarkdownPost({
 
   Run the following from the command line, replacing ICON as needed.
 
-  <div>
-    ${
-      <Code language="bash" syntax={bash}>
-        {'$ sips -s format icns ICON.png --out ICON.icns'}
-      </Code>}
-  </div>
+
+  \`$ sips -s format icns ICON.png --out ICON.icns\`
 
   Move your new \`.icns\` file into the previously opened \`Resources/\` folder. I like to save the old icon by renaming it, just in case I have to revert later. Rename your new file to match the old (in this case, \`electron.icns\`).
 

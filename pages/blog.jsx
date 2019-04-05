@@ -27,7 +27,7 @@ export default () => (
         <span>{post.date}</span>
         <h1>
           <Link href={`/blog/${post.id}`} prefetch>
-            <a className="inline">
+            <a>
               {post.title}
             </a>
           </Link>
@@ -91,13 +91,8 @@ export default () => (
         }
 
         @media screen and (max-width: 950px) {
-          .title {
-            width: 70vw;
-          }
-
-          .title h1 {
-            font-size: 6vw;
-            letter-spacing: -0.2vw;
+          .post h1 {
+            font-size: 1.5rem;
           }
         }
       `}

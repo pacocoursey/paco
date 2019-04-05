@@ -110,6 +110,12 @@ const Post = ({ children, id }) => {
         article :global(pre code) {
           background: none;
         }
+
+        @media screen and (max-width: 950px) {
+          article {
+            font-size: 1rem;
+          }
+        }
         `}
       </style>
 
