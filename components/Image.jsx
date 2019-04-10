@@ -10,8 +10,8 @@ export default ({
       alt={alt}
       height={height || 'auto'}
       width={width || '100%'}
-      placeholder="transparent"
-      animationDuration="2"
+      placeholder={false}
+      animationDuration="0.3"
       applyAspectRatio
     />
 
@@ -20,7 +20,10 @@ export default ({
     <style jsx>
       {`
         figure {
+          width: ${`${width}px` || 'unset'};
+          height: ${`${height}px` || 'unset'};
           margin: 0;
+          background-color: transparent;
         }
 
         figcaption {
