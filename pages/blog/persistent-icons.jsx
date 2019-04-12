@@ -1,10 +1,9 @@
 import React from 'react';
 import markdown from 'markdown-in-js';
-import bash from 'highlight.js/lib/languages/bash';
 
 import MarkdownPost from '../../components/MarkdownPost';
-import Code from '../../components/Code';
 import Image from '../../components/Image';
+import CLI from '../../components/CLI';
 
 const id = 'persistent-icons';
 
@@ -53,7 +52,9 @@ export default MarkdownPost({
   Run the following from the command line, replacing ICON as needed.
 
 
-  \`$ sips -s format icns ICON.png --out ICON.icns\`
+  <div>
+    ${<CLI>sips -s format icns ICON.png --out ICON.icns</CLI>}
+  </div>
 
   Move your new \`.icns\` file into the previously opened \`Resources/\` folder. I like to save the old icon by renaming it, just in case I have to revert later. Rename your new file to match the old (in this case, \`electron.icns\`).
 
