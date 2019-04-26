@@ -291,11 +291,6 @@ export default () => (
         margin: 0;
       }
 
-      /* Fixes the text clip issue when using gradient background */
-      .info h1 a::after {
-        content: "\00a0";
-      }
-
       .info p {
         color: var(--gray);
         font-size: 1.25rem;

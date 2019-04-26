@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import { MDXProvider } from '@mdx-js/tag';
 
 import Wrapper from './Wrapper';
+import MDXC from './MDXComponents';
 import posts from '../data/blog.json';
 
 const findPost = id => posts.find(post => post.id === id);
@@ -53,7 +55,9 @@ const Post = ({ children, id }) => {
           </title>
         </Head>
 
-        {children}
+        <MDXProvider components={MDXC}>
+          {children}
+        </MDXProvider>
 
         <style jsx>
           {`
