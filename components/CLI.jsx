@@ -13,7 +13,7 @@ export default ({ children }) => (
         padding: 5px 10px;
         font-family: var(--monospace);
         font-size: 0.9rem;
-
+        white-space: pre-wrap;
         transition: background 300ms ease-in-out;
       }
 
