@@ -64,6 +64,8 @@ class MyApp extends App {
               --light-gray: ${theme === 'light' ? '#f0f0f0' : '#333'} !important;
               --lighter-gray: ${theme === 'light' ? '#fafafa' : '#222'} !important;
 
+              --red: #FF3B30;
+
               --small-shadow: rgba(0, 0, 0, 0.05) 0px 5px 50px;
               --big-shadow: 0 30px 100px 5px ${theme === 'light' ? 'var(--light-gray)' : '#000'};
             }

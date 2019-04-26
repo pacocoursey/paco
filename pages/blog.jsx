@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
+import Cover from '../components/Cover';
 import Wrapper from '../components/Wrapper';
 import Link from '../components/Link';
 import posts from '../data/blog.json';
@@ -14,40 +15,6 @@ posts.sort((a, b) => {
   if (dateA > dateB) { return -1; }
   return 0;
 });
-
-const TestCover = () => (
-  <svg width="1000" height="240" viewBox="0 0 1000 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="1000" height="240" fill="var(--lighter-gray)"/>
-    <circle cx="218" cy="120" r="35" fill="var(--light-gray)"/>
-    <circle cx="312" cy="120" r="35" fill="var(--light-gray)"/>
-    <circle cx="406" cy="120" r="35" fill="var(--light-gray)"/>
-    <circle cx="500" cy="120" r="35" fill="var(--light-gray)"/>
-    <circle cx="594" cy="120" r="35" fill="#FF3B30"/>
-    <circle cx="688" cy="120" r="35" fill="var(--light-gray)"/>
-    <circle cx="782" cy="120" r="35" fill="var(--light-gray)"/>
-  </svg>
-);
-
-const Placeholder = () => (
-<svg width="800" height="208" viewBox="0 0 800 208" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="800" height="208" fill="var(--lighter-gray)"/>
-<rect x="82" y="81" width="42" height="16" rx="8" fill="var(--light-gray)"/>
-<rect x="82" y="110" width="77" height="16" rx="8" fill="var(--light-gray)"/>
-<rect x="82" y="139" width="163" height="16" rx="8" fill="var(--light-gray)"/>
-<rect x="82" y="52" width="132" height="16" rx="8" fill="var(--light-gray)"/>
-</svg>
-
-);
-
-const Cover = ({ id }) => {
-  const covers = {
-    'persistent-icons': TestCover,
-    placeholder: Placeholder,
-  };
-
-  const Image = covers[id] || covers.placeholder;
-  return <Image />;
-};
 
 export default () => (
   <Wrapper>
@@ -64,7 +31,7 @@ export default () => (
               <span>{post.date}</span>
             </div>
             <div className="image">
-              {<Cover id={post.id} />}
+              {<Cover id={post.cover} />}
             </div>
           </div>
         </Link>
@@ -81,17 +48,18 @@ export default () => (
         .post {
           height: 20rem;
 
-          background: var(--lighter-gray);
           border-radius: 5px;
 
-          margin-bottom: 2rem;
+          border: 1px solid var(--light-gray);
+
+          margin-bottom: 3rem;
 
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
           align-items: flex-start;
 
-          transition: transform 150ms ease-in-out, background 300ms ease-in-out;
+          transition: transform 150ms ease-in-out, background 300ms ease-in-out, border 300ms ease-in-out;
         }
 
         .post:hover {
@@ -107,6 +75,11 @@ export default () => (
           width: 100%;
           flex: 1;
           position: relative;
+          overflow: hidden;
+          border-bottom: 1px solid var(--light-gray);
+          border-radius: 0 0 5px 5px;
+
+          transition: border 300ms ease-in-out;
         }
 
         .image :global(svg) {
