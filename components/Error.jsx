@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Link from './Link';
+
 const Error404 = () => (
   <React.Fragment>
     <div className="number">
@@ -17,9 +19,9 @@ const Error404 = () => (
     <p>
       This page was lost in the flow.
       {' '}
-      <a href="/" className="inline">
+      <Link href="/" inline>
         Return home
-      </a>
+      </Link>
       .
     </p>
 
@@ -77,15 +79,15 @@ const Error404 = () => (
 const OtherError = ({ code }) => (
   <React.Fragment>
     <div className="number">
-      <span>{code}</span>
+      <span>{code || '?'}</span>
     </div>
 
     <p>
       Sorry about that. Would you mind opening a
       {' '}
-      <a href="https://github.com/pacocoursey/paco/issues" className="inline">
+      <Link href="https://github.com/pacocoursey/paco/issues" inline>
         GitHub issue
-      </a>
+      </Link>
       ?
     </p>
   </React.Fragment>

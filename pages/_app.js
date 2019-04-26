@@ -58,7 +58,7 @@ class MyApp extends App {
         <style jsx global>
           {`
             :root {
-              --color: ${theme === 'light' ? '#111' : '#ffffff'} !important;
+              --color: ${theme === 'light' ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.9)'} !important;
               --bg: ${theme === 'light' ? '#ffffff' : '#111'} !important;
               --gray: ${theme === 'light' ? '#7f7f7f' : '#666'} !important;
               --light-gray: ${theme === 'light' ? '#f0f0f0' : '#333'} !important;
