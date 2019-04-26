@@ -2,14 +2,12 @@
   {
     "id": "understanding-package-json",
     "title": "Understanding package.json",
-    "date": "March 11, 2019",
-    "description": "The hidden environment of node."
+    "date": "March 11, 2019"
   },
   {
     "id": "persistent-icons",
     "title": "Persistent Custom App Icons",
     "date": "March 30, 2019",
-    "description": "Make them stick.",
     "cover": "Icons"
   }
 ]
