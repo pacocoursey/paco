@@ -7,6 +7,7 @@ export default ({
   inline = true,
   prefetch,
   bold,
+  block,
   children,
 }) => (
   <Link href={href} prefetch={prefetch}>
@@ -14,7 +15,7 @@ export default ({
       target={tab ? '_blank' : '_self'}
       {...(tab && { rel: 'noreferrer noopener' })}
     >
-      <span>{children}</span>
+      {!block ? <span>{children}</span> : <div>{children}</div>}
 
       <style jsx>
         {`

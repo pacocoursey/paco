@@ -70,11 +70,14 @@ const Post = ({ children, id }) => {
 
         article :global(header) {
           margin-bottom: 2rem;
+          text-align: center;
         }
 
         article :global(header h1) {
           color: inherit;
-          font-size: 1.5rem;
+          font-size: 2.25rem;
+          font-weight: bold;
+          line-height: 1.2;
           margin: 0 0 0.5rem 0;
         }
 
