@@ -37,21 +37,6 @@ export default () => (
 
     <style jsx>
       {`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .list {
-          opacity: 0;
-          animation: fadeIn 500ms 0.7s ease-in-out forwards;
-        }
-
         .post {
           width: 100%;
           margin-bottom: 2rem;
@@ -80,8 +65,6 @@ export default () => (
 
         .title {
           margin-bottom: 3rem;
-          opacity: 0;
-          animation: fadeUp 500ms 0.5s ease-in-out forwards;
         }
 
         @media screen and (max-width: 950px) {

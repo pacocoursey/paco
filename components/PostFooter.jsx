@@ -10,16 +10,6 @@ export default ({ children }) => (
 
     <style jsx>
       {`
-      @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      footer {
-        opacity: 0;
-        animation: fadeUp 500ms 0.7s ease-in-out forwards;
-      }
-
       .footnotes {
         counter-reset: footnote;
         font-size: 1rem;

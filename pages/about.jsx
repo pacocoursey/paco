@@ -1,9 +1,12 @@
 import React from 'react';
-import Link from 'next/link';
 import Head from 'next/head';
 
+import { Mail } from '../components/icons';
+import Wrapper from '../components/Wrapper';
+import Link from '../components/Link';
+
 export default () => (
-  <div className="wrapper">
+  <Wrapper>
     <Head>
       <title>About - Paco Coursey</title>
     </Head>
@@ -23,25 +26,23 @@ export default () => (
       <p>
         I learn best through side projects (found on my
         {' '}
-        <a href="https://github.com/pacocoursey" className="inline">
+        <Link href="https://github.com/pacocoursey" tab>
           GitHub
-        </a>
+        </Link>
         ), and I&apos;m always working on something new. Want to build something together? Get in touch down below.
       </p>
 
       <p>
         Minimalism, mechanical keyboards, and music are some of my biggest interests. I repost music I enjoy on my
         {' '}
-        <a href="https://soundcloud.com/pxco" className="inline">SoundCloud</a>
+        <Link href="https://soundcloud.com/pxco" tab>SoundCloud</Link>
         , share pictures of beautiful keyboards on my
         {' '}
-        <a href="https://twitter.com/pacocoursey" className="inline">Twitter</a>
+        <Link href="https://twitter.com/pacocoursey" tab>Twitter</Link>
         , and share thoughts on my
         {' '}
         <Link href="/blog" prefetch>
-          <a className="inline">
-            blog
-          </a>
+          blog
         </Link>
         .
       </p>
@@ -51,53 +52,27 @@ export default () => (
       </p>
 
       <div className="contact">
-        <a href="mailto:p@paco.im" className="inline">
+        <Mail />
+        <Link href="mailto:p@paco.im" bold>
           p@paco.im
-        </a>
+        </Link>
       </div>
     </div>
 
     <style jsx>
       {`
-      @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-
-      .wrapper {
-        max-width: 40rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .intro {
-        margin: 5rem 0;
-      }
-
       .title {
         margin-bottom: 50px;
       }
 
       .title h1 {
         margin: 0 0 20px 0;
-        opacity: 0;
         font-weight: 800;
-        font-size: 5rem;
-        letter-spacing: -1.78px;
-        animation: fadeUp 500ms 0.5s ease-in-out forwards;
       }
 
       p {
-        opacity: 0;
         font-size: 1.15rem;
         line-height: 1.7;
-        animation: fadeUp 500ms 0.7s ease-in-out forwards;
       }
 
       .links {
@@ -111,16 +86,16 @@ export default () => (
 
       .contact {
         margin: 3rem 1rem;
-        opacity: 0;
         font-size: 1.5rem;
 
-        animation: fadeUp 500ms 0.7s ease-in-out forwards;
+        display: flex;
+        align-items: center;
       }
 
-      .contact div {
-        cursor: pointer;
+      .contact :global(svg) {
+        margin-right: 1rem;
       }
       `}
     </style>
-  </div>
+  </Wrapper>
 );

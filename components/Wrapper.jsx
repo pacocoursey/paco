@@ -7,8 +7,9 @@ export default ({ children }) => (
     <style jsx>
       {`
         div {
-          margin: 50px auto;
+          margin: 8rem auto;
 
+          width: 100%;
           max-width: 50rem;
 
           display: flex;
@@ -17,6 +18,7 @@ export default ({ children }) => (
 
         @media screen and (max-width: 950px) {
           div {
+            margin-top: 50px;
             padding: 0 20px;
           }
         }

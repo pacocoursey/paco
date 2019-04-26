@@ -44,20 +44,9 @@ export default () => (
 
     <style jsx>
       {`
-      @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-
       .intro {
         min-height: 80vh;
         min-height: 800px;
-        margin-top: 5rem;
       }
 
       .projects {
@@ -70,22 +59,18 @@ export default () => (
 
       .title h1 {
         margin: 0 0 20px 0;
-        opacity: 0;
         font-weight: 800;
         font-size: 5rem;
         line-height: 0.75;
         letter-spacing: -1.78px;
-        animation: fadeUp 500ms 0.5s ease-in-out forwards;
       }
 
       .paragraph {
         flex: 1;
-        opacity: 0;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        animation: fadeIn 500ms 0.7s ease-in-out forwards;
       }
 
       .paragraph p {
