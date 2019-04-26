@@ -350,21 +350,24 @@ export default () => (
       @media screen and (max-width: 950px) {
         footer h1,
         .info h1 {
-          font-size: 6vw;
+          font-size: 3rem;
         }
 
-        .info {
-          flex-direction: column;
+        .info-left {
+          flex: 1;
         }
 
         .info-right {
           margin-top: 2rem;
+          flex: 1;
           padding: 0;
-          align-items: flex-start;
+          align-items: flex-end;
+          text-align: right;
+          justify-content: flex-start;
         }
 
         .info-right p {
-          text-align: left;
+          margin-top: 2rem;
         }
       }
       `}

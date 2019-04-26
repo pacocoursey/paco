@@ -73,6 +73,10 @@ export default () => (
         align-items: center;
       }
 
+      .paragraph > div {
+        flex: 1;
+      }
+
       .paragraph p {
         font-size: 1.15rem;
         margin-right: 50px;
@@ -82,13 +86,10 @@ export default () => (
       }
 
       @media screen and (max-width: 950px) {
-        .title {
-          width: 70vw;
-        }
-
         .title h1 {
-          font-size: 6vw;
-          letter-spacing: -0.2vw;
+          font-size: 9vw;
+          letter-spacing: -0.3vw;
+          text-align: center;
         }
 
         .wrapper {
@@ -96,8 +97,11 @@ export default () => (
         }
 
         .paragraph {
-          flex-direction: column;
           align-items: flex-start;
+        }
+
+        .paragraph > div:first-child {
+          margin-right: 20px;
         }
 
         .paragraph p {
@@ -107,6 +111,12 @@ export default () => (
 
         .paragraph div {
           margin-bottom: 3rem;
+        }
+      }
+
+      @media screen and (max-width: 425px) {
+        .paragraph {
+          flex-direction: column;
         }
       }
       `}
