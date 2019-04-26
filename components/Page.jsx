@@ -111,7 +111,7 @@ export default ({ children, title }) => (
         justify-content: flex-start;
         align-items: center;
 
-        padding: 100px 50px 100px 150px;
+        padding-left: 100px;
       }
 
       a {
@@ -177,7 +177,7 @@ export default ({ children, title }) => (
 
       @media screen and (max-width: 950px) {
         .main {
-          padding: 50px 50px 100px 50px;
+          padding: 0;
         }
       }
       `}

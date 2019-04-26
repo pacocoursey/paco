@@ -1,11 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 
+import Wrapper from '../components/Wrapper';
 import Projects from '../components/Projects';
 import Footer from '../components/Footer';
 
 export default () => (
-  <div className="wrapper">
+  <Wrapper>
     <div className="intro">
       <div className="title">
         <h1>Web developer at</h1>
@@ -68,20 +69,13 @@ export default () => (
       }
 
       .intro {
-        height: 100vh;
+        min-height: 80vh;
         min-height: 800px;
         margin-top: 5rem;
       }
 
       .projects {
         width: 100%;
-      }
-
-      .wrapper {
-        max-width: 50rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
       }
 
       .title {
@@ -146,5 +140,5 @@ export default () => (
       }
       `}
     </style>
-  </div>
+  </Wrapper>
 );

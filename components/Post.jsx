@@ -65,11 +65,10 @@ const Post = ({ children, id }) => {
           to { opacity: 1; transform: translateY(0); }
         }
 
-        article, article img {
-          max-width: 42rem;
-        }
-
         article {
+          max-width: 42rem;
+          margin: 50px auto;
+          padding: 0 20px;
           font-size: 1.15rem;
           letter-spacing: -0.022rem;
           line-height: 1.8;
@@ -89,7 +88,7 @@ const Post = ({ children, id }) => {
 
         article :global(header h1) {
           color: inherit;
-          font-size: 2rem;
+          font-size: 1.5rem;
           margin: 0 0 0.5rem 0;
         }
 

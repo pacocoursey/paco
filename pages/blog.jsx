@@ -1,7 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
 import Head from 'next/head';
 
+import Wrapper from '../components/Wrapper';
+import Link from '../components/Link';
 import posts from '../data/blog.json';
 
 // Sort the posts so that newest post is first
@@ -15,7 +16,7 @@ posts.sort((a, b) => {
 });
 
 export default () => (
-  <div className="list">
+  <Wrapper>
     <Head>
       <title>Blog - Paco Coursey</title>
     </Head>
@@ -27,9 +28,7 @@ export default () => (
         <span>{post.date}</span>
         <h1>
           <Link href={`/blog/${post.id}`} prefetch>
-            <a>
-              {post.title}
-            </a>
+            {post.title}
           </Link>
         </h1>
         <p>{post.description}</p>
@@ -51,11 +50,6 @@ export default () => (
         .list {
           opacity: 0;
           animation: fadeIn 500ms 0.7s ease-in-out forwards;
-
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          max-width: 50rem;
         }
 
         .post {
@@ -92,10 +86,10 @@ export default () => (
 
         @media screen and (max-width: 950px) {
           .post h1 {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
           }
         }
       `}
     </style>
-  </div>
+  </Wrapper>
 );
