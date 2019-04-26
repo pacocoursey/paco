@@ -4,6 +4,7 @@ import markdown from 'markdown-in-js';
 import MarkdownPost from '../../components/MarkdownPost';
 import Image from '../../components/Image';
 import CLI from '../../components/CLI';
+import Link from '../../components/Link';
 
 const id = 'persistent-icons';
 
@@ -11,8 +12,9 @@ export default MarkdownPost({
   id,
 })(markdown({
   img: Image,
+  a: Link,
 })`
-  I created <a href="https://dusk.now.sh" className="inline">Dusk</a> to make my dock look more visually harmonious. <a href="https://freemacsoft.net/liteicon/" className="inline">LiteIcon</a> does a great job of automating the icon changing process, but every time I opened Discord, the dock icon reverted back to default. Not cool.
+  I created [Dusk](https://dusk.now.sh) to make my dock look more visually harmonious. [LiteIcon](https://freemacsoft.net/liteicon/) does a great job of automating the icon changing process, but every time I opened Discord, the dock icon reverted back to default. Not cool.
 
   <div>
     ${<Image

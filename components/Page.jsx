@@ -114,45 +114,6 @@ export default ({ children, title }) => (
         padding-left: 100px;
       }
 
-      a {
-        color: inherit;
-        text-decoration: none;
-        font-weight: bold;
-        position: relative;
-      }
-
-      a.inline::after {
-        z-index: -1;
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 30%;
-        background-color: var(--light-gray);
-        transition: height 300ms ease-in-out, background 300ms ease-in-out;
-      }
-
-      a.inline:hover::after,
-      a.inline:focus::after {
-        height: 100%;
-        transition: height 300ms ease-in-out;
-      }
-
-      a i {
-        margin-left: 5px;
-        font-style: normal;
-        display: inline-block;
-        transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
-      }
-
-      a:hover i,
-      a:focus i {
-        opacity: 1;
-        transform: translateX(30px);
-        transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
-      }
-
       hr {
         width: 100%;
         border: none;

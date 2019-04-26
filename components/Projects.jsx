@@ -1,6 +1,6 @@
 import React from 'react';
-import Link from 'next/link';
 
+import Link from './Link';
 import Image from './Image';
 
 export default () => (
@@ -9,9 +9,9 @@ export default () => (
       <div className="info">
         <div className="info-left">
           <h1>
-            <a href="https://github.com/pacocoursey/opus" className="inline">
+            <Link href="https://github.com/pacocoursey/opus" inline bold tab>
               Opus
-            </a>
+            </Link>
           </h1>
           <p>Minimal note-taking application developed for my lecture notes.</p>
         </div>
@@ -44,9 +44,9 @@ export default () => (
       <div className="info">
         <div className="info-left">
           <h1>
-            <a href="https://github.com/pacocoursey/dusk" className="inline">
+            <Link href="https://github.com/pacocoursey/dusk" inline bold tab>
               Dusk
-            </a>
+            </Link>
           </h1>
           <p>Collection of simple, customizable replacement macOS application icons.</p>
         </div>
@@ -83,9 +83,9 @@ export default () => (
       <div className="info">
         <div className="info-left">
           <h1>
-            <a href="https://github.com/pacocoursey/f2prs" className="inline">
+            <Link href="https://github.com/pacocoursey/f2prs" inline bold tab>
               F2PRS
-            </a>
+            </Link>
           </h1>
           <p>Accurate F2P tracking and hiscores for the online game RuneScape.</p>
         </div>
@@ -118,9 +118,9 @@ export default () => (
       <div className="info">
         <div className="info-left">
           <h1>
-            <a href="https://github.com/pacocoursey/xi" className="inline" target="_blank" rel="noopener noreferrer">
+            <Link href="https://github.com/pacocoursey/xi" inline bold tab>
               Xi
-            </a>
+            </Link>
           </h1>
           <p>Minimal monochrome UI theme for Atom.</p>
         </div>
@@ -147,9 +147,9 @@ export default () => (
       <div className="info">
         <div className="info-left">
           <h1>
-            <a href="https://github.com/pacocoursey/paco" className="inline">
+            <Link href="https://github.com/pacocoursey/paco" inline bold tab>
               paco.im
-            </a>
+            </Link>
           </h1>
           <p>Personal website and blog.</p>
         </div>
@@ -180,9 +180,9 @@ export default () => (
       <div className="info">
         <div className="info-left">
           <h1>
-            <a href="https://github.com/pacocoursey/ehp-rs" className="inline">
+            <Link href="https://github.com/pacocoursey/ehp-rs" inline bold tab>
               EHP
-            </a>
+            </Link>
           </h1>
           <p>Design and website for the RuneScape clan EHP.</p>
         </div>
@@ -217,9 +217,9 @@ export default () => (
       <div className="info">
         <div className="info-left">
           <h1>
-            <a href="https://github.com/pacocoursey/songbird" className="inline">
+            <Link href="https://github.com/pacocoursey/songbird" inline bold tab>
               Songbird
-            </a>
+            </Link>
           </h1>
           <p>Design and website for Songbird Healing Studio.</p>
         </div>
@@ -250,10 +250,8 @@ export default () => (
 
     <footer>
       <h1>
-        <Link href="/about" prefetch>
-          <a className="inline">
-            Let&apos;s chat.
-          </a>
+        <Link href="/about" prefetch bold inline>
+          Let&apos;s chat.
         </Link>
       </h1>
     </footer>

@@ -4133,9 +4133,9 @@ react-is@16.6.3:
   integrity sha512-u7FDWtthB4rWibG/+mFbVd5FvdI20yde86qKGx4lVUTWmPlSWQ4QxbBIrrs+HnXGbxOUlUzTAP/VDmvCwaP2yA==
 
 react-simple-img@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-simple-img/-/react-simple-img-2.1.0.tgz#e6d12336ea4b834285b0d1164b9907588ae03125"
-  integrity sha512-neM/cwtsYOnw+BeCYPhYfKm+WFgyChJ9mpkru/N3ePHQnIcSfwUbUnPbLxsIaGazj6+KZUrTRCjlz+jJwVXFvQ==
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/react-simple-img/-/react-simple-img-2.1.9.tgz#a530702254c34caca585851be6f6443662e34f9a"
+  integrity sha512-IDBkTenqbK+ph3xNagkL99LRWv4P1sEzuYjMb0M3egrLY9GvzvCDmAlR+Sb0h4PA4XQHKD64R2WXDJ4KraECSg==
   dependencies:
     intersection-observer "^0.5.1"
 

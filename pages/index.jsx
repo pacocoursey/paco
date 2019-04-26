@@ -1,6 +1,6 @@
 import React from 'react';
-import Link from 'next/link';
 
+import Link from '../components/Link';
 import Wrapper from '../components/Wrapper';
 import Projects from '../components/Projects';
 import Footer from '../components/Footer';
@@ -17,35 +17,21 @@ export default () => (
       <div className="paragraph">
         <div>
           <p>
-            Hello, I&apos;m Paco Coursey. I enjoy writing JavaScript and working on
-            {' '}
-            <b>open-source projects</b>
-            .
+            Hello, I&apos;m Paco Coursey. I enjoy writing JavaScript and working on open-source projects.
           </p>
 
-          <Link href="/about" prefetch>
-            <a className="inline">
-              About Me
-            </a>
+          <Link href="/about" prefetch inline bold>
+            About Me
           </Link>
         </div>
 
         <div>
           <p>
-            I&apos;m a senior
-            {' '}
-            <b>Computer Science</b>
-            {' '}
-            student at New Mexico Tech. My web skills are
-            {' '}
-            <b>self-taught</b>
-            , and I&apos;m always learning.
+            I&apos;m a senior Computer Science student at New Mexico Tech. My web skills are self-taught, and I&apos;m always learning.
           </p>
 
-          <Link href="/blog" prefetch>
-            <a className="inline">
-              My Blog
-            </a>
+          <Link href="/blog" prefetch inline bold>
+            My Blog
           </Link>
         </div>
       </div>

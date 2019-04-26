@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+import Link from './Link';
 
 import {
   Logo,
@@ -11,19 +11,15 @@ export default ({ toggleTheme }) => (
   <div className="menu">
     <div className="top">
       <Link href="/">
-        <a className="logo">
-          <div className="menu-item">
-            <Logo />
-          </div>
-        </a>
+        <div className="menu-item logo">
+          <Logo />
+        </div>
       </Link>
 
       <Link href="/blog">
-        <a className="blog">
-          <div className="menu-item">
-            <Blog />
-          </div>
-        </a>
+        <div className="menu-item blog">
+          <Blog />
+        </div>
       </Link>
 
       <button
@@ -36,7 +32,7 @@ export default ({ toggleTheme }) => (
     </div>
 
     <div className="bottom">
-      <a href="mailto:p@paco.im">p@paco.im</a>
+      <Link href="mailto:p@paco.im" bold inline={false}>p@paco.im</Link>
     </div>
 
     <style jsx>
