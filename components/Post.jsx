@@ -93,14 +93,6 @@ const Post = ({ children, id }) => {
             font-size: 1rem;
           }
 
-          article :global(code) {
-            padding: 0.25rem 0.25rem;
-            font-family: var(--monospace);
-            background-color: var(--lighter-gray);
-            border-radius: 5px;
-            transition: background 300ms ease-in-out;
-          }
-
           article :global(pre code) {
             background: none;
           }
