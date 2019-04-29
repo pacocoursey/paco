@@ -2,8 +2,6 @@ import Post from '../../components/Post';
 import CLI from '../../components/CLI';
 import Image from '../../components/Image';
 
-export default ({ children }) => <Post id="persistent-icons">{children}</Post>;
-
 I created [Dusk](https://dusk.now.sh) to make my dock look more visually harmonious. [LiteIcon](https://freemacsoft.net/liteicon/) does a great job of automating the icon changing process, but every time I opened Discord, the dock icon reverted back to default. Not cool.
 
 <Image
@@ -58,3 +56,4 @@ Restart the app, and your custom application icon should persist!
   width={1248 / 2}
 />
 
+export default ({ children }) => <Post id="persistent-icons">{children}</Post>;

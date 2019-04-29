@@ -5,7 +5,7 @@ import refractor from 'refractor';
 import rehype from 'rehype';
 
 export default ({ children, className }) => (
-  <pre className={className}>
+  <pre className={` ${className}`}>
     {className ? (
       <code
         className={className}
@@ -22,11 +22,23 @@ export default ({ children, className }) => (
       <code>{children}</code>
     )}
 
+    <style jsx>
+      {`
+        pre {
+          background-color: var(--lighter-gray);
+          color: var(--color);
+          padding: 1rem;
+          border-radius: 5px;
+          font-size: 0.9rem;
+        }
+      `}
+    </style>
+
     <style jsx global>
       {`
         code[class*='language-'],
         pre[class*='language-'] {
-          color: #000;
+          color: var(--color);
           direction: ltr;
           text-align: left;
           white-space: pre;
@@ -52,7 +64,7 @@ export default ({ children, className }) => (
         .token.attr-value,
         .token.punctuation,
         .token.operator {
-          color: #000;
+          color: var(--color);
         }
         .token.url,
         .token.symbol,
@@ -98,7 +110,7 @@ export default ({ children, className }) => (
         }
         .language-json .token.property,
         .language-markdown .token.title {
-          color: #000;
+          color: var(--color);
           font-weight: bolder;
         }
         .language-markdown .token.code {
@@ -129,9 +141,6 @@ export default ({ children, className }) => (
           color: #393a34;
         }
         /* dark */
-        pre.dark[class*='language-'] {
-          color: #fafbfc;
-        }
         .language-json .dark .token.boolean {
           color: #0076ff;
         }
