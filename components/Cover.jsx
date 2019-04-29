@@ -5,7 +5,23 @@ import * as covers from './covers/index';
 
 const Cover = ({ id }) => {
   const Image = covers[id] || covers.Placeholder;
-  return <Image />;
+  return (
+    <div>
+      <Image />
+
+      <style jsx>
+        {`
+          div :global(svg) {
+            width: 100%;
+          }
+
+          div :global(svg *) {
+            transition: fill 300ms ease-in-out, stroke 300ms ease-in-out;
+          }
+        `}
+      </style>
+    </div>
+  );
 };
 
 export default Cover;

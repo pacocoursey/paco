@@ -1,13 +1,13 @@
 import React from 'react';
 
-export default ({ children }) => (
+export default ({ children, mt }) => (
   <div>
     {children}
 
     <style jsx>
       {`
         div {
-          margin: 8rem auto;
+          margin: ${mt ? `${mt}rem` : '8rem'} auto;
 
           width: 100%;
           max-width: 50rem;

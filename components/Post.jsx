@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/tag';
 
+import Cover from './Cover';
 import Wrapper from './Wrapper';
 import MDXC from './MDXComponents';
 import posts from '../data/blog.json';
@@ -40,8 +41,12 @@ const Post = ({ children, id }) => {
   });
 
   return (
-    <Wrapper>
+    <Wrapper mt={2}>
       <article>
+        <div className="cover">
+          {<Cover id={post.cover} />}
+        </div>
+
         <header>
           <h1>{post.title}</h1>
           <p>{post.date}</p>

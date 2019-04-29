@@ -82,20 +82,6 @@ export default () => (
           transition: border 300ms ease-in-out;
         }
 
-        .image :global(svg) {
-          width: 100%;
-        }
-
-        .image :global(svg *) {
-          transition: fill 300ms ease-in-out;
-        }
-
-        .image :global(img) {
-          height: 20%;
-          width: 100%;
-          object-fit: contain;
-        }
-
         .post:last-child {
           border-bottom: none;
         }
