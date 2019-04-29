@@ -2,8 +2,13 @@ import React from 'react';
 
 export default ({ children }) => (
   <pre>
-    <span>$&nbsp;</span>
-    {children}
+    {React.Children.map(children, child => (
+      <span>
+        <span>$&nbsp;</span>
+        {child}
+        <br />
+      </span>
+    ))}
 
     <style jsx>
       {`
@@ -17,7 +22,7 @@ export default ({ children }) => (
         transition: background 300ms ease-in-out;
       }
 
-      span {
+      span > span {
         color: var(--gray);
         user-select: none;
 
