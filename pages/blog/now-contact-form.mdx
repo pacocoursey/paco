@@ -1,0 +1,230 @@
+import Post from '../../components/Post';
+import CLI from '../../components/CLI';
+import Code from '../../components/Code';
+import json from 'highlight.js/lib/languages/json';
+import javascript from 'highlight.js/lib/languages/javascript';
+
+
+Serverless is hard. The idea that your code isn't run on a specific server breaks a lot of my mental models. My introduction to web apps was PHP and hosting on a paid service where I could send emails directly from the server I ran my code on.
+
+When I started learning Node.js and using ZEIT's Now, the simplicity of sending an email disappeared. Until recently, when it finally clicked.
+
+Let's walk through how to build a website with a contact form that sends an email. We will be using [Next.js](https://nextjs.org) and [Now v2](https://zeit.co/now).
+
+## Setup
+
+If you haven't used Next.js or React before, I recommend going through the [tutorial](https://nextjs.org/learn/). I'm going to assume a fair bit of command line and JS knowledge.
+
+Run the following commands to flush out a blank Next.js project:
+
+<CLI>
+  <span>yarn init -y</span>
+  <span>yarn add next react react-dom</span>
+  <span>mkdir pages && touch pages/index.js</span>
+  <span>touch next.config.js</span>
+</CLI>
+
+We also want to setup our Node.js API:
+
+<CLI>mkdir api && touch api/contact.js</CLI>
+
+And finally, setup configuration for Now:
+
+<CLI>touch now.json .nowignore</CLI>
+
+## Front-end
+
+The front-end is a simple form. When submitted, it sends a request to our API. Because Next.js can be rendered on the server, we want to use a fetch library that is isomorphic (it runs appropriate code on the server side and on the client side). The Next.js tutorial uses `isomorphic-unfetch` so let's stick with that.
+
+<CLI>yarn add isomorphic-unfetch</CLI>
+
+The form is self-explanatory. When it is submitted, we prevent the default behavior and instead send a request to our API. I'm using [Hooks](https://reactjs.org/docs/hooks-intro.html) because they're succinct. Here's the code for `pages/index.js`:
+
+```jsx
+import React, { useState } from 'react';
+import fetch from 'isomorphic-unfetch';
+
+export default () => {
+  const [name, setName] = useState('');
+  const [isSent, setIsSent] = useState(false);
+
+  const submit = (e) => {
+    e.preventDefault();
+
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+        setIsSent(true);
+      }
+    });
+  };
+
+  return (
+    <div>
+      {isSent ? <h1>Your message has been sent!</h1>
+        : (
+          <form onSubmit={e => submit(e)}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter your name..."
+              onChange={e => setName(e.target.value)}
+            />
+            <input type="submit" />
+          </form>
+        )
+      }
+    </div>
+  );
+};
+```
+
+## Back-end
+
+We'll use `micro` to easily parse the body of the HTTP request into JSON. To send the email, we'll use `nodemailer`. The key difference here is that we're not sending an email from the server, we're using an email providers (like Gmail) public APIs to login and send an email for us.
+
+<CLI>yarn add micro nodemailer</CLI>
+
+Let's only accept `POST` requests and make sure that the body of the requests contains a `name`. If these conditions are not met we return an error.
+
+Replace the values in `options` with the email address you want to send to, the subject, and the text of the email. Here's the code for `api/contact.js`:
+
+```js
+const { json } = require('micro');
+const { createTransport } = require('nodemailer');
+
+const { AUTH_EMAIL, AUTH_PASSWORD } = process.env;
+
+// Fill out the following email options
+const options = {
+  to: '',
+  subject: '',
+  text: '',
+};
+
+module.exports = async (req, res) => {
+  const error = (status, err) => {
+    res.status = status || 500;
+    res.write(err);
+    res.end();
+  };
+
+  if (req.method !== 'POST') {
+    error(405, 'Method Not Allowed');
+    return;
+  }
+
+  const body = await json(req);
+  const { name } = body;
+
+  if (!name) {
+    error(500, 'Missing name.');
+    return;
+  }
+
+  const transport = createTransport({
+    service: 'Gmail',
+    auth: {
+      user: AUTH_EMAIL,
+      pass: AUTH_PASSWORD,
+    },
+  });
+
+  transport.sendMail(options, (err, info) => {
+    if (err) {
+      error(500, err);
+    } else {
+      res.status = 200;
+      res.write(JSON.stringify(info));
+      res.end();
+    }
+  });
+};
+```
+
+We'll use Gmail by default, but you can change the service in the `createTransport` options to any of the [services listed here](https://nodemailer.com/smtp/well-known/). You may need configure the Gmail account being used to send emails to allow less secure apps. Read more about this on [Nodemailer's "Using Gmail" page](https://nodemailer.com/usage/using-gmail/).
+
+## Now Configuration
+
+Now needs to know how to build different parts of our app, as the front-end uses Next.js and the API uses Node.js. We specify the builds in `now.json` as follows:
+
+<Code language="json" syntax={json}>
+  {`"builds": [
+  { "src": "next.config.js", "use": "@now/next" },
+  { "src": "api/*.js", "use": "@now/node" }
+]`}
+</Code>
+
+We also want to make sure that our API request gets routed correctly. We specify the routes in `now.json` to redirect `/api/contact` to our Node.js endpoint:
+
+<Code language="json" syntax={json}>
+  {`"routes": [
+  { "src": "/api/contact", "dest": "api/contact.js" }
+]`}
+</Code>
+
+To ensure the Next.js front-end is built in a serverless-friendly fashion, add the target option to `next.config.js`:
+
+```js
+module.exports = {
+  target: 'serverless',
+};
+```
+
+## Now Secrets
+
+Notice how we get the login email and password from the process environment in our back-end endpoint in `api/contact.js`?
+
+```js
+const { AUTH_EMAIL, AUTH_PASSWORD } = process.env;
+```
+
+Now allows us to setup some environment variables that are inserted at runtime. We don't want to make our email address and password public, so we'll store them as Now secrets and add them to our configuration. Replace `xxxxxx` with the email and password you'll be using.
+
+<CLI>
+  <span>now secrets add CONTACT-FORM-EMAIL xxxxxx</span>
+  <span>now secrets add CONTACT-FORM-PASSWORD xxxxxx</span>
+</CLI>
+
+Once these are setup within `now`, we can reference them in the `env` section of `now.json`. The `@` in front of the name indicates that these are secrets stored using `now secrets`. Here's the full `now.json` file:
+
+```json
+{
+  "version": 2,
+  "name": "now-contact-form",
+  "alias": "now-contact-form.now.sh",
+  "builds": [
+    { "src": "next.config.js", "use": "@now/next" },
+    { "src": "api/*.js", "use": "@now/node" }
+  ],
+  "routes": [
+    { "src": "/api/contact", "dest": "api/contact.js" }
+  ],
+  "env": {
+    "AUTH_EMAIL": "@CONTACT-FORM-EMAIL",
+    "AUTH_PASSWORD": "@CONTACT-FORM-PASSWORD"
+  }
+}
+```
+
+## Wrapping Up
+
+That's it! Deploy your contact form with a single command:
+
+<CLI>now</CLI>
+
+
+---
+
+View the full [source code on GitHub](https://github.com/pacocoursey/now-contact-form).
+
+Have any questions or comments? [DM me](https://twitter.com/pacocoursey) or [send me an email](mailto:p@paco.im).
+
+export default ({ children }) => <Post id="now-contact-form">{children}</Post>;
