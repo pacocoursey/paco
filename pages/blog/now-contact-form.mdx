@@ -1,9 +1,5 @@
 import Post from '../../components/Post';
 import CLI from '../../components/CLI';
-import Code from '../../components/Code';
-import json from 'highlight.js/lib/languages/json';
-import javascript from 'highlight.js/lib/languages/javascript';
-
 
 Serverless is hard. The idea that your code isn't run on a specific server breaks a lot of my mental models. My introduction to web apps was PHP and hosting on a paid service where I could send emails directly from the server I ran my code on.
 
@@ -155,20 +151,20 @@ We'll use Gmail by default, but you can change the service in the `createTranspo
 
 Now needs to know how to build different parts of our app, as the front-end uses Next.js and the API uses Node.js. We specify the builds in `now.json` as follows:
 
-<Code language="json" syntax={json}>
-  {`"builds": [
+```json
+"builds": [
   { "src": "next.config.js", "use": "@now/next" },
   { "src": "api/*.js", "use": "@now/node" }
-]`}
-</Code>
+]
+```
 
 We also want to make sure that our API request gets routed correctly. We specify the routes in `now.json` to redirect `/api/contact` to our Node.js endpoint:
 
-<Code language="json" syntax={json}>
-  {`"routes": [
+```json
+"routes": [
   { "src": "/api/contact", "dest": "api/contact.js" }
-]`}
-</Code>
+]
+```
 
 To ensure the Next.js front-end is built in a serverless-friendly fashion, add the target option to `next.config.js`:
 

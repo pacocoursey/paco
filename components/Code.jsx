@@ -1,54 +1,166 @@
+/* eslint-disable react/no-danger */
+
 import React from 'react';
-import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { registerLanguage } from 'react-syntax-highlighter/dist/light';
-import light from 'react-syntax-highlighter/dist/styles/hljs/github-gist';
-import dark from 'react-syntax-highlighter/dist/styles/hljs/dark';
+import refractor from 'refractor';
+import rehype from 'rehype';
 
-import ThemeContext from './ThemeContext';
+export default ({ children, className }) => (
+  <pre className={className}>
+    {className ? (
+      <code
+        className={className}
+        dangerouslySetInnerHTML={{
+          __html: rehype()
+            .stringify({
+              type: 'root',
+              children: refractor.highlight(children, className.split('language-')[1]),
+            })
+            .toString(),
+        }}
+      />
+    ) : (
+      <code>{children}</code>
+    )}
 
-const styles = {
-  margin: '30px 0',
-  padding: '14px',
-  borderRadius: '4px',
-  width: '100%',
-  boxSizing: 'border-box',
-  wordWrap: 'normal',
-  fontSize: '14.4px',
-  lineHeight: '1.5em',
-  WebkitOverflowScrolling: 'touch',
-  fontFamily:
-    'Menlo, Monaco, Lucida Console, Liberation Mono, Courier New, monospace, serif',
-  transition: 'background 300ms ease-in-out, color 300ms ease-in-out',
-};
-
-class Code extends React.Component {
-  constructor(props) {
-    super(props);
-
-    if (!props.language || !props.syntax) {
-      throw new Error('Please define the `language` and `syntax`');
-    }
-
-    registerLanguage(props.language, props.syntax);
-  }
-
-  render() {
-    const { language, children } = this.props;
-
-    return (
-      <ThemeContext.Consumer>
-        {value => (
-          <SyntaxHighlighter
-            language={language}
-            style={value === 'light' ? light : dark}
-            customStyle={styles}
-          >
-            {children}
-          </SyntaxHighlighter>
-        )}
-      </ThemeContext.Consumer>
-    );
-  }
-}
-
-export default Code;
+    <style jsx global>
+      {`
+        code[class*='language-'],
+        pre[class*='language-'] {
+          color: #000;
+          direction: ltr;
+          text-align: left;
+          white-space: pre;
+          word-spacing: normal;
+          word-break: normal;
+          font-size: 0.95em;
+          line-height: 1.4em;
+          tab-size: 4;
+          hyphens: none;
+        }
+        .token.comment,
+        .token.prolog,
+        .token.doctype,
+        .token.cdata {
+          color: #999;
+        }
+        .token.namespace {
+          opacity: 0.7;
+        }
+        .token.string {
+          color: #028265;
+        }
+        .token.attr-value,
+        .token.punctuation,
+        .token.operator {
+          color: #000;
+        }
+        .token.url,
+        .token.symbol,
+        .token.boolean,
+        .token.variable,
+        .token.constant,
+        .token.inserted {
+          color: #36acaa;
+        }
+        .token.atrule,
+        .language-autohotkey .token.selector,
+        .language-json .token.boolean,
+        code[class*='language-css'] {
+          font-weight: 600;
+        }
+        .language-json .token.boolean {
+          color: #0076ff;
+        }
+        .token.keyword {
+          color: #ff0078;
+          font-weight: bolder;
+        }
+        .token.function,
+        .token.tag,
+        .token.class-name,
+        .token.number {
+          color: #0076ff;
+        }
+        .token.deleted,
+        .language-autohotkey .token.tag {
+          color: #9a050f;
+        }
+        .token.selector,
+        .language-autohotkey .token.keyword {
+          color: #00009f;
+        }
+        .token.important,
+        .token.bold {
+          font-weight: bold;
+        }
+        .token.italic {
+          font-style: italic;
+        }
+        .language-json .token.property,
+        .language-markdown .token.title {
+          color: #000;
+          font-weight: bolder;
+        }
+        .language-markdown .token.code {
+          color: #0076ff;
+          font-weight: normal;
+        }
+        .language-markdown .token.list,
+        .language-markdown .token.hr {
+          color: #999;
+        }
+        .language-markdown .token.url {
+          color: #ff0078;
+          font-weight: bolder;
+        }
+        .token.selector {
+          color: #2b91af;
+        }
+        .token.property,
+        .token.entity {
+          color: #ff0000;
+        }
+        .token.attr-name,
+        .token.regex {
+          color: #d9931e;
+        }
+        .token.directive.tag .tag {
+          background: #ffff00;
+          color: #393a34;
+        }
+        /* dark */
+        pre.dark[class*='language-'] {
+          color: #fafbfc;
+        }
+        .language-json .dark .token.boolean {
+          color: #0076ff;
+        }
+        .dark .token.string {
+          color: #50e3c2;
+        }
+        .dark .token.function,
+        .dark .token.tag,
+        .dark .token.class-name,
+        .dark .token.number {
+          color: #2ba8ff;
+        }
+        .dark .token.attr-value,
+        .dark .token.punctuation,
+        .dark .token.operator {
+          color: #efefef;
+        }
+        .dark .token.attr-name,
+        .dark .token.regex {
+          color: #fac863;
+        }
+        .language-json .dark .token.property,
+        .language-markdown .dark .token.title {
+          color: #fff;
+        }
+        .language-markdown .dark .token.code {
+          color: #50e3c2;
+        }
+      `}
+    </style>
+  </pre>
+);

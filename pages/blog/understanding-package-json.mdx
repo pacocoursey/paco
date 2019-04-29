@@ -1,9 +1,5 @@
 import Post from '../../components/Post';
-import Code from '../../components/Code';
 import Footer from '../../components/PostFooter';
-import json from 'highlight.js/lib/languages/json';
-
-export default ({ children }) => <Post id="understanding-package-json">{children}</Post>;
 
 I began my Computer Science degree with an intensive introduction course in C. We used makefiles to compile and run each of our assignments.
 
@@ -17,16 +13,14 @@ Package managers like Yarn and NPM also serve as script runners for JavaScript p
 
 Packages in `node_modules` that define an executable will have that executable appended to the environment PATH before running any scripts. This can be confusing. Let's see an example:
 
-<Code language="json" syntax={json}>
-  {`
-  "devDependencies": {
-    "eslint": "1.0.0"
-  },
-  "scripts": {
-    "lint": "eslint ."
-  }
-  `}
-</Code>
+```json
+"devDependencies": {
+  "eslint": "1.0.0"
+},
+"scripts": {
+  "lint": "eslint ."
+}
+```
 
 Running `yarn lint` will work correctly. However, just running `eslint .` from the command line will fail!<sup>1</sup> This was extremely confusing at first, did I have installed ESLint or not?
 
@@ -35,3 +29,5 @@ The package script will work because Yarn recognizes that the ESLint dependency 
 This is a great advantage of the modular nature of the JavaScript ecosystem. You don't have to install any global scripts or clutter up your PATH to work with JavaScript projects, just `yarn install`.
 
 <Footer><p>Unless you have installed ESLint globally, which does add the executable to your PATH.</p></Footer>
+
+export default ({ children }) => <Post id="understanding-package-json">{children}</Post>;

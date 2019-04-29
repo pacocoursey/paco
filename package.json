@@ -12,18 +12,17 @@
   },
   "dependencies": {
     "@mdx-js/tag": "^0.20.3",
-    "highlight.js": "^9.15.6",
-    "markdown-in-js": "^1.1.4",
+    "@zeit/next-mdx": "^1.2.0",
     "next": "^8.0.4",
     "next-cookies": "^1.1.0",
     "nprogress": "^0.2.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-simple-img": "^2.1.0",
-    "react-syntax-highlighter": "^10.1.3"
+    "refractor": "^2.9.0",
+    "rehype": "^7.0.0"
   },
   "devDependencies": {
-    "@zeit/next-mdx": "^1.2.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-styled-components": "^1.8.0",
     "eslint": "^5.13.0",
