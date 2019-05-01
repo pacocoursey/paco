@@ -17,7 +17,7 @@ export default ({ children }) => (
         border-radius: 3px;
         padding: 5px 10px;
         font-family: var(--monospace);
-        font-size: 0.9rem;
+        font-size: 1rem;
         white-space: pre-wrap;
         transition: background 300ms ease-in-out;
       }

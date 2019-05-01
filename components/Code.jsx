@@ -5,7 +5,7 @@ import refractor from 'refractor';
 import rehype from 'rehype';
 
 export default ({ children, className }) => (
-  <pre className={` ${className}`}>
+  <pre className={className}>
     {className ? (
       <code
         className={className}
@@ -29,7 +29,12 @@ export default ({ children, className }) => (
           color: var(--color);
           padding: 1rem;
           border-radius: 5px;
-          font-size: 0.9rem;
+          font-size: 1rem;
+        }
+
+        pre code {
+          font-family: var(--monospace);
+          line-height: 1.3;
         }
       `}
     </style>
@@ -41,11 +46,9 @@ export default ({ children, className }) => (
           color: var(--color);
           direction: ltr;
           text-align: left;
-          white-space: pre;
+          white-space: pre-wrap;
           word-spacing: normal;
           word-break: normal;
-          font-size: 0.95em;
-          line-height: 1.4em;
           tab-size: 4;
           hyphens: none;
         }

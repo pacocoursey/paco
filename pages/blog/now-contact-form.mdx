@@ -3,7 +3,7 @@ import CLI from '../../components/CLI';
 
 Serverless is hard. The idea that your code isn't run on a specific server breaks a lot of my mental models. My introduction to web apps was PHP and hosting on a paid service where I could send emails directly from the server I ran my code on.
 
-When I started learning Node.js and using ZEIT's Now, the simplicity of sending an email disappeared. Until recently, when it finally clicked.
+When I started learning Node.js and using ZEIT's Now, that simplicity disappeared. Until recently, when it finally clicked.
 
 Let's walk through how to build a website with a contact form that sends an email. We will be using [Next.js](https://nextjs.org) and [Now v2](https://zeit.co/now).
 
@@ -26,7 +26,7 @@ We also want to setup our Node.js API:
 
 And finally, setup configuration for Now:
 
-<CLI>touch now.json .nowignore</CLI>
+<CLI>touch now.json</CLI>
 
 ## Front-end
 
@@ -88,7 +88,7 @@ We'll use `micro` to easily parse the body of the HTTP request into JSON. To sen
 
 <CLI>yarn add micro nodemailer</CLI>
 
-Let's only accept `POST` requests and make sure that the body of the requests contains a `name`. If these conditions are not met we return an error.
+Let's only accept `POST` requests and make sure that the body of the requests contains a `name`. Otherwise, we'll return an error.
 
 Replace the values in `options` with the email address you want to send to, the subject, and the text of the email. Here's the code for `api/contact.js`:
 
@@ -154,11 +154,11 @@ Now needs to know how to build different parts of our app, as the front-end uses
 ```json
 "builds": [
   { "src": "next.config.js", "use": "@now/next" },
-  { "src": "api/*.js", "use": "@now/node" }
+  { "src": "api/**/*.js", "use": "@now/node" }
 ]
 ```
 
-We also want to make sure that our API request gets routed correctly. We specify the routes in `now.json` to redirect `/api/contact` to our Node.js endpoint:
+We also want to make sure that our API request gets routed correctly. We specify the routes in `now.json` to redirect the url `/api/contact` to our Node.js endpoint:
 
 ```json
 "routes": [
@@ -198,7 +198,7 @@ Once these are setup within `now`, we can reference them in the `env` section of
   "alias": "now-contact-form.now.sh",
   "builds": [
     { "src": "next.config.js", "use": "@now/next" },
-    { "src": "api/*.js", "use": "@now/node" }
+    { "src": "api/**/*.js", "use": "@now/node" }
   ],
   "routes": [
     { "src": "/api/contact", "dest": "api/contact.js" }
