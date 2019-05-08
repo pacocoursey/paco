@@ -26,6 +26,7 @@ export default ({ children, title }) => (
       <meta name="author" content="Paco Coursey" />
       <meta name="keywords" content="paco, coursey, paco coursey, computer science, software, software engineering, web, web development, web design, developer, javascript, node, html, css" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="description" content="Web developer at the intersection of design and code." />
 
       {/* Favicon */}
       <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png" />
@@ -65,7 +66,7 @@ export default ({ children, title }) => (
         --monospace: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
       }
 
-      @import url('https://rsms.me/inter/inter.css');
+      @import url('/static/font/inter.css');
       html {
         font-family: 'Inter', var(--sans-serif);
       }

@@ -25,6 +25,7 @@ export default ({ toggleTheme }) => (
       <button
         className="toggle menu-item"
         type="button"
+        aria-label="Theme Toggle"
         onClick={() => { toggleTheme(); }}
       >
         <Toggle />
