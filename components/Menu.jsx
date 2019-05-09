@@ -10,13 +10,13 @@ import {
 export default ({ toggleTheme }) => (
   <div className="menu">
     <div className="top">
-      <Link href="/">
+      <Link href="/" aria-label="Navigate to Home">
         <div className="menu-item logo">
           <Logo />
         </div>
       </Link>
 
-      <Link href="/blog">
+      <Link href="/blog" aria-label="Navigate to Blog">
         <div className="menu-item blog">
           <Blog />
         </div>
