@@ -347,7 +347,7 @@ export default () => (
 
       .info-right p {
         font-size: 1rem;
-        color: var(--color);
+        color: var(--fg);
         text-align: right;
         transition: color 300ms ease-in-out;
       }

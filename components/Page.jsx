@@ -97,7 +97,7 @@ export default ({ children, title }) => (
       body {
         min-height: 100vh;
         background-color: var(--bg);
-        color: var(--color);
+        color: var(--fg);
         font-family: var(--sans-serif);
         font-size: 16px;
 
@@ -129,7 +129,7 @@ export default ({ children, title }) => (
       }
 
       #nprogress .bar {
-        background: var(--color);
+        background: var(--fg);
         position: fixed;
         top: 0;
         left: 0;

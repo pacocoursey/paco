@@ -119,7 +119,7 @@ const Post = ({ children, id }) => {
             right: -1px;
             height: ${scrollHeight || '0%'};
             width: 1px;
-            background-color: var(--color);
+            background-color: var(--fg);
 
             transition: background 300ms ease-in-out;
           }

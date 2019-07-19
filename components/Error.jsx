@@ -47,7 +47,7 @@ const Error404 = () => (
         transform-origin: 50% 48%;
         border-radius: 43%;
 
-        background-color: var(--color);
+        background-color: var(--fg);
         transition: background 300ms ease-in-out;
 
         animation: drift 5s infinite linear;

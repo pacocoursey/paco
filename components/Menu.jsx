@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from './Link';
+import { toggleDarkMode } from '../lib/dark-mode';
 
 import {
   Logo,
@@ -7,7 +8,7 @@ import {
   Toggle,
 } from './icons';
 
-export default ({ toggleTheme }) => (
+export default () => (
   <div className="menu">
     <div className="top">
       <Link href="/" aria-label="Navigate to Home">
@@ -26,7 +27,7 @@ export default ({ toggleTheme }) => (
         className="toggle menu-item"
         type="button"
         aria-label="Theme Toggle"
-        onClick={() => { toggleTheme(); }}
+        onClick={() => toggleDarkMode()}
       >
         <Toggle />
       </button>
@@ -88,7 +89,7 @@ export default ({ toggleTheme }) => (
       .logo :global(svg path),
       .blog :global(svg path),
       .toggle :global(svg path) {
-        stroke: var(--color);
+        stroke: var(--fg);
         fill: var(--bg);
         transition: fill 300ms ease-in-out, stroke 300ms ease-in-out;
       }
@@ -96,7 +97,7 @@ export default ({ toggleTheme }) => (
       .logo:hover :global(svg path),
       .blog:hover :global(svg path),
       .toggle:hover :global(svg path) {
-        fill: var(--color);
+        fill: var(--fg);
         transiton: fill 300ms ease-in-out, stroke 300ms ease-in-out;
       }
 

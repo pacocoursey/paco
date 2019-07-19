@@ -26,7 +26,7 @@ export default ({ children, className }) => (
       {`
         pre {
           background-color: var(--lighter-gray);
-          color: var(--color);
+          color: var(--fg);
           padding: 1rem;
           border-radius: 5px;
           font-size: 1rem;
@@ -43,7 +43,7 @@ export default ({ children, className }) => (
       {`
         code[class*='language-'],
         pre[class*='language-'] {
-          color: var(--color);
+          color: var(--fg);
           direction: ltr;
           text-align: left;
           white-space: pre-wrap;
@@ -67,7 +67,7 @@ export default ({ children, className }) => (
         .token.attr-value,
         .token.punctuation,
         .token.operator {
-          color: var(--color);
+          color: var(--fg);
         }
         .token.url,
         .token.symbol,
@@ -113,7 +113,7 @@ export default ({ children, className }) => (
         }
         .language-json .token.property,
         .language-markdown .token.title {
-          color: var(--color);
+          color: var(--fg);
           font-weight: bolder;
         }
         .language-markdown .token.code {

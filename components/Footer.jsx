@@ -31,7 +31,7 @@ export default () => (
       .emoji {
         font-size: 2rem;
         color: transparent;
-        text-shadow: 0 0 0 var(--color);
+        text-shadow: 0 0 0 var(--fg);
       }
 
       .emoji::after {
