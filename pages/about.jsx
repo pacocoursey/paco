@@ -53,7 +53,7 @@ export default () => (
 
       <div className="contact">
         <Mail />
-        <Link href="mailto:p@paco.im" bold>
+        <Link href="mailto:p@paco.im" bold prefetch={false}>
           p@paco.im
         </Link>
       </div>

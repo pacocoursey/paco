@@ -34,7 +34,7 @@ export default () => (
     </div>
 
     <div className="bottom">
-      <Link href="mailto:p@paco.im" bold inline={false}>p@paco.im</Link>
+      <Link href="mailto:p@paco.im" bold inline={false} prefetch={false}>p@paco.im</Link>
     </div>
 
     <style jsx>
