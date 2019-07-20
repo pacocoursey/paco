@@ -20,7 +20,7 @@ class MyApp extends App {
             :root {
               --fg: #000;
               --bg: #FFF;
-              --gray: #7F7F7F;
+              --gray: #666;
               --light-gray: #F0F0F0;
               --lighter-gray: #FAFAFA;
 
