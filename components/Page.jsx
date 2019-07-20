@@ -62,18 +62,8 @@ export default ({ children, title }) => (
     <style jsx global>
       {`
       :root {
-        --sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        --sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         --monospace: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-      }
-
-      @import url('/static/font/inter.css');
-      html {
-        font-family: 'Inter', var(--sans-serif);
-      }
-
-      @supports (font-variation-settings: normal) {
-      html {
-        font-family: 'Inter var', var(--sans-serif);
       }
 
       * {
