@@ -1,9 +1,7 @@
 {
   "version": 2,
   "name": "paco",
-  "builds": [
-    { "src": "next.config.js", "use": "@now/next" }
-  ],
+  "builds": [{ "src": "next.config.js", "use": "@now/next" }],
   "routes": [
     {
       "src": "/_next/static/(?:[^/]+/pages|chunks|runtime)/.+",
@@ -24,6 +22,9 @@
       "headers": {
         "cache-control": "max-age=31536000"
       }
-    }
+    },
+    { "src": "/(.*)", "dest": "/$1" },
+    { "handle": "filesystem" },
+    { "src": "/*/.*", "dest": "/_error" }
   ]
 }
