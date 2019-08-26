@@ -130,6 +130,7 @@ export default ({ children, title }) => (
       @media screen and (max-width: 950px) {
         .main {
           padding: 0;
+          min-height: calc(100vh - 100px);
         }
       }
       `}

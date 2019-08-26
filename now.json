@@ -23,7 +23,6 @@
         "cache-control": "max-age=31536000"
       }
     },
-    { "src": "/(.*)", "dest": "/$1" },
     { "handle": "filesystem" },
     { "src": "/*/.*", "dest": "/_error" }
   ]
