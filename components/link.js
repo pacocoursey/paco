@@ -11,7 +11,13 @@ const canPrefetch = href => {
 const Link = ({ external, href, as, passHref, children, ...props }) => {
   if (external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className="reset" {...props}>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="reset"
+        {...props}
+      >
         {children}
       </a>
     )

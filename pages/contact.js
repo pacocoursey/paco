@@ -7,7 +7,9 @@ const Contact = () => {
         <p>Get in touch.</p>
 
         <blockquote>
-          <a href="mailto:p@paco.im?subject=Hello" className="reset">p@paco.im</a>
+          <a href="mailto:p@paco.im?subject=Hello" className="reset">
+            p@paco.im
+          </a>
         </blockquote>
       </article>
     </Page>

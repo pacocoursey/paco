@@ -14,9 +14,7 @@ const Page = ({
   return (
     <div>
       <Head>
-        <title>
-          {`${title ? `${title} - ` : ''}Paco Coursey`}
-        </title>
+        <title>{`${title ? `${title} - ` : ''}Paco Coursey`}</title>
       </Head>
 
       {header && <Header content={content} title={title} />}
@@ -57,7 +55,7 @@ const Page = ({
           --red: #ff3b30;
           --teal: #5ac8fa;
           --yellow: #ffcc00;
-          --blue-gray: #37609C;
+          --blue-gray: #37609c;
 
           /* Typography */
           --font-sans: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
@@ -182,7 +180,8 @@ const Page = ({
           transition: color var(--transition);
         }
 
-        p a, a.reset {
+        p a,
+        a.reset {
           outline: none;
           color: inherit;
           font-weight: bold;
@@ -190,8 +189,12 @@ const Page = ({
           transition: color var(--transition);
         }
 
-        p a:hover, p a:focus, p a:active,
-        a.reset:hover, a.reset:focus, a.active:focus {
+        p a:hover,
+        p a:focus,
+        p a:active,
+        a.reset:hover,
+        a.reset:focus,
+        a.active:focus {
           color: var(--gray);
         }
 

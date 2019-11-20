@@ -72,7 +72,8 @@ const TextEntry = ({ title, description, href, icon: Icon }) => {
         }
 
         @media (max-width: 600px) {
-          .title, .description {
+          .title,
+          .description {
             -webkit-line-clamp: 2;
           }
         }
