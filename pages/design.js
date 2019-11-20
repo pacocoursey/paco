@@ -11,11 +11,7 @@ const Design = () => {
   const { items: nonImageItems } = useData(data.filter(x => !x.image))
 
   return (
-    <Page
-      title="Design"
-      footer={false}
-      content={<Links schema={schema} filter={filter} />}
-    >
+    <Page title="Design" content={<Links schema={schema} filter={filter} />}>
       <article>
         {imageItems.map(entry => {
           return (

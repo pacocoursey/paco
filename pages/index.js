@@ -4,7 +4,6 @@ import Link from '../components/link'
 const About = () => {
   return (
     <Page
-      footer={false}
       title="Home"
       content={
         <div className="flex">

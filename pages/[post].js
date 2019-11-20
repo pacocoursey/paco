@@ -8,7 +8,7 @@ const PostPage = () => {
 
   if (!query || post === undefined) {
     // Wait for dynamic routing to resolve
-    return <Page footer={false} />
+    return <Page />
   }
 
   return <Post slug={post} />

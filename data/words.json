@@ -6,13 +6,16 @@
   ],
   "data": [
     {
-      "word": "mimesis"
+      "word": "mimesis",
+      "definition": "representation or imitation of the real world in art and literature"
     },
     {
-      "word": "concomitant"
+      "word": "concomitant",
+      "definition": "naturally accompanying or associated"
     },
     {
-      "word": "prescient"
+      "word": "prescient",
+      "definition": "having or showing knowledge of events before they take place"
     }
   ]
 }

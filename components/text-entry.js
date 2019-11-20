@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-const TextEntry = ({ title, description, href, icon: Icon }) => {
+const TextEntry = ({ title, description, href }) => {
   return (
     <a
       href={href}
@@ -8,12 +8,6 @@ const TextEntry = ({ title, description, href, icon: Icon }) => {
       rel="noopener noreferrer"
       title={`${title} (${description})`}
     >
-      {Icon && (
-        <div className="icon">
-          <Icon size={32} />
-        </div>
-      )}
-
       <div>
         <p className="title clamp">{title}</p>
         {description && <p className="description clamp">{description}</p>}
@@ -38,12 +32,6 @@ const TextEntry = ({ title, description, href, icon: Icon }) => {
         a:hover .icon,
         a:focus .icon {
           color: var(--gray);
-        }
-
-        .icon {
-          display: inline-flex;
-          margin-right: var(--gap-double);
-          transition: color var(--transition);
         }
 
         p {

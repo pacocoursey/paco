@@ -9,11 +9,7 @@ const Keyboards = () => {
   const { items, filter } = useData(data)
 
   return (
-    <Page
-      title="Keyboards"
-      content={<Links schema={schema} filter={filter} />}
-      footer={false}
-    >
+    <Page title="Keyboards" content={<Links schema={schema} filter={filter} />}>
       <article>
         {items.map(entry => {
           return (

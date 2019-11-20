@@ -1,7 +1,6 @@
 import Page from '../components/page'
 import Links from '../components/links'
 import Entry from '../components/entry'
-import Icon from '../components/icons/sparkles'
 
 // Data
 import useData from '../lib/use-data'
@@ -11,11 +10,7 @@ const Music = () => {
   const { items, filter } = useData(data)
 
   return (
-    <Page
-      title="Music"
-      content={<Links schema={schema} filter={filter} />}
-      footer={false}
-    >
+    <Page title="Music" content={<Links schema={schema} filter={filter} />}>
       <article>
         {items.map(entry => {
           return (
@@ -25,7 +20,6 @@ const Music = () => {
               image={entry.image}
               href={entry.url}
               description={entry.description}
-              icon={entry.pinned && Icon}
             />
           )
         })}

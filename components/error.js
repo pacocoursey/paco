@@ -5,7 +5,7 @@ import Link from './link'
 
 const Error = ({ status }) => {
   return (
-    <Page title={status || 'Error'} footer={false}>
+    <Page title={status || 'Error'}>
       <Head>
         <title>404 — Paco Coursey</title>
       </Head>

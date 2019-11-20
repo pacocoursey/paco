@@ -3,7 +3,7 @@ import Entry from '../components/entry'
 
 const Projects = () => {
   return (
-    <Page title="Projects" footer={false}>
+    <Page title="Projects">
       <article>
         <Entry
           title="Geist"
