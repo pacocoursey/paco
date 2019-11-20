@@ -1,17 +1,17 @@
-import React from 'react';
-import Error from '../components/Error';
+import React from 'react'
+import Error from '../components/error'
 
-export default class E extends React.Component {
+class E extends React.Component {
   static getInitialProps({ res, err }) {
-    const statusCode = res ? res.statusCode : err ? err.statusCode : null;
-    return { statusCode };
+    const status = res ? res.statusCode : err ? err.statusCode : null
+    return { status }
   }
 
   render() {
-    const { statusCode } = this.props;
+    const { status } = this.props
 
-    return (
-      <Error code={statusCode} />
-    );
+    return <Error status={status} />
   }
 }
+
+export default E

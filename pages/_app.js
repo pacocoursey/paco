@@ -1,52 +1,82 @@
-import React from 'react';
-import App, { Container } from 'next/app';
-
-import Page from '../components/Page';
-import Menu from '../components/Menu';
+import React from 'react'
+import Head from 'next/head'
+import App from 'next/app'
 
 class MyApp extends App {
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps } = this.props
 
     return (
-      <Container>
-        <Menu toggleTheme={() => { this.toggleTheme(); }} />
-        <Page>
-          <Component {...pageProps} />
-        </Page>
+      <>
+        <Head>
+          <title>Paco</title>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <meta httpEquiv="Content-Language" content="en" />
+          <meta
+            name="description"
+            content="Hi, I'm Paco. Frontend developer and designer."
+          />
+          <meta
+            name="og:description"
+            content="Hi, I'm Paco. Frontend developer and designer."
+          />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:site" content="@pacocoursey" />
+          <meta
+            name="twitter:image"
+            content="https://res.cloudinary.com/dsdlhtnpw/image/upload/v1572673557/og-image_budbm8.png"
+          />
+          <meta name="og:title" content="Paco Coursey" />
+          <meta name="og:url" content="https://paco.im" />
+          <meta
+            name="og:image"
+            content="https://res.cloudinary.com/dsdlhtnpw/image/upload/v1572673557/og-image_budbm8.png"
+          />
+          <meta name="apple-mobile-web-app-title" content="Paco" />
 
-        <style jsx global>
-          {`
-            :root {
-              --fg: #000;
-              --bg: #FFF;
-              --gray: #666;
-              --light-gray: #F0F0F0;
-              --lighter-gray: #FAFAFA;
+          {/* RSS feed */}
+          <link
+            rel="alternate"
+            type="application/rss+xml"
+            title="RSS Feed for paco.im"
+            href="/feed.xml"
+          />
 
-              --red: #FF3B30;
+          {/* Favicons */}
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/favicon/apple-touch-icon.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon/favicon-32x32.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon/favicon-16x16.png"
+          />
+          <link rel="manifest" href="/favicon/site.webmanifest" />
+          <link
+            rel="mask-icon"
+            href="/favicon/safari-pinned-tab.svg"
+            color="#000000"
+          />
+          <meta name="msapplication-TileColor" content="#ffffff" />
+          <meta name="theme-color" content="#ffffff" />
+        </Head>
 
-              --small-shadow: rgba(0, 0, 0, 0.05) 0px 5px 50px;
-              --big-shadow: 0 30px 100px 5px var(--light-gray);
-            }
-
-            .dark {
-              --fg: #FFF;
-              --bg: #000;
-              --gray: #888;
-              --light-gray: #333;
-              --lighter-gray: #222;
-
-              --red: #FF3B30;
-
-              --small-shadow: rgba(0, 0, 0, 0.05) 0px 5px 50px;
-              --big-shadow: 0 30px 100px 5px #000;
-            }
-          `}
-        </style>
-      </Container>
-    );
+        <Component {...pageProps} />
+      </>
+    )
   }
 }
 
-export default MyApp;
+export default MyApp

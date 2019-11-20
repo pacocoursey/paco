@@ -1,8 +1,11 @@
-export { default as Blog } from './Blog';
-export { default as Burger } from './Burger';
-export { default as GitHub } from './GitHub';
-export { default as Logo } from './Logo';
-export { default as Mail } from './Mail';
-export { default as Projects } from './Projects';
-export { default as Toggle } from './Toggle';
-export { default as Twitter } from './Twitter';
+export { default as Book } from './book'
+export { default as Music } from './music'
+export { default as Pencil } from './pencil'
+export { default as Reading } from './reading'
+export { default as Play } from './play'
+export { default as Document } from './document'
+
+export { default as GitHub } from './github'
+export { default as Twitter } from './twitter'
+export { default as Mail } from './mail'
+export { default as Quote } from './quote'

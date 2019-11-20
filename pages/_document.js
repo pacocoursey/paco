@@ -1,7 +1,5 @@
-import React from 'react';
-import Document, {
-  Html, Head, Main, NextScript,
-} from 'next/document';
+import React from 'react'
+import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 class MyDocument extends Document {
   render() {
@@ -13,25 +11,23 @@ class MyDocument extends Document {
             /* eslint-disable-next-line react/no-danger */
             dangerouslySetInnerHTML={{
               __html: `
-              ;(function () {
-                window.isDark = false
-                try {
-                  var isDark = window.localStorage.getItem('paco-dark-mode')
-                  if (isDark) {
-                    document.querySelector('html').className = 'dark'
-                    window.isDark = true
-                  }
-                } catch (err) {}
-              })()
-            `,
+              window.isLight = false
+              try {
+                var isLight = window.localStorage.getItem('paco-light-mode')
+                if (isLight) {
+                  document.querySelector('html').className = 'light'
+                  window.isLight = true
+                }
+              } catch (err) {}
+            `
             }}
           />
           <Main />
           <NextScript />
         </body>
       </Html>
-    );
+    )
   }
 }
 
-export default MyDocument;
+export default MyDocument

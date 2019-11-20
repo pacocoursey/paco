@@ -1,36 +1,94 @@
 {
-  "name": "paco",
+  "name": "blog",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start",
-    "export": "next build && next export",
-    "lint": "eslint --ignore-path .gitignore --ext jsx,js .",
-    "stage": "now --target staging",
-    "deploy": "now --target production",
-    "now-build": "next build"
+    "lint": "prettier --write '**/*.js'",
+    "dev": "next -p 3003",
+    "build": "yarn lint && node ./lib/generate-posts.js && next build",
+    "watch": "nodemon ./lib/generate-posts.js",
+    "rss": "node lib/rss",
+    "new": "node lib/db"
   },
+  "pre-commit": "lint",
+  "license": "MIT",
   "dependencies": {
-    "@mdx-js/tag": "^0.20.3",
-    "@zeit/next-mdx": "^1.2.0",
-    "next": "^9.0.3",
-    "next-compose-plugins": "^2.2.0",
-    "next-offline": "^3.3.7",
-    "nprogress": "^0.2.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-simple-img": "^2.1.0",
-    "refractor": "^2.9.0",
-    "rehype": "^7.0.0"
+    "classnames": "^2.2.6",
+    "intersection-observer": "^0.7.0",
+    "marked": "^0.7.0",
+    "next": "^9.1.4",
+    "prismjs": "^1.17.1",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "react-intersection-observer": "^8.24.2",
+    "rss": "^1.2.2"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.13.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4"
+    "babel-eslint": "^10.0.2",
+    "eslint": "^6.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-react": "^7.14.3",
+    "lowdb": "^1.0.0",
+    "nodemon": "^1.19.1",
+    "open-graph-scraper": "^3.6.2",
+    "prettier": "^1.18.2",
+    "prompts": "^2.2.1",
+    "yaml-front-matter": "^4.0.0"
   },
-  "license": "MIT"
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 8,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true,
+        "impliedStrict": true,
+        "experimentalObjectRestSpread": true
+      },
+      "allowImportExportEverywhere": true
+    },
+    "plugins": [
+      "react",
+      "import"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "env": {
+      "es6": true,
+      "browser": true,
+      "node": true
+    },
+    "rules": {
+      "func-names": [
+        "error",
+        "as-needed"
+      ],
+      "no-shadow": "error",
+      "import/no-mutable-exports": "error",
+      "import/no-anonymous-default-export": [
+        "error",
+        {
+          "allowArray": true,
+          "allowArrowFunction": true,
+          "allowLiteral": true,
+          "allowObject": true
+        }
+      ],
+      "no-extra-semi": 0,
+      "react/prop-types": 0,
+      "react/react-in-jsx-scope": 0,
+      "react/no-unescaped-entities": 0,
+      "react/jsx-no-target-blank": 0,
+      "react/no-string-refs": 0
+    }
+  },
+  "eslintIgnore": [
+    "**/node_modules/**/**",
+    "**/.next/**/**"
+  ]
 }

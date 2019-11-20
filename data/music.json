@@ -1,0 +1,144 @@
+{
+  "schema": [
+    {
+      "name": "trance",
+      "color": "green"
+    },
+    {
+      "name": "house",
+      "color": "blue"
+    },
+    {
+      "name": "other",
+      "color": "indigo"
+    }
+  ],
+  "data": [
+    {
+      "title": "James Grant & Jody Wisternoff",
+      "description": "Anjunadeep Open Air (ABGT 350)",
+      "image": "https://i.ytimg.com/vi/_RQe4oMTtOE/maxresdefault.jpg",
+      "url": "https://youtu.be/_RQe4oMTtOE",
+      "key": "trance"
+    },
+    {
+      "title": "Irminsul, Le Pilier Du Monde",
+      "description": "Damabia (Andrew Bayer Remix)",
+      "image": "https://i.ytimg.com/vi/ELcCv6SoAao/hqdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=ELcCv6SoAao",
+      "key": "trance"
+    },
+    {
+      "title": "17333",
+      "image": "https://i.ytimg.com/vi/SPulNChZO5A/hqdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=SPulNChZO5A",
+      "key": "trance",
+      "description": "Viers"
+    },
+    {
+      "title": "Contrasts",
+      "description": "Vintage & Morelli",
+      "image": "https://i.ytimg.com/vi/Z2ggwjFVS-s/maxresdefault.jpg",
+      "url": "https://youtu.be/Z2ggwjFVS-s",
+      "key": "trance"
+    },
+    {
+      "title": "Nostalgia Drive",
+      "description": "No Mana",
+      "image": "https://i.ytimg.com/vi/G4z_jKXeg7E/maxresdefault.jpg",
+      "url": "https://youtu.be/G4z_jKXeg7E",
+      "key": "trance"
+    },
+    {
+      "title": "No Worries",
+      "description": "Siege (Extended Mix)",
+      "image": "https://i.ytimg.com/vi/maT0N-a5dc0/maxresdefault.jpg",
+      "url": "https://youtu.be/maT0N-a5dc0",
+      "key": "trance"
+    },
+    {
+      "title": "Parallel Lines",
+      "description": "ATTLAS (Enzo Bennet Remix)",
+      "image": "https://i.ytimg.com/vi/MD6rNJk68Zk/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=MD6rNJk68Zk",
+      "key": "trance"
+    },
+    {
+      "title": "Low Frequency",
+      "description": "SUMR CAMP",
+      "image": "https://i1.sndcdn.com/artworks-000383324499-o67v69-t500x500.jpg",
+      "url": "https://soundcloud.com/sumrcamp/low-frequency",
+      "key": "house"
+    },
+    {
+      "title": "How To Build A Relationship",
+      "description": "Flume (feat. JPEGMAFIA)",
+      "image": "https://i.ytimg.com/vi/DdJbW8sKa9M/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=DdJbW8sKa9M",
+      "key": "other"
+    },
+    {
+      "title": "Dream You",
+      "description": "Chris Giuliano (Extended Mix)",
+      "image": "https://i.ytimg.com/vi/WUCgwq1im8I/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=CGbE5ZqU3Z0",
+      "key": "trance"
+    },
+    {
+      "title": "Respiration",
+      "description": "Blackstar (feat. Common)",
+      "image": "https://i.ytimg.com/vi/eeTnog5RRQo/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=eeTnog5RRQo",
+      "key": "other"
+    },
+    {
+      "title": "Broken Pieces",
+      "description": "Camo & Krooked (feat. Nihils) (Culture Shock Remix)",
+      "image": "https://i.ytimg.com/vi/eNK2NIrNQWg/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=eNK2NIrNQWg",
+      "key": "other"
+    },
+    {
+      "title": "Sirens",
+      "description": "Danism & Rae",
+      "image": "https://i1.sndcdn.com/artworks-000090512118-cfzmjw-t500x500.jpg",
+      "url": "https://soundcloud.com/raedjartist/sirens-danism-rae?in=pxco/sets/seismic",
+      "key": "house"
+    },
+    {
+      "title": "Act So Shady",
+      "description": "Joey Harmless",
+      "image": "https://i1.sndcdn.com/artworks-000089951193-7oj3te-t500x500.jpg",
+      "url": "https://soundcloud.com/teun-steenkamp/joey-harmless-act-so-shady?in=pxco/sets/seismic",
+      "key": "house"
+    },
+    {
+      "title": "Winona",
+      "description": "DJ Boring",
+      "image": "https://i.ytimg.com/vi/ar9qA3WJInk/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=ar9qA3WJInk",
+      "key": "house"
+    },
+    {
+      "title": "Devil",
+      "description": "Boris Brejcha",
+      "image": "https://i.ytimg.com/vi/FMRdt6h62YA/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=FMRdt6h62YA",
+      "key": "house"
+    },
+    {
+      "title": "I AM THE JOKER",
+      "description": "Boris Brejcha",
+      "image": "https://i.ytimg.com/vi/G3Ts_zPYh04/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=G3Ts_zPYh04",
+      "key": "house"
+    },
+    {
+      "title": "R U FCKNG SERIOUS",
+      "description": "Boris Brejcha & Deniz Bul",
+      "image": "https://i.ytimg.com/vi/NMs-DCbRQA0/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=NMs-DCbRQA0",
+      "key": "house"
+    }
+  ]
+}

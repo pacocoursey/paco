@@ -1,19 +1,47 @@
-[
-  {
-    "id": "understanding-package-json",
-    "title": "Understanding package.json",
-    "date": "March 11, 2019"
-  },
-  {
-    "id": "persistent-icons",
-    "title": "Persistent Custom App Icons",
-    "date": "March 30, 2019",
-    "cover": "Icons"
-  },
-  {
-    "id": "now-contact-form",
-    "title": "Email Contact Form using Now",
-    "date": "April 27, 2019",
-    "cover": "Contact"
-  }
-]
+{
+  "data": [
+    {
+      "title": "Write it down",
+      "slug": "write-it-down",
+      "date": "Nov 19, 2019",
+      "body": "\n\nMy shitty superpower is solving difficult problems as I'm falling asleep. Doesn't sound too bad, right? Here's the catch: I always convince myself I don't need to write the solution down.\n\nIt's 1:18 AM. I just figured it out. The answer is so simple, I can't believe it took me this long. Do I blind myself opening my phone to write it down? No, I can finally sleep now! There's no way I'll forget.\n\n\nIt's 8:32 AM. I can't believe I've done this again.\n\n---\n\nI have a new policy: **write it down.** Every single time. No matter if the idea comes to me in the shower, the middle of a dream, or in a conversation.\n\nMost of my ideas are bad. But this way I'll never miss an opportunity.\n"
+    },
+    {
+      "title": "On Gaming",
+      "slug": "on-gaming",
+      "date": "Nov 16, 2019",
+      "body": "\n\nA favorite quote from an old friend.\n\n<blockquote>\n\nI really admire that there are people of all ages that are able to get along, without awkwardness, without serious fighting, and share a common interest, whilst in completely different parts of the world.\n\nI mean, isn't it just amazing that we all have a different background, a different upbringing, a different future, and yet we all united at this point in time to share an interest, as futile as it may seem, and be passionate about it?\n\n**What a life!**\n\n— Giles\n</blockquote>\n"
+    },
+    {
+      "title": "Ideas",
+      "slug": "ideas",
+      "date": "Nov 4, 2019",
+      "hidden": true,
+      "body": "\n\n## Code\n\n- [ ] GUI for plain JSON databases using lowdb (`dead` - Dead Easy Array Databases)\n- [ ] MDX implementation using marked, custom HTML tags, and \\[data\\] attributes\n- [ ] Deploy DB as a static file and use ISSG\n- [ ] styled-system HOC for use with styled-jsx\n- [ ] spotlight-like password manager with good keybinds\n- [ ] Music gathering site, combines all other services to centralize a playlist\n\n## Blog\n\n- [ ] The scroll position effect on /blog\n- [ ] Introduction to mechanical keyboards\n- [ ] Write it down\n- [ ] Improved Structure Procrastination\n- [x] Thoughts on gaming\n- [ ] Instrinsic value and pursuit of popularity\n- [ ] A decent popover\n\n## Figma\n\n- [ ] Minimal redesigns of popular websites\n- [x] Logos\n"
+    },
+    {
+      "title": "Good Writers",
+      "slug": "good-writers",
+      "date": "October 24, 2019",
+      "body": "\n\nHave you noticed that some people write extremely well? Take Aaron Swartz' article [\"Believe you can change\"](http://www.aaronsw.com/weblog/dweck):\n\n> Carol Dweck was obsessed with failure.\n\nWhat an _amazing_ first sentence. I'm immediately glued to this article. Who is Carol Dweck? What's wrong with her?\n\nIf I were writing that, I'd start with the immediately boring:\n\n> Carol Dweck is a Professor of Psychology at Stanford, studying the behavior of children and how they deal with failure.\n\nBecause I have a lot of practice writing in this dull manner that meets school requirements. But I'm already bored reading it.\n\nI'm learning to recognize good writing, and I'm fascinated. We all use the same set of words, but some writers are so much better at using them.\n"
+    },
+    {
+      "title": "Creative Output",
+      "slug": "creative",
+      "date": "August 19, 2019",
+      "body": "\n\nI am consistently unhappy with my creative output. My job title includes designer, but I'm not good at designing something from scratch.\n\nNone of work I create matches up to the work of designers that I admire. At a minimum, I want to feel more comfortable designing work that meets my own minimum expectations of quality. [Impostor Syndrome](https://en.wikipedia.org/wiki/Impostor_syndrome) probably plays a big part (especially working with such talented colleagues!) but maybe I simply need practice.\n\nCreativity is not my strong suit. I'm logical. Building on past experience to improve future work is something I am good at. Creating something new is not. That's why it feels like everything I create is a remix of my past work, or the work of others.\n\nDoes this still count as _my_ creative output, though? I'd argue that anything new in design is just old stuff reworked in new ways. Buried in sarcasm, [Mark Dalgleish](https://twitter.com/markdalgleish/status/1084256955961466881) explains that step in the design process:\n\n> If you're a developer who finds design difficult, you're probably skipping the \"inspiration\" phase—which, in non-designer speak, roughly translates to \"look at other designs and rip off all the good ideas\".\n\nThis is a totally valid way to work. It's probably the most efficient. You're not the first person working on your problems, so use what other people have already discovered. But to what degree can we claim this work as our own?\n"
+    },
+    {
+      "title": "Persistent Custom App Icons",
+      "slug": "persistent-icons",
+      "date": "March 30, 2019",
+      "body": "\n\nI created [Dusk](https://dusk.now.sh) to make my dock look more visually harmonious. [LiteIcon](https://freemacsoft.net/liteicon/) does a great job of automating the icon changing process, but every time I opened Discord, the dock icon reverted back to default. Not cool.\n\n![Original Discord Icon in Dock](https://paco.im/blog/persistent-icons/dock-1.png)\n\nIt happens to other Electron applications (Hyper, VSCode) over time. Even Safari reverts back occasionally. It's frustratingly ugly. Let's fix it.\n\nFind the application in Finder and right click to \"Show Package Contents\".\n\n![Show Package Contents on Discord.app](https://paco.im/blog/persistent-icons/show.png)\n\n\nNavigate to `Contents/Resources/`. Here, `electron.icns` is the culprit. Let's replace it with our custom icon.\n\n![electron.icns in Contents/Resources Folder](https://paco.im/blog/persistent-icons/icns.png)\n\nWe'll need to convert our custom `.png` icon from Dusk (or anywhere else) to an `.icns` file. MacOS ships with the command line tool `sips` to help with this.\n\nRun the following from the command line, replacing ICON as needed.\n\n```bash\nsips -s format icns ICON.png --out ICON.icns\n```\n\nMove your new `.icns` file into the previously opened `Resources/` folder. I like to save the old icon by renaming it, just in case I have to revert later. Rename your new file to match the old (in this case, `electron.icns`).\n\n![New electron.icns File](https://paco.im/blog/persistent-icons/fixed-icns.png)\n\nRestart the app, and your custom application icon should persist!\n\n![Much better](https://paco.im/blog/persistent-icons/dock-2.png)\n"
+    },
+    {
+      "title": "Understanding package.json",
+      "slug": "understanding-package-json",
+      "date": "March 11, 2019",
+      "body": "\n\nI began my Computer Science degree with an intensive introduction course in C. We used makefiles to compile and run each of our assignments.\n\nWhen I started learning modern web development in early 2018, I had no idea what Node.js or NPM was. My idea of building website involved writing HTML, CSS, and occasionally including a `script` tag. A year or so later, I'm finally comfortable with modern techniques.\n\nA major source of confusion for me was `package.json`. In short, `package.json` is a makefile for the JavaScript environment, with some caveats.\n\n### Package Scripts\n\nPackage managers like Yarn and NPM also serve as script runners for JavaScript projects. Unlike makefiles, scripts in `package.json` run in a special environment.\n\nPackages in `node_modules` that define an executable will have that executable appended to the environment PATH before running any scripts. This can be confusing. Let's see an example:\n\n```json\n\"devDependencies\": {\n  \"eslint\": \"1.0.0\"\n},\n\"scripts\": {\n  \"lint\": \"eslint .\"\n}\n```\n\nRunning `yarn lint` will work correctly. However, just running `eslint .` from the command line will fail!<sup>1</sup> This was extremely confusing at first, did I have  ESLint installed or not?\n\nThe package script will work because Yarn recognizes that the ESLint dependency includes an executable, and appends it to the environment PATH when running any scripts.\n\nThis is a great advantage of the modular nature of the JavaScript ecosystem. You don't have to install any global scripts or clutter up your PATH to work with JavaScript projects, just `yarn install`.\n\n---\n\n1. Unless you have installed ESLint globally, which does add the executable to your PATH (`yarn global add eslint`)\n"
+    }
+  ]
+}
