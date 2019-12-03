@@ -15,6 +15,20 @@
   ],
   "data": [
     {
+      "title": "Deconstructing and Reimplementing macOS’ screencapture CLI",
+      "description": "I like to be prepared for worst-case-scenarios. And when I found out my Mac app ScreenFloat didn’t work anymore on Apple’s upcoming macOS Sierra because of a new sandbox restriction (yo…",
+      "image": "https://eternalstorms.files.wordpress.com/2016/04/iesslogo3x.png",
+      "url": "https://eternalstorms.wordpress.com/2016/09/10/deconstructing-and-reimplementing-macos-screencapture-cli/",
+      "key": "blog"
+    },
+    {
+      "title": "Avoiding jagged edges on gradients",
+      "description": "A really common design pattern I see come up a lot are those angled blocks of colour in the bottom of containers, you’ve probably come…",
+      "image": "https://miro.medium.com/max/1108/1*2cMIvXVQoxLaxAVvQ0D42w.png",
+      "url": "https://medium.com/pixel-and-ink/avoiding-jagged-edges-on-gradients-f485cc7401f5",
+      "key": "article"
+    },
+    {
       "title": "77 Things about Uber Design",
       "description": "A behind-the-scenes look at what went into the book",
       "image": "https://miro.medium.com/max/1200/1*3c3rEG8cGaQvbZz_luZQ0w.png",

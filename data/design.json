@@ -15,6 +15,34 @@
   ],
   "data": [
     {
+      "title": "Ollie",
+      "description": "We are Ollie. We create brands from their essence and connect them with their true fans.",
+      "image": "http://olliebranding.com/assets/img/OG_image.jpg",
+      "url": "https://olliebranding.com/",
+      "key": "brand"
+    },
+    {
+      "title": "Ark Shelter",
+      "description": "Ark-Shelter is a self-sustaining shelter. By collecting rainwater and using wind power to produce electricity, ark respects nature by being ecologically friendly. Change the way you live life, closer to nature.",
+      "image": "https://ark-shelter.com/assets/images/og-image.jpg",
+      "url": "https://www.ark-shelter.com/",
+      "key": "brand"
+    },
+    {
+      "title": "Rotate°",
+      "description": "Design, Development & Marketing for eCommerce brands in the Luxury & Lifestyle sectors",
+      "image": "http://cdn.studiorotate.com/Rotate.jpg",
+      "url": "https://studiorotate.com/",
+      "key": "brand"
+    },
+    {
+      "title": "Home - Frans Hals Museum",
+      "description": "One museum, two locations. With its outstanding collection of Frans Hals and Old Masters in location 'Hof' and the museum for contemporary and modern art at location 'Hal'. The museum is renowned for it's quality and exhibitions.",
+      "image": "https://www.franshalsmuseum.nl/wp/wp-content/uploads/2018/04/FransHals_Share.jpg",
+      "url": "https://www.franshalsmuseum.nl/en/",
+      "key": "website"
+    },
+    {
       "title": "Dribble Design Survey",
       "description": "Explore the data behind designer salaries, career trends, and what’s next for your design discipline.",
       "url": "https://dribbble.com/global-design-survey-2019",
