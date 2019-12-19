@@ -25,7 +25,13 @@
       "title": "TIGHTYPE",
       "description": "TIGHTYPE is an independent type design collective with the approach to publish visually strong typefaces for people who value contemporary type design.",
       "image": "style/images/tightype.png",
-      "url": "https://tightype.com/",
+      "url": "https://tightype.com/"
+    },
+    {
+      "title": "MercuryOS",
+      "description": "Mercury is a reimaging of the operating system as a fluid modeless experience drive by human intent.",
+      "image": "https://www.mercuryos.com/preview.jpg",
+      "url": "https://www.mercuryos.com/",
       "key": "website"
     },
     {
@@ -236,13 +242,6 @@
       "image": "https://www.braun-audio.com/medias/sub3-image1.png?context=bWFzdGVyfGltYWdlc3wxNzQ1MzA2fGltYWdlL3BuZ3xpbWFnZXMvaDFlL2g0NS84ODU1MDUyNjE1NzEwLnBuZ3wxYzZkN2E5YTJmODhjNDkzOGEyMWU1MzNkOTRjYmQ1MDg5MzBlZDgzODA0MmRhNTZjYzhlZWIyYTkyNzEyNTI4",
       "url": "https://www.braun-audio.com/",
       "key": "brand"
-    },
-    {
-      "title": "Design Details",
-      "description": "A weekly conversation about design process and culture",
-      "image": "https://designdetails.fm/static/img/dd-wide.png",
-      "url": "https://brianlovin.com",
-      "key": "portfolio"
     },
     {
       "title": "Yahoo",
