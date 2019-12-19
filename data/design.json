@@ -15,6 +15,20 @@
   ],
   "data": [
     {
+      "title": "Brian Lovin",
+      "description": "Product designer",
+      "image": "https://brianlovin.com/static/og-image.jpeg",
+      "url": "https://brianlovin.com/",
+      "key": "portfolio"
+    },
+    {
+      "title": "TIGHTYPE",
+      "description": "TIGHTYPE is an independent type design collective with the approach to publish visually strong typefaces for people who value contemporary type design.",
+      "image": "style/images/tightype.png",
+      "url": "https://tightype.com/",
+      "key": "website"
+    },
+    {
       "title": "Ollie",
       "description": "We are Ollie. We create brands from their essence and connect them with their true fans.",
       "image": "http://olliebranding.com/assets/img/OG_image.jpg",

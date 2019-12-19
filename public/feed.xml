@@ -9,12 +9,12 @@
             <link>https://paco.im</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Wed, 20 Nov 2019 05:15:40 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 19 Dec 2019 19:08:05 GMT</lastBuildDate>
         <atom:link href="https://paco.im/feed.xml" rel="self" type="application/rss+xml"/>
         <language><![CDATA[en]]></language>
         <item>
             <title><![CDATA[Write it down]]></title>
-            <description><![CDATA[<p>My shitty superpower is solving difficult problems as I&#39;m falling asleep. Doesn&#39;t sound too bad, right? Here&#39;s the catch: I always convince myself I don&#39;t need to write it down.</p>
+            <description><![CDATA[<p>My shitty superpower is solving difficult problems as I&#39;m falling asleep. Doesn&#39;t sound too bad, right? Here&#39;s the catch: I always convince myself I don&#39;t need to write the solution down.</p>
 <p>It&#39;s 1:18 AM. I just figured it out. The answer is so simple, I can&#39;t believe it took me this long. Do I blind myself opening my phone to write it down? No, I can finally sleep now! There&#39;s no way I&#39;ll forget.</p>
 <p>It&#39;s 8:32 AM. I can&#39;t believe I&#39;ve done this again.</p>
 <hr>
@@ -41,6 +41,38 @@
             <guid isPermaLink="false">https://paco.im/on-gaming</guid>
             <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
             <pubDate>Sat, 16 Nov 2019 07:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Ideas]]></title>
+            <description><![CDATA[<h2 id="code">Code</h2>
+<ul>
+<li><input disabled="" type="checkbox"> GUI for plain JSON databases using lowdb (<code>dead</code> - Dead Easy Array Databases)</li>
+<li><input disabled="" type="checkbox"> MDX implementation using marked, custom HTML tags, and [data] attributes</li>
+<li><input disabled="" type="checkbox"> Deploy DB as a static file and use ISSG</li>
+<li><input disabled="" type="checkbox"> styled-system HOC for use with styled-jsx</li>
+<li><input disabled="" type="checkbox"> spotlight-like password manager with good keybinds</li>
+<li><input disabled="" type="checkbox"> Music gathering site, combines all other services to centralize a playlist</li>
+</ul>
+<h2 id="blog">Blog</h2>
+<ul>
+<li><input disabled="" type="checkbox"> The scroll position effect on /blog</li>
+<li><input disabled="" type="checkbox"> Introduction to mechanical keyboards</li>
+<li><input disabled="" type="checkbox"> Write it down</li>
+<li><input disabled="" type="checkbox"> Improved Structure Procrastination</li>
+<li><input checked="" disabled="" type="checkbox"> Thoughts on gaming</li>
+<li><input disabled="" type="checkbox"> Instrinsic value and pursuit of popularity</li>
+<li><input disabled="" type="checkbox"> A decent popover</li>
+</ul>
+<h2 id="figma">Figma</h2>
+<ul>
+<li><input disabled="" type="checkbox"> Minimal redesigns of popular websites</li>
+<li><input checked="" disabled="" type="checkbox"> Logos</li>
+</ul>
+]]></description>
+            <link>https://paco.im/ideas</link>
+            <guid isPermaLink="false">https://paco.im/ideas</guid>
+            <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
+            <pubDate>Mon, 04 Nov 2019 07:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Good Writers]]></title>
