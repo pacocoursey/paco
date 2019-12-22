@@ -43,7 +43,12 @@ const Page = ({
           --article-color: #eaeaea;
           --header-bg: rgba(19, 20, 21, 0.8);
           --gray-alpha: rgba(255, 255, 255, 0.3);
-          --token: #999;
+          --selection: rgba(255, 255, 255, 0.99);
+
+          /* Syntax Highlighting */
+          --token: #888;
+          --comment: #666;
+          --name: #b5b5b5;
 
           /* Static Colors */
           --blue: #007aff;
@@ -77,7 +82,11 @@ const Page = ({
           --article-color: #212121;
           --header-bg: rgba(255, 255, 255, 0.8);
           --gray-alpha: rgba(19, 20, 21, 0.3);
-          --token: #666;
+          --selection: rgba(0, 0, 0, 0.99);
+
+          --token: #494949;
+          --comment: #666;
+          --name: #333;
         }
 
         * {
@@ -85,7 +94,7 @@ const Page = ({
         }
 
         ::selection {
-          background: var(--fg);
+          background: var(--selection);
           color: var(--bg);
         }
 
@@ -208,7 +217,7 @@ const Page = ({
         article *:not(pre) code::before,
         article *:not(pre) code::after {
           content: '\`';
-          color: var(--light-gray);
+          color: var(--gray);
           user-select: none;
         }
 
@@ -231,7 +240,7 @@ const Page = ({
           color: var(--token);
         }
         .token.comment {
-          color: var(--light-gray);
+          color: var(--comment);
         }
         .token.string,
         .token.number,
@@ -243,7 +252,7 @@ const Page = ({
         .token.function,
         .token.tag,
         .token.attr-name {
-          color: var(--gray);
+          color: var(--name);
         }
       `}</style>
 

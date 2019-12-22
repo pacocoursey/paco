@@ -9,9 +9,58 @@
             <link>https://paco.im</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Thu, 19 Dec 2019 19:08:05 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 22 Dec 2019 07:47:48 GMT</lastBuildDate>
         <atom:link href="https://paco.im/feed.xml" rel="self" type="application/rss+xml"/>
         <language><![CDATA[en]]></language>
+        <item>
+            <title><![CDATA[Styled System with styled-jsx]]></title>
+            <description><![CDATA[<p><a href="https://styled-system.com/" target="_blank" rel="noopener noreferrer">Styled System</a> is an excellent alternative to writing ad-hoc <code>style</code> declarations in your React components. By giving components standardized props like <code>bg</code> and <code>fontSize</code>, it&#39;s easier to build custom UI that respects your system constraints. That&#39;s because you can quickly specify your design tokens and use them in real code:</p>
+<pre><code class="language-js">// theme.js
+colors: {
+  blue: &#39;#0070F3&#39;
+}
+
+// your React code
+&lt;Box color={blue} /&gt;</code></pre>
+<p>Styled System&#39;s responsive syntax is impressively concise, too:</p>
+<pre><code class="language-js">// 16px on mobile, 14px on tablet, 12px on desktop
+&lt;Box fontSize={[16, 14, 12]} /&gt;</code></pre>
+<p>These two features make it extremely easy to scaffold new components.</p>
+<p>I want to use Styled System with <a href="https://github.com/zeit/styled-jsx" target="_blank" rel="noopener noreferrer">styled-jsx</a>, because styled-jsx is included with <a href="https://github.com/zeit/next.js" target="_blank" rel="noopener noreferrer">Next.js</a>, and I use Next.js for everything React. But all the Styled System tooling I found was for styled-components or Emotion, so I made my own.</p>
+<h2 id="styled-jsx-system">styled-jsx-system</h2>
+<p><a href="https://github.com/pacocoursey/styled-jsx-system" target="_blank" rel="noopener noreferrer">styled-jsx-system</a> lets you use Styled System with styled-jsx.</p>
+<pre><code class="language-bash">$ yarn add styled-jsx-system</code></pre>
+<p>Wrap your components with the provided HOC and accept a <code>className</code> prop:</p>
+<pre><code class="language-js">import withStyledSystem from &#39;styled-jsx-system&#39;
+import { color } from &#39;styled-system&#39;
+
+const Box = ({ className, children }) =&gt; {
+  return (
+    &lt;div className={className}&gt;
+      {children}
+
+      &lt;style jsx&gt;{`
+        div {
+          padding: 8px;
+        }
+      `}&lt;/style&gt;
+    &lt;/div&gt;
+  )
+}
+
+export default withStyledSystem(Box, [color])</code></pre>
+<p>That&#39;s it! You can now use Styled System props with your Box component:</p>
+<pre><code class="language-js">&lt;Box color={[&#39;#000&#39;, &#39;#666&#39;, &#39;#fff&#39;]}&gt;Hello&lt;/Box&gt;</code></pre>
+<p>Other Styled System features like compose, system, and themeing are supported too. Check out the <a href="https://github.com/pacocoursey/styled-jsx-system" target="_blank" rel="noopener noreferrer">repository</a> for more information.</p>
+<p>Cool. <a href="https://twitter.com/pacocoursey" target="_blank" rel="noopener noreferrer">Let me know</a> if you end up using it.</p>
+<hr>
+<p>Thanks to <a href="https://twitter.com/jxnblk" target="_blank" rel="noopener noreferrer">jxnblk</a> for Styled System and all his cool CSS experiments, and thanks to <a href="https://twitter.com/giuseppegurgone" target="_blank" rel="noopener noreferrer">Giuseppe</a>, <a href="https://twitter.com/_ijjk" target="_blank" rel="noopener noreferrer">JJ</a>, and <a href="https://twitter.com/shuding_" target="_blank" rel="noopener noreferrer">Shu</a> for help with compiling and publishing!</p>
+]]></description>
+            <link>https://paco.im/styled-jsx-system</link>
+            <guid isPermaLink="false">https://paco.im/styled-jsx-system</guid>
+            <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
+            <pubDate>Sat, 21 Dec 2019 07:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[Write it down]]></title>
             <description><![CDATA[<p>My shitty superpower is solving difficult problems as I&#39;m falling asleep. Doesn&#39;t sound too bad, right? Here&#39;s the catch: I always convince myself I don&#39;t need to write the solution down.</p>
@@ -49,15 +98,15 @@
 <li><input disabled="" type="checkbox"> GUI for plain JSON databases using lowdb (<code>dead</code> - Dead Easy Array Databases)</li>
 <li><input disabled="" type="checkbox"> MDX implementation using marked, custom HTML tags, and [data] attributes</li>
 <li><input disabled="" type="checkbox"> Deploy DB as a static file and use ISSG</li>
-<li><input disabled="" type="checkbox"> styled-system HOC for use with styled-jsx</li>
+<li><input checked="" disabled="" type="checkbox"> styled-system HOC for use with styled-jsx</li>
 <li><input disabled="" type="checkbox"> spotlight-like password manager with good keybinds</li>
-<li><input disabled="" type="checkbox"> Music gathering site, combines all other services to centralize a playlist</li>
+<li><input disabled="" type="checkbox"> Music gathering site, combines all other services to centralize a playlist (<a href="http://song.link/" target="_blank" rel="noopener noreferrer">http://song.link/</a>)</li>
 </ul>
 <h2 id="blog">Blog</h2>
 <ul>
 <li><input disabled="" type="checkbox"> The scroll position effect on /blog</li>
 <li><input disabled="" type="checkbox"> Introduction to mechanical keyboards</li>
-<li><input disabled="" type="checkbox"> Write it down</li>
+<li><input checked="" disabled="" type="checkbox"> Write it down</li>
 <li><input disabled="" type="checkbox"> Improved Structure Procrastination</li>
 <li><input checked="" disabled="" type="checkbox"> Thoughts on gaming</li>
 <li><input disabled="" type="checkbox"> Instrinsic value and pursuit of popularity</li>

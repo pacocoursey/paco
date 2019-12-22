@@ -10,15 +10,15 @@ hidden: true
 - [ ] GUI for plain JSON databases using lowdb (`dead` - Dead Easy Array Databases)
 - [ ] MDX implementation using marked, custom HTML tags, and \[data\] attributes
 - [ ] Deploy DB as a static file and use ISSG
-- [ ] styled-system HOC for use with styled-jsx
+- [x] styled-system HOC for use with styled-jsx
 - [ ] spotlight-like password manager with good keybinds
-- [ ] Music gathering site, combines all other services to centralize a playlist
+- [ ] Music gathering site, combines all other services to centralize a playlist (http://song.link/)
 
 ## Blog
 
 - [ ] The scroll position effect on /blog
 - [ ] Introduction to mechanical keyboards
-- [ ] Write it down
+- [x] Write it down
 - [ ] Improved Structure Procrastination
 - [x] Thoughts on gaming
 - [ ] Instrinsic value and pursuit of popularity
