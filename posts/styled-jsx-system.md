@@ -14,7 +14,7 @@ colors: {
 }
 
 // your React code
-<Box color={blue} />
+<Box color="blue" />
 ```
 
 Styled System's responsive syntax is impressively concise, too:
