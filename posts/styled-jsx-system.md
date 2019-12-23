@@ -2,6 +2,7 @@
 title: Styled System with styled-jsx
 slug: styled-jsx-system
 date: Dec 21, 2019
+og: true
 ---
 
 [Styled System](https://styled-system.com/) is an excellent alternative to writing ad-hoc `style` declarations in your React components. By giving components standardized props like `bg` and `fontSize`, it's easier to build custom UI that respects your system constraints. That's because you can quickly specify your design tokens and use them in real code:

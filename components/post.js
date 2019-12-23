@@ -23,6 +23,12 @@ const Post = ({ slug }) => {
       <Head>
         <title>{activePost[0].title} - Paco Coursey</title>
         {activePost[0].hidden && <meta name="robots" content="noindex" />}
+        {activePost[0].og && (
+          <meta
+            name="og:image"
+            content={`https://res.cloudinary.com/dsdlhtnpw/image/upload/${activePost[0].slug}.png`}
+          />
+        )}
       </Head>
 
       <article
