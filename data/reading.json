@@ -15,6 +15,13 @@
   ],
   "data": [
     {
+      "title": "Give it five minutes",
+      "description": "A few years ago I used to be a hothead. Whenever anyone said anything, I’d think of a way to disagree. I’d push back hard if something didn’t fit my world-view.\n\n\n\tIt’s like I had to be first with an opinion – as if being first meant something. But what it really meant…",
+      "image": "https://s3.amazonaws.com/37assets/svn/995-avatar.154.gif",
+      "url": "https://signalvnoise.com/posts/3124-give-it-five-minutes",
+      "key": "article"
+    },
+    {
       "title": "Deconstructing and Reimplementing macOS’ screencapture CLI",
       "description": "I like to be prepared for worst-case-scenarios. And when I found out my Mac app ScreenFloat didn’t work anymore on Apple’s upcoming macOS Sierra because of a new sandbox restriction (yo…",
       "image": "https://eternalstorms.files.wordpress.com/2016/04/iesslogo3x.png",
