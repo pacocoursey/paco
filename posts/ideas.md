@@ -13,7 +13,8 @@ hidden: true
 - [x] styled-system HOC for use with styled-jsx
 - [ ] spotlight-like password manager with good keybinds
 - [ ] Music gathering site, combines all other services to centralize a playlist (http://song.link/)
-- [ ] Writing app that turns off the screen
+- [x] Writing app that turns off the screen
+- [ ] Storytelling using Command+F to jump between occurences
 
 ## Blog
 

@@ -15,6 +15,13 @@
   ],
   "data": [
     {
+      "title": "Frank Chimero · Home",
+      "description": "Frank Chimero’s Personal Website",
+      "image": "https://frankchimero.com/icons/icon-1200x628.png",
+      "url": "https://frankchimero.com/",
+      "key": "blog"
+    },
+    {
       "title": "Give it five minutes",
       "description": "A few years ago I used to be a hothead. Whenever anyone said anything, I’d think of a way to disagree. I’d push back hard if something didn’t fit my world-view.\n\n\n\tIt’s like I had to be first with an opinion – as if being first meant something. But what it really meant…",
       "image": "https://s3.amazonaws.com/37assets/svn/995-avatar.154.gif",
