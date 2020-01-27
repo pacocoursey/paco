@@ -1,5 +1,6 @@
 ---
 title: Persistent Custom App Icons
+description: Make your custom macOS application icons persistent across app restarts.
 slug: persistent-icons
 date: March 30, 2019
 ---

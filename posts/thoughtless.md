@@ -1,5 +1,6 @@
 ---
 title: Thoughtless
+description: I have trouble falling asleep. Thoughtless is an experiment to help.
 slug: be-thoughtless
 date: January 21, 2020
 ---

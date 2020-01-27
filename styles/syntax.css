@@ -1,0 +1,21 @@
+.token {
+  color: var(--token);
+}
+
+.token.comment {
+  color: var(--comment);
+}
+
+.token.string,
+.token.number,
+.token.builtin,
+.token.variable {
+  color: var(--fg);
+}
+
+.token.class-name,
+.token.function,
+.token.tag,
+.token.attr-name {
+  color: var(--name);
+}

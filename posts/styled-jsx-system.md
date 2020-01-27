@@ -1,5 +1,6 @@
 ---
 title: Styled System with styled-jsx
+description: styled-jsx-system is a way to use Styled System with styled-jsx.
 slug: styled-jsx-system
 date: Dec 21, 2019
 og: true

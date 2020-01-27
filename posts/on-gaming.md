@@ -1,5 +1,6 @@
 ---
 title: On Gaming
+description: A favorite quote from an old friend.
 slug: on-gaming
 date: Nov 16, 2019
 ---

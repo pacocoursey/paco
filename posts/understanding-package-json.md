@@ -1,5 +1,6 @@
 ---
 title: Understanding package.json
+description: How to work with scripts in your package.json
 slug: understanding-package-json
 date: March 11, 2019
 ---

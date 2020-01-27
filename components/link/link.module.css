@@ -2,15 +2,14 @@
   outline: none;
   color: inherit;
   text-decoration: none;
-  transition: color var(--transition);
 }
 
 .gray {
   color: var(--gray);
+  transition: color var(--transition);
 }
 
-.gray:hover,
-.underline:hover {
+.gray:hover {
   color: var(--fg);
 }
 
@@ -24,4 +23,9 @@
   background-position: left bottom;
   background-repeat: repeat-x;
   padding-bottom: 2px;
+  transition: color var(--transition);
+}
+
+.underline:hover {
+  color: var(--gray);
 }

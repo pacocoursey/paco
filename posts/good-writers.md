@@ -1,5 +1,6 @@
 ---
 title: Good Writers
+description: Have you noticed that some people write extremely well?
 slug: good-writers
 date: October 24, 2019
 ---
