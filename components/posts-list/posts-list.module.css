@@ -44,10 +44,6 @@
   margin-bottom: var(--gap);
 }
 
-.post.active .title {
-  font-weight: bold;
-}
-
 .description {
   line-height: 1.7;
 }

@@ -1,7 +1,9 @@
+import { memo } from 'react'
+
 import { GitHub, Twitter } from './icons'
 import Link from './link'
 
-const Footer = () => {
+const Footer = ({ rss }) => {
   return (
     <footer>
       <Link
@@ -22,9 +24,11 @@ const Footer = () => {
         <GitHub />
       </Link>
 
-      {/* <Link href="/feed.xml" external gray>
-        RSS
-      </Link> */}
+      {rss && (
+        <Link href="/feed.xml" external gray>
+          RSS
+        </Link>
+      )}
 
       <Link href="/projects" gray>
         Projects
@@ -53,4 +57,4 @@ const Footer = () => {
   )
 }
 
-export default Footer
+export default memo(Footer)

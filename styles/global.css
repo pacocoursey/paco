@@ -262,7 +262,7 @@ li.reset::before {
   content: none;
 }
 
-li.reset span {
+li.reset .check {
   display: flex;
   align-items: center;
   margin-right: 0.51rem;
@@ -279,7 +279,7 @@ input[type='checkbox'] {
   width: 1rem;
   background-color: var(--bg);
   color: var(--fg);
-  border: 1px solid var(--gray);
+  border: 1px solid var(--fg);
   border-radius: 3px;
 }
 
