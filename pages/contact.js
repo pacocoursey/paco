@@ -2,7 +2,7 @@ import Page from '../components/page'
 
 const Contact = () => {
   return (
-    <Page title="Contact">
+    <Page title="Contact" footer={false}>
       <article>
         <p>Get in touch.</p>
 

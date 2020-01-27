@@ -19,7 +19,7 @@ const Post = ({ slug }) => {
   }
 
   return (
-    <Page slug={slug} title="Blog" content={activePost[0].title} footer>
+    <Page slug={slug} title="Blog" content={activePost[0].title} postFooter>
       <Head>
         <title>{activePost[0].title} - Paco Coursey</title>
         {activePost[0].hidden && <meta name="robots" content="noindex" />}

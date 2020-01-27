@@ -1,11 +1,13 @@
 import Head from 'next/head'
 
 import Header from './header'
+import Posts from './posts'
 import Footer from './footer'
 
 const Page = ({
   header = true,
-  footer = false,
+  footer = true,
+  postFooter = false,
   content,
   title,
   slug,
@@ -19,7 +21,8 @@ const Page = ({
 
       {header && <Header content={content} title={title} />}
       <main>{children}</main>
-      {footer && <Footer slug={slug} />}
+      {postFooter && <Posts slug={slug} />}
+      {footer && <Footer />}
 
       <style jsx global>{`
         :root {
@@ -187,13 +190,12 @@ const Page = ({
         article p {
           color: var(--article-color);
           transition: color var(--transition);
-        }
+        }s
 
         p a,
         a.reset {
           outline: none;
           color: inherit;
-          font-weight: bold;
           text-decoration: none;
           transition: color var(--transition);
         }
@@ -202,8 +204,7 @@ const Page = ({
         p a:focus,
         p a:active,
         a.reset:hover,
-        a.reset:focus,
-        a.active:focus {
+        a.reset:focus {
           color: var(--gray);
         }
 

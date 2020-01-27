@@ -44,58 +44,7 @@ const About = () => {
           </Link>{' '}
           to design better ways to deploy websites.
         </p>
-
-        <ul className="flex links">
-          <li>
-            <Link href="/projects" className="reset">
-              Projects
-            </Link>
-          </li>
-
-          <li>
-            <Link href="/contact" className="reset">
-              Contact
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              href="https://twitter.com/pacocoursey"
-              external
-              className="reset"
-            >
-              Twitter
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              href="https://github.com/pacocoursey"
-              external
-              className="reset"
-            >
-              GitHub
-            </Link>
-          </li>
-        </ul>
       </article>
-
-      <style jsx>{`
-        ul {
-          list-style-type: none;
-          margin: 0;
-          padding: 0;
-          margin-top: var(--small-gap);
-        }
-
-        ul li + li {
-          margin-left: var(--gap);
-        }
-
-        li {
-          font-size: 1rem;
-        }
-      `}</style>
     </Page>
   )
 }
