@@ -47,3 +47,37 @@
 .description {
   line-height: 1.7;
 }
+
+.button {
+  margin-top: var(--small-gap);
+  width: 100%;
+  cursor: pointer;
+  border-radius: var(--radius);
+  color: var(--gray);
+  font-weight: 500;
+  background: var(--lighter-gray);
+  border: none;
+  padding: var(--gap-half) var(--gap);
+  transition: background-color var(--transition), color var(--transition);
+  outline: none;
+}
+
+.button:hover,
+.button:focus {
+  color: var(--fg);
+}
+
+.button:active {
+  background-color: var(--lightest-gray);
+}
+
+@media (max-width: 600px) {
+  .posts {
+    flex-direction: column;
+  }
+  .post {
+    margin-left: 0;
+    flex-basis: 100%;
+    max-width: unset;
+  }
+}
