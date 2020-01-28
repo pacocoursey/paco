@@ -12,6 +12,7 @@
 .posts {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .post {
@@ -22,6 +23,10 @@
   padding: var(--gap);
   margin-left: calc(-1 * var(--gap));
   transition: color var(--transition), background-color var(--transition);
+}
+
+.post:nth-child(n+3) {
+  margin-top: var(--gap);
 }
 
 .post.active,
@@ -75,9 +80,14 @@
   .posts {
     flex-direction: column;
   }
+
   .post {
     margin-left: 0;
     flex-basis: 100%;
     max-width: unset;
+  }
+
+  .post:nth-child(n+3) {
+    margin: 0;
   }
 }
