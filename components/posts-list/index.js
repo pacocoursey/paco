@@ -30,9 +30,9 @@ const P = ({ content, slug }) => {
   return content.map(([month, list], j) => {
     return (
       <div key={`${month}-${list.length}-${j}`} className={styles.group}>
-        <time dateTime={new Date(month).toISOString()} className={styles.month}>
+        <span className={styles.month}>
           {month}
-        </time>
+        </span>
 
         <div className={styles.posts}>
           {list.map((post, i) => {
