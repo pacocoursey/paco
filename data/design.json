@@ -15,6 +15,13 @@
   ],
   "data": [
     {
+      "title": "Digital Psychology",
+      "description": "A free library of psychological principles and examples to elevate your SaaS, e-commerce or other digital products.",
+      "image": "http://digitalpsychology.io/static/seo-image.33cf7434.png",
+      "url": "https://digitalpsychology.io/",
+      "key": "website"
+    },
+    {
       "title": "Brian Lovin",
       "description": "Product designer",
       "image": "https://brianlovin.com/static/og-image.jpeg",

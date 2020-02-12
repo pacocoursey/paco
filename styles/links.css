@@ -56,16 +56,6 @@
   margin-left: var(--gap-half);
 }
 
-.l-t::before {
-  //content: '';
-  border-radius: 50%;
-  height: 10px;
-  width: 10px;
-  background: var(--color);
-  margin-right: var(--gap-half);
-  transition: background-color var(--transition);
-}
-
 .l-t:hover,
 .l-t:focus,
 .l-t.active {

@@ -74,6 +74,7 @@
 }
 
 ::selection {
+  text-shadow: none;
   background: var(--selection);
   color: var(--bg);
 }
@@ -236,7 +237,6 @@ article img {
 .flex {
   display: flex;
 }
-
 
 /* Lists */
 
