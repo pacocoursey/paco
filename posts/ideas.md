@@ -7,14 +7,16 @@ hidden: true
 
 ## Code
 
-- [ ] GUI for plain JSON databases using lowdb (`dead` - Dead Easy Array Databases)
-- [ ] MDX implementation using marked, custom HTML tags, and \[data\] attributes
-- [ ] Deploy DB as a static file and use ISSG
+- [x] MDX implementation using marked, custom HTML tags, and \[data\] attributes
 - [x] styled-system HOC for use with styled-jsx
+- [x] Writing app that turns off the screen
+- [ ] GUI for plain JSON databases using lowdb (`dead` - Dead Easy Array Databases)
 - [ ] spotlight-like password manager with good keybinds
 - [ ] Music gathering site, combines all other services to centralize a playlist (http://song.link/)
-- [x] Writing app that turns off the screen
 - [ ] Storytelling using Command+F to jump between occurences
+- [ ] Deploy DB as a static file and use ISSG
+- [ ] Client side OG image generator
+- [ ] Update homepage to use SSG
 
 ## Blog
 
@@ -25,8 +27,6 @@ hidden: true
 - [x] Thoughts on gaming
 - [ ] Instrinsic value and pursuit of popularity
 - [ ] A decent popover
-
-## Figma
-
-- [ ] Minimal redesigns of popular websites
-- [x] Logos
+- [ ] Ghost Mouse
+- [ ] Temporal Navigation
+- [ ] A taste of Mercury
