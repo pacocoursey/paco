@@ -15,6 +15,13 @@
   ],
   "data": [
     {
+      "title": "The Design Graph | Jxnblk",
+      "description": "A constraint-based system for organizing styles in UI design",
+      "image": "https://jxnblk.com/avatar.png",
+      "url": "https://jxnblk.com/blog/design-graph/",
+      "key": "blog"
+    },
+    {
       "title": "Fast Software, the Best Software",
       "description": "Essay on the benefits of speedy software, and how it affects user perception of engineering quality and overall usability",
       "url": "https://craigmod.com/essays/fast_software/",
