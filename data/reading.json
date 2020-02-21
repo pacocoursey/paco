@@ -15,6 +15,25 @@
   ],
   "data": [
     {
+      "title": "Fast Software, the Best Software",
+      "description": "Essay on the benefits of speedy software, and how it affects user perception of engineering quality and overall usability",
+      "url": "https://craigmod.com/essays/fast_software/",
+      "key": "blog"
+    },
+    {
+      "title": "The Ten Commandments of Egoless Programming",
+      "description": "The Ten Commandments of Egoless Programming, as originally established in Jerry Weinberg's book The Psychology of Computer Programming:  Understand and accept that you will make mistakes. The point is to find them early, before they make it into production. Fortunately, except for the few of us developing rocket guidance software",
+      "url": "https://blog.codinghorror.com/the-ten-commandments-of-egoless-programming/",
+      "key": "blog"
+    },
+    {
+      "title": "Dark Mode in Web Inspector",
+      "description": "Web Inspector on macOS Mojave now supports Dark Mode.",
+      "image": "https://webkit.org/wp-content/uploads/trimmed.png",
+      "url": "https://webkit.org/blog/8892/dark-mode-in-web-inspector/",
+      "key": "article"
+    },
+    {
       "title": "Simplify.",
       "description": "I used to be a slave to my startups. If I wasn't working, I had a perpetual feeling of guilt that I should be working. I had a revelation one day when I realized I did...",
       "image": "https://turbo.paulstamatiou.com/uploads/2013/04/pstam_simplify_500.jpg",
