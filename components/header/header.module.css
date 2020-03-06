@@ -1,0 +1,27 @@
+.home {
+  outline: none;
+  display: inline-flex;
+}
+
+.command,
+.logo {
+  display: inline-flex;
+  padding: 10px;
+  margin: -10px;
+  border-radius: var(--radius);
+  transition: background-color var(--transition);
+}
+
+.command:hover,
+.command:focus,
+.logo:hover,
+.logo:focus-within {
+  outline: none;
+  background: var(--lighter-gray);
+}
+
+.command {
+  cursor: pointer;
+  margin-left: var(--gap-half);
+  background: none;
+}

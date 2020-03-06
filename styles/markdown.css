@@ -1,18 +1,18 @@
 /* Lists */
 
-ul {
+article ul {
   padding-left: 2rem;
 }
 
-li {
+article li {
   list-style-type: none;
 }
 
-li::before {
+article li::before {
   content: '– ';
 }
 
-li.reset {
+article li.reset {
   display: flex;
   align-items: flex-start;
 
@@ -20,11 +20,11 @@ li.reset {
   margin-left: -0.5rem;
 }
 
-li.reset::before {
+article li.reset::before {
   content: none;
 }
 
-li.reset .check {
+article li.reset .check {
   display: flex;
   align-items: center;
   margin-right: 0.51rem;

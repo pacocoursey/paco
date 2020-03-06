@@ -22,7 +22,7 @@ const Page = ({
       {header && <Header content={content} title={title} />}
       <main>{children}</main>
       {postFooter && <Posts slug={slug} />}
-      {footer && <Footer rss={postFooter} />}
+      {/* {footer && <Footer rss={postFooter} />} */}
 
       <style jsx>{`
         div {
