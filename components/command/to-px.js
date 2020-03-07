@@ -1,4 +1,4 @@
-const toPx = (x) => {
+const toPx = x => {
   if (typeof x === 'string') {
     return x
   }

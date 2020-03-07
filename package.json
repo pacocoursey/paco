@@ -2,7 +2,7 @@
   "name": "blog",
   "version": "1.0.0",
   "scripts": {
-    "lint": "prettier --write '**/*.js'",
+    "lint": "eslint . && prettier --write '**/*.js' --loglevel warn",
     "dev": "next -p 3003",
     "build": "node ./lib/generate-posts.js && yarn rss && next build",
     "watch": "nodemon ./lib/generate-posts.js",
@@ -12,6 +12,7 @@
   "pre-commit": "lint",
   "license": "MIT",
   "dependencies": {
+    "@reach/auto-id": "^0.8.6",
     "@reach/portal": "^0.8.5",
     "body-scroll-lock": "^2.6.4",
     "classnames": "^2.2.6",
@@ -22,76 +23,27 @@
     "prismjs": "^1.17.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "react-intersection-observer": "^8.24.2",
-    "rss": "^1.2.2"
+    "react-intersection-observer": "^8.24.2"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
     "babel-eslint": "^10.0.2",
     "eslint": "^6.1.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.5.0",
     "lowdb": "^1.0.0",
     "nodemon": "^1.19.1",
     "open-graph-scraper": "^3.6.2",
     "prettier": "^1.18.2",
     "prompts": "^2.2.1",
+    "rss": "^1.2.2",
+    "typescript": "^3.8.3",
     "yaml-front-matter": "^4.0.0"
   },
   "prettier": {
     "semi": false,
     "singleQuote": true
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "ecmaVersion": 8,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true,
-        "impliedStrict": true,
-        "experimentalObjectRestSpread": true
-      },
-      "allowImportExportEverywhere": true
-    },
-    "plugins": [
-      "react",
-      "import"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended"
-    ],
-    "env": {
-      "es6": true,
-      "browser": true,
-      "node": true
-    },
-    "rules": {
-      "func-names": [
-        "error",
-        "as-needed"
-      ],
-      "no-shadow": "error",
-      "import/no-mutable-exports": "error",
-      "import/no-anonymous-default-export": [
-        "error",
-        {
-          "allowArray": true,
-          "allowArrowFunction": true,
-          "allowLiteral": true,
-          "allowObject": true
-        }
-      ],
-      "no-extra-semi": 0,
-      "react/prop-types": 0,
-      "react/react-in-jsx-scope": 0,
-      "react/no-unescaped-entities": 0,
-      "react/jsx-no-target-blank": 0,
-      "react/no-string-refs": 0
-    }
-  },
-  "eslintIgnore": [
-    "**/node_modules/**/**",
-    "**/.next/**/**"
-  ]
+  }
 }

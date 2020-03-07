@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -38,6 +39,7 @@ const CommandIcon = () => {
 
 const Header = () => {
   const router = useRouter()
+  const [placeholder, setPlaceholder] = useState('Type a command or search...')
   return (
     <nav>
       <div className="header">
@@ -46,10 +48,9 @@ const Header = () => {
         </div>
 
         <Command
-          // max={7}
-          max={20}
+          max={7}
           width="calc(var(--main-content) - var(--gap-double))"
-          placeholder="Type a command or search..."
+          placeholder={placeholder}
           options={[
             {
               name: 'Dark theme',
@@ -68,26 +69,29 @@ const Header = () => {
               collection: true,
               items: [
                 {
-                  name: 'Blog',
+                  name: 'Blog...',
                   keybind: ['g', 'b'],
                   icon: <Pencil />,
-                  callback: () => router.push('/blog'),
+                  callback: () => setPlaceholder('Search blog...'),
                   items: [
                     {
                       name: 'Custom text underlines',
                       icon: <Pencil />,
                       callback: () =>
-                        router.push(
-                          '/[post]',
-                          '/custom-text-underlines'
-                        )
+                        router.push('/[post]', '/custom-text-underlines')
+                    },
+                    {
+                      name: 'Thoughtless',
+                      icon: <Pencil />,
+                      callback: () =>
+                        router.push('/[post]', '/be-thoughtless')
                     }
                   ]
                 }
               ]
             },
             {
-              name: 'XX',
+              name: 'Collections',
               collection: true,
               items: [
                 {
@@ -116,30 +120,30 @@ const Header = () => {
                 },
                 {
                   name: 'Projects collection',
-                  keybind: ['g', 'm'],
+                  keybind: ['g', 'p'],
                   icon: <Document />,
                   callback: () => router.push('/projects')
                 }
               ]
             },
-            // {
-            //   name: 'Pages',
-            //   collection: true,
-            //   items: [
-            //     {
-            //       name: 'Home',
-            //       keybind: ['g', 'h'],
-            //       icon: <Play />,
-            //       callback: () => router.push('/')
-            //     },
-            //     {
-            //       name: 'Contact',
-            //       keybind: ['g', 'c'],
-            //       icon: <Play />,
-            //       callback: () => router.push('/contact')
-            //     }
-            //   ]
-            // }
+            {
+              name: 'Navigation',
+              collection: true,
+              items: [
+                {
+                  name: 'Home',
+                  keybind: ['g', 'h'],
+                  icon: <Play />,
+                  callback: () => router.push('/')
+                },
+                {
+                  name: 'Contact',
+                  keybind: ['g', 'c'],
+                  icon: <Play />,
+                  callback: () => router.push('/contact')
+                }
+              ]
+            }
           ]}
         >
           <button className={styles.command}>
