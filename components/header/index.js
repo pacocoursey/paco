@@ -69,10 +69,15 @@ const Header = () => {
               collection: true,
               items: [
                 {
-                  name: 'Blog...',
+                  name: 'Blog',
                   keybind: ['g', 'b'],
                   icon: <Pencil />,
-                  callback: () => setPlaceholder('Search blog...'),
+                  callback: () => router.push('/blog')
+                },
+                {
+                  name: 'Search blog...',
+                  icon: <Pencil />,
+                  callback: () => setPlaceholder('Search blog posts...'),
                   items: [
                     {
                       name: 'Custom text underlines',
@@ -83,8 +88,7 @@ const Header = () => {
                     {
                       name: 'Thoughtless',
                       icon: <Pencil />,
-                      callback: () =>
-                        router.push('/[post]', '/be-thoughtless')
+                      callback: () => router.push('/[post]', '/be-thoughtless')
                     }
                   ]
                 }

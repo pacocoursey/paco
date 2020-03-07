@@ -2,7 +2,7 @@ import Head from 'next/head'
 
 import Header from './header'
 import Posts from './posts-list'
-import Footer from './footer'
+// import Footer from './footer'
 
 const Page = ({
   header = true,

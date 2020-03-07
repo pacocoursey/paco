@@ -10,7 +10,7 @@ const posts = {}
 data
   .filter(p => p.hidden !== true)
   .sort((a, b) => new Date(b.date) - new Date(a.date))
-  .map(p => {
+  .forEach(p => {
     const d = new Date(p.date)
     const displayDate = `${d.toLocaleString('default', {
       year: 'numeric',

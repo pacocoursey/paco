@@ -231,15 +231,21 @@ const Command = ({
     setOpen(false)
   }, [])
 
-  const handleNested = useCallback(i => {
-    setOptions(i)
-    setItems(i)
-    setActive(0)
-    if (inputRef.current) {
-      inputRef.current.value = ''
-    }
-    flatItems[active].callback()
-  }, [flatItems, active])
+  const handleNested = useCallback(
+    i => {
+      setOptions(i)
+      setItems(i)
+      setActive(0)
+      if (inputRef.current) {
+        inputRef.current.value = ''
+      }
+
+      if (flatItems[active].callback) {
+        flatItems[active].callback()
+      }
+    },
+    [flatItems, active]
+  )
 
   const onKeyDown = useCallback(
     e => {
