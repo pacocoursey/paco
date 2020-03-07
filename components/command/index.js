@@ -9,8 +9,8 @@ import {
 import Portal from '@reach/portal'
 import cn from 'classnames'
 import matchSorter from 'match-sorter'
-import toPx from './to-px'
 
+import toPx from './to-px'
 import styles from './command.module.css'
 
 const Label = ({ children }) => {
@@ -96,10 +96,35 @@ const renderItems = (items, count, ...rest) => {
 const flatten = i =>
   i
     .map(item => {
-      if (item.collection) return [item, flatten(item.items)]
+      if (item.collection) return flatten(item.items)
       return item
     })
     .flat(2)
+
+// interface DefaultOption {
+//   name: string
+//   keybind?: string | string[]
+//   icon?: React.ReactNode
+//   callback: () => void
+// }
+
+// interface CollectionOption {
+//   name: string
+//   collection: true
+//   items: Option[]
+// }
+
+// type Option = DefaultOption | CollectionOption
+
+// interface CommandProps {
+//   open?: boolean
+//   options: Option[]
+//   max?: number
+//   height?: number
+//   width?: number | string
+//   placeholder?: string
+//   children?: React.ReactNode
+// }
 
 const Command = ({
   open: propOpen,
@@ -116,9 +141,8 @@ const Command = ({
   const [items, setItems] = useState(options)
 
   const flatItems = useMemo(() => flatten(items), [items])
-  const flatOptions = useMemo(() => flatten(options), [options])
 
-  console.log(flatOptions);
+  // console.log(options.filter(x => x.name === 'XX').pop().items.length)
 
   const handleKeybinds = useCallback(e => {
     if (e.metaKey && e.key === 'k') {
@@ -146,7 +170,30 @@ const Command = ({
   }, [open])
 
   const onChange = useCallback(e => {
-    setItems(matchSorter(flatOptions, e.target.value, { keys: ['name'] }))
+    if (!e.target.value) {
+      setItems(options)
+      setActive(0)
+    }
+
+    const x = matchSorter(options, e.target.value, {
+      keys: [
+        item => item.name,
+        item => (item.collection ? item.items.map(i => i.name) : undefined)
+      ]
+    })
+
+    const y = x.map(i => {
+      if (i.collection) {
+        return {
+          ...i,
+          items: matchSorter(i.items, e.target.value, { keys: ['name'] })
+        }
+      }
+
+      return i
+    })
+
+    setItems(y)
     setActive(0)
   }, [])
 
@@ -185,6 +232,8 @@ const Command = ({
     [active, flatItems]
   )
 
+  // console.log(items)
+
   return (
     <>
       <div
@@ -203,7 +252,10 @@ const Command = ({
               <div
                 className={cn(styles.command)}
                 onKeyDown={onKeyDown}
-                style={{ '--height': toPx(height), '--width': toPx(width) }}
+                style={{
+                  '--height': toPx(height),
+                  '--width': toPx(width)
+                }}
               >
                 <input
                   type="name"
