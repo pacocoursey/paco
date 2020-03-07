@@ -46,7 +46,8 @@ const Header = () => {
         </div>
 
         <Command
-          max={7}
+          // max={7}
+          max={20}
           width="calc(var(--main-content) - var(--gap-double))"
           placeholder="Type a command or search..."
           options={[
@@ -74,10 +75,11 @@ const Header = () => {
                   items: [
                     {
                       name: 'Custom text underlines',
+                      icon: <Pencil />,
                       callback: () =>
                         router.push(
-                          '/blog/[post]',
-                          '/blog/custom-text-underlines'
+                          '/[post]',
+                          '/custom-text-underlines'
                         )
                     }
                   ]
@@ -85,7 +87,7 @@ const Header = () => {
               ]
             },
             {
-              name: 'Collections',
+              name: 'XX',
               collection: true,
               items: [
                 {
@@ -120,24 +122,24 @@ const Header = () => {
                 }
               ]
             },
-            {
-              name: 'Pages',
-              collection: true,
-              items: [
-                {
-                  name: 'Home',
-                  keybind: ['g', 'h'],
-                  icon: <Play />,
-                  callback: () => router.push('/')
-                },
-                {
-                  name: 'Contact',
-                  keybind: ['g', 'c'],
-                  icon: <Play />,
-                  callback: () => router.push('/contact')
-                }
-              ]
-            }
+            // {
+            //   name: 'Pages',
+            //   collection: true,
+            //   items: [
+            //     {
+            //       name: 'Home',
+            //       keybind: ['g', 'h'],
+            //       icon: <Play />,
+            //       callback: () => router.push('/')
+            //     },
+            //     {
+            //       name: 'Contact',
+            //       keybind: ['g', 'c'],
+            //       icon: <Play />,
+            //       callback: () => router.push('/contact')
+            //     }
+            //   ]
+            // }
           ]}
         >
           <button className={styles.command}>

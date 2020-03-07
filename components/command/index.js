@@ -1,4 +1,11 @@
-import { useState, useCallback, useRef, useEffect } from 'react'
+import {
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+  Fragment,
+  useMemo
+} from 'react'
 import Portal from '@reach/portal'
 import cn from 'classnames'
 import matchSorter from 'match-sorter'
@@ -10,14 +17,7 @@ const Label = ({ children }) => {
   return <div className={styles.divider}>{children}</div>
 }
 
-const Item = ({
-  active,
-  icon,
-  name,
-  callback,
-  onMouseMove,
-  keybind
-}) => {
+const Item = ({ active, icon, name, callback, onMouseMove, keybind }) => {
   return (
     <li
       className={cn(styles.item, { [styles.active]: active })}
@@ -29,18 +29,77 @@ const Item = ({
         <span>{name}</span>
       </div>
 
-      <span className={styles.keybind}>
-        {Array.isArray(keybind) ? (
-          keybind.map(key => {
-            return <kbd key={`item-${name}-keybind-${key}`}>{key}</kbd>
-          })
-        ) : (
-          <kbd>{keybind}</kbd>
-        )}
-      </span>
+      {keybind && (
+        <span className={styles.keybind}>
+          {Array.isArray(keybind) ? (
+            keybind.map(key => {
+              return <kbd key={`item-${name}-keybind-${key}`}>{key}</kbd>
+            })
+          ) : (
+            <kbd>{keybind}</kbd>
+          )}
+        </span>
+      )}
     </li>
   )
 }
+
+const renderItems = (items, count, ...rest) => {
+  return items.map((item, i) => {
+    if (item.collection) {
+      return (
+        <Fragment key={`command-option-${item.name}-${count}-${i}`}>
+          <Label>{item.name}</Label>
+          {renderItems(item.items, count + i, ...rest)}
+        </Fragment>
+      )
+    }
+
+    const [active, setActive, inputRef, callback, x] = rest
+
+    // Contains submenu items
+    if (item.items) {
+      return (
+        <Item
+          {...item}
+          key={`command-option-${item.name}-${count}-${i}`}
+          active={active === count + i}
+          onMouseMove={() => {
+            setActive(count + i)
+            if (inputRef.current) {
+              inputRef.current.focus()
+            }
+          }}
+          callback={() => x(item.items)}
+        />
+      )
+    }
+
+    // Exit case
+    return (
+      <Item
+        {...item}
+        key={`command-option-${item.name}-${i}`}
+        active={active === count + i}
+        onMouseMove={() => {
+          setActive(count + i)
+          if (inputRef.current) {
+            inputRef.current.focus()
+          }
+        }}
+        callback={() => callback(item.callback)}
+      />
+    )
+  })
+}
+
+const flatten = i =>
+  i
+    .map(item => {
+      if (item.collection) return [item, flatten(item.items)]
+      return item
+    })
+    .flat(2)
 
 const Command = ({
   open: propOpen,
@@ -55,6 +114,11 @@ const Command = ({
   const [open, setOpen] = useState(propOpen)
   const [active, setActive] = useState(0)
   const [items, setItems] = useState(options)
+
+  const flatItems = useMemo(() => flatten(items), [items])
+  const flatOptions = useMemo(() => flatten(options), [options])
+
+  console.log(flatOptions);
 
   const handleKeybinds = useCallback(e => {
     if (e.metaKey && e.key === 'k') {
@@ -82,7 +146,7 @@ const Command = ({
   }, [open])
 
   const onChange = useCallback(e => {
-    setItems(matchSorter(options, e.target.value, { keys: ['name'] }))
+    setItems(matchSorter(flatOptions, e.target.value, { keys: ['name'] }))
     setActive(0)
   }, [])
 
@@ -100,24 +164,25 @@ const Command = ({
   const onKeyDown = useCallback(
     e => {
       switch (e.key) {
-        case 'ArrowDown':
-          if (active < items.length - 1) {
+        case 'ArrowDown': {
+          if (active < flatItems.length - 1) {
             setActive(active + 1)
           }
           break
+        }
         case 'ArrowUp':
           if (active > 0) {
             setActive(active - 1)
           }
           break
         case 'Enter':
-          callback(items[active].callback)
+          callback(flatItems[active].callback)
           break
         default:
           break
       }
     },
-    [active, items]
+    [active, flatItems]
   )
 
   return (
@@ -161,51 +226,27 @@ const Command = ({
                     height:
                       items.length !== 0
                         ? items
-                            .map(x => (x.divider ? 6 : height))
+                            .map(x =>
+                              x.collection
+                                ? 25 + x.items.length * height
+                                : height
+                            )
                             .reduce((acc, cur) => acc + cur)
                         : 0
                   }}
                 >
-                  {items.map((option, i) => {
-                    if (option.collection) {
-                      return (
-                        <>
-                          <Label>{option.name}</Label>
-                          {option.items.map((suboption, j) => {
-                            return (
-                              <Item
-                                {...suboption}
-                                key={`command-suboption-${option.name}-${suboption.name}-${j}`}
-                                active={active === i + j}
-                                onMouseMove={() => {
-                                  setActive(i)
-                                  if (inputRef.current) {
-                                    inputRef.current.focus()
-                                  }
-                                }}
-                                callback={() => callback(suboption.callback)}
-                              />
-                            )
-                          })}
-                        </>
-                      )
+                  {renderItems(
+                    items,
+                    0,
+                    active,
+                    setActive,
+                    inputRef,
+                    callback,
+                    x => {
+                      alert(x)
+                      setItems(x)
                     }
-
-                    return (
-                      <Item
-                        {...option}
-                        key={`command-option-${option.name}-${i}`}
-                        active={active === i}
-                        onMouseMove={() => {
-                          setActive(i)
-                          if (inputRef.current) {
-                            inputRef.current.focus()
-                          }
-                        }}
-                        callback={() => callback(option.callback)}
-                      />
-                    )
-                  })}
+                  )}
                 </ul>
               </div>
             </div>
