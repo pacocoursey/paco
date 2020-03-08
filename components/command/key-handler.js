@@ -40,6 +40,7 @@ const arraysAreEqual = (arr1, arr2) =>
   arr1.length === arr2.length && arr1.every((item, i) => item === arr2[i])
 
 const KEY_SEQUENCE_TIMEOUT = 1000
+let insideSequence = false
 
 const getHotkeysArray = hotkeys => {
   const hkeys = hotkeys.toLowerCase()
@@ -77,6 +78,7 @@ class KeyHandler {
   }
 
   resetKeySequence = () => {
+    insideSequence = false
     this.clearSequenceTimer()
     this.keySequence = []
   }
@@ -84,14 +86,21 @@ class KeyHandler {
   handleKeySequence = event => {
     this.clearSequenceTimer()
 
+    // Pressed key does not match the pattern
+    if (this.keys[this.keySequence.length] !== event.key.toLowerCase()) {
+      return
+    }
+
     this.sequenceTimer = setTimeout(() => {
       this.resetKeySequence()
     }, KEY_SEQUENCE_TIMEOUT)
 
+    insideSequence = true
     this.keySequence.push(event.key.toLowerCase())
 
     if (arraysAreEqual(this.keySequence, this.keys)) {
       this.resetKeySequence()
+      event.preventDefault()
       this.callback(event)
     }
   }
@@ -103,6 +112,7 @@ class KeyHandler {
     const allModKeysPressed = isSameSet(modKeys, activeModKeys)
 
     if (allModKeysPressed && event.key.toLowerCase() === actionKey) {
+      event.preventDefault()
       this.callback(event)
     }
   }
@@ -113,13 +123,14 @@ class KeyHandler {
       return this.handleModifierCombo(event)
     }
 
-    // Handle key sequencesf
+    // Handle key sequences
     if (this.keys.length > 1 && !modifierKeyPressed(event)) {
       return this.handleKeySequence(event)
     }
 
     // Handle the basic case: a single hotkey
-    if (event.key.toLowerCase() === this.keys[0]) {
+    if (!insideSequence && event.key.toLowerCase() === this.keys[0]) {
+      event.preventDefault()
       return this.callback(event)
     }
   }

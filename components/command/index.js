@@ -6,8 +6,8 @@ import { useId } from '@reach/auto-id'
 import { Transition } from 'react-transition-group'
 
 import toPx from './to-px'
-import styles from './command.module.css'
 import KeyHandler from './key-handler'
+import styles from './command.module.css'
 
 const Label = ({ children }) => {
   return <div className={styles.divider}>{children}</div>
@@ -167,6 +167,7 @@ const Command = ({
         setActive(0)
       }
 
+      // TODO: allow searching on secondary value, or shortcut value
       const x = matchSorter(options, e.target.value, {
         keys: [
           item => !item.collection && item.name,
@@ -313,7 +314,11 @@ const Command = ({
     })
 
     const keybind = e => {
-      keybinds.forEach(handler => handler.handle(e))
+      // Only handle keybinds if there is nothing else selected on the page
+      // i.e. shouldn't trigger keybind when typing into <input />
+      if (document.activeElement === document.body) {
+        keybinds.forEach(handler => handler.handle(e))
+      }
     }
 
     window.addEventListener('keydown', keybind)
