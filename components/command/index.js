@@ -76,23 +76,11 @@ const renderItems = ({ items, base = 0, ...rest }) => {
     const { active, setActive, inputRef, callback, x, counts } = rest
     const index = counts.slice(0, base).reduce((acc, cur) => acc + cur, 0) + i
 
+    let cb = () => callback(item.callback)
+
     // Contains submenu items
     if (item.items) {
-      return (
-        <Item
-          {...item}
-          index={index}
-          key={`command-option-${item.name}-${index}`}
-          active={active === index}
-          onMouseMove={() => {
-            setActive(index)
-            if (inputRef.current) {
-              inputRef.current.focus()
-            }
-          }}
-          callback={() => x(item.items)}
-        />
-      )
+      cb = () => x(item.items)
     }
 
     // Exit case
@@ -108,7 +96,7 @@ const renderItems = ({ items, base = 0, ...rest }) => {
             inputRef.current.focus()
           }
         }}
-        callback={() => callback(item.callback)}
+        callback={cb}
       />
     )
   })
@@ -120,7 +108,7 @@ const flatten = i =>
       if (item.collection) return flatten(item.items)
       return item
     })
-    .flat(2)
+    .flat()
 
 // interface DefaultOption {
 //   name: string
@@ -166,31 +154,31 @@ const Command = ({
 
   const flatItems = useMemo(() => flatten(items), [items])
 
-  const handleKeybinds = useCallback(e => {
-    if (e.metaKey && e.key === 'k') {
-      setOpen(o => !o)
-    } else if (e.key === 'Escape') {
+  const toggle = useCallback(value => {
+    if (value === false || open === true) {
       setOpen(false)
+      return
     }
-  }, [])
 
-  useEffect(() => {
-    // Register keybinds
-    window.addEventListener('keydown', handleKeybinds)
-
-    return () => {
-      window.removeEventListener('keydown', handleKeybinds)
+    if (value === true) {
+      // Open
+      return setOpen(true)
     }
-  }, [handleKeybinds])
 
-  useEffect(() => {
-    if (!open) {
-      // Reset options on close
-      setOptions(defaultOptions)
-      setItems(defaultOptions)
-      setActive(0)
-    }
-  }, [open, options, defaultOptions])
+    // Toggle
+    setOpen(!open)
+  }, [open])
+
+  const handleKeybinds = useCallback(
+    e => {
+      if (e.metaKey && e.key === 'k') {
+        toggle()
+      } else if (e.key === 'Escape') {
+        toggle(false)
+      }
+    },
+    [toggle]
+  )
 
   const onChange = useCallback(
     e => {
@@ -223,13 +211,16 @@ const Command = ({
     [options]
   )
 
-  const callback = useCallback(c => {
-    if (c) {
-      c()
-    }
+  const callback = useCallback(
+    c => {
+      if (c) {
+        c()
+      }
 
-    setOpen(false)
-  }, [])
+      toggle(false)
+    },
+    [toggle]
+  )
 
   const handleNested = useCallback(
     i => {
@@ -290,12 +281,31 @@ const Command = ({
     [active, flatItems, callback, handleNested]
   )
 
+  // Effects
+  useEffect(() => {
+    // Register keybinds
+    window.addEventListener('keydown', handleKeybinds)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeybinds)
+    }
+  }, [handleKeybinds])
+
+  useEffect(() => {
+    if (!open) {
+      // Reset options on close
+      setOptions(defaultOptions)
+      setItems(defaultOptions)
+      setActive(0)
+    }
+  }, [open, options, defaultOptions])
+
   return (
     <>
       <div
         role="button"
         tabIndex={0}
-        onClick={() => setOpen(!open)}
+        onClick={toggle}
         className={styles.trigger}
       >
         {children}
@@ -303,68 +313,64 @@ const Command = ({
 
       {open && (
         <Portal>
-          <div className={styles.screen} onClick={() => setOpen(false)}>
-            <div className={styles.wrapper} onClick={e => e.stopPropagation()}>
-              <div
-                className={cn(styles.command)}
-                onKeyDown={onKeyDown}
+          <div className={styles.screen} onClick={() => toggle(false)}>
+            <div
+              className={cn(styles.command)}
+              onKeyDown={onKeyDown}
+              style={{
+                '--height': toPx(height),
+                '--width': toPx(width)
+              }}
+            >
+              <input
+                type="text"
+                className={cn(styles.input, {
+                  [styles.empty]: items.length === 0
+                })}
+                autoFocus
+                autoCapitalize="off"
+                autoCorrect="off"
+                autoComplete="off"
+                placeholder={placeholder}
+                onChange={onChange}
+                ref={inputRef}
+                role="combobox"
+                aria-autocomplete="list"
+                aria-expanded
+                aria-owns={listID}
+              />
+
+              <ul
+                className={cn(styles.list)}
                 style={{
-                  '--height': toPx(height),
-                  '--width': toPx(width)
+                  maxHeight: max * height,
+                  height:
+                    items.length !== 0
+                      ? items
+                          .map(x =>
+                            x.collection ? 25 + x.items.length * height : height
+                          )
+                          .reduce((acc, cur) => acc + cur)
+                      : 0
                 }}
+                role="listbox"
+                id={listID}
+                ref={listRef}
               >
-                <input
-                  type="text"
-                  className={cn(styles.input, {
-                    [styles.empty]: items.length === 0
-                  })}
-                  autoFocus
-                  autoCapitalize="off"
-                  autoCorrect="off"
-                  autoComplete="off"
-                  placeholder={placeholder}
-                  onChange={onChange}
-                  ref={inputRef}
-                  role="combobox"
-                  aria-autocomplete="list"
-                  aria-expanded
-                  aria-owns={listID}
-                />
+                {renderItems({
+                  items,
+                  counts: items.map(x => (x.collection ? x.items.length : 1)),
+                  active,
+                  setActive,
+                  inputRef,
+                  callback,
+                  x: x => handleNested(x)
+                })}
+              </ul>
 
-                <ul
-                  className={cn(styles.list)}
-                  style={{
-                    maxHeight: max * height,
-                    height:
-                      items.length !== 0
-                        ? items
-                            .map(x =>
-                              x.collection
-                                ? 25 + x.items.length * height
-                                : height
-                            )
-                            .reduce((acc, cur) => acc + cur)
-                        : 0
-                  }}
-                  role="listbox"
-                  id={listID}
-                  ref={listRef}
-                >
-                  {renderItems({
-                    items,
-                    counts: items.map(x => (x.collection ? x.items.length : 1)),
-                    active,
-                    setActive,
-                    inputRef,
-                    callback,
-                    x: x => handleNested(x)
-                  })}
-                </ul>
-
-                {/* Specifically for screen readers */}
-                <div aria-live="polite" role="status" className={styles.hidden}>
-                  {flatItems.length} results available...
-                </div>
+              {/* Specifically for screen readers */}
+              <div aria-live="polite" role="status" className={styles.hidden}>
+                {flatItems.length} results available...
               </div>
             </div>
           </div>

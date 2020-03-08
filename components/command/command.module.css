@@ -1,5 +1,5 @@
 .screen {
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
@@ -7,24 +7,36 @@
   z-index: 9999;
 }
 
-.wrapper {
-  position: absolute;
-  left: 50%;
-  top: calc(30px + var(--big-gap) + (3 * var(--gap-double)));
-  transform: translateX(-50%);
-  background: var(--bg);
-  z-index: 999;
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .command {
+  background: var(--bg);
+  position: relative;
+  z-index: 999;
+  margin: 0 auto;
+  top: calc(30px + var(--big-gap) + (3 * var(--gap-double)));
+
   --padding: 0 20px;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  width: var(--width);
+  max-width: var(--width);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.4), 0px 0px 60px rgba(0, 0, 0, 0.5),
     inset 0px 1px 0px rgba(0, 0, 0, 0.6);
+
+  animation: appear 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 :global(html.light) .command {
@@ -75,7 +87,6 @@
   justify-content: space-between;
   align-items: center;
   color: var(--gray);
-  /* transition: color 0.15s ease; */
 }
 
 .item.active {
@@ -145,16 +156,4 @@
   appearance: none;
   white-space: nowrap;
   word-wrap: normal;
-}
-
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: scale(0.8) translateX(-50%);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1) translateX(-50%);
-  }
 }
