@@ -10,9 +10,55 @@ import Portal from '@reach/portal'
 import cn from 'classnames'
 import matchSorter from 'match-sorter'
 import { useId } from '@reach/auto-id'
+import { Transition } from 'react-transition-group'
 
 import toPx from './to-px'
 import styles from './command.module.css'
+
+// interface DefaultOption {
+//   name: string
+//   keybind?: string | string[]
+//   icon?: React.ReactNode
+//   callback: () => void
+// }
+
+// interface DeepOption extends DefaultOption {
+//   items: Option[]
+// }
+
+// interface CollectionOption {
+//   name: string
+//   collection: true
+//   items: Option[]
+// }
+
+// type Option = DefaultOption | CollectionOption | DeepOption
+
+// interface CommandProps {
+//   open?: boolean
+//   options: Option[]
+//   max?: number
+//   height?: number
+//   width?: number | string
+//   placeholder?: string
+//   children?: React.ReactNode
+// }
+
+// interface ItemProps extends DefaultOption {
+//   active?: boolean
+//   onMouseMove: () => void
+//   index: number
+// }
+
+// interface RenderProps {
+//   items: Option[]
+//   base?: number
+//   active: number
+//   setActive: (index: number) => void
+//   updateOptions: (opts: Option[]) => void
+//   counts: number[]
+//   callback: (cb: () => void) => void
+// }
 
 const Label = ({ children }) => {
   return <div className={styles.divider}>{children}</div>
@@ -73,14 +119,14 @@ const renderItems = ({ items, base = 0, ...rest }) => {
       )
     }
 
-    const { active, setActive, inputRef, callback, x, counts } = rest
+    const { active, setActive, callback, updateOptions, counts } = rest
     const index = counts.slice(0, base).reduce((acc, cur) => acc + cur, 0) + i
 
     let cb = () => callback(item.callback)
 
     // Contains submenu items
     if (item.items) {
-      cb = () => x(item.items)
+      cb = () => updateOptions(item.items)
     }
 
     // Exit case
@@ -90,12 +136,7 @@ const renderItems = ({ items, base = 0, ...rest }) => {
         index={index}
         key={`command-option-${item.name}-${index}`}
         active={active === index}
-        onMouseMove={() => {
-          setActive(index)
-          if (inputRef.current) {
-            inputRef.current.focus()
-          }
-        }}
+        onMouseMove={() => setActive(index)}
         callback={cb}
       />
     )
@@ -109,31 +150,6 @@ const flatten = i =>
       return item
     })
     .flat()
-
-// interface DefaultOption {
-//   name: string
-//   keybind?: string | string[]
-//   icon?: React.ReactNode
-//   callback: () => void
-// }
-
-// interface CollectionOption {
-//   name: string
-//   collection: true
-//   items: Option[]
-// }
-
-// type Option = DefaultOption | CollectionOption
-
-// interface CommandProps {
-//   open?: boolean
-//   options: Option[]
-//   max?: number
-//   height?: number
-//   width?: number | string
-//   placeholder?: string
-//   children?: React.ReactNode
-// }
 
 const Command = ({
   open: propOpen,
@@ -154,20 +170,23 @@ const Command = ({
 
   const flatItems = useMemo(() => flatten(items), [items])
 
-  const toggle = useCallback(value => {
-    if (value === false || open === true) {
-      setOpen(false)
-      return
-    }
+  const toggle = useCallback(
+    value => {
+      if (value === false || open === true) {
+        setOpen(false)
+        return
+      }
 
-    if (value === true) {
-      // Open
-      return setOpen(true)
-    }
+      if (value === true) {
+        // Open
+        return setOpen(true)
+      }
 
-    // Toggle
-    setOpen(!open)
-  }, [open])
+      // Toggle
+      setOpen(!open)
+    },
+    [open]
+  )
 
   const handleKeybinds = useCallback(
     e => {
@@ -248,7 +267,8 @@ const Command = ({
               const activeItem = listRef.current.querySelector(
                 `li[data-option-index="${active + 1}"]`
               )
-              activeItem.scrollIntoView({
+
+              activeItem?.scrollIntoView({
                 block: 'nearest'
               })
             }
@@ -257,13 +277,16 @@ const Command = ({
         }
         case 'ArrowUp':
           if (active > 0) {
-            setActive(active - 1)
-            const activeItem = listRef.current.querySelector(
-              `li[data-option-index="${active - 1}"]`
-            )
-            activeItem.scrollIntoView({
-              block: 'nearest'
-            })
+            if (listRef.current) {
+              setActive(active - 1)
+              const activeItem = listRef.current.querySelector(
+                `li[data-option-index="${active - 1}"]`
+              )
+
+              activeItem?.scrollIntoView({
+                block: 'nearest'
+              })
+            }
           }
           break
         case 'Enter':
@@ -305,77 +328,85 @@ const Command = ({
       <div
         role="button"
         tabIndex={0}
-        onClick={toggle}
+        onClick={() => toggle()}
         className={styles.trigger}
       >
         {children}
       </div>
-
-      {open && (
-        <Portal>
-          <div className={styles.screen} onClick={() => toggle(false)}>
-            <div
-              className={cn(styles.command)}
-              onKeyDown={onKeyDown}
-              style={{
-                '--height': toPx(height),
-                '--width': toPx(width)
-              }}
-            >
-              <input
-                type="text"
-                className={cn(styles.input, {
-                  [styles.empty]: items.length === 0
+      <Transition in={open} unmountOnExit timeout={250}>
+        {state => (
+          <Portal>
+            <div className={styles.screen} onClick={() => toggle(false)}>
+              <div
+                className={cn(styles.command, {
+                  [styles.exit]: state === 'exiting'
                 })}
-                autoFocus
-                autoCapitalize="off"
-                autoCorrect="off"
-                autoComplete="off"
-                placeholder={placeholder}
-                onChange={onChange}
-                ref={inputRef}
-                role="combobox"
-                aria-autocomplete="list"
-                aria-expanded
-                aria-owns={listID}
-              />
-
-              <ul
-                className={cn(styles.list)}
+                onClick={e => e.stopPropagation()}
+                onKeyDown={onKeyDown}
                 style={{
-                  maxHeight: max * height,
-                  height:
-                    items.length !== 0
-                      ? items
-                          .map(x =>
-                            x.collection ? 25 + x.items.length * height : height
-                          )
-                          .reduce((acc, cur) => acc + cur)
-                      : 0
+                  '--height': toPx(height),
+                  '--width': toPx(width)
                 }}
-                role="listbox"
-                id={listID}
-                ref={listRef}
               >
-                {renderItems({
-                  items,
-                  counts: items.map(x => (x.collection ? x.items.length : 1)),
-                  active,
-                  setActive,
-                  inputRef,
-                  callback,
-                  x: x => handleNested(x)
-                })}
-              </ul>
+                <input
+                  type="text"
+                  className={cn(styles.input, {
+                    [styles.empty]: items.length === 0
+                  })}
+                  autoFocus
+                  autoCapitalize="off"
+                  autoCorrect="off"
+                  autoComplete="off"
+                  placeholder={placeholder}
+                  onChange={onChange}
+                  ref={inputRef}
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded
+                  aria-owns={listID}
+                />
 
-              {/* Specifically for screen readers */}
-              <div aria-live="polite" role="status" className={styles.hidden}>
-                {flatItems.length} results available...
+                <ul
+                  className={cn(styles.list)}
+                  style={{
+                    maxHeight: max * height,
+                    height:
+                      items.length !== 0
+                        ? items
+                            .map(x =>
+                              x.collection
+                                ? 25 + x.items.length * height
+                                : height
+                            )
+                            .reduce((acc, cur) => acc + cur)
+                        : 0
+                  }}
+                  role="listbox"
+                  id={listID}
+                  ref={listRef}
+                >
+                  {renderItems({
+                    items,
+                    counts: items.map(x => (x.collection ? x.items.length : 1)),
+                    active,
+                    setActive: i => {
+                      setActive(i)
+                      inputRef?.current?.focus()
+                    },
+                    callback,
+                    updateOptions: opts => handleNested(opts)
+                  })}
+                </ul>
+
+                {/* Specifically for screen readers */}
+                <div aria-live="polite" role="status" className={styles.hidden}>
+                  {flatItems.length} results available...
+                </div>
               </div>
             </div>
-          </div>
-        </Portal>
-      )}
+          </Portal>
+        )}
+      </Transition>
     </>
   )
 }
