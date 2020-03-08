@@ -1,8 +1,7 @@
 const TKL = ({ size = 18, color = 'var(--fg)' }) => {
   return (
     <svg
-      width={size}
-      // height={size}
+      width="300"
       viewBox="0 0 18 8"
       fill="none"
     >

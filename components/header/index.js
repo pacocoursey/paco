@@ -7,15 +7,18 @@ import {
   Moon,
   Sun,
   Design,
-  Play,
   Book,
   M6,
   Music,
   Document,
-  Pencil
+  Pencil,
+  ArrowRight,
+  Twitter,
+  GitHub,
+  Search
 } from '../icons'
 import Command from '../command'
-import { setLightMode, setDarkMode } from '../../lib/theme'
+import useTheme from '../../lib/theme'
 
 const Logo = () => {
   return (
@@ -40,6 +43,8 @@ const CommandIcon = () => {
 const Header = () => {
   const router = useRouter()
   const [placeholder, setPlaceholder] = useState('Type a command or search...')
+  const { theme, toggleTheme } = useTheme()
+
   return (
     <nav>
       <div className="header">
@@ -49,20 +54,14 @@ const Header = () => {
 
         <Command
           max={7}
-          width="calc(var(--main-content) - var(--gap-double))"
+          width="calc(var(--main-content) - var(--gap))"
           placeholder={placeholder}
           options={[
             {
-              name: 'Dark theme',
+              name: 'Toggle theme',
               keybind: 't',
-              icon: <Moon />,
-              callback: setDarkMode
-            },
-            {
-              name: 'Light theme',
-              keybind: 't',
-              icon: <Sun />,
-              callback: setLightMode
+              icon: theme === 'light' ? <Moon /> : <Sun />,
+              callback: () => toggleTheme()
             },
             {
               name: 'Blog',
@@ -76,18 +75,16 @@ const Header = () => {
                 },
                 {
                   name: 'Search blog...',
-                  icon: <Pencil />,
+                  icon: <Search />,
                   callback: () => setPlaceholder('Search blog posts...'),
                   items: [
                     {
                       name: 'Custom text underlines',
-                      icon: <Pencil />,
                       callback: () =>
                         router.push('/[post]', '/custom-text-underlines')
                     },
                     {
                       name: 'Thoughtless',
-                      icon: <Pencil />,
                       callback: () => router.push('/[post]', '/be-thoughtless')
                     }
                   ]
@@ -137,14 +134,40 @@ const Header = () => {
                 {
                   name: 'Home',
                   keybind: ['g', 'h'],
-                  icon: <Play />,
+                  icon: <ArrowRight />,
                   callback: () => router.push('/')
                 },
                 {
                   name: 'Contact',
                   keybind: ['g', 'c'],
-                  icon: <Play />,
+                  icon: <ArrowRight />,
                   callback: () => router.push('/contact')
+                }
+              ]
+            },
+            {
+              name: 'Social',
+              collection: true,
+              items: [
+                {
+                  name: 'Twitter',
+                  icon: <Twitter />,
+                  callback: () =>
+                    window.open(
+                      'https://twitter.com/pacocoursey',
+                      '_blank',
+                      'noopener noreferrer'
+                    )
+                },
+                {
+                  name: 'GitHub',
+                  icon: <GitHub />,
+                  callback: () =>
+                    window.open(
+                      'https://github.com/pacocoursey',
+                      '_blank',
+                      'noopener noreferrer'
+                    )
                 }
               ]
             }

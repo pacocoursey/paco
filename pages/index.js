@@ -27,11 +27,11 @@ const About = () => {
 
         <p>
           Frontend developer and designer,{' '}
-          <Link className="l-i blue-gray" href="/keyboards">
+          <Link underline href="/keyboards">
             mechanical keyboard
           </Link>{' '}
           enthusiast, practicing minimalist, and{' '}
-          <Link className="l-i green" href="/music">
+          <Link underline href="/music">
             trance lover
           </Link>{' '}
           in search of flow.
@@ -39,7 +39,7 @@ const About = () => {
 
         <p>
           Working with{' '}
-          <Link className="l-i invert" href="https://zeit.co" external>
+          <Link underline href="https://zeit.co" external>
             ▲ ZEIT
           </Link>{' '}
           to design better ways to deploy websites.

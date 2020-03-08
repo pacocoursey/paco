@@ -1,11 +1,4 @@
-import {
-  useState,
-  useCallback,
-  useRef,
-  useEffect,
-  Fragment,
-  useMemo
-} from 'react'
+import { useState, useCallback, useRef, useEffect, Fragment } from 'react'
 import Portal from '@reach/portal'
 import cn from 'classnames'
 import matchSorter from 'match-sorter'
@@ -73,14 +66,26 @@ const Item = ({
   keybind,
   index
 }) => {
+  const itemRef = useRef()
+
+  useEffect(() => {
+    // This item has become active, scroll it into view
+    if (active && itemRef.current) {
+      itemRef.current.scrollIntoView({
+        block: 'nearest'
+      })
+    }
+  }, [active])
+
   return (
     <li
+      ref={itemRef}
       className={cn(styles.item, { [styles.active]: active })}
       onClick={callback}
       onMouseMove={onMouseMove}
       role="option"
       tabIndex={-1}
-      data-option-index={index}
+      data-command-option-index={index}
       aria-selected={active}
     >
       <div className={styles.left}>
@@ -119,10 +124,10 @@ const renderItems = ({ items, base = 0, ...rest }) => {
       )
     }
 
-    const { active, setActive, callback, updateOptions, counts } = rest
+    const { active, setActive, updateOptions, counts } = rest
     const index = counts.slice(0, base).reduce((acc, cur) => acc + cur, 0) + i
 
-    let cb = () => callback(item.callback)
+    let cb = item.callback
 
     // Contains submenu items
     if (item.items) {
@@ -161,15 +166,15 @@ const Command = ({
   children
 }) => {
   const inputRef = useRef(null)
-  const listRef = useRef(null)
+  const nestedRef = useRef(null)
   const [open, setOpen] = useState(propOpen)
   const [active, setActive] = useState(0)
   const [options, setOptions] = useState(defaultOptions)
   const [items, setItems] = useState(options)
   const listID = useId()
+  const flatItems = flatten(items)
 
-  const flatItems = useMemo(() => flatten(items), [items])
-
+  // Callbacks
   const toggle = useCallback(
     value => {
       if (value === false || open === true) {
@@ -230,79 +235,94 @@ const Command = ({
     [options]
   )
 
-  const callback = useCallback(
-    c => {
-      if (c) {
-        c()
-      }
-
-      toggle(false)
-    },
-    [toggle]
-  )
+  const bounce = useCallback(() => {
+    if (inputRef.current) {
+      // Bounce the UI slightly
+      const command = inputRef.current.closest('div')
+      command.style.transform = 'scale(0.99)'
+      // Not exactly safe, but should be OK
+      setTimeout(() => {
+        command.style.transform = null
+      }, 100)
+    }
+  }, [])
 
   const handleNested = useCallback(
-    i => {
+    (i, isNested = true) => {
       setOptions(i)
       setItems(i)
       setActive(0)
+      nestedRef.current = isNested
+
       if (inputRef.current) {
+        // Reset the input
         inputRef.current.value = ''
+        bounce()
       }
 
-      if (flatItems[active].callback) {
+      if (isNested && flatItems[active].callback) {
         flatItems[active].callback()
       }
     },
-    [flatItems, active]
+    [flatItems, active, bounce]
   )
 
   const onKeyDown = useCallback(
     e => {
       switch (e.key) {
         case 'ArrowDown': {
-          if (listRef.current) {
-            if (active < flatItems.length - 1) {
-              setActive(active + 1)
-              const activeItem = listRef.current.querySelector(
-                `li[data-option-index="${active + 1}"]`
-              )
+          e.preventDefault()
 
-              activeItem?.scrollIntoView({
-                block: 'nearest'
-              })
-            }
+          if (active < flatItems.length - 1) {
+            setActive(active + 1)
           }
           break
         }
         case 'ArrowUp':
-          if (active > 0) {
-            if (listRef.current) {
-              setActive(active - 1)
-              const activeItem = listRef.current.querySelector(
-                `li[data-option-index="${active - 1}"]`
-              )
+          e.preventDefault()
 
-              activeItem?.scrollIntoView({
-                block: 'nearest'
-              })
-            }
+          if (active > 0) {
+            setActive(active - 1)
           }
           break
+        case 'ArrowLeft':
+          if (
+            inputRef.current &&
+            !inputRef.current.value &&
+            nestedRef.current === true
+          ) {
+            handleNested(defaultOptions, false)
+          }
+          return
         case 'Enter':
+          if (!flatItems.length) return
+
           // Update items to nested list
           if (flatItems[active].items) {
             handleNested(flatItems[active].items)
           } else {
-            callback(flatItems[active].callback)
+            if (flatItems[active].callback) {
+              flatItems[active].callback()
+            }
+
+            // if (props.closeOnCallback) {
+            //  toggle(false)
+            // }
           }
           break
         default:
           break
       }
     },
-    [active, flatItems, callback, handleNested]
+    [active, flatItems, handleNested, defaultOptions]
   )
+
+  const reset = useCallback(() => {
+    setOptions(defaultOptions)
+    setItems(defaultOptions)
+    setActive(0)
+    nestedRef.current = false
+  }, [defaultOptions])
 
   // Effects
   useEffect(() => {
@@ -315,25 +335,23 @@ const Command = ({
   }, [handleKeybinds])
 
   useEffect(() => {
-    if (!open) {
-      // Reset options on close
+    if (inputRef.current && !inputRef.current.value && !nestedRef.current) {
       setOptions(defaultOptions)
       setItems(defaultOptions)
-      setActive(0)
     }
-  }, [open, options, defaultOptions])
+  }, [defaultOptions, items, options])
 
   return (
     <>
       <div
         role="button"
-        tabIndex={0}
+        tabIndex={-1}
         onClick={() => toggle()}
         className={styles.trigger}
       >
         {children}
       </div>
-      <Transition in={open} unmountOnExit timeout={250}>
+      <Transition in={open} unmountOnExit timeout={200} onExited={reset}>
         {state => (
           <Portal>
             <div className={styles.screen} onClick={() => toggle(false)}>
@@ -383,7 +401,6 @@ const Command = ({
                   }}
                   role="listbox"
                   id={listID}
-                  ref={listRef}
                 >
                   {renderItems({
                     items,
@@ -393,7 +410,6 @@ const Command = ({
                       setActive(i)
                       inputRef?.current?.focus()
                     },
-                    callback,
                     updateOptions: opts => handleNested(opts)
                   })}
                 </ul>
