@@ -7,51 +7,7 @@ import { Transition } from 'react-transition-group'
 
 import toPx from './to-px'
 import styles from './command.module.css'
-
-// interface DefaultOption {
-//   name: string
-//   keybind?: string | string[]
-//   icon?: React.ReactNode
-//   callback: () => void
-// }
-
-// interface DeepOption extends DefaultOption {
-//   items: Option[]
-// }
-
-// interface CollectionOption {
-//   name: string
-//   collection: true
-//   items: Option[]
-// }
-
-// type Option = DefaultOption | CollectionOption | DeepOption
-
-// interface CommandProps {
-//   open?: boolean
-//   options: Option[]
-//   max?: number
-//   height?: number
-//   width?: number | string
-//   placeholder?: string
-//   children?: React.ReactNode
-// }
-
-// interface ItemProps extends DefaultOption {
-//   active?: boolean
-//   onMouseMove: () => void
-//   index: number
-// }
-
-// interface RenderProps {
-//   items: Option[]
-//   base?: number
-//   active: number
-//   setActive: (index: number) => void
-//   updateOptions: (opts: Option[]) => void
-//   counts: number[]
-//   callback: (cb: () => void) => void
-// }
+import KeyHandler from './key-handler'
 
 const Label = ({ children }) => {
   return <div className={styles.divider}>{children}</div>
@@ -95,8 +51,8 @@ const Item = ({
 
       {keybind && (
         <span className={styles.keybind}>
-          {Array.isArray(keybind) ? (
-            keybind.map(key => {
+          {keybind.includes(' ') ? (
+            keybind.split(' ').map(key => {
               return <kbd key={`item-${name}-keybind-${key}`}>{key}</kbd>
             })
           ) : (
@@ -193,7 +149,7 @@ const Command = ({
     [open]
   )
 
-  const handleKeybinds = useCallback(
+  const handleToggleKeybind = useCallback(
     e => {
       if (e.metaKey && e.key === 'k') {
         toggle()
@@ -326,13 +282,14 @@ const Command = ({
 
   // Effects
   useEffect(() => {
-    // Register keybinds
-    window.addEventListener('keydown', handleKeybinds)
+    // Register toggle keybind (Command+K)
+    // TODO: make customizable
+    window.addEventListener('keydown', handleToggleKeybind)
 
     return () => {
-      window.removeEventListener('keydown', handleKeybinds)
+      window.removeEventListener('keydown', handleToggleKeybind)
     }
-  }, [handleKeybinds])
+  }, [handleToggleKeybind])
 
   useEffect(() => {
     if (inputRef.current && !inputRef.current.value && !nestedRef.current) {
@@ -340,6 +297,28 @@ const Command = ({
       setItems(defaultOptions)
     }
   }, [defaultOptions, items, options])
+
+  useEffect(() => {
+    // Setup keybinds for list entries
+    const keybinds = []
+
+    flatten(defaultOptions).forEach(opt => {
+      if (!opt.keybind || !opt.callback || opt.collection) return
+
+      if (keybinds[opt.keybind]) {
+        throw new Error(`Duplicate keybind for ${opt.keybind}`)
+      }
+
+      keybinds.push(new KeyHandler(opt.keybind, opt.callback))
+    })
+
+    const keybind = e => {
+      keybinds.forEach(handler => handler.handle(e))
+    }
+
+    window.addEventListener('keydown', keybind)
+    return () => window.removeEventListener('keydown', keybind)
+  }, [defaultOptions])
 
   return (
     <>

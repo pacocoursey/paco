@@ -69,7 +69,7 @@ const Header = () => {
               items: [
                 {
                   name: 'Blog',
-                  keybind: ['g', 'b'],
+                  keybind: 'g b',
                   icon: <Pencil />,
                   callback: () => router.push('/blog')
                 },
@@ -97,31 +97,31 @@ const Header = () => {
               items: [
                 {
                   name: 'Reading collection',
-                  keybind: ['g', 'r'],
+                  keybind: 'g r',
                   icon: <Book />,
                   callback: () => router.push('/reading')
                 },
                 {
                   name: 'Design collection',
-                  keybind: ['g', 't'],
+                  keybind: 'g d',
                   icon: <Design />,
                   callback: () => router.push('/design')
                 },
                 {
                   name: 'Keyboard collection',
-                  keybind: ['g', 'k'],
+                  keybind: 'g k',
                   icon: <M6 />,
                   callback: () => router.push('/keyboards')
                 },
                 {
                   name: 'Music collection',
-                  keybind: ['g', 'm'],
+                  keybind: 'g m',
                   icon: <Music />,
                   callback: () => router.push('/music')
                 },
                 {
                   name: 'Projects collection',
-                  keybind: ['g', 'p'],
+                  keybind: 'g p',
                   icon: <Document />,
                   callback: () => router.push('/projects')
                 }
@@ -133,13 +133,13 @@ const Header = () => {
               items: [
                 {
                   name: 'Home',
-                  keybind: ['g', 'h'],
+                  keybind: 'g h',
                   icon: <ArrowRight />,
                   callback: () => router.push('/')
                 },
                 {
                   name: 'Contact',
-                  keybind: ['g', 'c'],
+                  keybind: 'g c',
                   icon: <ArrowRight />,
                   callback: () => router.push('/contact')
                 }
