@@ -25,6 +25,7 @@ const Page = ({
       <style jsx>{`
         div {
           height: 100%;
+          padding-bottom: var(--small-gap);
         }
 
         main {

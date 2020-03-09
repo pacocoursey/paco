@@ -3,25 +3,7 @@ import Link from '../components/link'
 
 const About = () => {
   return (
-    <Page
-      title="Home"
-      content={
-        <div className="flex">
-          <Link className="l-h invert active" href="/">
-            About
-          </Link>
-          <Link className="l-h blue" href="/blog">
-            Blog
-          </Link>
-          <Link className="l-h red" href="/reading">
-            Reading
-          </Link>
-          <Link className="l-h indigo" href="/design">
-            Design
-          </Link>
-        </div>
-      }
-    >
+    <Page>
       <article>
         <h1>Paco Coursey</h1>
 

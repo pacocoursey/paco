@@ -41,7 +41,7 @@ const CommandIcon = () => {
   )
 }
 
-const Header = () => {
+const Header = ({ title, content }) => {
   const router = useRouter()
   const [placeholder, setPlaceholder] = useState('Type a command or search...')
   const { theme, toggleTheme } = useTheme()
@@ -179,10 +179,12 @@ const Header = () => {
             }
           ]}
         >
-          <button className={styles.command}>
+          <button className={styles.command} title="⌘K">
             <CommandIcon />
           </button>
         </Command>
+
+        {content && <div className={styles.content}>{content}</div>}
       </div>
     </nav>
   )

@@ -38,12 +38,17 @@
 }
 
 .header {
+  height: 32px;
   margin: 0 auto;
   padding: 0 var(--gap);
   max-width: var(--main-content);
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+}
+
+.content {
+  overflow: auto;
+  margin-left: var(--gap-double);
 }
 
 @media (max-width: 960px) {

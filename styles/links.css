@@ -2,7 +2,7 @@
 .l-h {
   font-weight: 500;
   color: var(--gray);
-  padding: var(--gap-quarter) var(--gap);
+  padding: var(--gap-quarter) var(--gap-half);
   border-radius: var(--radius);
   background: transparent;
   text-decoration: none;
@@ -43,7 +43,7 @@
   align-items: center;
   font-weight: 500;
   color: var(--gray);
-  padding: var(--gap-quarter) var(--gap);
+  padding: var(--gap-quarter) var(--gap-half);
   border-radius: var(--radius);
   background: transparent;
   text-decoration: none;
