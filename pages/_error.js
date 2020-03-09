@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Error from '../components/error'
 
 class E extends React.Component {
@@ -9,7 +10,6 @@ class E extends React.Component {
 
   render() {
     const { status } = this.props
-
     return <Error status={status} />
   }
 }

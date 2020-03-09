@@ -15,7 +15,7 @@
     "classnames": "^2.2.6",
     "intersection-observer": "^0.7.0",
     "marked": "^0.7.0",
-    "next": "^9.2.2",
+    "next": "^9.3.0",
     "prismjs": "^1.17.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
