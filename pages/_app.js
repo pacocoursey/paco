@@ -26,7 +26,7 @@ class MyApp extends App {
     return (
       <>
         <Head>
-          <title>Paco</title>
+          <title>Paco Coursey</title>
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0"

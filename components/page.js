@@ -2,7 +2,6 @@ import Head from 'next/head'
 
 import Header from './header'
 import Posts from './posts-list'
-// import Footer from './footer'
 
 const Page = ({
   header = true,
@@ -22,13 +21,12 @@ const Page = ({
       {header && <Header content={content} title={title} />}
       <main>{children}</main>
       {postFooter && <Posts slug={slug} />}
-      {/* {footer && <Footer rss={postFooter} />} */}
 
       <style jsx>{`
         div {
           height: 100%;
-          padding-bottom: var(--big-gap);
         }
+
         main {
           max-width: var(--main-content);
           margin: 0 auto;

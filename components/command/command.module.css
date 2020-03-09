@@ -1,28 +1,29 @@
 .screen {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 9999;
+  z-index: 999;
+  --overlay: rgba(0, 0, 0, 0.6);
+  background: var(--overlay);
+  animation: screen 0.2s ease;
+  transition: background-color 0.2s ease;
+  will-change: background;
 }
 
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
+.screen.exit {
+  background: transparent !important;
+}
 
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+:global(html.light) .screen {
+  --overlay: rgba(0, 0, 0, 0.3);
 }
 
 .command {
   background: var(--bg);
   position: relative;
-  z-index: 999;
+  z-index: 9999;
   margin: 0 auto;
   top: calc(30px + var(--big-gap) + (3 * var(--gap-double)));
 
@@ -36,7 +37,8 @@
     inset 0px 1px 0px rgba(0, 0, 0, 0.6);
 
   animation: appear 0.2s ease;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  will-change: transform, opacity;
 }
 
 .command.exit {
@@ -81,6 +83,7 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   transition: height 0.15s ease;
+  will-change: height;
 }
 
 .item {
@@ -162,4 +165,68 @@
   appearance: none;
   white-space: nowrap;
   word-wrap: normal;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  padding: var(--padding);
+  padding-top: calc(var(--height) / 4);
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide {
+  from {
+    opacity: 0;
+    transform: translateY(5%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes screen {
+  from {
+    background: transparent;
+  }
+  to {
+    background: var(--overlay);
+  }
+}
+
+@media (max-width: 960px) {
+  .command {
+    --top: calc(30px + (3 * var(--gap-double)));
+    top: var(--top);
+    height: calc(100vh - var(--top));
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+    animation: slide 0.2s ease;
+    max-height: calc(100vh - var(--top));
+  }
+
+  .command.exit {
+    transform: translateY(5%);
+  }
+
+  .list {
+    max-height: calc(100% - var(--height)) !important;
+    height: unset !important;
+    /* Height of the iOS Safari Toolbar (:sadfari:) */
+    padding-bottom: 110px;
+  }
 }

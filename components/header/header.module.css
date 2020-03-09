@@ -25,3 +25,29 @@
   margin-left: var(--gap-half);
   background: none;
 }
+
+.nav {
+  z-index: 10;
+  margin: var(--small-gap) auto var(--big-gap) auto;
+  position: sticky;
+  padding: var(--gap) 0;
+  top: 0;
+  background-color: var(--header-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  transition: background-color var(--transition);
+}
+
+.header {
+  margin: 0 auto;
+  padding: 0 var(--gap);
+  max-width: var(--main-content);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 960px) {
+  .nav {
+    margin: var(--gap-double) 0;
+  }
+}

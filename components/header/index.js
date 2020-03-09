@@ -15,7 +15,8 @@ import {
   ArrowRight,
   Twitter,
   GitHub,
-  Search
+  Search,
+  RSS
 } from '../icons'
 import Command from '../command'
 import useTheme from '../../lib/theme'
@@ -46,8 +47,8 @@ const Header = () => {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <nav>
-      <div className="header">
+    <nav className={styles.nav}>
+      <div className={styles.header}>
         <div className={styles.logo}>
           <Logo />
         </div>
@@ -88,6 +89,11 @@ const Header = () => {
                       callback: () => router.push('/[post]', '/be-thoughtless')
                     }
                   ]
+                },
+                {
+                  name: 'RSS',
+                  icon: <RSS />,
+                  callback: () => router.push('/feed.xml')
                 }
               ]
             },
@@ -178,97 +184,6 @@ const Header = () => {
           </button>
         </Command>
       </div>
-
-      <style jsx>{`
-        nav {
-          z-index: 10;
-          margin: var(--small-gap) auto var(--big-gap) auto;
-          position: sticky;
-          padding: var(--gap) 0;
-          top: 0;
-          background-color: var(--header-bg);
-          backdrop-filter: saturate(180%) blur(20px);
-          transition: background-color var(--transition);
-        }
-
-        .header {
-          margin: 0 auto;
-          padding: 0 var(--gap);
-          max-width: var(--main-content);
-          display: flex;
-          align-items: center;
-          flex-wrap: wrap;
-        }
-
-        .logo,
-        .toggle,
-        .content {
-          display: flex;
-          align-items: center;
-        }
-
-        .title {
-          cursor: pointer;
-          font-weight: bold;
-          flex-basis: 100px;
-        }
-
-        .content {
-          flex: 1;
-          min-height: var(--gap-double);
-          max-width: calc(var(--main-content) - 100px);
-        }
-
-        .toggle {
-          flex: 1;
-          justify-content: flex-end;
-        }
-
-        .m {
-          display: none;
-        }
-
-        @media (max-width: 960px) {
-          nav {
-            margin: var(--gap-double) 0;
-            padding: 0;
-            top: calc(-1 * (30px + var(--gap)));
-          }
-
-          .header {
-            max-width: var(--main-content);
-          }
-
-          .content,
-          .description {
-            order: 4;
-            flex-basis: 100%;
-            margin: var(--gap) 0;
-            padding-top: var(--gap);
-            max-width: unset;
-            display: flex;
-
-            overflow: auto;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-
-          .content::-webkit-scrollbar {
-            display: none;
-          }
-
-          .logo,
-          .title,
-          .toggle {
-            flex: 1;
-            flex-basis: unset;
-          }
-
-          .title {
-            text-align: center;
-          }
-        }
-      `}</style>
     </nav>
   )
 }

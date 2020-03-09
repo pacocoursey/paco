@@ -4,6 +4,11 @@ import cn from 'classnames'
 import matchSorter from 'match-sorter'
 import { useId } from '@reach/auto-id'
 import { Transition } from 'react-transition-group'
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks
+} from 'body-scroll-lock'
 
 import toPx from './to-px'
 import KeyHandler from './key-handler'
@@ -113,11 +118,12 @@ const flatten = i =>
     .flat()
 
 const Command = ({
-  open: propOpen,
+  open: propOpen = false,
   options: defaultOptions,
   max = 10,
   height = 60,
   width = 640,
+  top,
   placeholder,
   children
 }) => {
@@ -131,20 +137,22 @@ const Command = ({
   const flatItems = flatten(items)
 
   // Callbacks
+  const listRef = useCallback(node => {
+    if (node) {
+      disableBodyScroll(node)
+    }
+  }, [])
+
   const toggle = useCallback(
     value => {
       if (value === false || open === true) {
+        clearAllBodyScrollLocks()
         setOpen(false)
         return
       }
 
-      if (value === true) {
-        // Open
-        return setOpen(true)
-      }
-
-      // Toggle
-      setOpen(!open)
+      // Open
+      return setOpen(true)
     },
     [open]
   )
@@ -288,16 +296,19 @@ const Command = ({
     window.addEventListener('keydown', handleToggleKeybind)
 
     return () => {
+      clearAllBodyScrollLocks()
       window.removeEventListener('keydown', handleToggleKeybind)
     }
   }, [handleToggleKeybind])
 
   useEffect(() => {
+    // When default options change (something rendering <Command /> re-renders)
+    // and it's safe to do so (no existing input, not inside nested), update the options
     if (inputRef.current && !inputRef.current.value && !nestedRef.current) {
       setOptions(defaultOptions)
       setItems(defaultOptions)
     }
-  }, [defaultOptions, items, options])
+  }, [defaultOptions])
 
   useEffect(() => {
     // Setup keybinds for list entries
@@ -338,7 +349,12 @@ const Command = ({
       <Transition in={open} unmountOnExit timeout={200} onExited={reset}>
         {state => (
           <Portal>
-            <div className={styles.screen} onClick={() => toggle(false)}>
+            <div
+              className={cn(styles.screen, {
+                [styles.exit]: state === 'exiting'
+              })}
+              onClick={() => toggle(false)}
+            >
               <div
                 className={cn(styles.command, {
                   [styles.exit]: state === 'exiting'
@@ -350,6 +366,8 @@ const Command = ({
                   '--width': toPx(width)
                 }}
               >
+                {top && <div className={styles.top}>{top}</div>}
+
                 <input
                   type="text"
                   className={cn(styles.input, {
@@ -385,6 +403,7 @@ const Command = ({
                   }}
                   role="listbox"
                   id={listID}
+                  ref={listRef}
                 >
                   {renderItems({
                     items,
