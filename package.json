@@ -4,7 +4,7 @@
   "scripts": {
     "lint": "prettier --write '**/*.js'",
     "dev": "next -p 3003",
-    "build": "node ./lib/generate-posts.js && yarn rss && next build",
+    "build": "yarn rss && next build",
     "rss": "node lib/rss",
     "new": "node lib/db"
   },
