@@ -38,8 +38,8 @@ const P = ({ content, slug }) => {
           {list.map((post, i) => {
             return (
               <Link
-                href="/[post]"
-                as={`/${post.slug}`}
+                href="/blog/[slug]"
+                as={`/blog/${post.slug}`}
                 key={`${post.title}-${i}`}
                 className={cn(styles.post, {
                   [styles.active]: post.slug === slug

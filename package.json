@@ -5,7 +5,6 @@
     "lint": "prettier --write '**/*.js'",
     "dev": "next -p 3003",
     "build": "node ./lib/generate-posts.js && yarn rss && next build",
-    "watch": "nodemon ./lib/generate-posts.js",
     "rss": "node lib/rss",
     "new": "node lib/db"
   },
@@ -13,14 +12,14 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.6",
+    "gray-matter": "^4.0.2",
     "intersection-observer": "^0.7.0",
     "marked": "^0.7.0",
     "next": "^9.3.0",
     "prismjs": "^1.17.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "react-intersection-observer": "^8.24.2",
-    "rss": "^1.2.2"
+    "react-intersection-observer": "^8.24.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
@@ -32,7 +31,7 @@
     "open-graph-scraper": "^3.6.2",
     "prettier": "^1.18.2",
     "prompts": "^2.2.1",
-    "yaml-front-matter": "^4.0.0"
+    "rss": "^1.2.2"
   },
   "prettier": {
     "semi": false,

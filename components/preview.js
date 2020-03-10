@@ -10,7 +10,7 @@ const Preview = ({ post, active }) => {
   })} ${d.getDate()}`
 
   return (
-    <NextLink href="/[post]" as={`/${slug}`}>
+    <NextLink href="blog/[slug]" as={`/blog/${slug}`}>
       <a className={cn({ active })}>
         <p className="clamp">{title}</p>
 
