@@ -1,4 +1,11 @@
-import { useState, useCallback, useRef, useEffect, Fragment } from 'react'
+import {
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+  Fragment,
+  useMemo
+} from 'react'
 import Portal from '@reach/portal'
 import cn from 'classnames'
 import matchSorter from 'match-sorter'
@@ -7,7 +14,7 @@ import { Transition } from 'react-transition-group'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 import toPx from './to-px'
-import KeyHandler from './key-handler'
+import KeyHandler, { getHotkeysArray } from './key-handler'
 import styles from './command.module.css'
 
 const Label = ({ children }) => {
@@ -122,6 +129,7 @@ const Command = ({
   top,
   placeholder,
   closeOnCallback = true,
+  keybind = 'Meta+k',
   children
 }) => {
   const inputRef = useRef(null)
@@ -154,15 +162,22 @@ const Command = ({
     [open]
   )
 
+  const keybindHandler = useMemo(() => {
+    return new KeyHandler(keybind)
+  }, [keybind])
+
   const handleToggleKeybind = useCallback(
     e => {
-      if (e.metaKey && e.key === 'k') {
-        toggle()
-      } else if (e.key === 'Escape') {
-        toggle(false)
+      if (e.key === 'Escape') {
+        return toggle(false)
+      }
+
+      if (keybindHandler) {
+        keybindHandler.setCallback(toggle)
+        keybindHandler.handle(e)
       }
     },
-    [toggle]
+    [toggle, keybindHandler]
   )
 
   const onChange = useCallback(
@@ -291,8 +306,7 @@ const Command = ({
 
   // Effects
   useEffect(() => {
-    // Register toggle keybind (Command+K)
-    // TODO: make customizable
+    // Register toggle keybind and escape handler
     window.addEventListener('keydown', handleToggleKeybind)
 
     return () => {
