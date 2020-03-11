@@ -125,6 +125,7 @@ const Command = ({
   width = 640,
   top,
   placeholder,
+  closeOnCallback = true,
   children
 }) => {
   const inputRef = useRef(null)
@@ -270,16 +271,19 @@ const Command = ({
               flatItems[active].callback()
             }
 
-            // if (props.closeOnCallback) {
-            //  toggle(false)
-            // }
+            if (
+              closeOnCallback &&
+              flatItems[active].closeOnCallback !== false
+            ) {
+              toggle(false)
+            }
           }
           break
         default:
           break
       }
     },
-    [active, flatItems, handleNested, defaultOptions]
+    [active, flatItems, handleNested, defaultOptions, closeOnCallback, toggle]
   )
 
   const reset = useCallback(() => {
