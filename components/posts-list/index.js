@@ -3,36 +3,12 @@ import cn from 'classnames'
 
 import Link from '../link'
 import styles from './posts-list.module.css'
-import raw from '../../data/blog.json'
-
-const { data } = raw
-const posts = {}
-data
-  .filter(p => p.hidden !== true)
-  .sort((a, b) => new Date(b.date) - new Date(a.date))
-  .map(p => {
-    const d = new Date(p.date)
-    const displayDate = `${d.toLocaleString('default', {
-      year: 'numeric',
-      month: 'long'
-    })}`
-
-    if (!posts[displayDate]) {
-      posts[displayDate] = [p]
-    } else {
-      posts[displayDate].push(p)
-    }
-  })
-const entries = Object.entries(posts)
-const len = entries.length
 
 const P = ({ content, slug }) => {
   return content.map(([month, list], j) => {
     return (
       <div key={`${month}-${list.length}-${j}`} className={styles.group}>
-        <span className={styles.month}>
-          {month}
-        </span>
+        <span className={styles.month}>{month}</span>
 
         <div className={styles.posts}>
           {list.map((post, i) => {
@@ -58,14 +34,14 @@ const P = ({ content, slug }) => {
   })
 }
 
-const Posts = ({ slug }) => {
+const Posts = ({ slug, meta: entries }) => {
   const [showMore, setShowMore] = useState(3)
 
   return (
     <div className={styles.container}>
       <P content={entries.slice(0, 3)} slug={slug} />
       {showMore > 0 && <P content={entries.slice(3, showMore)} slug={slug} />}
-      {showMore < len && (
+      {showMore < entries.length && (
         <button
           onClick={() => {
             setShowMore(showMore + 3)

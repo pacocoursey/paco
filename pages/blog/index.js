@@ -2,6 +2,7 @@ import React from 'react'
 
 import Post from '../../components/post'
 import getPosts from '../../lib/get-posts'
+import getPostsMeta from '../../lib/get-posts-meta'
 import renderMarkup from '../../lib/render-markup'
 
 const Index = props => {
@@ -9,13 +10,14 @@ const Index = props => {
 }
 
 export const getStaticProps = () => {
-  const posts = getPosts().sort((a, b) => new Date(a.date) - new Date(b.date))
-  console.log(posts.map(x => x.title))
-  const post = posts.pop()
+  const posts = getPosts()
+  const meta = getPostsMeta(posts)
+  const post = getPosts().shift()
   const { body, ...rest } = post
 
   return {
     props: {
+      meta,
       ...rest,
       html: renderMarkup(body)
     }

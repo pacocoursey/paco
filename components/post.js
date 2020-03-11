@@ -1,8 +1,9 @@
 import Head from 'next/head'
 
 import Page from './page'
+import PostsList from './posts-list'
 
-const Post = ({ title, slug, html, hidden, og }) => {
+const Post = ({ title, slug, html, hidden, og, meta }) => {
   return (
     <Page slug={slug} title="Blog" content={title} postFooter>
       <Head>
@@ -21,6 +22,8 @@ const Post = ({ title, slug, html, hidden, og }) => {
           __html: `<h1>${title}</h1>${html}`
         }}
       />
+
+      <PostsList slug={slug} meta={meta} />
     </Page>
   )
 }

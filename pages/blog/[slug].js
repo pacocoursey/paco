@@ -1,20 +1,22 @@
 import Post from '../../components/post'
 import getPosts from '../../lib/get-posts'
+import getPostsMeta from '../../lib/get-posts-meta'
 import renderMarkup from '../../lib/render-markup'
 
-const PostPage = (props) => {
+const PostPage = props => {
   return <Post {...props} />
 }
 
-export const getStaticProps = ({ params }) => {
-  const { slug } = params
-
-  const post = getPosts().find(p => p.slug === slug)
+export const getStaticProps = ({ params: { slug } }) => {
+  const posts = getPosts()
+  const meta = getPostsMeta(posts)
+  const post = posts.find(p => p.slug === slug)
   const { body, ...rest } = post
 
   return {
     props: {
       ...rest,
+      meta,
       html: renderMarkup(body)
     }
   }

@@ -9,9 +9,157 @@
             <link>https://paco.im</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sun, 22 Dec 2019 07:47:48 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 10 Mar 2020 04:24:18 GMT</lastBuildDate>
         <atom:link href="https://paco.im/feed.xml" rel="self" type="application/rss+xml"/>
         <language><![CDATA[en]]></language>
+        <item>
+            <title><![CDATA[Custom text underlines]]></title>
+            <description><![CDATA[<p>The <code>text-decoration: underline</code> CSS property provides insufficient control over the underline styling and position. While we wait for the <a href="https://www.w3.org/TR/css-text-decor-4/" target="_blank" rel="noopener noreferrer">CSS Text Decoration Module specification</a> to become standard, we must rely on custom implementations.</p>
+<p>My favorite approach is to use a <code>linear-gradient</code> to create an underline:</p>
+<pre><code class="language-css">background-image: linear-gradient(gray, gray);
+background-size: 100% 1px;
+background-position: left bottom;
+background-repeat: no-repeat;</code></pre>
+<div class="l">
+  <div>
+    <span>Day by day, what you do is what you become.</span>
+  </div>
+</div>
+
+<h2 id="position">Position</h2>
+<p>Position the underline by changing the vertical value of <code>background-position</code>:</p>
+<pre><code class="language-css">background-position: left 1.05em;</code></pre>
+<div class="l _2">
+  <div>
+    <span>Day by day, what you do is what you become.</span>
+  </div>
+</div>
+
+<h2 id="descenders">Descenders</h2>
+<p>You&#39;ll notice that the underline overlaps the <a href="https://www.figma.com/dictionary/descender/" target="_blank" rel="noopener noreferrer">descenders</a> of the text. By adding a <code>text-shadow</code> with a small offset to the right and left with the color of the background, you can hide the underline around descenders.</p>
+<pre><code class="language-css">text-shadow: 0.1em 0 var(--background), -0.1em 0 var(--background);</code></pre>
+<div class="l _2 _3">
+  <div>
+    <span>Day by day, what you do is what you become.</span>
+  </div>
+</div>
+
+<p>Remember to set <code>text-shadow: none</code> in your <code>::selection</code> rules.</p>
+<h2 id="weight">Weight</h2>
+<p>Change the height of the background to increase the underline weight:</p>
+<pre><code class="language-css">background-size: 100% 0.25em;</code></pre>
+<div class="l _4">
+  <div>
+    <span>Day by day, what you do is what you become.</span>
+  </div>
+</div>
+
+<h2 id="dashes">Dashes</h2>
+<p>By using a <code>repeating-linear-gradient</code> and leaving half the gradient transparent, you can customize a dashed underline:</p>
+<pre><code class="language-css">background-image: repeating-linear-gradient(
+  to right,
+  var(--gray) 0%,
+  var(--gray) 50%,
+  transparent 50%,
+  transparent 100%
+);
+background-size: 1ch 1px;</code></pre>
+<div class="l _5">
+  <div>
+    <span>Day by day, what you do is what you become.</span>
+  </div>
+</div>
+
+<p>Change the horizontal value of <code>background-size</code> to modify the dash width:</p>
+<pre><code class="language-css">background-size: 5ch 1px;</code></pre>
+<div class="l _5 _6">
+  <div>
+    <span>Day by day, what you do is what you become.</span>
+  </div>
+</div>
+
+<p>The <code>ch</code> unit is equal to the width of the &quot;0&quot; glyph in the current font, which can be useful for natural alignment.</p>
+<h2 id="wrapping">Wrapping</h2>
+<p>Lastly, this approach also supports multi-line text:</p>
+<div class="l">
+  <div>
+    <span>Day by day,<br /> what you do is what you become.</span>
+  </div>
+</div>
+
+<p><a href="https://twitter.com/pacocoursey" target="_blank" rel="noopener noreferrer">Let me know</a> if you end up using this, or read more about other approaches in &quot;<a href="https://medium.design/crafting-link-underlines-on-medium-7c03a9274f9" target="_blank" rel="noopener noreferrer">Crafting link underlines on Medium.</a>&quot;</p>
+<hr>
+<p>Thanks to <a href="https://twitter.com/arzafran" target="_blank" rel="noopener noreferrer">Franco</a> for reminding me about this technique!</p>
+<style>
+
+.l {
+  background: var(--lighter-gray);
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius);
+  font-size: 1.25rem;
+  color: var(--fg);
+  text-align: center;
+}
+
+.l span {
+  background-image: linear-gradient(var(--gray), var(--gray));
+  background-size: 100% 1px;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+}
+
+.l._2 span {
+  background-position: left 1.05em;
+}
+
+.l._3 span {
+  text-shadow: 0.1em 0 var(--lighter-gray), -0.1em 0 var(--lighter-gray);
+}
+
+.l._4 span {
+  background-size: 100% 0.25em;
+}
+
+.l._5 span {
+  background: repeating-linear-gradient(
+    to right,
+    var(--gray) 0%,
+    var(--gray) 50%,
+    transparent 50%,
+    transparent 100%
+  );
+  background-repeat: repeat-x;
+  background-size: 1ch 1px;
+  background-position: bottom left;
+}
+
+
+.l._6 span {
+  background-size: 2ch 1px;
+}
+</style>
+]]></description>
+            <link>https://paco.im/custom-text-underlines</link>
+            <guid isPermaLink="false">https://paco.im/custom-text-underlines</guid>
+            <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
+            <pubDate>Tue, 11 Feb 2020 07:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Thoughtless]]></title>
+            <description><![CDATA[<p>I have trouble falling asleep. Too many ideas and thoughts from a day with too little activity, I suspect. Writing down my thoughts helps me clear my mind.</p>
+<p><a href="https://thoughtless.now.sh" target="_blank" rel="noopener noreferrer">Thoughtless</a> is an experiment, created on a sleepless night, to help me note my thoughts without interruption.</p>
+<p>By making each typed word disappear, there is no overediting or obsessing over sentence structure. Record your raw thoughts — no going back.</p>
+<p>When you finish, copy and paste your writing somewhere safe and sleep well.</p>
+]]></description>
+            <link>https://paco.im/be-thoughtless</link>
+            <guid isPermaLink="false">https://paco.im/be-thoughtless</guid>
+            <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
+            <pubDate>Tue, 21 Jan 2020 07:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[Styled System with styled-jsx]]></title>
             <description><![CDATA[<p><a href="https://styled-system.com/" target="_blank" rel="noopener noreferrer">Styled System</a> is an excellent alternative to writing ad-hoc <code>style</code> declarations in your React components. By giving components standardized props like <code>bg</code> and <code>fontSize</code>, it&#39;s easier to build custom UI that respects your system constraints. That&#39;s because you can quickly specify your design tokens and use them in real code:</p>
@@ -21,7 +169,7 @@ colors: {
 }
 
 // your React code
-&lt;Box color={blue} /&gt;</code></pre>
+&lt;Box color=&quot;blue&quot; /&gt;</code></pre>
 <p>Styled System&#39;s responsive syntax is impressively concise, too:</p>
 <pre><code class="language-js">// 16px on mobile, 14px on tablet, 12px on desktop
 &lt;Box fontSize={[16, 14, 12]} /&gt;</code></pre>
@@ -63,7 +211,7 @@ export default withStyledSystem(Box, [color])</code></pre>
         </item>
         <item>
             <title><![CDATA[Write it down]]></title>
-            <description><![CDATA[<p>My shitty superpower is solving difficult problems as I&#39;m falling asleep. Doesn&#39;t sound too bad, right? Here&#39;s the catch: I always convince myself I don&#39;t need to write the solution down.</p>
+            <description><![CDATA[<p>My crappy superpower is solving difficult problems as I&#39;m falling asleep. Doesn&#39;t sound too bad, right? Here&#39;s the catch: I always convince myself I don&#39;t need to write the solution down.</p>
 <p>It&#39;s 1:18 AM. I just figured it out. The answer is so simple, I can&#39;t believe it took me this long. Do I blind myself opening my phone to write it down? No, I can finally sleep now! There&#39;s no way I&#39;ll forget.</p>
 <p>It&#39;s 8:32 AM. I can&#39;t believe I&#39;ve done this again.</p>
 <hr>
@@ -95,12 +243,16 @@ export default withStyledSystem(Box, [color])</code></pre>
             <title><![CDATA[Ideas]]></title>
             <description><![CDATA[<h2 id="code">Code</h2>
 <ul>
-<li><input disabled="" type="checkbox"> GUI for plain JSON databases using lowdb (<code>dead</code> - Dead Easy Array Databases)</li>
-<li><input disabled="" type="checkbox"> MDX implementation using marked, custom HTML tags, and [data] attributes</li>
-<li><input disabled="" type="checkbox"> Deploy DB as a static file and use ISSG</li>
+<li><input checked="" disabled="" type="checkbox"> MDX implementation using marked, custom HTML tags, and [data] attributes</li>
 <li><input checked="" disabled="" type="checkbox"> styled-system HOC for use with styled-jsx</li>
+<li><input checked="" disabled="" type="checkbox"> Writing app that turns off the screen</li>
+<li><input disabled="" type="checkbox"> GUI for plain JSON databases using lowdb (<code>dead</code> - Dead Easy Array Databases)</li>
 <li><input disabled="" type="checkbox"> spotlight-like password manager with good keybinds</li>
 <li><input disabled="" type="checkbox"> Music gathering site, combines all other services to centralize a playlist (<a href="http://song.link/" target="_blank" rel="noopener noreferrer">http://song.link/</a>)</li>
+<li><input disabled="" type="checkbox"> Storytelling using Command+F to jump between occurences</li>
+<li><input disabled="" type="checkbox"> Deploy DB as a static file and use ISSG</li>
+<li><input disabled="" type="checkbox"> Client side OG image generator</li>
+<li><input disabled="" type="checkbox"> Update homepage to use SSG</li>
 </ul>
 <h2 id="blog">Blog</h2>
 <ul>
@@ -111,17 +263,28 @@ export default withStyledSystem(Box, [color])</code></pre>
 <li><input checked="" disabled="" type="checkbox"> Thoughts on gaming</li>
 <li><input disabled="" type="checkbox"> Instrinsic value and pursuit of popularity</li>
 <li><input disabled="" type="checkbox"> A decent popover</li>
-</ul>
-<h2 id="figma">Figma</h2>
-<ul>
-<li><input disabled="" type="checkbox"> Minimal redesigns of popular websites</li>
-<li><input checked="" disabled="" type="checkbox"> Logos</li>
+<li><input disabled="" type="checkbox"> Ghost Mouse</li>
+<li><input disabled="" type="checkbox"> Temporal Navigation</li>
+<li><input disabled="" type="checkbox"> A taste of Mercury</li>
 </ul>
 ]]></description>
             <link>https://paco.im/ideas</link>
             <guid isPermaLink="false">https://paco.im/ideas</guid>
             <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
             <pubDate>Mon, 04 Nov 2019 07:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Good Code]]></title>
+            <description><![CDATA[<p>I find great satisfaction in writing beautiful code. Very few will ever see this effort and appreciate it, but it is deeply gratifying. We can tell whether our code is high quality. We can predict how often and when it will need to be revisited, whether our coworkers can easily understand it, whether it is easy to use and extend, and whether it meets our personal standards of completeness and correctness.</p>
+<p>This type of creative output is quickly becoming more important to me. It is a different type of aesthetic, less superficial and more fulfilling.</p>
+<p>I like to think of good code as the walls on which many coats of paint will be applied.</p>
+<p>Good code should outlast us, when many designs will not.</p>
+<p>It&#39;s almost ethical — deeply considering how we leave the codebase for our future selves or others.</p>
+]]></description>
+            <link>https://paco.im/good-code</link>
+            <guid isPermaLink="false">https://paco.im/good-code</guid>
+            <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
+            <pubDate>Sat, 02 Nov 2019 06:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Good Writers]]></title>
