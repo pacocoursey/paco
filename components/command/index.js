@@ -4,11 +4,7 @@ import cn from 'classnames'
 import matchSorter from 'match-sorter'
 import { useId } from '@reach/auto-id'
 import { Transition } from 'react-transition-group'
-import {
-  disableBodyScroll,
-  enableBodyScroll,
-  clearAllBodyScrollLocks
-} from 'body-scroll-lock'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 import toPx from './to-px'
 import KeyHandler from './key-handler'

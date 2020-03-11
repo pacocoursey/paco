@@ -1,10 +1,6 @@
 const TKL = ({ size = 18, color = 'var(--fg)' }) => {
   return (
-    <svg
-      width="300"
-      viewBox="0 0 18 8"
-      fill="none"
-    >
+    <svg width="300" viewBox="0 0 18 8" fill="none">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
