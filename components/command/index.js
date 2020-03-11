@@ -14,7 +14,7 @@ import { Transition } from 'react-transition-group'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 import toPx from './to-px'
-import KeyHandler, { getHotkeysArray } from './key-handler'
+import KeyHandler from './key-handler'
 import styles from './command.module.css'
 
 const Label = ({ children }) => {
@@ -130,6 +130,7 @@ const Command = ({
   placeholder,
   closeOnCallback = true,
   keybind = 'Meta+k',
+  searchOn,
   children
 }) => {
   const inputRef = useRef(null)
@@ -162,6 +163,19 @@ const Command = ({
     [open]
   )
 
+  const searchableAttributes = useMemo(() => {
+    if (!searchOn) return []
+
+    if (!Array.isArray(searchOn)) {
+      throw new Error('search prop must be an array.')
+    }
+
+    return searchOn.map(attr => {
+      return i =>
+        typeof i[attr] === 'string' ? !i.collection && i[attr] : null
+    })
+  }, [searchOn])
+
   const keybindHandler = useMemo(() => {
     return new KeyHandler(keybind)
   }, [keybind])
@@ -187,14 +201,16 @@ const Command = ({
         setActive(0)
       }
 
-      // TODO: allow searching on secondary value, or shortcut value
       const x = matchSorter(options, e.target.value, {
         keys: [
-          item => !item.collection && item.name,
-          item => (item.collection ? item.items.map(i => i.name) : undefined)
+          item => (item.collection ? item.name : undefined),
+          item => (item.collection ? item.items.map(i => i.name) : undefined),
+          ...searchableAttributes
         ]
       })
 
+      // Unfortunately have to run matchSorter twice, nested values are not returned
+      // https://github.com/kentcdodds/match-sorter/issues/87
       const y = x.map(i => {
         if (i.collection) {
           return {
@@ -209,7 +225,7 @@ const Command = ({
       setItems(y)
       setActive(0)
     },
-    [options]
+    [options, searchableAttributes]
   )
 
   const bounce = useCallback(() => {

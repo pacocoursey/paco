@@ -42,7 +42,7 @@ const arraysAreEqual = (arr1, arr2) =>
 const KEY_SEQUENCE_TIMEOUT = 1000
 let insideSequence = false
 
-export const getHotkeysArray = hotkeys => {
+const getHotkeysArray = hotkeys => {
   const hkeys = hotkeys.toLowerCase()
 
   if (hkeys.length === 1) {
