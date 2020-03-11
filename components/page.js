@@ -1,7 +1,6 @@
 import Head from 'next/head'
 
 import Header from './header'
-import Posts from './posts-list'
 
 const Page = ({
   header = true,
@@ -9,7 +8,6 @@ const Page = ({
   postFooter = false,
   content,
   title,
-  slug,
   children
 }) => {
   return (
@@ -20,7 +18,6 @@ const Page = ({
 
       {header && <Header content={content} title={title} />}
       <main>{children}</main>
-      {postFooter && <Posts slug={slug} />}
 
       <style jsx>{`
         div {

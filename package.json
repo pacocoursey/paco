@@ -4,8 +4,7 @@
   "scripts": {
     "lint": "eslint . && prettier --write '**/*.js' --loglevel warn",
     "dev": "next -p 3003",
-    "build": "node ./lib/generate-posts.js && yarn rss && next build",
-    "watch": "nodemon ./lib/generate-posts.js",
+    "build": "yarn rss && next build",
     "rss": "node lib/rss",
     "new": "node lib/db"
   },
@@ -16,11 +15,12 @@
     "@reach/portal": "^0.8.5",
     "body-scroll-lock": "^2.6.4",
     "classnames": "^2.2.6",
+    "gray-matter": "^4.0.2",
     "intersection-observer": "^0.7.0",
     "lodash.debounce": "^4.0.8",
     "marked": "^0.7.0",
     "match-sorter": "^4.0.2",
-    "next": "^9.2.2",
+    "next": "^9.3.0",
     "nprogress": "^0.2.0",
     "prismjs": "^1.17.1",
     "react": "^16.13.0",
@@ -45,9 +45,7 @@
     "open-graph-scraper": "^3.6.2",
     "prettier": "^1.18.2",
     "prompts": "^2.2.1",
-    "rss": "^1.2.2",
-    "typescript": "^3.8.3",
-    "yaml-front-matter": "^4.0.0"
+    "rss": "^1.2.2"
   },
   "prettier": {
     "semi": false,

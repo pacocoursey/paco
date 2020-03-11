@@ -1,43 +1,29 @@
-import { useMemo } from 'react'
 import Head from 'next/head'
 
-import renderMarkup from '../lib/render-markup'
 import Page from './page'
-import Error from './error'
-import posts from '../data/blog.json'
+import PostsList from './posts-list'
 
-const { data } = posts
-
-const Post = ({ slug }) => {
-  const activePost = useMemo(() => {
-    return data.filter(p => String(p.slug) === slug)
-  }, [slug])
-
-  if (!activePost || activePost.length === 0) {
-    // 404
-    return <Error status={404} />
-  }
-
+const Post = ({ title, slug, html, hidden, og, meta }) => {
   return (
     <Page slug={slug} title="Blog" postFooter>
       <Head>
-        <title>{activePost[0].title} - Paco Coursey</title>
-        {activePost[0].hidden && <meta name="robots" content="noindex" />}
-        {activePost[0].og && (
+        <title>{title} - Paco Coursey</title>
+        {hidden && <meta name="robots" content="noindex" />}
+        {og && (
           <meta
             name="og:image"
-            content={`https://res.cloudinary.com/dsdlhtnpw/image/upload/${activePost[0].slug}.png`}
+            content={`https://res.cloudinary.com/dsdlhtnpw/image/upload/${slug}.png`}
           />
         )}
       </Head>
 
       <article
         dangerouslySetInnerHTML={{
-          __html: `<h1>${activePost[0].title}</h1>${renderMarkup(
-            activePost[0].body
-          )}`
+          __html: `<h1>${title}</h1>${html}`
         }}
       />
+
+      <PostsList slug={slug} meta={meta} />
     </Page>
   )
 }
