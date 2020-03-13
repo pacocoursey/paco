@@ -1,10 +1,11 @@
 import {
-  useState,
+  memo,
+  Fragment,
   useCallback,
   useRef,
   useEffect,
-  Fragment,
-  useMemo
+  useMemo,
+  useReducer
 } from 'react'
 import Portal from '@reach/portal'
 import cn from 'classnames'
@@ -17,9 +18,14 @@ import toPx from './to-px'
 import KeyHandler from './key-handler'
 import styles from './command.module.css'
 
-const Label = ({ children }) => {
-  return <div className={styles.divider}>{children}</div>
-}
+const divider = <div className={styles.divider} />
+
+// These children should not change often
+const Label = memo(({ children }) => {
+  return <div className={styles.label}>{children}</div>
+})
+
+Label.displayName = 'Label'
 
 const Item = ({
   active,
@@ -28,6 +34,7 @@ const Item = ({
   callback,
   onMouseMove,
   keybind,
+  divider: hasDivider,
   index
 }) => {
   const itemRef = useRef()
@@ -42,33 +49,36 @@ const Item = ({
   }, [active])
 
   return (
-    <li
-      ref={itemRef}
-      className={cn(styles.item, { [styles.active]: active })}
-      onClick={callback}
-      onMouseMove={onMouseMove}
-      role="option"
-      tabIndex={-1}
-      data-command-option-index={index}
-      aria-selected={active}
-    >
-      <div className={styles.left}>
-        <span className={styles.icon}>{icon}</span>
-        <span>{name}</span>
-      </div>
+    <>
+      {hasDivider && divider}
+      <li
+        ref={itemRef}
+        className={cn(styles.item, { [styles.active]: active })}
+        onClick={callback}
+        onMouseMove={onMouseMove}
+        role="option"
+        tabIndex={-1}
+        data-command-option-index={index}
+        aria-selected={active}
+      >
+        <div className={styles.left}>
+          <span className={styles.icon}>{icon}</span>
+          <span>{name}</span>
+        </div>
 
-      {keybind && (
-        <span className={styles.keybind}>
-          {keybind.includes(' ') ? (
-            keybind.split(' ').map(key => {
-              return <kbd key={`item-${name}-keybind-${key}`}>{key}</kbd>
-            })
-          ) : (
-            <kbd>{keybind}</kbd>
-          )}
-        </span>
-      )}
-    </li>
+        {keybind && (
+          <span className={styles.keybind}>
+            {keybind.includes(' ') ? (
+              keybind.split(' ').map(key => {
+                return <kbd key={`item-${name}-keybind-${key}`}>{key}</kbd>
+              })
+            ) : (
+              <kbd>{keybind}</kbd>
+            )}
+          </span>
+        )}
+      </li>
+    </>
   )
 }
 
@@ -120,6 +130,38 @@ const flatten = i =>
     })
     .flat()
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'close':
+      if (state.open === false) return state
+      return { ...state, open: false }
+    case 'open':
+      if (state.open === true) return state
+      return { ...state, open: true }
+    case 'update':
+      return {
+        ...state,
+        items: action.options || action.items,
+        options: action.options || state.options,
+        active: 0
+      }
+    case 'refresh':
+      return {
+        ...state,
+        items: action.options,
+        options: action.options
+      }
+    case 'setActive':
+      if (state.active === action.active) return state
+      return {
+        ...state,
+        active: action.active
+      }
+    default:
+      throw new Error(`Invalid reducer action: ${action.type}`)
+  }
+}
+
 const Command = ({
   open: propOpen = false,
   options: defaultOptions,
@@ -133,13 +175,16 @@ const Command = ({
   searchOn,
   children
 }) => {
+  const listID = useId()
   const inputRef = useRef(null)
   const nestedRef = useRef(null)
-  const [open, setOpen] = useState(propOpen)
-  const [active, setActive] = useState(0)
-  const [options, setOptions] = useState(defaultOptions)
-  const [items, setItems] = useState(options)
-  const listID = useId()
+  const [state, dispatch] = useReducer(reducer, {
+    open: propOpen,
+    active: 0,
+    options: defaultOptions,
+    items: defaultOptions
+  })
+  const { open, active, options, items } = state
   const flatItems = flatten(items)
 
   // Callbacks
@@ -153,12 +198,12 @@ const Command = ({
     value => {
       if (value === false || open === true) {
         clearAllBodyScrollLocks()
-        setOpen(false)
+        dispatch({ type: 'close' })
         return
       }
 
       // Open
-      return setOpen(true)
+      dispatch({ type: 'open' })
     },
     [open]
   )
@@ -180,6 +225,11 @@ const Command = ({
     return new KeyHandler(keybind)
   }, [keybind])
 
+  const counts = useMemo(
+    () => items.map(x => (x.collection ? x.items.length : 1)),
+    [items]
+  )
+
   const handleToggleKeybind = useCallback(
     e => {
       if (e.key === 'Escape') {
@@ -197,10 +247,10 @@ const Command = ({
   const onChange = useCallback(
     e => {
       if (!e.target.value) {
-        setItems(options)
-        setActive(0)
+        dispatch({ type: 'update', items: options })
       }
 
+      // TODO: support searching entire collections (likely needs match-sorter fork)
       const x = matchSorter(options, e.target.value, {
         keys: [
           item => (item.collection ? item.name : undefined),
@@ -222,8 +272,7 @@ const Command = ({
         return i
       })
 
-      setItems(y)
-      setActive(0)
+      dispatch({ type: 'update', items: y })
     },
     [options, searchableAttributes]
   )
@@ -242,9 +291,7 @@ const Command = ({
 
   const handleNested = useCallback(
     (i, isNested = true) => {
-      setOptions(i)
-      setItems(i)
-      setActive(0)
+      dispatch({ type: 'update', options: i, items: i })
       nestedRef.current = isNested
 
       if (inputRef.current) {
@@ -267,7 +314,7 @@ const Command = ({
           e.preventDefault()
 
           if (active < flatItems.length - 1) {
-            setActive(active + 1)
+            dispatch({ type: 'setActive', active: active + 1 })
           }
           break
         }
@@ -275,7 +322,7 @@ const Command = ({
           e.preventDefault()
 
           if (active > 0) {
-            setActive(active - 1)
+            dispatch({ type: 'setActive', active: active - 1 })
           }
           break
         case 'ArrowLeft':
@@ -314,9 +361,7 @@ const Command = ({
   )
 
   const reset = useCallback(() => {
-    setOptions(defaultOptions)
-    setItems(defaultOptions)
-    setActive(0)
+    dispatch({ type: 'update', options: defaultOptions })
     nestedRef.current = false
   }, [defaultOptions])
 
@@ -335,8 +380,7 @@ const Command = ({
     // When default options change (something rendering <Command /> re-renders)
     // and it's safe to do so (no existing input, not inside nested), update the options
     if (inputRef.current && !inputRef.current.value && !nestedRef.current) {
-      setOptions(defaultOptions)
-      setItems(defaultOptions)
+      dispatch({ type: 'refresh', options: defaultOptions })
     }
   }, [defaultOptions])
 
@@ -357,6 +401,7 @@ const Command = ({
     const keybind = e => {
       // Only handle keybinds if there is nothing else selected on the page
       // i.e. shouldn't trigger keybind when typing into <input />
+      // TODO: make this explicitly ignore input, textarea, etc...?
       if (document.activeElement === document.body) {
         keybinds.forEach(handler => handler.handle(e))
       }
@@ -426,6 +471,8 @@ const Command = ({
                             .map(x =>
                               x.collection
                                 ? 25 + x.items.length * height
+                                : x.divider
+                                ? 1 + height * 1.2
                                 : height
                             )
                             .reduce((acc, cur) => acc + cur)
@@ -437,10 +484,10 @@ const Command = ({
                 >
                   {renderItems({
                     items,
-                    counts: items.map(x => (x.collection ? x.items.length : 1)),
+                    counts,
                     active,
                     setActive: i => {
-                      setActive(i)
+                      dispatch({ type: 'setActive', active: i })
                       inputRef?.current?.focus()
                     },
                     updateOptions: opts => handleNested(opts)
