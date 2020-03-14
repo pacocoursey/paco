@@ -1,4 +1,5 @@
 .button {
+  user-select: none;
   cursor: pointer;
   margin-left: var(--gap);
   border-radius: var(--radius);
