@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -23,6 +23,7 @@ import {
   Quote
 } from '../icons'
 import Command from '../command'
+import Button from '../button'
 import useTheme from '../../lib/theme'
 
 const Logo = () => {
@@ -48,7 +49,14 @@ const CommandIcon = () => {
 const Header = ({ title, content }) => {
   const router = useRouter()
   const [placeholder, setPlaceholder] = useState('Type a command or search...')
+  const [hint, setHint] = useState(false)
   const { theme, toggleTheme } = useTheme()
+
+  useEffect(() => {
+    if (!localStorage.getItem('hide-hint')) {
+      setHint(true)
+    }
+  }, [])
 
   return (
     <nav className={styles.nav}>
@@ -58,8 +66,26 @@ const Header = ({ title, content }) => {
         </div>
 
         <Command
-          max={7}
+          max={5}
           width="calc(var(--main-content) - var(--gap))"
+          top={
+            hint && (
+              <div className={styles.hint}>
+                <div>
+                  Press <kbd>⌘ K</kbd> to open this menu anywhere.
+                </div>
+
+                <Button
+                  onClick={() => {
+                    localStorage.setItem('hide-hint', '1')
+                    setHint(false)
+                  }}
+                >
+                  Got it
+                </Button>
+              </div>
+            )
+          }
           placeholder={placeholder}
           options={[
             {

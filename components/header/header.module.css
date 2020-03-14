@@ -54,6 +54,18 @@
   margin-left: var(--gap-double);
 }
 
+.hint {
+  width: 100%;
+  color: var(--gray);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hint kbd {
+  color: var(--fg);
+}
+
 @media (max-width: 960px) {
   .nav {
     margin: var(--gap-double) 0;
