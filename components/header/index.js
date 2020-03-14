@@ -82,11 +82,15 @@ const Header = ({ title, content }) => {
                     {
                       name: 'Custom text underlines',
                       callback: () =>
-                        router.push('/[post]', '/custom-text-underlines')
+                        router.push(
+                          '/blog/[slug]',
+                          '/blog/custom-text-underlines'
+                        )
                     },
                     {
                       name: 'Thoughtless',
-                      callback: () => router.push('/[post]', '/be-thoughtless')
+                      callback: () =>
+                        router.push('/blog/[slug]', '/blog/be-thoughtless')
                     }
                   ]
                 },

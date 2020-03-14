@@ -18,11 +18,11 @@ import toPx from './to-px'
 import KeyHandler from './key-handler'
 import styles from './command.module.css'
 
-const divider = <div className={styles.divider} />
+const divider = <li className={styles.divider} />
 
 // These children should not change often
 const Label = memo(({ children }) => {
-  return <div className={styles.label}>{children}</div>
+  return <li className={styles.label}>{children}</li>
 })
 
 Label.displayName = 'Label'
@@ -82,43 +82,57 @@ const Item = ({
   )
 }
 
-const renderItems = ({ items, base = 0, ...rest }) => {
-  return items.map((item, i) => {
-    if (item.collection) {
-      return (
-        <Fragment key={`collection-${item.name}-${i}`}>
-          <Label>{item.name}</Label>
-          {/* Recurse */}
-          {renderItems({
-            items: item.items,
-            base: i,
-            ...rest
-          })}
-        </Fragment>
-      )
-    }
-
-    const { active, setActive, updateOptions, counts } = rest
-    const index = counts.slice(0, base).reduce((acc, cur) => acc + cur, 0) + i
-
-    let cb = item.callback
-
-    // Contains submenu items
-    if (item.items) {
-      cb = () => updateOptions(item.items)
-    }
-
-    // Exit case
+const renderItem = ({ item, index, ...rest }) => {
+  if (item.collection) {
     return (
-      <Item
-        {...item}
-        index={index}
-        key={`command-option-${item.name}-${index}`}
-        active={active === index}
-        onMouseMove={() => setActive(index)}
-        callback={cb}
-      />
+      <Fragment key={`command-collection-${item.name}-${index}`}>
+        <Label>{item.name}</Label>
+        {item.items.map((subItem, i) =>
+          renderItem({ item: subItem, index: index + i, ...rest })
+        )}
+      </Fragment>
     )
+  }
+
+  const { updateOptions, active, setActive } = rest
+
+  let cb = item.callback
+
+  if (item.items) {
+    cb = () => updateOptions(item.items)
+  }
+
+  return (
+    <Item
+      {...item}
+      key={`command-option-${item.name}-${index}`}
+      index={index}
+      active={active === index}
+      onMouseMove={() => setActive(index)}
+      callback={cb}
+    />
+  )
+}
+
+const renderItems = ({ items, active, setActive, updateOptions }) => {
+  let count = 0
+
+  return items.map(item => {
+    const x = renderItem({
+      item,
+      index: count,
+      active,
+      setActive,
+      updateOptions
+    })
+
+    if (item.collection) {
+      count += item.items.length
+    } else {
+      count++
+    }
+
+    return x
   })
 }
 
@@ -225,11 +239,6 @@ const Command = ({
     return new KeyHandler(keybind)
   }, [keybind])
 
-  const counts = useMemo(
-    () => items.map(x => (x.collection ? x.items.length : 1)),
-    [items]
-  )
-
   const handleToggleKeybind = useCallback(
     e => {
       if (e.key === 'Escape') {
@@ -253,7 +262,7 @@ const Command = ({
       // TODO: support searching entire collections (likely needs match-sorter fork)
       const x = matchSorter(options, e.target.value, {
         keys: [
-          item => (item.collection ? item.name : undefined),
+          item => (item.collection ? undefined : item.name),
           item => (item.collection ? item.items.map(i => i.name) : undefined),
           ...searchableAttributes
         ]
@@ -484,7 +493,6 @@ const Command = ({
                 >
                   {renderItems({
                     items,
-                    counts,
                     active,
                     setActive: i => {
                       dispatch({ type: 'setActive', active: i })
