@@ -1,10 +1,3 @@
----
-title: Ideas
-slug: ideas
-date: Nov 4, 2019
-hidden: true
----
-
 ## Code
 
 - [x] MDX implementation using marked, custom HTML tags, and \[data\] attributes

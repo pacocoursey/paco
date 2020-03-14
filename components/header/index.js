@@ -45,8 +45,6 @@ const CommandIcon = () => {
 }
 
 const Header = ({ title, content }) => {
-  console.log(postMeta)
-
   const router = useRouter()
   const [placeholder, setPlaceholder] = useState('Type a command or search...')
   const { theme, toggleTheme } = useTheme()
@@ -160,7 +158,7 @@ const Header = ({ title, content }) => {
                   name: 'Ideas',
                   keybind: 'g i',
                   icon: <Lightbulb />,
-                  callback: () => router.push('/blog/[slug]', '/blog/ideas')
+                  callback: () => router.push('/ideas')
                 }
               ]
             },

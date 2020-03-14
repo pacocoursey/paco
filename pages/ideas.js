@@ -10,7 +10,7 @@ const Music = ({ html }) => {
 }
 
 export const getStaticProps = async () => {
-  const md = await getMarkdown('data/words.md')
+  const md = await getMarkdown('data/ideas.md')
 
   return {
     props: {
