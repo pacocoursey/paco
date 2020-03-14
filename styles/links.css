@@ -1,43 +1,4 @@
 /* Links */
-.l-h {
-  font-weight: 500;
-  color: var(--gray);
-  padding: var(--gap-quarter) var(--gap-half);
-  border-radius: var(--radius);
-  background: transparent;
-  text-decoration: none;
-
-  transition: color var(--transition), background-color var(--transition);
-}
-
-.l-h + .l-h,
-.l-h + .l-t {
-  margin-left: var(--gap-half);
-}
-
-.l-h:hover,
-.l-h:focus,
-.l-h.active {
-  outline: none;
-  background: var(--color);
-  color: #fff;
-}
-
-.l-i {
-  padding: var(--gap-quarter) var(--gap-half);
-  border-radius: var(--inline-radius);
-  font-weight: 500;
-  background-color: var(--lighter-gray);
-  transition: color var(--transition), background-color var(--transition);
-}
-
-.l-i:hover,
-.l-i:focus {
-  outline: none;
-  background: var(--color);
-  color: #fff;
-}
-
 .l-t {
   display: flex;
   align-items: center;

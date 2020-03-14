@@ -11,7 +11,7 @@ const Links = ({ schema, filter }) => {
     <div className="flex">
       <Link
         href={pathname}
-        className={cn('l-h', 'invert', { active: !filter })}
+        className={cn('l-t', 'invert', { active: !filter })}
       >
         All
       </Link>

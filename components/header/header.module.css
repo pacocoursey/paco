@@ -22,8 +22,11 @@
 
 .command {
   cursor: pointer;
-  margin-left: var(--gap-half);
   background: none;
+}
+
+.logo {
+  margin-right: var(--gap-half);
 }
 
 .nav {

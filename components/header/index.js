@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
+import postMeta from '../../data/blog.json'
 import styles from './header.module.css'
 import {
   Moon,
@@ -16,7 +17,9 @@ import {
   Twitter,
   GitHub,
   Search,
-  RSS
+  RSS,
+  Words,
+  Lightbulb
 } from '../icons'
 import Command from '../command'
 import useTheme from '../../lib/theme'
@@ -42,6 +45,8 @@ const CommandIcon = () => {
 }
 
 const Header = ({ title, content }) => {
+  console.log(postMeta)
+
   const router = useRouter()
   const [placeholder, setPlaceholder] = useState('Type a command or search...')
   const { theme, toggleTheme } = useTheme()
@@ -78,21 +83,13 @@ const Header = ({ title, content }) => {
                   name: 'Search blog...',
                   icon: <Search />,
                   callback: () => setPlaceholder('Search blog posts...'),
-                  items: [
-                    {
-                      name: 'Custom text underlines',
+                  items: postMeta.map(post => {
+                    return {
+                      name: post.title,
                       callback: () =>
-                        router.push(
-                          '/blog/[slug]',
-                          '/blog/custom-text-underlines'
-                        )
-                    },
-                    {
-                      name: 'Thoughtless',
-                      callback: () =>
-                        router.push('/blog/[slug]', '/blog/be-thoughtless')
+                        router.push('/blog/[slug]', `/blog/${post.slug}`)
                     }
-                  ]
+                  })
                 },
                 {
                   name: 'RSS',
@@ -152,6 +149,18 @@ const Header = ({ title, content }) => {
                   keybind: 'g c',
                   icon: <ArrowRight />,
                   callback: () => router.push('/contact')
+                },
+                {
+                  name: 'Words',
+                  keybind: 'g w',
+                  icon: <Words />,
+                  callback: () => router.push('/words')
+                },
+                {
+                  name: 'Ideas',
+                  keybind: 'g i',
+                  icon: <Lightbulb />,
+                  callback: () => router.push('/blog/[slug]', '/blog/ideas')
                 }
               ]
             },
