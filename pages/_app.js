@@ -17,7 +17,7 @@ Router.events.on('routeChangeError', () => {
   nprogress.done()
 })
 
-import '../styles/global.css'
+import '@styles/global.css'
 
 class MyApp extends App {
   render() {

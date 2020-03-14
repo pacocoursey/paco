@@ -1,5 +1,5 @@
-import Page from '../components/page'
-import getMarkdown from '../lib/get-markdown'
+import Page from '@components/page'
+import getMarkdown from '@lib/get-markdown'
 
 const Words = ({ html }) => {
   return (

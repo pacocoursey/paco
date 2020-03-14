@@ -1,7 +1,7 @@
-import Post from '../../components/post'
-import getPosts from '../../lib/get-posts'
-import getPostsMeta from '../../lib/get-posts-meta'
-import renderMarkup from '../../lib/render-markup'
+import Post from '@components/post'
+import getPosts from '@lib/get-posts'
+import getPostsMeta from '@lib/get-posts-meta'
+import renderMarkup from '@lib/render-markup'
 
 const PostPage = props => {
   return <Post {...props} />

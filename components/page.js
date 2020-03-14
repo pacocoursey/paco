@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-import Header from './header'
+import Header from '@components/header'
 
 const Page = ({
   header = true,

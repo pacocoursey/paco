@@ -1,10 +1,10 @@
-import Page from '../components/page'
-import Links from '../components/links'
-import Entry from '../components/entry'
+import Page from '@components/page'
+import Links from '@components/links'
+import Entry from '@components/entry'
 
 // Data
-import useData from '../lib/use-data'
-import { data, schema } from '../data/music.json'
+import useData from '@lib/use-data'
+import { data, schema } from '@data/music.json'
 
 const Music = () => {
   const { items, filter } = useData(data)

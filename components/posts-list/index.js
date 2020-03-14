@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import cn from 'classnames'
 
-import Link from '../link'
+import Link from '@components/link'
 import styles from './posts-list.module.css'
 
 const P = ({ content, slug }) => {

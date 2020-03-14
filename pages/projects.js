@@ -1,5 +1,5 @@
-import Page from '../components/page'
-import Entry from '../components/entry'
+import Page from '@components/page'
+import Entry from '@components/entry'
 
 const Projects = () => {
   return (

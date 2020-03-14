@@ -24,7 +24,13 @@
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "@components/*": ["components/*"],
+      "@lib/*": ["lib/*"],
+      "@styles/*": ["styles/*"],
+      "@data/*": ["data/*"]
+    }
   },
   "exclude": ["./api/**"],
   "include": ["**/*.ts", "**/*.tsx", "**/*.js"]

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 
-import Page from './page'
-import Link from './link'
+import Page from '@components/page'
+import Link from '@components/link'
 
 const Error = ({ status }) => {
   return (

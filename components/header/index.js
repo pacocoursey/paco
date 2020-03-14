@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import postMeta from '../../data/blog.json'
 import styles from './header.module.css'
+import postMeta from '@data/blog.json'
+import Command from '@components/command'
+import Button from '@components/button'
+import useTheme from '@lib/theme'
 import {
   Moon,
   Sun,
@@ -21,10 +24,7 @@ import {
   Words,
   Lightbulb,
   Quote
-} from '../icons'
-import Command from '../command'
-import Button from '../button'
-import useTheme from '../../lib/theme'
+} from '@components/icons'
 
 const Logo = () => {
   return (

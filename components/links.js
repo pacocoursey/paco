@@ -2,7 +2,7 @@ import { memo } from 'react'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
 
-import Link from './link'
+import Link from '@components/link'
 
 const Links = ({ schema, filter }) => {
   const { pathname } = useRouter()

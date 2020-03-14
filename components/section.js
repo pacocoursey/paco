@@ -1,4 +1,4 @@
-import Link from './link'
+import Link from '@components/link'
 
 const Section = ({ title, icon: Icon, href, as, color, size = 50 }) => {
   return (

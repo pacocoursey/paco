@@ -1,10 +1,10 @@
-import Page from '../components/page'
-import Links from '../components/links'
-import Entry from '../components/text-entry'
+import Page from '@components/page'
+import Links from '@components/links'
+import Entry from '@components/text-entry'
 
 // Data
-import useData from '../lib/use-data'
-import { data, schema } from '../data/reading.json'
+import useData from '@lib/use-data'
+import { data, schema } from '@data/reading.json'
 
 const Reading = () => {
   const { items, filter } = useData(data)

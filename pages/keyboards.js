@@ -1,9 +1,9 @@
-import Page from '../components/page'
-import Entry from '../components/entry'
-import Links from '../components/links'
+import Page from '@components/page'
+import Entry from '@components/entry'
+import Links from '@components/links'
 
-import useData from '../lib/use-data'
-import { data, schema } from '../data/keyboards.json'
+import useData from '@lib/use-data'
+import { data, schema } from '@data/keyboards.json'
 
 const Keyboards = () => {
   const { items, filter } = useData(data)

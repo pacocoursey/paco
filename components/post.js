@@ -1,7 +1,7 @@
 import Head from 'next/head'
 
-import Page from './page'
-import PostsList from './posts-list'
+import Page from '@components/page'
+import PostsList from '@components/posts-list'
 
 const Post = ({ title, slug, html, hidden, og, meta }) => {
   return (

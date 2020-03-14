@@ -1,10 +1,10 @@
-import Page from '../components/page'
-import Links from '../components/links'
-import Entry from '../components/entry'
+import Page from '@components/page'
+import Links from '@components/links'
+import Entry from '@components/entry'
 
 // Data
-import useData from '../lib/use-data'
-import { data, schema } from '../data/design.json'
+import useData from '@lib/use-data'
+import { data, schema } from '@data/design.json'
 
 const Design = () => {
   const { items: imageItems, filter } = useData(data.filter(x => x.image))
