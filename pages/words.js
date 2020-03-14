@@ -1,7 +1,7 @@
 import Page from '../components/page'
 import getMarkdown from '../lib/get-markdown'
 
-const Music = ({ html }) => {
+const Words = ({ html }) => {
   return (
     <Page title="Words">
       <article dangerouslySetInnerHTML={{ __html: html }} />
@@ -19,4 +19,4 @@ export const getStaticProps = async () => {
   }
 }
 
-export default Music
+export default Words

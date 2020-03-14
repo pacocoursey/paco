@@ -2,16 +2,16 @@ import Page from '../components/page'
 import getMarkdown from '../lib/get-markdown'
 import Link from '../components/link' // eslint-disable-line
 
-const Ideas = ({ html }) => {
+const Quotes = ({ html }) => {
   return (
-    <Page title="Ideas">
+    <Page title="Quotes">
       <article dangerouslySetInnerHTML={{ __html: html }} />
     </Page>
   )
 }
 
 export const getStaticProps = async () => {
-  const md = await getMarkdown('data/ideas.md')
+  const md = await getMarkdown('data/quotes.md')
 
   return {
     props: {
@@ -20,4 +20,4 @@ export const getStaticProps = async () => {
   }
 }
 
-export default Ideas
+export default Quotes

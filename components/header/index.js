@@ -19,7 +19,8 @@ import {
   Search,
   RSS,
   Words,
-  Lightbulb
+  Lightbulb,
+  Quote
 } from '../icons'
 import Command from '../command'
 import useTheme from '../../lib/theme'
@@ -147,6 +148,12 @@ const Header = ({ title, content }) => {
                   keybind: 'g c',
                   icon: <ArrowRight />,
                   callback: () => router.push('/contact')
+                },
+                {
+                  name: 'Quotes',
+                  keybind: 'g q',
+                  icon: <Quote />,
+                  callback: () => router.push('/quotes')
                 },
                 {
                   name: 'Words',

@@ -1,4 +1,4 @@
-## Code
+### Code
 
 - [x] MDX implementation using marked, custom HTML tags, and \[data\] attributes
 - [x] styled-system HOC for use with styled-jsx
@@ -10,8 +10,10 @@
 - [ ] Storytelling using Command+F to jump between occurences
 - [ ] Deploy DB as a static file and use ISSG
 - [ ] Client side OG image generator
+- [ ] Authenticator app that uses a QR code to transfer from old phone to new phone
+- [ ] Social media sharer
 
-## Blog
+### Blog
 
 - [ ] The scroll position effect on /blog
 - [ ] Introduction to mechanical keyboards
