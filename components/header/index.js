@@ -48,7 +48,6 @@ const CommandIcon = () => {
 
 const Header = ({ title, content }) => {
   const router = useRouter()
-  const [placeholder, setPlaceholder] = useState('Type a command or search...')
   const [hint, setHint] = useState(false)
   const { theme, toggleTheme } = useTheme()
 
@@ -86,7 +85,7 @@ const Header = ({ title, content }) => {
               </div>
             )
           }
-          placeholder={placeholder}
+          placeholder="Type a command or search..."
           options={[
             {
               name: 'Toggle theme',
@@ -107,7 +106,6 @@ const Header = ({ title, content }) => {
                 {
                   name: 'Search blog...',
                   icon: <Search />,
-                  callback: () => setPlaceholder('Search blog posts...'),
                   items: postMeta.map(post => {
                     return {
                       name: post.title,

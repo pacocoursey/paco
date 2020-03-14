@@ -3,7 +3,7 @@ import React from 'react'
 import Post from '@components/post'
 import getPosts from '@lib/get-posts'
 import getPostsMeta from '@lib/get-posts-meta'
-import renderMarkup from '@lib/render-markup'
+import renderMarkdown from '@lib/render-markdown'
 
 const Index = props => {
   return <Post {...props} />
@@ -19,7 +19,7 @@ export const getStaticProps = () => {
     props: {
       meta,
       ...rest,
-      html: renderMarkup(body)
+      html: renderMarkdown(body)
     }
   }
 }

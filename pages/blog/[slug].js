@@ -1,7 +1,7 @@
 import Post from '@components/post'
 import getPosts from '@lib/get-posts'
 import getPostsMeta from '@lib/get-posts-meta'
-import renderMarkup from '@lib/render-markup'
+import renderMarkdown from '@lib/render-markdown'
 
 const PostPage = props => {
   return <Post {...props} />
@@ -17,7 +17,7 @@ export const getStaticProps = ({ params: { slug } }) => {
     props: {
       ...rest,
       meta,
-      html: renderMarkup(body)
+      html: renderMarkdown(body)
     }
   }
 }
