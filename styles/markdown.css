@@ -1,18 +1,18 @@
 /* Lists */
 
-ul {
-  padding-left: 2rem;
+article ul {
+  padding: 0;
+  list-style-position: outside;
+  list-style-type: circle;
 }
 
-li {
-  list-style-type: none;
+article ol {
+  padding: 0;
+  list-style-type: upper-roman;
+  list-style-position: outside;
 }
 
-li::before {
-  content: '– ';
-}
-
-li.reset {
+article ul li.reset {
   display: flex;
   align-items: flex-start;
 
@@ -20,11 +20,7 @@ li.reset {
   margin-left: -0.5rem;
 }
 
-li.reset::before {
-  content: none;
-}
-
-li.reset .check {
+article ul li.reset .check {
   display: flex;
   align-items: center;
   margin-right: 0.51rem;
