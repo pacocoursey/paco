@@ -1,27 +1,42 @@
 import Page from '../components/page'
 
-// Data
-import useData from '../lib/use-data'
-import { data } from '../data/words.json'
-
 const Music = () => {
-  const { items } = useData(data)
-
   return (
     <Page title="Words">
       <article>
         <h1>Words</h1>
         <p>Words that I read but didn't understand.</p>
+        <p>
+          <b>mimesis</b>
+          <br />
+          <i>noun</i>
+          <br />
+          representation or imitation of the real world in art and literature
+        </p>
 
-        {items.map(entry => {
-          return (
-            <ul key={entry.word}>
-              <li key={entry.word}>
-                <b>{entry.word}</b>: {entry.definition}
-              </li>
-            </ul>
-          )
-        })}
+        <p>
+          <b>concomitant</b>
+          <br />
+          <i>adjective</i>
+          <br />
+          naturally accompanying or associated
+        </p>
+
+        <p>
+          <b>prescient</b>
+          <br />
+          <i>adjective</i>
+          <br />
+          having or showing knowledge of events before they take place
+        </p>
+
+        <p>
+          <b>cognizant</b>
+          <br />
+          <i>adjective</i>
+          <br />
+          knew this word, but expected it to be spelled <i>cogniscent</i>
+        </p>
       </article>
     </Page>
   )

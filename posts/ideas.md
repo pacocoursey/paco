@@ -10,13 +10,13 @@ hidden: true
 - [x] MDX implementation using marked, custom HTML tags, and \[data\] attributes
 - [x] styled-system HOC for use with styled-jsx
 - [x] Writing app that turns off the screen
+- [x] Update homepage to use SSG
 - [ ] GUI for plain JSON databases using lowdb (`dead` - Dead Easy Array Databases)
 - [ ] spotlight-like password manager with good keybinds
 - [ ] Music gathering site, combines all other services to centralize a playlist (http://song.link/)
 - [ ] Storytelling using Command+F to jump between occurences
 - [ ] Deploy DB as a static file and use ISSG
 - [ ] Client side OG image generator
-- [ ] Update homepage to use SSG
 
 ## Blog
 
