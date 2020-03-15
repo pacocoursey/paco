@@ -193,21 +193,13 @@ const Header = ({ title, content }) => {
                   name: 'Twitter',
                   icon: <Twitter />,
                   callback: () =>
-                    window.open(
-                      'https://twitter.com/pacocoursey',
-                      '_blank',
-                      'noopener noreferrer'
-                    )
+                    window.open('https://twitter.com/pacocoursey', '_blank')
                 },
                 {
                   name: 'GitHub',
                   icon: <GitHub />,
                   callback: () =>
-                    window.open(
-                      'https://github.com/pacocoursey',
-                      '_blank',
-                      'noopener noreferrer'
-                    )
+                    window.open('https://github.com/pacocoursey', '_blank')
                 }
               ]
             }
