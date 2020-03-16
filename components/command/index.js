@@ -185,7 +185,7 @@ const Command = ({
   top,
   placeholder,
   closeOnCallback = true,
-  keybind = 'Meta+k',
+  keybind = 'Meta+k, Control+k',
   searchOn,
   children
 }) => {

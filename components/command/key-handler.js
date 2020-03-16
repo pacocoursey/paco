@@ -43,11 +43,17 @@ const KEY_SEQUENCE_TIMEOUT = 1000
 let insideSequence = false
 
 const getHotkeysArray = hotkeys => {
-  const hkeys = hotkeys.toLowerCase()
+  let hkeys = hotkeys.toLowerCase()
 
   if (hkeys.length === 1) {
     // We're dealing with a single key
     return [hkeys]
+  }
+
+  // More than one keybind
+  if (hkeys.includes(',')) {
+    const result = hkeys.split(',').map(key => getHotkeysArray(key.trim()))
+    return result
   }
 
   if (hkeys.includes('+')) {
@@ -87,11 +93,11 @@ class KeyHandler {
     this.keySequence = []
   }
 
-  handleKeySequence = event => {
+  handleKeySequence = (key, event) => {
     this.clearSequenceTimer()
 
     // Pressed key does not match the pattern
-    if (this.keys[this.keySequence.length] !== event.key.toLowerCase()) {
+    if (key[this.keySequence.length] !== event.key.toLowerCase()) {
       return
     }
 
@@ -102,16 +108,16 @@ class KeyHandler {
     insideSequence = true
     this.keySequence.push(event.key.toLowerCase())
 
-    if (arraysAreEqual(this.keySequence, this.keys)) {
+    if (arraysAreEqual(this.keySequence, key)) {
       this.resetKeySequence()
       event.preventDefault()
       this.callback(event)
     }
   }
 
-  handleModifierCombo = event => {
-    const actionKey = tail(this.keys)
-    const modKeys = mapModifierKeys(takeUntilLast(this.keys))
+  handleModifierCombo = (key, event) => {
+    const actionKey = tail(key)
+    const modKeys = mapModifierKeys(takeUntilLast(key))
     const activeModKeys = getActiveModifierKeys(event)
     const allModKeysPressed = isSameSet(modKeys, activeModKeys)
 
@@ -122,18 +128,26 @@ class KeyHandler {
   }
 
   handle = event => {
+    if (Array.isArray(this.keys[0])) {
+      this.keys.forEach(key => this.handleKeybind(key, event))
+    } else {
+      this.handleKeybind(this.keys, event)
+    }
+  }
+
+  handleKeybind = (key, event) => {
     // Handle modifier key combos
     if (modifierKeyPressed(event)) {
-      return this.handleModifierCombo(event)
+      return this.handleModifierCombo(key, event)
     }
 
     // Handle key sequences
     if (this.keys.length > 1 && !modifierKeyPressed(event)) {
-      return this.handleKeySequence(event)
+      return this.handleKeySequence(key, event)
     }
 
     // Handle the basic case: a single hotkey
-    if (!insideSequence && event.key.toLowerCase() === this.keys[0]) {
+    if (!insideSequence && event.key.toLowerCase() === key[0]) {
       event.preventDefault()
       return this.callback(event)
     }
