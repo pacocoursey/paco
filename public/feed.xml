@@ -9,9 +9,56 @@
             <link>https://paco.im</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Tue, 10 Mar 2020 04:24:18 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 19 Mar 2020 15:49:12 GMT</lastBuildDate>
         <atom:link href="https://paco.im/feed.xml" rel="self" type="application/rss+xml"/>
         <language><![CDATA[en]]></language>
+        <item>
+            <title><![CDATA[Better Next.js Imports]]></title>
+            <description><![CDATA[<p>Relative import statements are a pain. To avoid <code>../</code> chains, improve code portability, and type less, I&#39;ve started using <a href="https://github.com/tleunen/babel-plugin-module-resolver" target="_blank" rel="noopener noreferrer"><code>babel-plugin-module-resolver</code></a> in my Next.js projects.</p>
+<p>The goal is to transform verbose import statements like this:</p>
+<pre><code class="language-js">import Button from &#39;../../../../components/button&#39;</code></pre>
+<p>into absolute import statements that work anywhere in your project:</p>
+<pre><code class="language-js">import Button from &#39;@components/button&#39;</code></pre>
+<p>Let&#39;s do it. Install the babel plugin as a <code>devDependency</code>:</p>
+<pre><code class="language-bash">$ yarn add babel-plugin-module-resolver -D</code></pre>
+<p>In the root of your Next.js project, create a <code>.babelrc.json</code> file and add the <code>module-resolver</code> plugin:</p>
+<pre><code class="language-js">module.exports = {
+  presets: [&#39;next/babel&#39;],
+  plugins: [
+    [
+      &#39;module-resolver&#39;,
+      {
+        alias: {
+          &#39;@components&#39;: &#39;./components&#39;
+        }
+      }
+    ]
+  ]
+}</code></pre>
+<p>Create a <code>jsconfig.json</code> (or <code>tsconfig.json</code> if you&#39;re using TypeScript) and add the <code>paths</code> property:</p>
+<pre><code class="language-json">{
+  &quot;compilerOptions&quot;: {
+    &quot;baseUrl&quot;: &quot;.&quot;,
+    &quot;paths&quot;: {
+      &quot;@components/*&quot;: [&quot;components/*&quot;]
+    }
+  }
+}</code></pre>
+<p>Note that the syntax is slightly different than the babel config.</p>
+<p>If you&#39;re using a mixed JS/TS codebase, you should include JS files in your <code>tsconfig.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;include&quot;: [&quot;**/*.ts&quot;, &quot;**/*.tsx&quot;, &quot;**/*.js&quot;, &quot;**/*.jsx&quot;]
+}</code></pre>
+<p>Now you can update your import statements to use the new syntax!</p>
+<hr>
+<p>You don&#39;t have to use <code>@</code> as the prefix, that&#39;s simply my preference. You can make it fully absolute (<code>import Button from &#39;components/button&#39;</code>) or use another prefix (<code>import Button from &#39;$$components/button&#39;</code>).</p>
+<p>Editors like VSCode automatically support the config in <code>jsconfig.json</code>, so Command+Click to jump to the source of a file will work as usual. <a href="https://github.com/tleunen/babel-plugin-module-resolver#editors-autocompletion" target="_blank" rel="noopener noreferrer">Atom and IntelliJ</a> also have support for rewrites.</p>
+]]></description>
+            <link>https://paco.im/blog/better-nextjs-imports</link>
+            <guid isPermaLink="false">https://paco.im/blog/better-nextjs-imports</guid>
+            <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
+            <pubDate>Sun, 15 Mar 2020 06:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[Custom text underlines]]></title>
             <description><![CDATA[<p>The <code>text-decoration: underline</code> CSS property provides insufficient control over the underline styling and position. While we wait for the <a href="https://www.w3.org/TR/css-text-decor-4/" target="_blank" rel="noopener noreferrer">CSS Text Decoration Module specification</a> to become standard, we must rely on custom implementations.</p>
@@ -143,8 +190,8 @@ background-size: 1ch 1px;</code></pre>
 }
 </style>
 ]]></description>
-            <link>https://paco.im/custom-text-underlines</link>
-            <guid isPermaLink="false">https://paco.im/custom-text-underlines</guid>
+            <link>https://paco.im/blog/custom-text-underlines</link>
+            <guid isPermaLink="false">https://paco.im/blog/custom-text-underlines</guid>
             <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
             <pubDate>Tue, 11 Feb 2020 07:00:00 GMT</pubDate>
         </item>
@@ -155,8 +202,8 @@ background-size: 1ch 1px;</code></pre>
 <p>By making each typed word disappear, there is no overediting or obsessing over sentence structure. Record your raw thoughts — no going back.</p>
 <p>When you finish, copy and paste your writing somewhere safe and sleep well.</p>
 ]]></description>
-            <link>https://paco.im/be-thoughtless</link>
-            <guid isPermaLink="false">https://paco.im/be-thoughtless</guid>
+            <link>https://paco.im/blog/be-thoughtless</link>
+            <guid isPermaLink="false">https://paco.im/blog/be-thoughtless</guid>
             <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
             <pubDate>Tue, 21 Jan 2020 07:00:00 GMT</pubDate>
         </item>
@@ -204,8 +251,8 @@ export default withStyledSystem(Box, [color])</code></pre>
 <hr>
 <p>Thanks to <a href="https://twitter.com/jxnblk" target="_blank" rel="noopener noreferrer">jxnblk</a> for Styled System and all his cool CSS experiments, and thanks to <a href="https://twitter.com/giuseppegurgone" target="_blank" rel="noopener noreferrer">Giuseppe</a>, <a href="https://twitter.com/_ijjk" target="_blank" rel="noopener noreferrer">JJ</a>, and <a href="https://twitter.com/shuding_" target="_blank" rel="noopener noreferrer">Shu</a> for help with compiling and publishing!</p>
 ]]></description>
-            <link>https://paco.im/styled-jsx-system</link>
-            <guid isPermaLink="false">https://paco.im/styled-jsx-system</guid>
+            <link>https://paco.im/blog/styled-jsx-system</link>
+            <guid isPermaLink="false">https://paco.im/blog/styled-jsx-system</guid>
             <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
             <pubDate>Sat, 21 Dec 2019 07:00:00 GMT</pubDate>
         </item>
@@ -218,8 +265,8 @@ export default withStyledSystem(Box, [color])</code></pre>
 <p>I have a new policy: <strong>write it down.</strong> Every single time. No matter if the idea comes to me in the shower, the middle of a dream, or in a conversation.</p>
 <p>Most of my ideas are bad. But this way I&#39;ll never miss an opportunity.</p>
 ]]></description>
-            <link>https://paco.im/write-it-down</link>
-            <guid isPermaLink="false">https://paco.im/write-it-down</guid>
+            <link>https://paco.im/blog/write-it-down</link>
+            <guid isPermaLink="false">https://paco.im/blog/write-it-down</guid>
             <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
             <pubDate>Tue, 19 Nov 2019 07:00:00 GMT</pubDate>
         </item>
@@ -234,44 +281,10 @@ export default withStyledSystem(Box, [color])</code></pre>
 <p>— Giles</p>
 </blockquote>
 ]]></description>
-            <link>https://paco.im/on-gaming</link>
-            <guid isPermaLink="false">https://paco.im/on-gaming</guid>
+            <link>https://paco.im/blog/on-gaming</link>
+            <guid isPermaLink="false">https://paco.im/blog/on-gaming</guid>
             <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
             <pubDate>Sat, 16 Nov 2019 07:00:00 GMT</pubDate>
-        </item>
-        <item>
-            <title><![CDATA[Ideas]]></title>
-            <description><![CDATA[<h2 id="code">Code</h2>
-<ul>
-<li><input checked="" disabled="" type="checkbox"> MDX implementation using marked, custom HTML tags, and [data] attributes</li>
-<li><input checked="" disabled="" type="checkbox"> styled-system HOC for use with styled-jsx</li>
-<li><input checked="" disabled="" type="checkbox"> Writing app that turns off the screen</li>
-<li><input disabled="" type="checkbox"> GUI for plain JSON databases using lowdb (<code>dead</code> - Dead Easy Array Databases)</li>
-<li><input disabled="" type="checkbox"> spotlight-like password manager with good keybinds</li>
-<li><input disabled="" type="checkbox"> Music gathering site, combines all other services to centralize a playlist (<a href="http://song.link/" target="_blank" rel="noopener noreferrer">http://song.link/</a>)</li>
-<li><input disabled="" type="checkbox"> Storytelling using Command+F to jump between occurences</li>
-<li><input disabled="" type="checkbox"> Deploy DB as a static file and use ISSG</li>
-<li><input disabled="" type="checkbox"> Client side OG image generator</li>
-<li><input disabled="" type="checkbox"> Update homepage to use SSG</li>
-</ul>
-<h2 id="blog">Blog</h2>
-<ul>
-<li><input disabled="" type="checkbox"> The scroll position effect on /blog</li>
-<li><input disabled="" type="checkbox"> Introduction to mechanical keyboards</li>
-<li><input checked="" disabled="" type="checkbox"> Write it down</li>
-<li><input disabled="" type="checkbox"> Improved Structure Procrastination</li>
-<li><input checked="" disabled="" type="checkbox"> Thoughts on gaming</li>
-<li><input disabled="" type="checkbox"> Instrinsic value and pursuit of popularity</li>
-<li><input disabled="" type="checkbox"> A decent popover</li>
-<li><input disabled="" type="checkbox"> Ghost Mouse</li>
-<li><input disabled="" type="checkbox"> Temporal Navigation</li>
-<li><input disabled="" type="checkbox"> A taste of Mercury</li>
-</ul>
-]]></description>
-            <link>https://paco.im/ideas</link>
-            <guid isPermaLink="false">https://paco.im/ideas</guid>
-            <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
-            <pubDate>Mon, 04 Nov 2019 07:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Good Code]]></title>
@@ -281,8 +294,8 @@ export default withStyledSystem(Box, [color])</code></pre>
 <p>Good code should outlast us, when many designs will not.</p>
 <p>It&#39;s almost ethical — deeply considering how we leave the codebase for our future selves or others.</p>
 ]]></description>
-            <link>https://paco.im/good-code</link>
-            <guid isPermaLink="false">https://paco.im/good-code</guid>
+            <link>https://paco.im/blog/good-code</link>
+            <guid isPermaLink="false">https://paco.im/blog/good-code</guid>
             <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
             <pubDate>Sat, 02 Nov 2019 06:00:00 GMT</pubDate>
         </item>
@@ -300,8 +313,8 @@ export default withStyledSystem(Box, [color])</code></pre>
 <p>Because I have a lot of practice writing in this dull manner that meets school requirements. But I&#39;m already bored reading it.</p>
 <p>I&#39;m learning to recognize good writing, and I&#39;m fascinated. We all use the same set of words, but some writers are so much better at using them.</p>
 ]]></description>
-            <link>https://paco.im/good-writers</link>
-            <guid isPermaLink="false">https://paco.im/good-writers</guid>
+            <link>https://paco.im/blog/good-writers</link>
+            <guid isPermaLink="false">https://paco.im/blog/good-writers</guid>
             <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
             <pubDate>Thu, 24 Oct 2019 06:00:00 GMT</pubDate>
         </item>
@@ -316,8 +329,8 @@ export default withStyledSystem(Box, [color])</code></pre>
 </blockquote>
 <p>This is a totally valid way to work. It&#39;s probably the most efficient. You&#39;re not the first person working on your problems, so use what other people have already discovered. But to what degree can we claim this work as our own?</p>
 ]]></description>
-            <link>https://paco.im/creative</link>
-            <guid isPermaLink="false">https://paco.im/creative</guid>
+            <link>https://paco.im/blog/creative</link>
+            <guid isPermaLink="false">https://paco.im/blog/creative</guid>
             <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
             <pubDate>Mon, 19 Aug 2019 06:00:00 GMT</pubDate>
         </item>
@@ -338,8 +351,8 @@ export default withStyledSystem(Box, [color])</code></pre>
 <p>Restart the app, and your custom application icon should persist!</p>
 <p><img src="https://paco.im/blog/persistent-icons/dock-2.png" alt="Much better"></p>
 ]]></description>
-            <link>https://paco.im/persistent-icons</link>
-            <guid isPermaLink="false">https://paco.im/persistent-icons</guid>
+            <link>https://paco.im/blog/persistent-icons</link>
+            <guid isPermaLink="false">https://paco.im/blog/persistent-icons</guid>
             <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
             <pubDate>Sat, 30 Mar 2019 06:00:00 GMT</pubDate>
         </item>
@@ -365,8 +378,8 @@ export default withStyledSystem(Box, [color])</code></pre>
 <li>Unless you have installed ESLint globally, which does add the executable to your PATH (<code>yarn global add eslint</code>)</li>
 </ol>
 ]]></description>
-            <link>https://paco.im/understanding-package-json</link>
-            <guid isPermaLink="false">https://paco.im/understanding-package-json</guid>
+            <link>https://paco.im/blog/understanding-package-json</link>
+            <guid isPermaLink="false">https://paco.im/blog/understanding-package-json</guid>
             <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
             <pubDate>Mon, 11 Mar 2019 06:00:00 GMT</pubDate>
         </item>
