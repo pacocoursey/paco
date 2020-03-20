@@ -224,6 +224,7 @@ article pre {
 article img {
   max-width: 100%;
   width: var(--main-content);
+  border-radius: var(--radius);
 }
 
 .clamp {
