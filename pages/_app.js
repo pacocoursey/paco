@@ -53,6 +53,7 @@ class MyApp extends App {
             content="https://res.cloudinary.com/dsdlhtnpw/image/upload/v1572673557/og-image_budbm8.png"
           />
           <meta name="apple-mobile-web-app-title" content="Paco" />
+          <meta name="author" content="Paco Coursey" />
 
           {/* RSS feed */}
           <link
