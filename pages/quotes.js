@@ -4,7 +4,10 @@ import Link from '@components/link' // eslint-disable-line
 
 const Quotes = ({ html }) => {
   return (
-    <Page title="Quotes">
+    <Page
+      title="Quotes"
+      description="Collection of notable quotes encountered in reading."
+    >
       <article dangerouslySetInnerHTML={{ __html: html }} />
     </Page>
   )

@@ -10,7 +10,11 @@ const Reading = () => {
   const { items, filter } = useData(data)
 
   return (
-    <Page title="Reading" content={<Links schema={schema} filter={filter} />}>
+    <Page
+      title="Reading"
+      content={<Links schema={schema} filter={filter} />}
+      description="Collection of articles, blog posts, and videos that I enjoyed."
+    >
       <article>
         {items.map(entry => {
           return (

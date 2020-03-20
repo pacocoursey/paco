@@ -3,7 +3,10 @@ import getMarkdown from '@lib/get-markdown'
 
 const Words = ({ html }) => {
   return (
-    <Page title="Words">
+    <Page
+      title="Words"
+      description="Collection of words I read but didn't understand."
+    >
       <article dangerouslySetInnerHTML={{ __html: html }} />
     </Page>
   )

@@ -5,25 +5,18 @@ import PostsList from '@components/posts-list'
 
 const Post = ({ title, slug, html, hidden, og, description, date, meta }) => {
   return (
-    <Page slug={slug} title="Blog" postFooter>
+    <Page
+      slug={slug}
+      title={title}
+      description={description}
+      image={
+        og && `https://res.cloudinary.com/dsdlhtnpw/image/upload/${slug}.png`
+      }
+      postFooter
+    >
       <Head>
-        <title>{title} - Paco Coursey</title>
         {hidden && <meta name="robots" content="noindex" />}
-        {description && (
-          <>
-            <meta name="description" content={description} />
-            <meta name="og:description" content={description} />
-          </>
-        )}
-        {og && (
-          <meta
-            name="og:image"
-            content={`https://res.cloudinary.com/dsdlhtnpw/image/upload/${slug}.png`}
-          />
-        )}
-        {date && (
-          <meta name="date" content={date} />
-        )}
+        {date && <meta name="date" content={date} />}
       </Head>
 
       <article

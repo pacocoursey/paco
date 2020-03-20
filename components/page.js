@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from '@components/head'
 
 import Header from '@components/header'
 
@@ -8,13 +8,17 @@ const Page = ({
   postFooter = false,
   content,
   title,
+  description,
+  image,
   children
 }) => {
   return (
     <div>
-      <Head>
-        <title>{`${title ? `${title} - ` : ''}Paco Coursey`}</title>
-      </Head>
+      <Head
+        title={`${title ? `${title} - ` : ''}Paco Coursey`}
+        description={description}
+        image={image}
+      />
 
       {header && <Header content={content} title={title} />}
       <main>{children}</main>
