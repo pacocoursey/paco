@@ -5,9 +5,9 @@ slug: disable-theme-transitions
 date: Mar 19, 2020
 ---
 
-It's difficult to transition between themes smoothly. Adding a CSS `transition` to every element negatively impacts rendering performance, and it also won't work for images, icons, and CSS properties that don't support transitions. Removing all transitions won't work either,
+It's difficult to transition between themes smoothly. Adding a CSS `transition` to every element negatively impacts rendering performance, and it also won't work for images, icons, and CSS properties that don't support transitions.
 
-Instead, we can temporarily remove transitions from all elements so that toggling between themes feels snappy and consistent. We'll manually create a stylesheet that disables transitions:
+Instead, we can temporarily remove transitions from all elements so that toggling themes feels snappy and consistent. We'll manually create a stylesheet that disables transitions:
 
 ```js
 const css = document.createElement('style')
