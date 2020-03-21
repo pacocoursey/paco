@@ -100,7 +100,6 @@ body {
 }
 
 body {
-  scroll-behavior: smooth;
   min-height: 100vh;
   font-family: var(--font-sans);
   display: flex;
