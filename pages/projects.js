@@ -3,7 +3,7 @@ import Entry from '@components/entry'
 
 const Projects = () => {
   return (
-    <Page title="Projects">
+    <Page title="Projects" description="Collection of past and present work.">
       <article>
         <Entry
           title="Geist"

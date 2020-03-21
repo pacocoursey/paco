@@ -3,18 +3,20 @@ import Head from 'next/head'
 import Page from '@components/page'
 import PostsList from '@components/posts-list'
 
-const Post = ({ title, slug, html, hidden, og, meta }) => {
+const Post = ({ title, slug, html, hidden, og, description, date, meta }) => {
   return (
-    <Page slug={slug} title="Blog" postFooter>
+    <Page
+      slug={slug}
+      title={title}
+      description={description}
+      image={
+        og && `https://res.cloudinary.com/dsdlhtnpw/image/upload/${slug}.png`
+      }
+      postFooter
+    >
       <Head>
-        <title>{title} - Paco Coursey</title>
         {hidden && <meta name="robots" content="noindex" />}
-        {og && (
-          <meta
-            name="og:image"
-            content={`https://res.cloudinary.com/dsdlhtnpw/image/upload/${slug}.png`}
-          />
-        )}
+        {date && <meta name="date" content={date} />}
       </Head>
 
       <article

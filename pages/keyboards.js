@@ -9,7 +9,11 @@ const Keyboards = () => {
   const { items, filter } = useData(data)
 
   return (
-    <Page title="Keyboards" content={<Links schema={schema} filter={filter} />}>
+    <Page
+      title="Keyboards"
+      content={<Links schema={schema} filter={filter} />}
+      description="Collection of beautiful 60%, 65%, and TKL keyboards."
+    >
       <article>
         {items.map(entry => {
           return (

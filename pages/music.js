@@ -10,7 +10,11 @@ const Music = () => {
   const { items, filter } = useData(data)
 
   return (
-    <Page title="Music" content={<Links schema={schema} filter={filter} />}>
+    <Page
+      title="Music"
+      content={<Links schema={schema} filter={filter} />}
+      description="Collection of exemplary electronic music."
+    >
       <article>
         {items.map(entry => {
           return (

@@ -21,7 +21,7 @@ const P = ({ content, slug }) => {
                   [styles.active]: post.slug === slug
                 })}
               >
-                <div className={styles.title}>{post.title}</div>
+                <div className={cn(styles.title, 'clamp')}>{post.title}</div>
                 <div className={cn(styles.description, 'clamp-2')}>
                   {post.description}
                 </div>
