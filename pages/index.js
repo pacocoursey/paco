@@ -3,7 +3,7 @@ import Link from '@components/link'
 
 const About = () => {
   return (
-    <Page description="Hi, I'm Paco. Frontend developer and designer, mechanical keyboard enthusiast, practicing minimalist, and trance lover in search of flow.">
+    <Page description="Hi, I'm not quite Paco. Frontend developer and designer, mechanical keyboard enthusiast, practicing minimalist, and trance lover in search of flow.">
       <article>
         <h1>Paco Coursey</h1>
 
