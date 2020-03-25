@@ -2,6 +2,7 @@ import Head from 'next/head'
 
 import Page from '@components/page'
 import PostsList from '@components/posts-list'
+import styles from './post.module.css'
 
 const Post = ({ title, slug, html, hidden, og, description, date, meta }) => {
   return (
@@ -21,7 +22,7 @@ const Post = ({ title, slug, html, hidden, og, description, date, meta }) => {
 
       <article
         dangerouslySetInnerHTML={{
-          __html: `<h1>${title}</h1>${html}`
+          __html: `<span class="${styles.date}">${date}</span><h1 class="${styles.title}">${title}</h1>${html}`
         }}
       />
 

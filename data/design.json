@@ -15,6 +15,40 @@
   ],
   "data": [
     {
+      "title": "Raster",
+      "description": "Minimal and straight-forward CSS grid system utilizing descriptive HTML rather than semantic CSS.",
+      "url": "https://rsms.me/raster/examples/poster",
+      "image": "https://res.cloudinary.com/dsdlhtnpw/image/upload/v1585116753/juj_cvs27q.png",
+      "key": "website"
+    },
+    {
+      "title": "Hopdash",
+      "description": "Hopdash - Find amazing running routes and communities across the world.",
+      "image": "http://hopdash.com/img/social-img.png",
+      "url": "http://hopdash.com/",
+      "key": "website"
+    },
+    {
+      "title": "Jon-Kyle",
+      "description": "it me",
+      "url": "https://www.jon-kyle.com/index",
+      "key": "portfolio"
+    },
+    {
+      "title": "Gabriel Valdivia",
+      "description": "Mission-driven design leader with experience building products for startups & large organizations.",
+      "image": "https://res.cloudinary.com/dsdlhtnpw/image/upload/v1585116600/xxx_sv4pyq.png",
+      "url": "https://www.gabrielvaldivia.com/",
+      "key": "portfolio"
+    },
+    {
+      "title": "Zach Cole",
+      "description": "Zach Cole is a designer and front-end developer who also loves to run very far.",
+      "image": "http://zcole.me/img/social-share.png",
+      "url": "http://zcole.me/index.html",
+      "key": "portfolio"
+    },
+    {
       "title": "Digital Psychology",
       "description": "A free library of psychological principles and examples to elevate your SaaS, e-commerce or other digital products.",
       "image": "http://digitalpsychology.io/static/seo-image.33cf7434.png",

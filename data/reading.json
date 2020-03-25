@@ -15,6 +15,27 @@
   ],
   "data": [
     {
+      "title": "Acrobat on the Web, Powered by WebAssembly",
+      "description": "We describe how we used WebAssembly to bring Adobe’s performant and pixel-perfect rendering on the Web with the Document Cloud View SDK.",
+      "image": "https://miro.medium.com/max/480/1*HqelSM6beWmKZHdo_oF3Yg.png",
+      "url": "https://medium.com/adobetech/acrobat-on-the-web-powered-by-webassembly-782385e4947e",
+      "key": "article"
+    },
+    {
+      "title": "The unseen performance costs of modern CSS-in-JS libraries in React apps",
+      "description": "CSS-in-JS is becoming a popular choice for any new front-end app out there, due to the fact that it offers a better API for developers to work with. Don't get me wrong, I love CSS, but creating a proper CSS architecture is not an easy task. Unfortunately though, besides some of the great advantages",
+      "image": "https://calendar.perfplanet.com/wp-content/uploads/2019/12/aggelos/6.png",
+      "url": "https://calendar.perfplanet.com/2019/the-unseen-performance-costs-of-css-in-js-in-react-apps/",
+      "key": "article"
+    },
+    {
+      "title": "Two Steps Forward, One Step Back | Jxnblk",
+      "description": "Building UI with design constraints from utlity CSS to CSS-in-JS",
+      "image": "https://jxnblk.com/avatar.png",
+      "url": "https://jxnblk.com/blog/two-steps-forward/",
+      "key": "blog"
+    },
+    {
       "title": "The Design Graph | Jxnblk",
       "description": "A constraint-based system for organizing styles in UI design",
       "image": "https://jxnblk.com/avatar.png",

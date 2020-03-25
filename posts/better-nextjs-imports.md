@@ -2,7 +2,11 @@
 title: Better Next.js Imports
 description: Improved import statements with absolute paths using babel plugins.
 slug: better-nextjs-imports
-date: March, 15, 2020
+date: March 15, 2020
+---
+
+Nine days after writing this post, the Next.js team [landed support for paths](https://github.com/zeit/next.js/pull/11293) in `tsconfig.json` and `jsconfig.json` by default!
+
 ---
 
 Relative import statements are a pain. To avoid `../` chains, improve code portability, and type less, I've started using [`babel-plugin-module-resolver`](https://github.com/tleunen/babel-plugin-module-resolver) in my Next.js projects.
