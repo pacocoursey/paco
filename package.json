@@ -20,7 +20,7 @@
     "lodash.debounce": "^4.0.8",
     "marked": "^0.7.0",
     "match-sorter": "^4.0.2",
-    "next": "^9.3.0",
+    "next": "^9.3.2",
     "nprogress": "^0.2.0",
     "prismjs": "^1.17.1",
     "react": "^16.13.0",
