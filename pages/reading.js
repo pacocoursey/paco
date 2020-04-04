@@ -1,6 +1,6 @@
 import Page from '@components/page'
 import Links from '@components/links'
-import Entry from '@components/text-entry'
+import Entry from '@components/entry/text'
 
 // Data
 import useData from '@lib/use-data'

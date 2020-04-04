@@ -1,6 +1,6 @@
 import Head from '@components/head'
-
 import Header from '@components/header'
+import styles from './page.module.css'
 
 const Page = ({
   header = true,
@@ -13,7 +13,7 @@ const Page = ({
   children
 }) => {
   return (
-    <div>
+    <div className={styles.wrapper}>
       <Head
         title={`${title ? `${title} - ` : ''}Paco Coursey`}
         description={description}
@@ -21,20 +21,7 @@ const Page = ({
       />
 
       {header && <Header content={content} title={title} />}
-      <main>{children}</main>
-
-      <style jsx>{`
-        div {
-          height: 100%;
-          padding-bottom: var(--small-gap);
-        }
-
-        main {
-          max-width: var(--main-content);
-          margin: 0 auto;
-          padding: 0 var(--gap);
-        }
-      `}</style>
+      <main className={styles.main}>{children}</main>
     </div>
   )
 }

@@ -9,12 +9,172 @@
             <link>https://paco.im</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Thu, 19 Mar 2020 15:49:12 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 04 Apr 2020 21:41:34 GMT</lastBuildDate>
         <atom:link href="https://paco.im/feed.xml" rel="self" type="application/rss+xml"/>
         <language><![CDATA[en]]></language>
         <item>
+            <title><![CDATA[CSS Previous Sibling Selector]]></title>
+            <description><![CDATA[<p>There is no previous sibling selector in CSS. Instead, we can achieve the same behavior by using flexbox and the <code>order</code> property.</p>
+<p>Let&#39;s say you&#39;re adding a prefix to an input, and would like to style the prefix when the input is focused. If you read from left to right and top to bottom (English), you likely structure your DOM like that too:</p>
+<pre><code class="language-html">&lt;div class=&quot;container&quot;&gt;
+  &lt;div class=&quot;prefix&quot;&gt;https://&lt;/div&gt;
+  &lt;input type=&quot;text&quot; /&gt;
+&lt;/div&gt;</code></pre>
+<div class="example">
+  <div class="container">
+    <div class="prefix">https://</div>
+    <input type="text" />
+  </div>
+</div>
+
+<p>In this markup, there&#39;s no way to target the <code>.prefix</code> class using <code>input:focus</code>, because we have no preceding selector. Instead, we can rewrite the DOM structure so that prefix appears <em>after</em> the input:</p>
+<pre><code class="language-html">&lt;div class=&quot;container&quot;&gt;
+  &lt;input type=&quot;text&quot; /&gt;
+  &lt;div class=&quot;prefix&quot;&gt;https://&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>And use flexbox to change the order of appearance:</p>
+<pre><code class="language-css">.container {
+  display: flex;
+}
+
+.container input {
+  order: 1;
+}
+
+.container .prefix {
+  order: 2;
+}</code></pre>
+<p>Now you can select the prefix using the sibling selector:</p>
+<pre><code class="language-css">.container input:focus + .prefix {
+  /* Focus styles... */
+}</code></pre>
+<div class="example">
+  <div class="container fixed">
+    <input type="text" />
+    <div class="prefix">https://</div>
+  </div>
+</div>
+
+<p>In the case of an input, the simple solution is to use <a href="https://caniuse.com/#search=focus-within" target="_blank" rel="noopener noreferrer"><code>:focus-within</code></a>, which has good browser support but is still experimental. Maybe you have other use cases for this trick though, <a href="https://twitter.com/pacocoursey" target="_blank" rel="noopener noreferrer">let me know</a>!</p>
+<hr>
+<p>This post is inspired by my own work on inputs, and this paragraph:</p>
+<blockquote>
+<p>Unfortunately, trying to use <code>:focus</code> limits what you can do: you can style the input or siblings that come after the input… but that’s it.<br>— <a href="https://exogen.github.io/blog/focus-state" target="_blank" rel="noopener noreferrer">Initializing focus state in React</a></p>
+</blockquote>
+<style>
+  .example {
+    border-radius: var(--radius);
+    background: var(--lighter-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--gap);
+  }
+
+  .example .container {
+    display: flex;
+    align-items: center;
+  }
+
+  .example input {
+    height: 2.5rem;
+    font-size: 1rem;
+    border-radius: 0 var(--inline-radius) var(--inline-radius) 0;
+    background: var(--bg);
+    color: var(--fg);
+    border: 1px solid var(--light-gray);
+    padding: 0 var(--gap-half);
+    outline: none;
+    transition: border-color var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .example input:focus {
+    border-color: var(--gray);
+  }
+
+  .example .prefix {
+    background: var(--lightest-gray);
+    border-radius: var(--inline-radius) 0 0 var(--inline-radius);
+    padding: 0 var(--gap-half);
+    height: 2.5rem;
+    font-size: 1rem;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--light-gray);
+    border-right: 0;
+    user-select: none;
+    color: var(--gray);
+    transition: color var(--transition);
+    margin: 0;
+  }
+
+  .example .container.fixed input {
+    order: 1;
+  }
+
+  .example .container.fixed .prefix {
+    order: 0;
+  }
+
+  .example .container.fixed input:focus + .prefix {
+    color: var(--fg);
+  }
+</style>
+]]></description>
+            <link>https://paco.im/blog/css-previous-sibling-selector</link>
+            <guid isPermaLink="false">https://paco.im/blog/css-previous-sibling-selector</guid>
+            <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
+            <pubDate>Tue, 24 Mar 2020 06:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Disable transitions on theme toggle]]></title>
+            <description><![CDATA[<p>It&#39;s difficult to transition between themes smoothly. Adding a CSS <code>transition</code> to every element negatively impacts rendering performance, and it also won&#39;t work for images, icons, and CSS properties that don&#39;t support transitions.</p>
+<p>Instead, we can temporarily remove transitions from all elements so that toggling themes feels snappy and consistent. We&#39;ll manually create a stylesheet that disables transitions:</p>
+<pre><code class="language-js">const css = document.createElement(&#39;style&#39;)
+css.type = &#39;text/css&#39;
+css.appendChild(
+  document.createTextNode(
+    `* {
+       -webkit-transition: none !important;
+       -moz-transition: none !important;
+       -o-transition: none !important;
+       -ms-transition: none !important;
+       transition: none !important;
+    }`
+  )
+)
+document.head.appendChild(css)</code></pre>
+<p>Note that we need to manually specify browser prefixes, as this CSS isn&#39;t run through any preprocessing.</p>
+<p>After changing the theme (usually this involves toggling a class on <code>&lt;body&gt;</code>), we force a browser repaint and remove the stylesheet:</p>
+<pre><code class="language-js">// Toggle the theme here...
+
+// Calling getComputedStyle forces the browser to redraw
+const _ = window.getComputedStyle(css).opacity
+document.head.removeChild(css)</code></pre>
+<p>Calling <code>requestAnimationFrame</code> before removing the stylesheet seemed to work at first, but it was unreliable and elements still transitioned. Using <code>getComputedStyle</code> works reliably on every major browser, because it forcibly <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle" target="_blank" rel="noopener noreferrer">applies all active stylesheets</a>.</p>
+<p>Before:</p>
+<p><img src="/blog/disable-theme-transitions/before.gif" alt="Toggling between light and dark theme, with elements flashing"></p>
+<p>After (or press <kbd>t</kbd> to try it yourself):</p>
+<p><img src="/blog/disable-theme-transitions/after.gif" alt="Toggling between light and dark theme, with no elements flashing"></p>
+<hr>
+<p>Thanks to <a href="https://twitter.com/rauchg" target="_blank" rel="noopener noreferrer">Guillermo</a> for the idea!</p>
+]]></description>
+            <link>https://paco.im/blog/disable-theme-transitions</link>
+            <guid isPermaLink="false">https://paco.im/blog/disable-theme-transitions</guid>
+            <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
+            <pubDate>Thu, 19 Mar 2020 06:00:00 GMT</pubDate>
+        </item>
+        <item>
             <title><![CDATA[Better Next.js Imports]]></title>
-            <description><![CDATA[<p>Relative import statements are a pain. To avoid <code>../</code> chains, improve code portability, and type less, I&#39;ve started using <a href="https://github.com/tleunen/babel-plugin-module-resolver" target="_blank" rel="noopener noreferrer"><code>babel-plugin-module-resolver</code></a> in my Next.js projects.</p>
+            <description><![CDATA[<p>Nine days after writing this post, the Next.js team <a href="https://github.com/zeit/next.js/pull/11293" target="_blank" rel="noopener noreferrer">landed support for paths</a> in <code>tsconfig.json</code> and <code>jsconfig.json</code> by default!</p>
+<hr>
+<p>Relative import statements are a pain. To avoid <code>../</code> chains, improve code portability, and type less, I&#39;ve started using <a href="https://github.com/tleunen/babel-plugin-module-resolver" target="_blank" rel="noopener noreferrer"><code>babel-plugin-module-resolver</code></a> in my Next.js projects.</p>
 <p>The goal is to transform verbose import statements like this:</p>
 <pre><code class="language-js">import Button from &#39;../../../../components/button&#39;</code></pre>
 <p>into absolute import statements that work anywhere in your project:</p>

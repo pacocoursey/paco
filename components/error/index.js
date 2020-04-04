@@ -2,6 +2,7 @@ import Head from 'next/head'
 
 import Page from '@components/page'
 import Link from '@components/link'
+import styles from './error.module.css'
 
 const Error = ({ status }) => {
   return (
@@ -31,28 +32,11 @@ const Error = ({ status }) => {
           </p>
         </>
       ) : (
-        <section>
+        <section className={styles.section}>
           <span>{status || '?'}</span>
           <p>An error occurred.</p>
         </section>
       )}
-
-      <style jsx>{`
-        section {
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          color: var(--light-gray);
-        }
-
-        span {
-          font-size: 16rem;
-          margin: 0;
-          line-height: normal;
-          font-weight: bold;
-        }
-      `}</style>
     </Page>
   )
 }
