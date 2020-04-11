@@ -87,7 +87,7 @@ const renderItem = ({ item, index, ...rest }) => {
       index={index}
       active={active === index}
       onMouseMove={() => setActive(index)}
-      callback={callback}
+      callback={() => callback(index)}
     />
   )
 }

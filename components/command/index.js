@@ -214,17 +214,17 @@ const Command = ({
     onClose()
   }, [onClose, clear])
 
-  const triggerActiveCallback = useCallback(() => {
+  const triggerActiveCallback = useCallback((index) => {
     if (!flatItems.length) return
-    if (!flatItems[active]) return
-    if (!flatItems[active].callback) return
+    if (!flatItems[index]) return
+    if (!flatItems[index].callback) return
 
-    flatItems[active].callback()
-    const options = flatItems[active].onCallback || {}
+    flatItems[index].callback()
+    const options = flatItems[index].onCallback || {}
     if (options.close !== false) toggle(false)
     if (options.clear) clear()
     if (options.bounce) bounce()
-  }, [flatItems, toggle, clear, bounce, active])
+  }, [flatItems, toggle, clear, bounce])
 
   const onKeyDown = useCallback(
     e => {
@@ -245,7 +245,7 @@ const Command = ({
           }
           break
         case 'Enter':
-          triggerActiveCallback()
+          triggerActiveCallback(active)
           break
         default:
           break
@@ -298,6 +298,8 @@ const Command = ({
     window.addEventListener('keydown', keybind)
     return () => window.removeEventListener('keydown', keybind)
   }, [items])
+
+  console.count('re-render')
 
   return (
     <>
