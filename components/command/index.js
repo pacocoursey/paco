@@ -299,8 +299,6 @@ const Command = ({
     return () => window.removeEventListener('keydown', keybind)
   }, [items])
 
-  console.count('re-render')
-
   return (
     <>
       <div
