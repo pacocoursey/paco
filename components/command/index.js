@@ -13,15 +13,15 @@ import renderItems from './item'
 
 const arraysEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 
-const flatten = i =>
-  i &&
-  i.length &&
-  i
+const flatten = i => {
+  if (!i || !i.length) return []
+  return i
     .map(item => {
       if (item.collection) return flatten(item.items)
       return item
     })
     .flat()
+}
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -49,7 +49,7 @@ const reducer = (state, action) => {
         active: 0,
         items: action.items
       }
-    case 'test':
+    case 'updateInPlace':
       // Lists do not match
       if (action.items.length !== state.items.length) {
         return {
@@ -89,7 +89,8 @@ const Command = ({
   placeholder,
   keybind = 'Meta+k, Control+k',
   searchOn,
-  onClose
+  onClose,
+  children
 }) => {
   const listID = useId()
   const inputRef = useRef(null)
@@ -265,7 +266,7 @@ const Command = ({
   }, [handleToggleKeybind])
 
   useEffect(() => {
-    dispatch({ type: 'test', items: propItems })
+    dispatch({ type: 'updateInPlace', items: propItems })
     if (inputRef.current && inputRef.current.value) {
       onChange()
     }
@@ -299,87 +300,98 @@ const Command = ({
   }, [items])
 
   return (
-    <Transition in={open} unmountOnExit timeout={200} onExited={handleExit}>
-      {state => (
-        <Portal>
-          <div
-            className={cn(styles.screen, {
-              [styles.exit]: state === 'exiting'
-            })}
-            onClick={() => toggle(false)}
-          >
+    <>
+      <div
+        role="button"
+        tabIndex={-1}
+        onClick={() => toggle()}
+        className={styles.trigger}
+      >
+        {children}
+      </div>
+
+      <Transition in={open} unmountOnExit timeout={200} onExited={handleExit}>
+        {state => (
+          <Portal>
             <div
-              className={cn(styles.command, {
+              className={cn(styles.screen, {
                 [styles.exit]: state === 'exiting'
               })}
-              onClick={e => e.stopPropagation()}
-              onKeyDown={onKeyDown}
-              style={{
-                '--height': toPx(height),
-                '--width': toPx(width)
-              }}
+              onClick={() => toggle(false)}
             >
-              {top && <div className={styles.top}>{top}</div>}
-
-              <input
-                type="text"
-                className={cn(styles.input, {
-                  [styles.empty]: items.length === 0
+              <div
+                className={cn(styles.command, {
+                  [styles.exit]: state === 'exiting'
                 })}
-                autoFocus
-                autoCapitalize="off"
-                autoCorrect="off"
-                autoComplete="off"
-                placeholder={placeholder}
-                onChange={onChange}
-                ref={inputRef}
-                role="combobox"
-                aria-autocomplete="list"
-                aria-expanded
-                aria-owns={listID}
-              />
-
-              <ul
-                className={cn(styles.list)}
+                onClick={e => e.stopPropagation()}
+                onKeyDown={onKeyDown}
                 style={{
-                  maxHeight: max * height,
-                  height:
-                    items.length !== 0
-                      ? items
-                          .map(x =>
-                            x.collection
-                              ? 25 + x.items.length * height
-                              : x.divider
-                              ? 1 + height * 1.2
-                              : height
-                          )
-                          .reduce((acc, cur) => acc + cur)
-                      : 0
+                  '--height': toPx(height),
+                  '--width': toPx(width)
                 }}
-                role="listbox"
-                id={listID}
-                ref={listRef}
               >
-                {renderItems({
-                  items,
-                  active,
-                  callback: triggerActiveCallback,
-                  setActive: i => {
-                    dispatch({ type: 'setActive', active: i })
-                    inputRef?.current?.focus()
-                  }
-                })}
-              </ul>
+                {top && <div className={styles.top}>{top}</div>}
 
-              {/* Specifically for screen readers */}
-              <div aria-live="polite" role="status" className={styles.hidden}>
-                {flatItems.length} results available...
+                <input
+                  type="text"
+                  className={cn(styles.input, {
+                    [styles.empty]: items.length === 0
+                  })}
+                  autoFocus
+                  autoCapitalize="off"
+                  autoCorrect="off"
+                  autoComplete="off"
+                  placeholder={placeholder}
+                  onChange={onChange}
+                  ref={inputRef}
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded
+                  aria-owns={listID}
+                />
+
+                <ul
+                  className={cn(styles.list)}
+                  style={{
+                    maxHeight: max * height,
+                    height:
+                      items.length !== 0
+                        ? items
+                            .map(x =>
+                              x.collection
+                                ? 25 + x.items.length * height
+                                : x.divider
+                                ? 1 + height * 1.2
+                                : height
+                            )
+                            .reduce((acc, cur) => acc + cur)
+                        : 0
+                  }}
+                  role="listbox"
+                  id={listID}
+                  ref={listRef}
+                >
+                  {renderItems({
+                    items,
+                    active,
+                    callback: triggerActiveCallback,
+                    setActive: i => {
+                      dispatch({ type: 'setActive', active: i })
+                      inputRef?.current?.focus()
+                    }
+                  })}
+                </ul>
+
+                {/* Specifically for screen readers */}
+                <div aria-live="polite" role="status" className={styles.hidden}>
+                  {flatItems.length} results available...
+                </div>
               </div>
             </div>
-          </div>
-        </Portal>
-      )}
-    </Transition>
+          </Portal>
+        )}
+      </Transition>
+    </>
   )
 }
 

@@ -1,17 +1,29 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import styles from './header.module.css'
 import postMeta from '@data/blog.json'
 import Command from '@components/command'
+import Button from '@components/button'
 import useTheme from '@lib/theme'
 import {
   Moon,
   Sun,
+  Design,
+  Book,
+  M6,
+  Music,
+  Document,
   Pencil,
+  ArrowRight,
+  Twitter,
+  GitHub,
   Search,
   RSS,
+  Words,
+  Lightbulb,
+  Quote,
   Logo as LogoIcon,
   Command as CommandIcon
 } from '@components/icons'
@@ -28,9 +40,15 @@ const Logo = () => {
 
 const Header = ({ title, content }) => {
   const router = useRouter()
+  const [hint, setHint] = useState(false)
   const { theme, toggleTheme } = useTheme()
   const [options, setOptions] = useState(null)
-  const [checked, setChecked] = useState(false)
+
+  useEffect(() => {
+    if (!localStorage.getItem('hide-hint')) {
+      setHint(true)
+    }
+  }, [])
 
   const defaultOptions = useMemo(
     () => [
@@ -39,14 +57,6 @@ const Header = ({ title, content }) => {
         keybind: 't',
         icon: theme === 'light' ? <Moon /> : <Sun />,
         callback: () => toggleTheme()
-      },
-      {
-        name: 'Checkbox',
-        icon: checked ? 'c' : 'n',
-        onCallback: {
-          close: false
-        },
-        callback: () => setChecked(c => !c)
       },
       {
         name: 'Blog',
@@ -61,29 +71,21 @@ const Header = ({ title, content }) => {
           {
             name: 'Search blog...',
             icon: <Search />,
-            onCallback: {
-              close: false,
-              clear: true,
-              bounce: true
-            },
             callback: () => {
-              const i = postMeta.map(post => {
+              const items = postMeta.map(post => {
                 return {
                   name: post.title,
                   callback: () =>
                     router.push('/blog/[slug]', `/blog/${post.slug}`)
                 }
               })
-              i.push({
-                name: 'Checkbox',
-                closeOnCallback: false,
-                icon: checked ? 'c' : 'n',
-                callback: () => {
-                  console.log('set checked!!')
-                  setChecked(c => !c)
-                }
-              })
-              setOptions(i)
+
+              setOptions(items)
+            },
+            onCallback: {
+              clear: true,
+              close: false,
+              bounce: true
             }
           },
           {
@@ -92,9 +94,99 @@ const Header = ({ title, content }) => {
             callback: () => router.push('/feed.xml')
           }
         ]
+      },
+      {
+        name: 'Collections',
+        collection: true,
+        items: [
+          {
+            name: 'Reading',
+            keybind: 'g r',
+            icon: <Book />,
+            callback: () => router.push('/reading')
+          },
+          {
+            name: 'Design',
+            keybind: 'g d',
+            icon: <Design />,
+            callback: () => router.push('/design')
+          },
+          {
+            name: 'Keyboard',
+            keybind: 'g k',
+            icon: <M6 />,
+            callback: () => router.push('/keyboards')
+          },
+          {
+            name: 'Music',
+            keybind: 'g m',
+            icon: <Music />,
+            callback: () => router.push('/music')
+          },
+          {
+            name: 'Projects',
+            keybind: 'g p',
+            icon: <Document />,
+            callback: () => router.push('/projects')
+          },
+          {
+            name: 'Quotes',
+            keybind: 'g q',
+            icon: <Quote />,
+            callback: () => router.push('/quotes')
+          },
+          {
+            name: 'Words',
+            keybind: 'g w',
+            icon: <Words />,
+            callback: () => router.push('/words')
+          },
+          {
+            name: 'Ideas',
+            keybind: 'g i',
+            icon: <Lightbulb />,
+            callback: () => router.push('/ideas')
+          }
+        ]
+      },
+      {
+        name: 'Navigation',
+        collection: true,
+        items: [
+          {
+            name: 'Home',
+            keybind: 'g h',
+            icon: <ArrowRight />,
+            callback: () => router.push('/')
+          },
+          {
+            name: 'Contact',
+            keybind: 'g c',
+            icon: <ArrowRight />,
+            callback: () => router.push('/contact')
+          }
+        ]
+      },
+      {
+        name: 'Social',
+        collection: true,
+        items: [
+          {
+            name: 'Twitter',
+            icon: <Twitter />,
+            callback: () =>
+              window.open('https://twitter.com/pacocoursey', '_blank')
+          },
+          {
+            name: 'GitHub',
+            icon: <GitHub />,
+            callback: () =>
+              window.open('https://github.com/pacocoursey', '_blank')
+          }
+        ]
       }
     ],
-    [theme, router, toggleTheme, checked]
+    [theme, router, toggleTheme]
   )
 
   return (
@@ -105,12 +197,29 @@ const Header = ({ title, content }) => {
         </div>
 
         <Command
-          open
           max={5}
           width="calc(var(--main-content) - var(--gap))"
+          top={
+            hint && (
+              <div className={styles.hint}>
+                <div>
+                  Press <kbd>⌘ K</kbd> to open this menu anywhere.
+                </div>
+
+                <Button
+                  onClick={() => {
+                    localStorage.setItem('hide-hint', '1')
+                    setHint(false)
+                  }}
+                >
+                  Got it
+                </Button>
+              </div>
+            )
+          }
           placeholder="Type a command or search..."
-          onClose={() => setOptions(null)}
           items={options || defaultOptions}
+          onClose={() => setOptions(null)}
         >
           <button className={styles.command} title="⌘K">
             <CommandIcon />
