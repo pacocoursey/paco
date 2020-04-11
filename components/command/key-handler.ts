@@ -1,5 +1,9 @@
 // Adapted from https://github.com/reecelucas/react-use-hotkeys
 
+export type Keybind = string
+export type Callback = (e: KeyboardEvent) => void
+export type Modifier = 'control' | 'shift' | 'alt' | 'meta'
+
 const modiferKeyMap = {
   control: 'ctrlKey',
   shift: 'shiftKey',
@@ -8,7 +12,7 @@ const modiferKeyMap = {
 }
 
 // Helpers
-const getActiveModifierKeys = event => {
+const getActiveModifierKeys = (event: KeyboardEvent) => {
   const modifiers = []
 
   if (event.ctrlKey) {
@@ -29,20 +33,20 @@ const getActiveModifierKeys = event => {
 
   return modifiers
 }
-const mapModifierKeys = keys => keys.map(k => modiferKeyMap[k])
-const modifierKeyPressed = event =>
+const mapModifierKeys = (keys: Modifier[]) => keys.map(k => modiferKeyMap[k])
+const modifierKeyPressed = (event: KeyboardEvent) =>
   event.altKey || event.ctrlKey || event.shiftKey || event.metaKey
-const tail = arr => arr[arr.length - 1]
-const takeUntilLast = arr => arr.slice(0, -1)
-const isSameSet = (arr1, arr2) =>
-  arr1.length === arr2.length && arr1.every(item => arr2.includes(item))
-const arraysAreEqual = (arr1, arr2) =>
-  arr1.length === arr2.length && arr1.every((item, i) => item === arr2[i])
+const tail = (arr: any[]) => arr[arr.length - 1]
+const takeUntilLast = (arr: any[]) => arr.slice(0, -1)
+const isSameSet = (a: any[], b: any[]) =>
+  a.length === b.length && a.every(item => b.includes(item))
+const arraysAreEqual = (a: any[], b: any[]) =>
+  a.length === b.length && a.every((item, i) => item === b[i])
 
 const KEY_SEQUENCE_TIMEOUT = 1000
 let insideSequence = false
 
-const getHotkeysArray = hotkeys => {
+const getHotkeysArray = (hotkeys: string): string[] => {
   let hkeys = hotkeys.toLowerCase()
 
   if (hkeys.length === 1) {
@@ -53,6 +57,7 @@ const getHotkeysArray = hotkeys => {
   // More than one keybind
   if (hkeys.includes(',')) {
     const result = hkeys.split(',').map(key => getHotkeysArray(key.trim()))
+    // @ts-ignore
     return result
   }
 
@@ -72,14 +77,19 @@ const getHotkeysArray = hotkeys => {
 }
 
 class KeyHandler {
-  constructor(keys, callback) {
+  keys: string[] | string[][]
+  callback: Callback
+  keySequence: string[]
+  sequenceTimer: NodeJS.Timeout | null
+
+  constructor(keys: string, callback: Callback) {
     this.keys = getHotkeysArray(keys)
     this.callback = callback
     this.keySequence = []
     this.sequenceTimer = null
   }
 
-  setCallback(c) {
+  setCallback(c: Callback) {
     this.callback = c
   }
 
@@ -93,7 +103,7 @@ class KeyHandler {
     this.keySequence = []
   }
 
-  handleKeySequence = (key, event) => {
+  handleKeySequence = (key: string[], event: KeyboardEvent) => {
     this.clearSequenceTimer()
 
     // Pressed key does not match the pattern
@@ -115,7 +125,7 @@ class KeyHandler {
     }
   }
 
-  handleModifierCombo = (key, event) => {
+  handleModifierCombo = (key: string[], event: KeyboardEvent) => {
     const actionKey = tail(key)
     const modKeys = mapModifierKeys(takeUntilLast(key))
     const activeModKeys = getActiveModifierKeys(event)
@@ -127,15 +137,7 @@ class KeyHandler {
     }
   }
 
-  handle = event => {
-    if (Array.isArray(this.keys[0])) {
-      this.keys.forEach(key => this.handleKeybind(key, event))
-    } else {
-      this.handleKeybind(this.keys, event)
-    }
-  }
-
-  handleKeybind = (key, event) => {
+  handleKeybind = (key: string[], event: KeyboardEvent) => {
     // Handle modifier key combos
     if (modifierKeyPressed(event)) {
       return this.handleModifierCombo(key, event)
@@ -150,6 +152,14 @@ class KeyHandler {
     if (!insideSequence && event.key.toLowerCase() === key[0]) {
       event.preventDefault()
       return this.callback(event)
+    }
+  }
+
+  handle = (event: KeyboardEvent) => {
+    if (Array.isArray(this.keys[0])) {
+      ;(this.keys as string[][]).forEach(key => this.handleKeybind(key, event))
+    } else {
+      this.handleKeybind(this.keys as string[], event)
     }
   }
 }

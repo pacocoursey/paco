@@ -1,6 +1,34 @@
 import { memo, useRef, useEffect, Fragment } from 'react'
 import cn from 'classnames'
 import styles from './command.module.css'
+import { Keybind } from './key-handler'
+import { Item as ItemType, Items } from './types'
+
+interface ItemProps {
+  name: string
+  icon?: React.ReactNode
+  onMouseMove: () => void
+  keybind?: Keybind
+  divider?: boolean
+  index: number
+  callback: () => void
+  active: boolean
+}
+
+interface SharedProps {
+  active: number
+  setActive: (index: number) => void
+  callback: (index: number) => void
+}
+
+interface RenderItemProps extends SharedProps {
+  item: ItemType
+  index: number
+}
+
+interface RenderItemsProps extends SharedProps {
+  items: Items
+}
 
 const divider = <li className={styles.divider} />
 
@@ -20,8 +48,8 @@ const Item = ({
   keybind,
   divider: hasDivider,
   index
-}) => {
-  const itemRef = useRef()
+}: ItemProps) => {
+  const itemRef = useRef<HTMLLIElement>(null)
 
   useEffect(() => {
     // This item has become active, scroll it into view
@@ -66,8 +94,8 @@ const Item = ({
   )
 }
 
-const renderItem = ({ item, index, ...rest }) => {
-  if (item.collection) {
+const renderItem = ({ item, index, ...rest }: RenderItemProps) => {
+  if ('collection' in item) {
     return (
       <Fragment key={`command-collection-${item.name}-${index}`}>
         <Label>{item.name}</Label>
@@ -92,7 +120,12 @@ const renderItem = ({ item, index, ...rest }) => {
   )
 }
 
-const renderItems = ({ items, active, setActive, callback }) => {
+const renderItems = ({
+  items,
+  active,
+  setActive,
+  callback
+}: RenderItemsProps) => {
   let count = 0
 
   return items.map(item => {
@@ -104,7 +137,7 @@ const renderItems = ({ items, active, setActive, callback }) => {
       callback
     })
 
-    if (item.collection) {
+    if ('collection' in item) {
       count += item.items.length
     } else {
       count++

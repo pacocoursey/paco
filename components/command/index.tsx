@@ -1,4 +1,11 @@
-import { useCallback, useRef, useEffect, useMemo, useReducer } from 'react'
+import {
+  useCallback,
+  useRef,
+  useEffect,
+  useMemo,
+  useReducer,
+  ChangeEvent
+} from 'react'
 import Portal from '@reach/portal'
 import cn from 'classnames'
 import matchSorter from 'match-sorter'
@@ -10,20 +17,22 @@ import toPx from './to-px'
 import KeyHandler from './key-handler'
 import styles from './command.module.css'
 import renderItems from './item'
+import { Items, BaseItem, Props, State, Action } from './types'
 
-const arraysEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b)
+const arraysEqual = (a: any[], b: any[]) =>
+  JSON.stringify(a) === JSON.stringify(b)
 
-const flatten = i => {
+const flatten = (i: Items): BaseItem[] => {
   if (!i || !i.length) return []
   return i
     .map(item => {
-      if (item.collection) return flatten(item.items)
+      if ('collection' in item) return flatten(item.items)
       return item
     })
     .flat()
 }
 
-const reducer = (state, action) => {
+const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'close':
       if (state.open === false) return state
@@ -75,11 +84,11 @@ const reducer = (state, action) => {
         }
       }
     default:
-      throw new Error(`Invalid reducer action: ${action.type}`)
+      throw new Error(`Invalid reducer action: ${action}`)
   }
 }
 
-const Command = ({
+const Command: React.FC<Props> = ({
   open: propOpen = false,
   items: propItems,
   max = 10,
@@ -93,7 +102,7 @@ const Command = ({
   children
 }) => {
   const listID = useId()
-  const inputRef = useRef(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const [state, dispatch] = useReducer(reducer, {
     open: propOpen,
     active: 0,
@@ -111,14 +120,14 @@ const Command = ({
     }
 
     return searchOn.map(attr => {
-      return i =>
-        typeof i[attr] === 'string' ? !i.collection && i[attr] : null
+      // TODO: improve
+      return (i: any): any => {
+        if (typeof i[attr] !== 'string') return null
+        if ('collection' in i) return i[attr]
+        return null
+      }
     })
   }, [searchOn])
-
-  const keybindHandler = useMemo(() => {
-    return new KeyHandler(keybind)
-  }, [keybind])
 
   // Callbacks
   const listRef = useCallback(node => {
@@ -128,7 +137,7 @@ const Command = ({
   }, [])
 
   const toggle = useCallback(
-    value => {
+    (value?: boolean) => {
       if (value === false || open === true) {
         clearAllBodyScrollLocks()
         dispatch({ type: 'close' })
@@ -141,41 +150,43 @@ const Command = ({
     [open]
   )
 
+  const keybindHandler = useMemo(() => {
+    return new KeyHandler(keybind, () => toggle())
+  }, [keybind, toggle])
+
   const handleToggleKeybind = useCallback(
     e => {
       if (e.key === 'Escape') {
         return toggle(false)
       }
 
-      if (keybindHandler) {
-        keybindHandler.setCallback(toggle)
-        keybindHandler.handle(e)
-      }
+      keybindHandler.handle(e)
     },
     [toggle, keybindHandler]
   )
 
   const onChange = useCallback(
-    e => {
+    (e?: ChangeEvent<HTMLInputElement>) => {
       const value = e?.target?.value || inputRef?.current?.value
 
       if (!value) {
-        dispatch({ type: 'update', items: propItems })
+        return dispatch({ type: 'update', items: propItems })
       }
 
       // TODO: support searching entire collections (likely needs match-sorter fork)
-      const x = matchSorter(propItems, value, {
+      const topLevelMatches = matchSorter(propItems, value, {
         keys: [
-          item => (item.collection ? undefined : item.name),
-          item => (item.collection ? item.items.map(i => i.name) : undefined),
+          item => ('collection' in item ? '' : item.name),
+          item =>
+            'collection' in item ? item.items.map(i => i.name) : '',
           ...searchableAttributes
         ]
       })
 
       // Unfortunately have to run matchSorter twice, nested values are not returned
       // https://github.com/kentcdodds/match-sorter/issues/87
-      const y = x.map(i => {
-        if (i.collection) {
+      const allMatches = topLevelMatches.map(i => {
+        if ("collection" in i) {
           return {
             ...i,
             items: matchSorter(i.items, value, { keys: ['name'] })
@@ -185,7 +196,7 @@ const Command = ({
         return i
       })
 
-      dispatch({ type: 'update', items: y })
+      dispatch({ type: 'update', items: allMatches })
     },
     [propItems, searchableAttributes]
   )
@@ -194,11 +205,13 @@ const Command = ({
     if (inputRef.current) {
       // Bounce the UI slightly
       const command = inputRef.current.closest('div')
-      command.style.transform = 'scale(0.99)'
-      // Not exactly safe, but should be OK
-      setTimeout(() => {
-        command.style.transform = null
-      }, 100)
+      if (command) {
+        command.style.transform = 'scale(0.99)'
+        // Not exactly safe, but should be OK
+        setTimeout(() => {
+          delete command.style.transform
+        }, 100)
+      }
     }
   }, [])
 
@@ -211,20 +224,23 @@ const Command = ({
 
   const handleExit = useCallback(() => {
     clear()
-    onClose()
+    onClose?.()
   }, [onClose, clear])
 
-  const triggerActiveCallback = useCallback((index) => {
-    if (!flatItems.length) return
-    if (!flatItems[index]) return
-    if (!flatItems[index].callback) return
+  const triggerActiveCallback = useCallback(
+    index => {
+      if (!flatItems.length) return
+      if (!flatItems[index]) return
+      if (!flatItems[index].callback) return
 
-    flatItems[index].callback()
-    const options = flatItems[index].onCallback || {}
-    if (options.close !== false) toggle(false)
-    if (options.clear) clear()
-    if (options.bounce) bounce()
-  }, [flatItems, toggle, clear, bounce])
+      flatItems[index].callback()
+      const options = flatItems[index].onCallback || {}
+      if (options.close !== false) toggle(false)
+      if (options.clear) clear()
+      if (options.bounce) bounce()
+    },
+    [flatItems, toggle, clear, bounce]
+  )
 
   const onKeyDown = useCallback(
     e => {
@@ -273,20 +289,26 @@ const Command = ({
   }, [propItems, onChange])
 
   useEffect(() => {
-    // Setup keybinds for list entries
-    const keybinds = []
+    type List = { [keybind: string]: boolean }
 
-    flatten(items).forEach(opt => {
-      if (!opt.keybind || !opt.callback || opt.collection) return
+    // Setup keybinds
+    const keybindsList: List = {}
+    const keybinds: KeyHandler[] = []
 
-      if (keybinds[opt.keybind]) {
+    flatten(propItems).forEach(opt => {
+      if (!opt.keybind || !opt.callback || 'collection' in opt) return
+
+      // Ensure none of the keybinds overlap
+      if (keybindsList[opt.keybind]) {
         throw new Error(`Duplicate keybind for ${opt.keybind}`)
+      } else {
+        keybindsList[opt.keybind] = true
       }
 
       keybinds.push(new KeyHandler(opt.keybind, opt.callback))
     })
 
-    const keybind = e => {
+    const keybind = (e: KeyboardEvent) => {
       // Only handle keybinds if there is nothing else selected on the page
       // i.e. shouldn't trigger keybind when typing into <input />
       // TODO: make this explicitly ignore input, textarea, etc...?
@@ -297,7 +319,7 @@ const Command = ({
 
     window.addEventListener('keydown', keybind)
     return () => window.removeEventListener('keydown', keybind)
-  }, [items])
+  }, [propItems])
 
   return (
     <>
@@ -326,8 +348,8 @@ const Command = ({
                 onClick={e => e.stopPropagation()}
                 onKeyDown={onKeyDown}
                 style={{
-                  '--height': toPx(height),
-                  '--width': toPx(width)
+                  ['--height' as string]: toPx(height),
+                  ['--width' as string]: toPx(width)
                 }}
               >
                 {top && <div className={styles.top}>{top}</div>}
@@ -358,7 +380,7 @@ const Command = ({
                       items.length !== 0
                         ? items
                             .map(x =>
-                              x.collection
+                              'collection' in x
                                 ? 25 + x.items.length * height
                                 : x.divider
                                 ? 1 + height * 1.2
