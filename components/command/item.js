@@ -53,8 +53,8 @@ const Item = ({
         {keybind && (
           <span className={styles.keybind}>
             {keybind.includes(' ') ? (
-              keybind.split(' ').map(key => {
-                return <kbd key={`item-${name}-keybind-${key}`}>{key}</kbd>
+              keybind.split(' ').map((key, i) => {
+                return <kbd key={`item-${name}-keybind-${key}-${i}`}>{key}</kbd>
               })
             ) : (
               <kbd>{keybind}</kbd>

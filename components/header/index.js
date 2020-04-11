@@ -174,12 +174,14 @@ const Header = ({ title, content }) => {
           {
             name: 'Twitter',
             icon: <Twitter />,
+            keybind: 'g t',
             callback: () =>
               window.open('https://twitter.com/pacocoursey', '_blank')
           },
           {
             name: 'GitHub',
             icon: <GitHub />,
+            keybind: 'g g',
             callback: () =>
               window.open('https://github.com/pacocoursey', '_blank')
           }
