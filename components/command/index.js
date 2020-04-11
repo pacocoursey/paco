@@ -11,11 +11,11 @@ import KeyHandler from './key-handler'
 import styles from './command.module.css'
 import renderItems from './item'
 
-function arraysEqual(a1, a2) {
-  return JSON.stringify(a1) === JSON.stringify(a2)
-}
+const arraysEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 
 const flatten = i =>
+  i &&
+  i.length &&
   i
     .map(item => {
       if (item.collection) return flatten(item.items)
@@ -43,6 +43,12 @@ const reducer = (state, action) => {
         ...state,
         active: action.active
       }
+    case 'reset':
+      return {
+        ...state,
+        active: 0,
+        items: action.items
+      }
     case 'test':
       // Lists do not match
       if (action.items.length !== state.items.length) {
@@ -55,8 +61,6 @@ const reducer = (state, action) => {
 
       const currentItemNames = flatten(state.items).map(x => x.name)
       const newItemNames = flatten(action.items).map(x => x.name)
-
-      console.log(currentItemNames, newItemNames)
 
       if (arraysEqual(currentItemNames, newItemNames)) {
         return {
@@ -77,28 +81,43 @@ const reducer = (state, action) => {
 
 const Command = ({
   open: propOpen = false,
-  options,
+  items: propItems,
   max = 10,
   height = 60,
   width = 640,
   top,
   placeholder,
-  closeOnCallback = true,
   keybind = 'Meta+k, Control+k',
   searchOn,
-  onClose,
-  children
+  onClose
 }) => {
   const listID = useId()
   const inputRef = useRef(null)
   const [state, dispatch] = useReducer(reducer, {
     open: propOpen,
     active: 0,
-    options,
-    items: options
+    items: propItems
   })
   const { open, active, items } = state
   const flatItems = flatten(items)
+
+  // Memo
+  const searchableAttributes = useMemo(() => {
+    if (!searchOn) return []
+
+    if (!Array.isArray(searchOn)) {
+      throw new Error('search prop must be an array.')
+    }
+
+    return searchOn.map(attr => {
+      return i =>
+        typeof i[attr] === 'string' ? !i.collection && i[attr] : null
+    })
+  }, [searchOn])
+
+  const keybindHandler = useMemo(() => {
+    return new KeyHandler(keybind)
+  }, [keybind])
 
   // Callbacks
   const listRef = useCallback(node => {
@@ -121,23 +140,6 @@ const Command = ({
     [open]
   )
 
-  const searchableAttributes = useMemo(() => {
-    if (!searchOn) return []
-
-    if (!Array.isArray(searchOn)) {
-      throw new Error('search prop must be an array.')
-    }
-
-    return searchOn.map(attr => {
-      return i =>
-        typeof i[attr] === 'string' ? !i.collection && i[attr] : null
-    })
-  }, [searchOn])
-
-  const keybindHandler = useMemo(() => {
-    return new KeyHandler(keybind)
-  }, [keybind])
-
   const handleToggleKeybind = useCallback(
     e => {
       if (e.key === 'Escape') {
@@ -153,15 +155,15 @@ const Command = ({
   )
 
   const onChange = useCallback(
-    (e) => {
+    e => {
       const value = e?.target?.value || inputRef?.current?.value
 
       if (!value) {
-        dispatch({ type: 'update', items: options })
+        dispatch({ type: 'update', items: propItems })
       }
 
       // TODO: support searching entire collections (likely needs match-sorter fork)
-      const x = matchSorter(options, value, {
+      const x = matchSorter(propItems, value, {
         keys: [
           item => (item.collection ? undefined : item.name),
           item => (item.collection ? item.items.map(i => i.name) : undefined),
@@ -184,21 +186,44 @@ const Command = ({
 
       dispatch({ type: 'update', items: y })
     },
-    [options, searchableAttributes]
+    [propItems, searchableAttributes]
   )
 
-  // TODO: allow prop ref to bounce()
-  // const bounce = useCallback(() => {
-  //   if (inputRef.current) {
-  //     // Bounce the UI slightly
-  //     const command = inputRef.current.closest('div')
-  //     command.style.transform = 'scale(0.99)'
-  //     // Not exactly safe, but should be OK
-  //     setTimeout(() => {
-  //       command.style.transform = null
-  //     }, 100)
-  //   }
-  // }, [])
+  const bounce = useCallback(() => {
+    if (inputRef.current) {
+      // Bounce the UI slightly
+      const command = inputRef.current.closest('div')
+      command.style.transform = 'scale(0.99)'
+      // Not exactly safe, but should be OK
+      setTimeout(() => {
+        command.style.transform = null
+      }, 100)
+    }
+  }, [])
+
+  const clear = useCallback(() => {
+    if (inputRef.current) {
+      inputRef.current.value = ''
+    }
+    dispatch({ type: 'reset', items: propItems })
+  }, [propItems])
+
+  const handleExit = useCallback(() => {
+    clear()
+    onClose()
+  }, [onClose, clear])
+
+  const triggerActiveCallback = useCallback(() => {
+    if (!flatItems.length) return
+    if (!flatItems[active]) return
+    if (!flatItems[active].callback) return
+
+    flatItems[active].callback()
+    const options = flatItems[active].onCallback || {}
+    if (options.close !== false) toggle(false)
+    if (options.clear) clear()
+    if (options.bounce) bounce()
+  }, [flatItems, toggle, clear, bounce, active])
 
   const onKeyDown = useCallback(
     e => {
@@ -219,21 +244,13 @@ const Command = ({
           }
           break
         case 'Enter':
-          if (!flatItems.length) return
-
-          if (flatItems[active].callback) {
-            flatItems[active].callback()
-          }
-
-          if (closeOnCallback && flatItems[active].closeOnCallback !== false) {
-            toggle(false)
-          }
+          triggerActiveCallback()
           break
         default:
           break
       }
     },
-    [active, flatItems, closeOnCallback, toggle]
+    [active, triggerActiveCallback, flatItems]
   )
 
   // Effects
@@ -248,11 +265,11 @@ const Command = ({
   }, [handleToggleKeybind])
 
   useEffect(() => {
-    dispatch({ type: 'test', items: options })
+    dispatch({ type: 'test', items: propItems })
     if (inputRef.current && inputRef.current.value) {
       onChange()
     }
-  }, [options, onChange])
+  }, [propItems, onChange])
 
   useEffect(() => {
     // Setup keybinds for list entries
@@ -282,96 +299,87 @@ const Command = ({
   }, [items])
 
   return (
-    <>
-      <div
-        role="button"
-        tabIndex={-1}
-        onClick={() => toggle()}
-        className={styles.trigger}
-      >
-        {children}
-      </div>
-      <Transition in={open} unmountOnExit timeout={200} onExited={onClose}>
-        {state => (
-          <Portal>
+    <Transition in={open} unmountOnExit timeout={200} onExited={handleExit}>
+      {state => (
+        <Portal>
+          <div
+            className={cn(styles.screen, {
+              [styles.exit]: state === 'exiting'
+            })}
+            onClick={() => toggle(false)}
+          >
             <div
-              className={cn(styles.screen, {
+              className={cn(styles.command, {
                 [styles.exit]: state === 'exiting'
               })}
-              onClick={() => toggle(false)}
+              onClick={e => e.stopPropagation()}
+              onKeyDown={onKeyDown}
+              style={{
+                '--height': toPx(height),
+                '--width': toPx(width)
+              }}
             >
-              <div
-                className={cn(styles.command, {
-                  [styles.exit]: state === 'exiting'
+              {top && <div className={styles.top}>{top}</div>}
+
+              <input
+                type="text"
+                className={cn(styles.input, {
+                  [styles.empty]: items.length === 0
                 })}
-                onClick={e => e.stopPropagation()}
-                onKeyDown={onKeyDown}
+                autoFocus
+                autoCapitalize="off"
+                autoCorrect="off"
+                autoComplete="off"
+                placeholder={placeholder}
+                onChange={onChange}
+                ref={inputRef}
+                role="combobox"
+                aria-autocomplete="list"
+                aria-expanded
+                aria-owns={listID}
+              />
+
+              <ul
+                className={cn(styles.list)}
                 style={{
-                  '--height': toPx(height),
-                  '--width': toPx(width)
+                  maxHeight: max * height,
+                  height:
+                    items.length !== 0
+                      ? items
+                          .map(x =>
+                            x.collection
+                              ? 25 + x.items.length * height
+                              : x.divider
+                              ? 1 + height * 1.2
+                              : height
+                          )
+                          .reduce((acc, cur) => acc + cur)
+                      : 0
                 }}
+                role="listbox"
+                id={listID}
+                ref={listRef}
               >
-                {top && <div className={styles.top}>{top}</div>}
+                {renderItems({
+                  items,
+                  active,
+                  callback: triggerActiveCallback,
+                  setActive: i => {
+                    dispatch({ type: 'setActive', active: i })
+                    inputRef?.current?.focus()
+                  }
+                })}
+              </ul>
 
-                <input
-                  type="text"
-                  className={cn(styles.input, {
-                    [styles.empty]: items.length === 0
-                  })}
-                  autoFocus
-                  autoCapitalize="off"
-                  autoCorrect="off"
-                  autoComplete="off"
-                  placeholder={placeholder}
-                  onChange={onChange}
-                  ref={inputRef}
-                  role="combobox"
-                  aria-autocomplete="list"
-                  aria-expanded
-                  aria-owns={listID}
-                />
-
-                <ul
-                  className={cn(styles.list)}
-                  style={{
-                    maxHeight: max * height,
-                    height:
-                      items.length !== 0
-                        ? items
-                            .map(x =>
-                              x.collection
-                                ? 25 + x.items.length * height
-                                : x.divider
-                                ? 1 + height * 1.2
-                                : height
-                            )
-                            .reduce((acc, cur) => acc + cur)
-                        : 0
-                  }}
-                  role="listbox"
-                  id={listID}
-                  ref={listRef}
-                >
-                  {renderItems({
-                    items,
-                    active,
-                    setActive: i => {
-                      dispatch({ type: 'setActive', active: i })
-                      inputRef?.current?.focus()
-                    }
-                  })}
-                </ul>
-
-                {/* Specifically for screen readers */}
-                <div aria-live="polite" role="status" className={styles.hidden}>
-                  {flatItems.length} results available...
-                </div>
+              {/* Specifically for screen readers */}
+              <div aria-live="polite" role="status" className={styles.hidden}>
+                {flatItems.length} results available...
               </div>
             </div>
-          </Portal>
-        )}
-      </Transition>
-    </>
+          </div>
+        </Portal>
+      )}
+    </Transition>
   )
 }
 

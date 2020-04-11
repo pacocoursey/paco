@@ -1,29 +1,17 @@
-import { useState, useEffect, useMemo, useRef } from 'react'
+import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import styles from './header.module.css'
 import postMeta from '@data/blog.json'
 import Command from '@components/command'
-import Button from '@components/button'
 import useTheme from '@lib/theme'
 import {
   Moon,
   Sun,
-  Design,
-  Book,
-  M6,
-  Music,
-  Document,
   Pencil,
-  ArrowRight,
-  Twitter,
-  GitHub,
   Search,
   RSS,
-  Words,
-  Lightbulb,
-  Quote,
   Logo as LogoIcon,
   Command as CommandIcon
 } from '@components/icons'
@@ -39,16 +27,6 @@ const Logo = () => {
 }
 
 const Header = ({ title, content }) => {
-  /*
-
-    const { Command, bounce, clear, toggle } = useCommand()
-
-    return (
-      <Command options={options} />
-    )
-
-  */
-
   const router = useRouter()
   const { theme, toggleTheme } = useTheme()
   const [options, setOptions] = useState(null)
@@ -64,12 +42,11 @@ const Header = ({ title, content }) => {
       },
       {
         name: 'Checkbox',
-        closeOnCallback: false,
         icon: checked ? 'c' : 'n',
-        callback: () => {
-          console.log('set checked!!')
-          setChecked(c => !c)
-        }
+        onCallback: {
+          close: false
+        },
+        callback: () => setChecked(c => !c)
       },
       {
         name: 'Blog',
@@ -79,13 +56,16 @@ const Header = ({ title, content }) => {
             name: 'Blog',
             keybind: 'g b',
             icon: <Pencil />,
-            closeOnCallback: false,
             callback: () => router.push('/blog')
           },
           {
             name: 'Search blog...',
             icon: <Search />,
-            closeOnCallback: false,
+            onCallback: {
+              close: false,
+              clear: true,
+              bounce: true
+            },
             callback: () => {
               const i = postMeta.map(post => {
                 return {
@@ -129,8 +109,8 @@ const Header = ({ title, content }) => {
           max={5}
           width="calc(var(--main-content) - var(--gap))"
           placeholder="Type a command or search..."
-          options={options || defaultOptions}
           onClose={() => setOptions(null)}
+          items={options || defaultOptions}
         >
           <button className={styles.command} title="⌘K">
             <CommandIcon />

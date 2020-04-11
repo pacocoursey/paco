@@ -78,9 +78,7 @@ const renderItem = ({ item, index, ...rest }) => {
     )
   }
 
-  const { active, setActive } = rest
-
-  let cb = item.callback
+  const { active, setActive, callback } = rest
 
   return (
     <Item
@@ -89,12 +87,12 @@ const renderItem = ({ item, index, ...rest }) => {
       index={index}
       active={active === index}
       onMouseMove={() => setActive(index)}
-      callback={cb}
+      callback={callback}
     />
   )
 }
 
-const renderItems = ({ items, active, setActive }) => {
+const renderItems = ({ items, active, setActive, callback }) => {
   let count = 0
 
   return items.map(item => {
@@ -102,7 +100,8 @@ const renderItems = ({ items, active, setActive }) => {
       item,
       index: count,
       active,
-      setActive
+      setActive,
+      callback
     })
 
     if (item.collection) {
