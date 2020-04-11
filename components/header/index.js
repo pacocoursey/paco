@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -39,15 +39,83 @@ const Logo = () => {
 }
 
 const Header = ({ title, content }) => {
-  const router = useRouter()
-  const [hint, setHint] = useState(false)
-  const { theme, toggleTheme } = useTheme()
+  /*
 
-  useEffect(() => {
-    if (!localStorage.getItem('hide-hint')) {
-      setHint(true)
-    }
-  }, [])
+    const { Command, bounce, clear, toggle } = useCommand()
+
+    return (
+      <Command options={options} />
+    )
+
+  */
+
+  const router = useRouter()
+  const { theme, toggleTheme } = useTheme()
+  const [options, setOptions] = useState(null)
+  const [checked, setChecked] = useState(false)
+
+  const defaultOptions = useMemo(
+    () => [
+      {
+        name: 'Toggle theme',
+        keybind: 't',
+        icon: theme === 'light' ? <Moon /> : <Sun />,
+        callback: () => toggleTheme()
+      },
+      {
+        name: 'Checkbox',
+        closeOnCallback: false,
+        icon: checked ? 'c' : 'n',
+        callback: () => {
+          console.log('set checked!!')
+          setChecked(c => !c)
+        }
+      },
+      {
+        name: 'Blog',
+        collection: true,
+        items: [
+          {
+            name: 'Blog',
+            keybind: 'g b',
+            icon: <Pencil />,
+            closeOnCallback: false,
+            callback: () => router.push('/blog')
+          },
+          {
+            name: 'Search blog...',
+            icon: <Search />,
+            closeOnCallback: false,
+            callback: () => {
+              const i = postMeta.map(post => {
+                return {
+                  name: post.title,
+                  callback: () =>
+                    router.push('/blog/[slug]', `/blog/${post.slug}`)
+                }
+              })
+              i.push({
+                name: 'Checkbox',
+                closeOnCallback: false,
+                icon: checked ? 'c' : 'n',
+                callback: () => {
+                  console.log('set checked!!')
+                  setChecked(c => !c)
+                }
+              })
+              setOptions(i)
+            }
+          },
+          {
+            name: 'RSS',
+            icon: <RSS />,
+            callback: () => router.push('/feed.xml')
+          }
+        ]
+      }
+    ],
+    [theme, router, toggleTheme, checked]
+  )
 
   return (
     <nav className={styles.nav}>
@@ -57,153 +125,12 @@ const Header = ({ title, content }) => {
         </div>
 
         <Command
+          open
           max={5}
           width="calc(var(--main-content) - var(--gap))"
-          top={
-            hint && (
-              <div className={styles.hint}>
-                <div>
-                  Press <kbd>⌘ K</kbd> to open this menu anywhere.
-                </div>
-
-                <Button
-                  onClick={() => {
-                    localStorage.setItem('hide-hint', '1')
-                    setHint(false)
-                  }}
-                >
-                  Got it
-                </Button>
-              </div>
-            )
-          }
           placeholder="Type a command or search..."
-          options={[
-            {
-              name: 'Toggle theme',
-              keybind: 't',
-              icon: theme === 'light' ? <Moon /> : <Sun />,
-              callback: () => toggleTheme()
-            },
-            {
-              name: 'Blog',
-              collection: true,
-              items: [
-                {
-                  name: 'Blog',
-                  keybind: 'g b',
-                  icon: <Pencil />,
-                  callback: () => router.push('/blog')
-                },
-                {
-                  name: 'Search blog...',
-                  icon: <Search />,
-                  items: postMeta.map(post => {
-                    return {
-                      name: post.title,
-                      callback: () =>
-                        router.push('/blog/[slug]', `/blog/${post.slug}`)
-                    }
-                  })
-                },
-                {
-                  name: 'RSS',
-                  icon: <RSS />,
-                  callback: () => router.push('/feed.xml')
-                }
-              ]
-            },
-            {
-              name: 'Collections',
-              collection: true,
-              items: [
-                {
-                  name: 'Reading',
-                  keybind: 'g r',
-                  icon: <Book />,
-                  callback: () => router.push('/reading')
-                },
-                {
-                  name: 'Design',
-                  keybind: 'g d',
-                  icon: <Design />,
-                  callback: () => router.push('/design')
-                },
-                {
-                  name: 'Keyboard',
-                  keybind: 'g k',
-                  icon: <M6 />,
-                  callback: () => router.push('/keyboards')
-                },
-                {
-                  name: 'Music',
-                  keybind: 'g m',
-                  icon: <Music />,
-                  callback: () => router.push('/music')
-                },
-                {
-                  name: 'Projects',
-                  keybind: 'g p',
-                  icon: <Document />,
-                  callback: () => router.push('/projects')
-                },
-                {
-                  name: 'Quotes',
-                  keybind: 'g q',
-                  icon: <Quote />,
-                  callback: () => router.push('/quotes')
-                },
-                {
-                  name: 'Words',
-                  keybind: 'g w',
-                  icon: <Words />,
-                  callback: () => router.push('/words')
-                },
-                {
-                  name: 'Ideas',
-                  keybind: 'g i',
-                  icon: <Lightbulb />,
-                  callback: () => router.push('/ideas')
-                }
-              ]
-            },
-            {
-              name: 'Navigation',
-              collection: true,
-              items: [
-                {
-                  name: 'Home',
-                  keybind: 'g h',
-                  icon: <ArrowRight />,
-                  callback: () => router.push('/')
-                },
-                {
-                  name: 'Contact',
-                  keybind: 'g c',
-                  icon: <ArrowRight />,
-                  callback: () => router.push('/contact')
-                }
-              ]
-            },
-            {
-              name: 'Social',
-              collection: true,
-              items: [
-                {
-                  name: 'Twitter',
-                  icon: <Twitter />,
-                  callback: () =>
-                    window.open('https://twitter.com/pacocoursey', '_blank')
-                },
-                {
-                  name: 'GitHub',
-                  icon: <GitHub />,
-                  callback: () =>
-                    window.open('https://github.com/pacocoursey', '_blank')
-                }
-              ]
-            }
-          ]}
+          options={options || defaultOptions}
+          onClose={() => setOptions(null)}
         >
           <button className={styles.command} title="⌘K">
             <CommandIcon />

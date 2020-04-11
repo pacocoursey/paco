@@ -1,12 +1,4 @@
-import {
-  memo,
-  Fragment,
-  useCallback,
-  useRef,
-  useEffect,
-  useMemo,
-  useReducer
-} from 'react'
+import { useCallback, useRef, useEffect, useMemo, useReducer } from 'react'
 import Portal from '@reach/portal'
 import cn from 'classnames'
 import matchSorter from 'match-sorter'
@@ -17,123 +9,10 @@ import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import toPx from './to-px'
 import KeyHandler from './key-handler'
 import styles from './command.module.css'
+import renderItems from './item'
 
-const divider = <li className={styles.divider} />
-
-// These children should not change often
-const Label = memo(({ children }) => {
-  return <li className={styles.label}>{children}</li>
-})
-
-Label.displayName = 'Label'
-
-const Item = ({
-  active,
-  icon,
-  name,
-  callback,
-  onMouseMove,
-  keybind,
-  divider: hasDivider,
-  index
-}) => {
-  const itemRef = useRef()
-
-  useEffect(() => {
-    // This item has become active, scroll it into view
-    if (active && itemRef.current) {
-      itemRef.current.scrollIntoView({
-        block: 'nearest'
-      })
-    }
-  }, [active])
-
-  return (
-    <>
-      {hasDivider && divider}
-      <li
-        ref={itemRef}
-        className={cn(styles.item, { [styles.active]: active })}
-        onClick={callback}
-        onMouseMove={onMouseMove}
-        role="option"
-        tabIndex={-1}
-        data-command-option-index={index}
-        aria-selected={active}
-      >
-        <div className={styles.left}>
-          <span className={styles.icon}>{icon}</span>
-          <span>{name}</span>
-        </div>
-
-        {keybind && (
-          <span className={styles.keybind}>
-            {keybind.includes(' ') ? (
-              keybind.split(' ').map(key => {
-                return <kbd key={`item-${name}-keybind-${key}`}>{key}</kbd>
-              })
-            ) : (
-              <kbd>{keybind}</kbd>
-            )}
-          </span>
-        )}
-      </li>
-    </>
-  )
-}
-
-const renderItem = ({ item, index, ...rest }) => {
-  if (item.collection) {
-    return (
-      <Fragment key={`command-collection-${item.name}-${index}`}>
-        <Label>{item.name}</Label>
-        {item.items.map((subItem, i) =>
-          renderItem({ item: subItem, index: index + i, ...rest })
-        )}
-      </Fragment>
-    )
-  }
-
-  const { updateOptions, active, setActive } = rest
-
-  let cb = item.callback
-
-  if (item.items) {
-    cb = () => updateOptions(item.items)
-  }
-
-  return (
-    <Item
-      {...item}
-      key={`command-option-${item.name}-${index}`}
-      index={index}
-      active={active === index}
-      onMouseMove={() => setActive(index)}
-      callback={cb}
-    />
-  )
-}
-
-const renderItems = ({ items, active, setActive, updateOptions }) => {
-  let count = 0
-
-  return items.map(item => {
-    const x = renderItem({
-      item,
-      index: count,
-      active,
-      setActive,
-      updateOptions
-    })
-
-    if (item.collection) {
-      count += item.items.length
-    } else {
-      count++
-    }
-
-    return x
-  })
+function arraysEqual(a1, a2) {
+  return JSON.stringify(a1) === JSON.stringify(a2)
 }
 
 const flatten = i =>
@@ -155,21 +34,41 @@ const reducer = (state, action) => {
     case 'update':
       return {
         ...state,
-        items: action.options || action.items,
-        options: action.options || state.options,
+        items: action.items,
         active: 0
-      }
-    case 'refresh':
-      return {
-        ...state,
-        items: action.options,
-        options: action.options
       }
     case 'setActive':
       if (state.active === action.active) return state
       return {
         ...state,
         active: action.active
+      }
+    case 'test':
+      // Lists do not match
+      if (action.items.length !== state.items.length) {
+        return {
+          ...state,
+          items: action.items,
+          active: 0
+        }
+      }
+
+      const currentItemNames = flatten(state.items).map(x => x.name)
+      const newItemNames = flatten(action.items).map(x => x.name)
+
+      console.log(currentItemNames, newItemNames)
+
+      if (arraysEqual(currentItemNames, newItemNames)) {
+        return {
+          ...state,
+          items: action.items
+        }
+      } else {
+        return {
+          ...state,
+          items: action.items,
+          active: 0
+        }
       }
     default:
       throw new Error(`Invalid reducer action: ${action.type}`)
@@ -178,7 +77,7 @@ const reducer = (state, action) => {
 
 const Command = ({
   open: propOpen = false,
-  options: defaultOptions,
+  options,
   max = 10,
   height = 60,
   width = 640,
@@ -187,18 +86,18 @@ const Command = ({
   closeOnCallback = true,
   keybind = 'Meta+k, Control+k',
   searchOn,
+  onClose,
   children
 }) => {
   const listID = useId()
   const inputRef = useRef(null)
-  const nestedRef = useRef(null)
   const [state, dispatch] = useReducer(reducer, {
     open: propOpen,
     active: 0,
-    options: defaultOptions,
-    items: defaultOptions
+    options,
+    items: options
   })
-  const { open, active, options, items } = state
+  const { open, active, items } = state
   const flatItems = flatten(items)
 
   // Callbacks
@@ -254,13 +153,15 @@ const Command = ({
   )
 
   const onChange = useCallback(
-    e => {
-      if (!e.target.value) {
+    (e) => {
+      const value = e?.target?.value || inputRef?.current?.value
+
+      if (!value) {
         dispatch({ type: 'update', items: options })
       }
 
       // TODO: support searching entire collections (likely needs match-sorter fork)
-      const x = matchSorter(options, e.target.value, {
+      const x = matchSorter(options, value, {
         keys: [
           item => (item.collection ? undefined : item.name),
           item => (item.collection ? item.items.map(i => i.name) : undefined),
@@ -274,7 +175,7 @@ const Command = ({
         if (i.collection) {
           return {
             ...i,
-            items: matchSorter(i.items, e.target.value, { keys: ['name'] })
+            items: matchSorter(i.items, value, { keys: ['name'] })
           }
         }
 
@@ -286,35 +187,18 @@ const Command = ({
     [options, searchableAttributes]
   )
 
-  const bounce = useCallback(() => {
-    if (inputRef.current) {
-      // Bounce the UI slightly
-      const command = inputRef.current.closest('div')
-      command.style.transform = 'scale(0.99)'
-      // Not exactly safe, but should be OK
-      setTimeout(() => {
-        command.style.transform = null
-      }, 100)
-    }
-  }, [])
-
-  const handleNested = useCallback(
-    (i, isNested = true) => {
-      dispatch({ type: 'update', options: i, items: i })
-      nestedRef.current = isNested
-
-      if (inputRef.current) {
-        // Reset the input
-        inputRef.current.value = ''
-        bounce()
-      }
-
-      if (isNested && flatItems[active].callback) {
-        flatItems[active].callback()
-      }
-    },
-    [flatItems, active, bounce]
-  )
+  // TODO: allow prop ref to bounce()
+  // const bounce = useCallback(() => {
+  //   if (inputRef.current) {
+  //     // Bounce the UI slightly
+  //     const command = inputRef.current.closest('div')
+  //     command.style.transform = 'scale(0.99)'
+  //     // Not exactly safe, but should be OK
+  //     setTimeout(() => {
+  //       command.style.transform = null
+  //     }, 100)
+  //   }
+  // }, [])
 
   const onKeyDown = useCallback(
     e => {
@@ -334,45 +218,23 @@ const Command = ({
             dispatch({ type: 'setActive', active: active - 1 })
           }
           break
-        case 'ArrowLeft':
-          if (
-            inputRef.current &&
-            !inputRef.current.value &&
-            nestedRef.current === true
-          ) {
-            handleNested(defaultOptions, false)
-          }
-          return
         case 'Enter':
           if (!flatItems.length) return
 
-          // Update items to nested list
-          if (flatItems[active].items) {
-            handleNested(flatItems[active].items)
-          } else {
-            if (flatItems[active].callback) {
-              flatItems[active].callback()
-            }
+          if (flatItems[active].callback) {
+            flatItems[active].callback()
+          }
 
-            if (
-              closeOnCallback &&
-              flatItems[active].closeOnCallback !== false
-            ) {
-              toggle(false)
-            }
+          if (closeOnCallback && flatItems[active].closeOnCallback !== false) {
+            toggle(false)
           }
           break
         default:
           break
       }
     },
-    [active, flatItems, handleNested, defaultOptions, closeOnCallback, toggle]
+    [active, flatItems, closeOnCallback, toggle]
   )
-
-  const reset = useCallback(() => {
-    dispatch({ type: 'update', options: defaultOptions })
-    nestedRef.current = false
-  }, [defaultOptions])
 
   // Effects
   useEffect(() => {
@@ -386,18 +248,17 @@ const Command = ({
   }, [handleToggleKeybind])
 
   useEffect(() => {
-    // When default options change (something rendering <Command /> re-renders)
-    // and it's safe to do so (no existing input, not inside nested), update the options
-    if (inputRef.current && !inputRef.current.value && !nestedRef.current) {
-      dispatch({ type: 'refresh', options: defaultOptions })
+    dispatch({ type: 'test', items: options })
+    if (inputRef.current && inputRef.current.value) {
+      onChange()
     }
-  }, [defaultOptions])
+  }, [options, onChange])
 
   useEffect(() => {
     // Setup keybinds for list entries
     const keybinds = []
 
-    flatten(defaultOptions).forEach(opt => {
+    flatten(items).forEach(opt => {
       if (!opt.keybind || !opt.callback || opt.collection) return
 
       if (keybinds[opt.keybind]) {
@@ -418,7 +279,7 @@ const Command = ({
 
     window.addEventListener('keydown', keybind)
     return () => window.removeEventListener('keydown', keybind)
-  }, [defaultOptions])
+  }, [items])
 
   return (
     <>
@@ -430,7 +291,7 @@ const Command = ({
       >
         {children}
       </div>
-      <Transition in={open} unmountOnExit timeout={200} onExited={reset}>
+      <Transition in={open} unmountOnExit timeout={200} onExited={onClose}>
         {state => (
           <Portal>
             <div
@@ -497,8 +358,7 @@ const Command = ({
                     setActive: i => {
                       dispatch({ type: 'setActive', active: i })
                       inputRef?.current?.focus()
-                    },
-                    updateOptions: opts => handleNested(opts)
+                    }
                   })}
                 </ul>
 
