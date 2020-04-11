@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -43,11 +43,14 @@ const Header = ({ title, content }) => {
   const [hint, setHint] = useState(false)
   const { theme, toggleTheme } = useTheme()
   const [options, setOptions] = useState(null)
+  const isMac = useRef()
 
   useEffect(() => {
     if (!localStorage.getItem('hide-hint')) {
       setHint(true)
     }
+
+    isMac.current = window.navigator.platform.indexOf('Mac') > -1
   }, [])
 
   const defaultOptions = useMemo(
@@ -205,7 +208,9 @@ const Header = ({ title, content }) => {
             hint && (
               <div className={styles.hint}>
                 <div>
-                  Press <kbd>⌘ K</kbd> to open this menu anywhere.
+                  Press{' '}
+                  {isMac.current === true ? <kbd>⌘ K</kbd> : <kbd>⌃ K</kbd>} to
+                  open this menu anywhere.
                 </div>
 
                 <Button
