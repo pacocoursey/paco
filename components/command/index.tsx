@@ -177,8 +177,7 @@ const Command: React.FC<Props> = ({
       const topLevelMatches = matchSorter(propItems, value, {
         keys: [
           item => ('collection' in item ? '' : item.name),
-          item =>
-            'collection' in item ? item.items.map(i => i.name) : '',
+          item => ('collection' in item ? item.items.map(i => i.name) : ''),
           ...searchableAttributes
         ]
       })
@@ -186,7 +185,7 @@ const Command: React.FC<Props> = ({
       // Unfortunately have to run matchSorter twice, nested values are not returned
       // https://github.com/kentcdodds/match-sorter/issues/87
       const allMatches = topLevelMatches.map(i => {
-        if ("collection" in i) {
+        if ('collection' in i) {
           return {
             ...i,
             items: matchSorter(i.items, value, { keys: ['name'] })
@@ -375,8 +374,8 @@ const Command: React.FC<Props> = ({
                 <ul
                   className={cn(styles.list)}
                   style={{
-                    maxHeight: max * height,
-                    height:
+                    height: Math.min(
+                      max * height,
                       items.length !== 0
                         ? items
                             .map(x =>
@@ -388,6 +387,7 @@ const Command: React.FC<Props> = ({
                             )
                             .reduce((acc, cur) => acc + cur)
                         : 0
+                    )
                   }}
                   role="listbox"
                   id={listID}

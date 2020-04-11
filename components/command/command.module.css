@@ -82,7 +82,7 @@
   list-style-type: none;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  transition: height 0.15s ease;
+  transition: height 0.1s ease;
   will-change: height;
 }
 
