@@ -12,7 +12,7 @@
   will-change: background;
 }
 
-.screen.exit {
+.screen.onExiting {
   background: transparent !important;
 }
 
@@ -41,7 +41,7 @@
   will-change: transform, opacity;
 }
 
-.command.exit {
+.command.onExiting {
   opacity: 0;
   transform: scale(0.98);
 }
@@ -58,7 +58,7 @@
 
 .input {
   outline: none;
-  height: var(--height);
+  height: 60px;
   width: 100%;
   border: 0;
   background: 0;
@@ -68,7 +68,7 @@
   border-bottom: 1px solid var(--lighter-gray);
 }
 
-.input.empty {
+.noResults input {
   border: 0;
 }
 
@@ -99,34 +99,34 @@
   color: var(--gray);
 }
 
-.item.active {
+.active {
   background: var(--lightest-gray);
   color: var(--fg);
 }
 
-.item .left {
+.left {
   display: flex;
   align-items: center;
 }
 
-.item .icon {
+.icon {
   display: inline-flex;
   min-width: 16px;
   margin-right: 24px;
 }
-.item .keybind {
+
+.keybind {
   display: flex;
   align-items: center;
+  justify-content: center;
   font-size: 0.875rem;
 }
 
-.item .keybind > kbd {
+.keybind > kbd {
   user-select: none;
   padding: 0;
   font-weight: normal;
   font-size: 0.875rem;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   background: var(--lighter-gray);
   color: var(--gray);
   border-radius: 5px;
@@ -136,7 +136,7 @@
   height: 24px;
 }
 
-.item .keybind > kbd + kbd {
+.keybind > kbd + kbd {
   margin-left: 5px;
 }
 
@@ -225,6 +225,12 @@
 @media (max-width: 960px) {
   .command {
     --top: calc(30px + (3 * var(--gap-double)));
+    top: var(--top);
+  }
+}
+
+@media (max-width: 600px) {
+  .command {
     top: var(--top);
     height: calc(100vh - var(--top));
     border-radius: 20px 20px 0 0;

@@ -1,4 +1,4 @@
-import { Keybind } from "./key-handler";
+import { Keybind } from './key-handler'
 
 export interface CallbackOptions {
   clear?: boolean
@@ -23,17 +23,37 @@ export interface CollectionItem extends BaseItem {
 export type Item = BaseItem | CollectionItem
 export type Items = Item[]
 
+export interface Styles {
+  screen?: string
+  command?: string
+  onExiting?: string
+  top?: string
+  input?: string
+  noResults?: string
+  list?: string
+
+  item?: string
+  itemActive?: string
+
+  icon?: string
+  keybind?: string
+  label?: string
+  divider?: string
+}
+
 export interface Props {
   open?: boolean
   items: Items
   max?: number
-  height?: number,
-  width?: number,
+  height?: number
+  labelHeight?: number
+  width?: number
   top?: React.ReactNode
   placeholder?: string
   keybind?: Keybind
   searchOn?: string[]
   onClose?: () => void
+  styles?: Styles
 }
 
 export interface State {
@@ -45,7 +65,7 @@ export interface State {
 export type Action =
   | { type: 'close' }
   | { type: 'open' }
-  | { type: 'update', items: Items }
-  | { type: 'setActive', active: number }
-  | { type: 'reset', items: Items }
-  | { type: 'updateInPlace', items: Items }
+  | { type: 'update'; items: Items }
+  | { type: 'setActive'; active: number }
+  | { type: 'reset'; items: Items }
+  | { type: 'updateInPlace'; items: Items }

@@ -15,7 +15,7 @@ import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 import toPx from './to-px'
 import KeyHandler from './key-handler'
-import styles from './command.module.css'
+import defaultStyles from './command.module.css'
 import renderItems from './item'
 import { Items, BaseItem, Props, State, Action } from './types'
 
@@ -93,12 +93,14 @@ const Command: React.FC<Props> = ({
   items: propItems,
   max = 10,
   height = 60,
+  labelHeight = 25,
   width = 640,
   top,
   placeholder,
   keybind = 'Meta+k, Control+k',
   searchOn,
   onClose,
+  styles = {},
   children
 }) => {
   const listID = useId()
@@ -208,7 +210,7 @@ const Command: React.FC<Props> = ({
         command.style.transform = 'scale(0.99)'
         // Not exactly safe, but should be OK
         setTimeout(() => {
-          delete command.style.transform
+          command.style.transform = ''
         }, 100)
       }
     }
@@ -326,7 +328,7 @@ const Command: React.FC<Props> = ({
         role="button"
         tabIndex={-1}
         onClick={() => toggle()}
-        className={styles.trigger}
+        className={defaultStyles.trigger}
       >
         {children}
       </div>
@@ -335,15 +337,33 @@ const Command: React.FC<Props> = ({
         {state => (
           <Portal>
             <div
-              className={cn(styles.screen, {
-                [styles.exit]: state === 'exiting'
-              })}
+              className={cn(
+                defaultStyles.screen,
+                styles.screen,
+                {
+                  [defaultStyles.onExiting]: state === 'exiting'
+                },
+                styles.onExiting
+                  ? { [styles.onExiting]: state === 'exiting' }
+                  : null
+              )}
               onClick={() => toggle(false)}
             >
               <div
-                className={cn(styles.command, {
-                  [styles.exit]: state === 'exiting'
-                })}
+                className={cn(
+                  defaultStyles.command,
+                  styles.command,
+                  {
+                    [defaultStyles.onExiting]: state === 'exiting',
+                    [defaultStyles.noResults]: items.length === 0
+                  },
+                  styles.onExiting
+                    ? { [styles.onExiting]: state === 'exiting' }
+                    : null,
+                  styles.noResults
+                    ? { [styles.noResults]: items.length === 0 }
+                    : null
+                )}
                 onClick={e => e.stopPropagation()}
                 onKeyDown={onKeyDown}
                 style={{
@@ -351,13 +371,13 @@ const Command: React.FC<Props> = ({
                   ['--width' as string]: toPx(width)
                 }}
               >
-                {top && <div className={styles.top}>{top}</div>}
+                {top && (
+                  <div className={cn(defaultStyles.top, styles.top)}>{top}</div>
+                )}
 
                 <input
                   type="text"
-                  className={cn(styles.input, {
-                    [styles.empty]: items.length === 0
-                  })}
+                  className={cn(defaultStyles.input, styles.input)}
                   autoFocus
                   autoCapitalize="off"
                   autoCorrect="off"
@@ -372,7 +392,7 @@ const Command: React.FC<Props> = ({
                 />
 
                 <ul
-                  className={cn(styles.list)}
+                  className={cn(defaultStyles.list, styles.list)}
                   style={{
                     height: Math.min(
                       max * height,
@@ -380,7 +400,7 @@ const Command: React.FC<Props> = ({
                         ? items
                             .map(x =>
                               'collection' in x
-                                ? 25 + x.items.length * height
+                                ? labelHeight + x.items.length * height
                                 : x.divider
                                 ? 1 + height * 1.2
                                 : height
@@ -400,12 +420,17 @@ const Command: React.FC<Props> = ({
                     setActive: i => {
                       dispatch({ type: 'setActive', active: i })
                       inputRef?.current?.focus()
-                    }
+                    },
+                    styles
                   })}
                 </ul>
 
                 {/* Specifically for screen readers */}
-                <div aria-live="polite" role="status" className={styles.hidden}>
+                <div
+                  aria-live="polite"
+                  role="status"
+                  className={defaultStyles.hidden}
+                >
                   {flatItems.length} results available...
                 </div>
               </div>
