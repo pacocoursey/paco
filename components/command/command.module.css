@@ -28,8 +28,7 @@
   top: calc(30px + var(--big-gap) + (3 * var(--gap-double)));
 
   --padding: 0 20px;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: var(--font-sans);
   max-width: var(--width);
   border-radius: 10px;
   overflow: hidden;
