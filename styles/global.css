@@ -4,7 +4,7 @@
 @import './nprogress.css';
 
 /* Inter! */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=block');
 
 :root {
   /* Spacing */
@@ -97,6 +97,7 @@ body {
   font-size: 16px;
   background: var(--bg);
   color: var(--fg);
+  font-display: block;
 }
 
 body {
