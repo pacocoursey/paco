@@ -12,17 +12,8 @@ const globalCallback = (e: KeyboardEvent) => {
 
 function useKey(keybind: string, callback: Callback): void {
   useEffect(() => {
-    let handlers: KeyHandler | KeyHandler[]
-
-    if (Array.isArray(keybind)) {
-      handlers = keybind.map(h => new KeyHandler(h.keybind, h.callback))
-      handlers.forEach(h => {
-        globalKeybinds.add(h)
-      })
-    } else {
-      handlers = new KeyHandler(keybind, callback)
-      globalKeybinds.add(handlers)
-    }
+    const handler = new KeyHandler(keybind, callback)
+    globalKeybinds.add(handler)
 
     if (!listener) {
       window.addEventListener('keydown', globalCallback)
@@ -30,13 +21,7 @@ function useKey(keybind: string, callback: Callback): void {
     }
 
     return () => {
-      if (Array.isArray(handlers)) {
-        handlers.forEach(h => {
-          globalKeybinds.delete(h)
-        })
-      } else {
-        globalKeybinds.delete(handlers)
-      }
+      globalKeybinds.delete(handler)
       if (globalKeybinds.size === 0 && listener) {
         window.removeEventListener('keydown', globalCallback)
         listener = null

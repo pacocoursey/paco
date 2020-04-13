@@ -46,7 +46,7 @@ const arraysAreEqual = (a: any[], b: any[]) =>
 const KEY_SEQUENCE_TIMEOUT = 1000
 let insideSequence = false
 
-const getHotkeysArray = (hotkeys: string): string[] => {
+const getHotkeysArray = (hotkeys: string): string[] | string[][] => {
   let hkeys = hotkeys.toLowerCase()
 
   if (hkeys.length === 1) {
@@ -105,8 +105,6 @@ class KeyHandler {
 
   handleKeySequence = (key: string[], event: KeyboardEvent) => {
     this.clearSequenceTimer()
-
-    console.log(this.keySequence)
 
     // Pressed key does not match the pattern
     if (key[this.keySequence.length] !== event.key.toLowerCase()) {
