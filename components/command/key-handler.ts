@@ -106,6 +106,8 @@ class KeyHandler {
   handleKeySequence = (key: string[], event: KeyboardEvent) => {
     this.clearSequenceTimer()
 
+    console.log(this.keySequence)
+
     // Pressed key does not match the pattern
     if (key[this.keySequence.length] !== event.key.toLowerCase()) {
       return
@@ -144,7 +146,7 @@ class KeyHandler {
     }
 
     // Handle key sequences
-    if (this.keys.length > 1 && !modifierKeyPressed(event)) {
+    if (this.keys.length > 1) {
       return this.handleKeySequence(key, event)
     }
 
