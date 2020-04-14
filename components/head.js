@@ -70,7 +70,7 @@ const Head = ({
       <meta name="theme-color" content="#ffffff" />
 
       <link
-        crossOrigin
+        crossOrigin="anonymous"
         rel="preload"
         as="font"
         type="font/woff2"
