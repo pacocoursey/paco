@@ -69,6 +69,14 @@ const Head = ({
       <meta name="msapplication-TileColor" content="#ffffff" />
       <meta name="theme-color" content="#ffffff" />
 
+      <link
+        crossOrigin
+        rel="preload"
+        as="font"
+        type="font/woff2"
+        href="https://assets.zeit.co/raw/upload/v1582989014/fonts/Inter-roman.var.woff2"
+      />
+
       {children}
     </NextHead>
   )
