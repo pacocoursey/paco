@@ -1,4 +1,4 @@
-import { Keybind } from './key-handler'
+import { Keybind } from 'use-key'
 
 export interface CallbackOptions {
   clear?: boolean
@@ -10,7 +10,7 @@ export interface BaseItem {
   name: string
   icon?: React.ReactNode
   keybind?: Keybind
-  callback: () => void
+  callback: () => {}
   onCallback?: CallbackOptions
   divider?: boolean
 }

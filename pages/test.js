@@ -1,25 +1,53 @@
-import Page from '@components/page'
-import useKey from '@lib/use-key'
-import { useState } from 'react'
-import Button from '@components/button'
+import { useState, useCallback } from 'react'
+import { useKey } from 'use-key'
+import { Transition } from 'react-transition-group'
+
+const x = 'Meta+k'
+
+let i = 0
+
+const constantCallback = () => console.log('stable')
 
 const Test = () => {
-  const [show, setShow] = useState(false)
-  useKey('a', () => console.log('a'))
-  useKey('b', () => console.log('b'))
-  useKey('c d', () => console.log('c'))
+  const [test, setTest] = useState(false)
+
+  const toggle = useCallback(() => {
+    console.log('toggle called with current:', test)
+    if (test) {
+      setTest(false)
+    } else {
+      setTest(true)
+    }
+  }, [test])
+
+
+  useKey('x', toggle)
+  useKey('y', constantCallback)
+  // i++
+
+  // if (i >= 20) {
+  //   return null
+  // }
 
   return (
-    <Page>
-      <Button onClick={() => setShow(s => !s)}>Show the component</Button>
-      {show && <X />}
-    </Page>
+    <div>
+      <button onClick={toggle}>TOGGLE</button>
+      {JSON.stringify(test)}
+      {/* <InnerComp inProp={test} /> */}
+    </div>
   )
 }
 
-const X = () => {
-  useKey('d', () => console.log('d'))
-  return 'show'
+function InnerComp({ inProp }) {
+  console.log('inner comp: ', inProp)
+  return (
+    <Transition in={inProp} timeout={0}>
+      {state => {
+        console.log(state)
+        return JSON.stringify(state)
+      }}
+    </Transition>
+  )
 }
 
 export default Test

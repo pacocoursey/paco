@@ -6,6 +6,7 @@ import {
   useReducer,
   ChangeEvent
 } from 'react'
+import { useKey } from 'use-key'
 import Portal from '@reach/portal'
 import cn from 'classnames'
 import matchSorter from 'match-sorter'
@@ -14,7 +15,6 @@ import { Transition } from 'react-transition-group'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 import toPx from './to-px'
-import KeyHandler from './key-handler'
 import defaultStyles from './command.module.css'
 import renderItems from './item'
 import { Items, BaseItem, Props, State, Action } from './types'
@@ -152,21 +152,6 @@ const Command: React.FC<Props> = ({
     [open]
   )
 
-  const keybindHandler = useMemo(() => {
-    return new KeyHandler(keybind, () => toggle())
-  }, [keybind, toggle])
-
-  const handleToggleKeybind = useCallback(
-    e => {
-      if (e.key === 'Escape') {
-        return toggle(false)
-      }
-
-      keybindHandler.handle(e)
-    },
-    [toggle, keybindHandler]
-  )
-
   const onChange = useCallback(
     (e?: ChangeEvent<HTMLInputElement>) => {
       const value = e?.target?.value || inputRef?.current?.value
@@ -273,54 +258,31 @@ const Command: React.FC<Props> = ({
 
   // Effects
   useEffect(() => {
-    // Register toggle keybind and escape handler
-    window.addEventListener('keydown', handleToggleKeybind)
-
-    return () => {
-      clearAllBodyScrollLocks()
-      window.removeEventListener('keydown', handleToggleKeybind)
-    }
-  }, [handleToggleKeybind])
-
-  useEffect(() => {
     dispatch({ type: 'updateInPlace', items: propItems })
     if (inputRef.current && inputRef.current.value) {
       onChange()
     }
   }, [propItems, onChange])
 
-  useEffect(() => {
-    type List = { [keybind: string]: boolean }
+  // const keybinds = useMemo(() => {
+  //   return propItems
+  //     .filter(i => !!i.keybind)
+  //     .map(i => {
+  //       const { keybind, callback } = i
+  //       return {
+  //         keybind,
+  //         callback
+  //       }
+  //     })
+  // }, [propItems])
 
-    // Setup keybinds
-    const keybindsList: List = {}
-    const keybinds: KeyHandler[] = []
+  // const x = useCallback(() => {
+  //   toggle()
+  // }, [toggle])
 
-    flatten(propItems).forEach(opt => {
-      if (!opt.keybind || !opt.callback || 'collection' in opt) return
-
-      // Ensure none of the keybinds overlap
-      if (keybindsList[opt.keybind]) {
-        throw new Error(`Duplicate keybind for ${opt.keybind}`)
-      } else {
-        keybindsList[opt.keybind] = true
-      }
-
-      keybinds.push(new KeyHandler(opt.keybind, opt.callback))
-    })
-
-    const keybind = (e: KeyboardEvent) => {
-      // Only handle keybinds if there is nothing else selected on the page
-      // i.e. shouldn't trigger keybind when typing into <input />
-      // TODO: make this explicitly ignore input, textarea, etc...?
-      if (document.activeElement === document.body) {
-        keybinds.forEach(handler => handler.handle(e))
-      }
-    }
-
-    window.addEventListener('keydown', keybind)
-    return () => window.removeEventListener('keydown', keybind)
-  }, [propItems])
+  useKey(keybind, () => console.log('stable'))
+  // useKey('Escape', () => toggle(false))
+  // useKeys(keybinds as KeybindObject[])
 
   return (
     <>
@@ -333,7 +295,16 @@ const Command: React.FC<Props> = ({
         {children}
       </div>
 
-      <Transition in={open} unmountOnExit timeout={200} onExited={handleExit}>
+      {JSON.stringify(open)}
+
+      <Transition in={open} timeout={0}>
+        {state => {
+          console.log(state)
+          return JSON.stringify(state)
+        }}
+      </Transition>
+
+      {/* <Transition in={open} unmountOnExit timeout={200} onExited={handleExit}>
         {state => (
           <Portal>
             <div
@@ -425,7 +396,6 @@ const Command: React.FC<Props> = ({
                   })}
                 </ul>
 
-                {/* Specifically for screen readers */}
                 <div
                   aria-live="polite"
                   role="status"
@@ -437,7 +407,7 @@ const Command: React.FC<Props> = ({
             </div>
           </Portal>
         )}
-      </Transition>
+      </Transition> */}
     </>
   )
 }
