@@ -21,8 +21,8 @@ const About = () => {
 
         <p>
           Working with{' '}
-          <Link underline href="https://zeit.co" external>
-            ▲ ZEIT
+          <Link underline href="https://vercel.com" external>
+            ▲ Vercel
           </Link>{' '}
           to design better ways to deploy websites.
         </p>

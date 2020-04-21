@@ -6,8 +6,8 @@ const Projects = () => {
     <Page title="Projects" description="Collection of past and present work.">
       <article>
         <Entry
-          title="Geist"
-          description="The ZEIT Design System"
+          title="Vercel Design"
+          description="The Vercel Design System"
           image="https://assets.zeit.co/image/upload/q_auto/front/assets/design/geist-card.png"
           href="https://zeit.co/design"
         />
