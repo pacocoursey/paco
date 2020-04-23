@@ -1,18 +1,12 @@
-import { useState, useCallback } from 'react'
-import { useKey } from 'use-key'
+import { useState, useCallback, useEffect } from 'react'
+import { useKey } from '../use-key'
 import { Transition } from 'react-transition-group'
-
-const x = 'Meta+k'
-
-let i = 0
-
-const constantCallback = () => console.log('stable')
 
 const Test = () => {
   const [test, setTest] = useState(false)
+  const [count, setCount] = useState(0)
 
   const toggle = useCallback(() => {
-    console.log('toggle called with current:', test)
     if (test) {
       setTest(false)
     } else {
@@ -20,33 +14,40 @@ const Test = () => {
     }
   }, [test])
 
+  useKey({
+    y: () => toggle()
+  })
 
-  useKey('x', toggle)
-  useKey('y', constantCallback)
-  // i++
+  useKey({
+    z: () => {
+      console.log('hey')
+    }
+  })
 
-  // if (i >= 20) {
-  //   return null
-  // }
+  useKey({
+    'Meta+k, Control+k': () => console.log('lol')
+  })
 
+  useKey({
+    'Control+u': () => console.log('asdfasdf')
+  })
+
+  useKey({
+    a: () => console.log('a'),
+    b: () => console.log('b')
+  })
   return (
     <div>
-      <button onClick={toggle}>TOGGLE</button>
       {JSON.stringify(test)}
-      {/* <InnerComp inProp={test} /> */}
+      <button onClick={() => setCount(count + 1)}>inc</button>
+      {/*
+      <Transition in={test} timeout={0}>
+        {state => {
+          // console.log(state)
+          return JSON.stringify(state)
+        }}
+      </Transition> */}
     </div>
-  )
-}
-
-function InnerComp({ inProp }) {
-  console.log('inner comp: ', inProp)
-  return (
-    <Transition in={inProp} timeout={0}>
-      {state => {
-        console.log(state)
-        return JSON.stringify(state)
-      }}
-    </Transition>
   )
 }
 

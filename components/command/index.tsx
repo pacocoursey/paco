@@ -6,7 +6,7 @@ import {
   useReducer,
   ChangeEvent
 } from 'react'
-import { useKey } from 'use-key'
+import { useKey, Keybinds } from '../../use-key'
 import Portal from '@reach/portal'
 import cn from 'classnames'
 import matchSorter from 'match-sorter'
@@ -264,25 +264,25 @@ const Command: React.FC<Props> = ({
     }
   }, [propItems, onChange])
 
-  // const keybinds = useMemo(() => {
-  //   return propItems
-  //     .filter(i => !!i.keybind)
-  //     .map(i => {
-  //       const { keybind, callback } = i
-  //       return {
-  //         keybind,
-  //         callback
-  //       }
-  //     })
-  // }, [propItems])
+  const keybinds = useMemo(() => {
+    const o: Keybinds = {}
+    flatItems
+      .filter(i => !!i.keybind)
+      .forEach(i => {
+        const { keybind, callback } = i
+        o[keybind] = callback
+      })
+    return o
+  }, [flatItems])
 
-  // const x = useCallback(() => {
-  //   toggle()
-  // }, [toggle])
-
-  useKey(keybind, () => console.log('stable'))
-  // useKey('Escape', () => toggle(false))
-  // useKeys(keybinds as KeybindObject[])
+  // Register keybind event listeners
+  useKey({
+    [keybind]: () => toggle()
+  })
+  useKey({
+    Escape: () => toggle(false)
+  })
+  useKey(keybinds)
 
   return (
     <>
@@ -295,16 +295,7 @@ const Command: React.FC<Props> = ({
         {children}
       </div>
 
-      {JSON.stringify(open)}
-
-      <Transition in={open} timeout={0}>
-        {state => {
-          console.log(state)
-          return JSON.stringify(state)
-        }}
-      </Transition>
-
-      {/* <Transition in={open} unmountOnExit timeout={200} onExited={handleExit}>
+      <Transition in={open} unmountOnExit timeout={200} onExited={handleExit}>
         {state => (
           <Portal>
             <div
@@ -407,7 +398,7 @@ const Command: React.FC<Props> = ({
             </div>
           </Portal>
         )}
-      </Transition> */}
+      </Transition>
     </>
   )
 }

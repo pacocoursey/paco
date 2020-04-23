@@ -1,6 +1,6 @@
 import { memo, useRef, useEffect, Fragment } from 'react'
 import cn from 'classnames'
-import { Keybind } from 'use-key'
+import { Keybind } from '../../use-key'
 
 import defaultStyles from './command.module.css'
 import { Item as ItemType, Items, Styles } from './types'
