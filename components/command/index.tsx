@@ -270,7 +270,7 @@ const Command: React.FC<Props> = ({
       .filter(i => !!i.keybind)
       .forEach(i => {
         const { keybind, callback } = i
-        o[keybind] = callback
+        o[keybind as string] = callback
       })
     return o
   }, [flatItems])
