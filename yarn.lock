@@ -5931,6 +5931,11 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
+use-key@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/use-key/-/use-key-1.0.0.tgz#5a95c0934961fe9f698bdcdaa52d08c54020547d"
+  integrity sha512-7/l5HOZ7mMgV9lzJtlsYNihpSXMk2cQR8fnJ9HXWVvQl9EBePOn2PbTCz5rplW0oz72cUlOLiESk2duv9qmZbA==
+
 use-subscription@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/use-subscription/-/use-subscription-1.1.1.tgz#5509363e9bb152c4fb334151d4dceb943beaa7bb"

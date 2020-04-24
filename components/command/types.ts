@@ -1,4 +1,4 @@
-import { Keybind } from '../../use-key'
+import { Keybind } from 'use-key'
 
 export interface CallbackOptions {
   clear?: boolean

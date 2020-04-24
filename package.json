@@ -26,7 +26,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-intersection-observer": "^8.24.2",
-    "react-transition-group": "^4.3.0"
+    "react-transition-group": "^4.3.0",
+    "use-key": "^1.0.0"
   },
   "devDependencies": {
     "@types/body-scroll-lock": "^2.6.1",

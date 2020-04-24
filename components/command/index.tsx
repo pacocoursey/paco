@@ -6,7 +6,7 @@ import {
   useReducer,
   ChangeEvent
 } from 'react'
-import { useKey, Keybinds } from '../../use-key'
+import useKey, { Keybinds } from 'use-key'
 import Portal from '@reach/portal'
 import cn from 'classnames'
 import matchSorter from 'match-sorter'
