@@ -16,8 +16,6 @@ class MyDocument extends Document {
                   window.theme = mode
                   document.documentElement.classList.add(mode)
                   var bgValue = getComputedStyle(document.documentElement).getPropertyValue('--bg')
-
-                  alert(bgValue)
                   document.documentElement.style.background = bgValue
                 } catch (e) {}
               })()`
