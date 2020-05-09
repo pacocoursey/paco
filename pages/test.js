@@ -8,7 +8,16 @@ const Test = () => {
     <div>
       <h1>Theme is {JSON.stringify(theme)}</h1>
       <Button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>Toggle the Theme</Button>
+      <SubComp />
     </div>
+  )
+}
+
+function SubComp() {
+  const { theme } = useTheme()
+
+  return (
+    <h3>Sub component theme is: {JSON.stringify(theme)}</h3>
   )
 }
 

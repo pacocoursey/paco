@@ -8,18 +8,19 @@ class MyDocument extends Document {
         <Head />
         <body>
           <script
-            /* eslint-disable-next-line react/no-danger */
             dangerouslySetInnerHTML={{
-              __html: `
-              window.isLight = false
-              try {
-                var isLight = window.localStorage.getItem('theme')
-                if (isLight) {
-                  document.querySelector('html').className = 'light'
-                  window.isLight = true
-                }
-              } catch (err) {}
-            `
+              __html: `(function() {
+                try {
+                  var mode = localStorage.getItem('theme')
+                  if (!mode) return
+                  window.theme = mode
+                  document.documentElement.classList.add(mode)
+                  var bgValue = getComputedStyle(document.documentElement).getPropertyValue('--bg')
+
+                  alert(bgValue)
+                  document.documentElement.style.background = bgValue
+                } catch (e) {}
+              })()`
             }}
           />
           <Main />
