@@ -1,6 +1,9 @@
 import React from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
+import { themeStorageKey } from '@lib/theme'
+const bgVariableName = '--bg'
+
 class MyDocument extends Document {
   render() {
     return (
@@ -11,11 +14,19 @@ class MyDocument extends Document {
             dangerouslySetInnerHTML={{
               __html: `(function() {
                 try {
-                  var mode = localStorage.getItem('theme')
+                  var outdatedValue = localStorage.getItem('paco-light-mode')
+
+                  if (outdatedValue) {
+                    localStorage.setItem('${themeStorageKey}', 'light')
+                    localStorage.removeItem('paco-light-mode')
+                  }
+
+                  var mode = localStorage.getItem('${themeStorageKey}')
                   if (!mode) return
                   window.theme = mode
                   document.documentElement.classList.add(mode)
-                  var bgValue = getComputedStyle(document.documentElement).getPropertyValue('--bg')
+                  var bgValue = getComputedStyle(document.documentElement)
+                    .getPropertyValue('${bgVariableName}')
                   document.documentElement.style.background = bgValue
                 } catch (e) {}
               })()`

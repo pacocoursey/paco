@@ -1,13 +1,17 @@
 import { useCallback } from 'react'
 import useSWR from 'swr'
 
+export type Theme = 'dark' | 'light'
+
+export const themeStorageKey = 'theme'
+
 const isServer = typeof window === 'undefined'
-const getTheme = () => (!isServer ? window.theme : 'dark')
+const getTheme = (): Theme => (!isServer ? (window as any).theme : 'dark')
 
 const setLightMode = () => {
   try {
-    window.localStorage.setItem('theme', 'light')
-    document.querySelector('html').classList.add('light')
+    window.localStorage.setItem(themeStorageKey, 'light')
+    document.documentElement.classList.add('light')
   } catch (err) {
     console.error(err)
   }
@@ -15,8 +19,8 @@ const setLightMode = () => {
 
 const setDarkMode = () => {
   try {
-    window.localStorage.setItem('theme', 'dark')
-    document.querySelector('html').classList.remove('light')
+    window.localStorage.setItem(themeStorageKey, 'dark')
+    document.documentElement.classList.remove('light')
   } catch (err) {
     console.error(err)
   }
@@ -37,21 +41,21 @@ const disableAnimation = () => {
     )
   )
   document.head.appendChild(css)
-  // eslint-disable-next-line
-  const _ = window.getComputedStyle(css).opacity
 
   return () => {
+    // Force restyle
+    ;(() => window.getComputedStyle(css).opacity)()
     document.head.removeChild(css)
   }
 }
 
 const useTheme = () => {
-  const { data: theme, mutate } = useSWR('theme', {
+  const { data: theme, mutate } = useSWR(themeStorageKey, {
     initialData: getTheme()
   })
 
   const setTheme = useCallback(
-    newTheme => {
+    (newTheme: Theme) => {
       const enable = disableAnimation()
 
       mutate(newTheme, false)
@@ -69,7 +73,8 @@ const useTheme = () => {
 
   return {
     theme,
-    setTheme
+    setTheme,
+    toggleTheme: () => setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 }
 
