@@ -13,7 +13,7 @@ class MyDocument extends Document {
               __html: `
               window.isLight = false
               try {
-                var isLight = window.localStorage.getItem('paco-light-mode')
+                var isLight = window.localStorage.getItem('theme')
                 if (isLight) {
                   document.querySelector('html').className = 'light'
                   window.isLight = true
