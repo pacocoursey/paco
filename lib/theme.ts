@@ -74,7 +74,7 @@ const useTheme = () => {
   return {
     theme,
     setTheme,
-    toggleTheme: () => setTheme(theme === 'dark' ? 'light' : 'dark')
+    toggleTheme: () => setTheme(!theme || theme === 'dark' ? 'light' : 'dark')
   }
 }
 
