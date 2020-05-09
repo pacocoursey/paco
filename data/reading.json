@@ -15,6 +15,12 @@
   ],
   "data": [
     {
+      "title": "Chinese Window Lattice And CSS",
+      "description": "The traditional Chinese window lattice has a symmetrical beauty, as well as a very beautiful formal name.",
+      "url": "https://yuanchuan.dev/2019/05/15/window-lattice-and-css.html",
+      "key": "blog"
+    },
+    {
       "title": "How (some) good corporate engineering blogs are written",
       "description": "I've been comparing notes with people who run corporate engineering blogs",
       "url": "https://danluu.com/corp-eng-blogs/",
