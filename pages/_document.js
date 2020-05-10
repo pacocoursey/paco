@@ -23,7 +23,6 @@ class MyDocument extends Document {
 
                   var mode = localStorage.getItem('${themeStorageKey}')
                   if (!mode) return
-                  window.theme = mode
                   document.documentElement.classList.add(mode)
                   var bgValue = getComputedStyle(document.documentElement)
                     .getPropertyValue('${bgVariableName}')

@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import useSWR from 'swr'
 
 export type Theme = 'dark' | 'light'
@@ -6,11 +6,14 @@ export type Theme = 'dark' | 'light'
 export const themeStorageKey = 'theme'
 
 const isServer = typeof window === 'undefined'
-const getTheme = (): Theme => (!isServer ? (window as any).theme : 'dark')
+const getTheme = (): Theme => {
+  if (isServer) return 'dark'
+  return (localStorage.getItem(themeStorageKey) as Theme) || 'dark'
+}
 
 const setLightMode = () => {
   try {
-    window.localStorage.setItem(themeStorageKey, 'light')
+    localStorage.setItem(themeStorageKey, 'light')
     document.documentElement.classList.add('light')
   } catch (err) {
     console.error(err)
@@ -19,7 +22,7 @@ const setLightMode = () => {
 
 const setDarkMode = () => {
   try {
-    window.localStorage.setItem(themeStorageKey, 'dark')
+    localStorage.setItem(themeStorageKey, 'dark')
     document.documentElement.classList.remove('light')
   } catch (err) {
     console.error(err)
@@ -50,26 +53,28 @@ const disableAnimation = () => {
 }
 
 const useTheme = () => {
-  const { data: theme, mutate } = useSWR(themeStorageKey, {
+  const { data: theme, mutate } = useSWR(themeStorageKey, getTheme, {
     initialData: getTheme()
   })
 
   const setTheme = useCallback(
     (newTheme: Theme) => {
-      const enable = disableAnimation()
-
       mutate(newTheme, false)
-
-      if (newTheme === 'dark') {
-        setDarkMode()
-      } else {
-        setLightMode()
-      }
-
-      enable()
     },
     [mutate]
   )
+
+  useEffect(() => {
+    const enable = disableAnimation()
+
+    if (theme === 'dark') {
+      setDarkMode()
+    } else {
+      setLightMode()
+    }
+
+    enable()
+  }, [theme])
 
   return {
     theme,

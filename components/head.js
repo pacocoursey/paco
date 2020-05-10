@@ -70,11 +70,11 @@ const Head = ({
       <meta name="theme-color" content="#ffffff" />
 
       <link
-        crossOrigin="anonymous"
         rel="preload"
+        href="https://assets.vercel.com/raw/upload/v1587415301/fonts/2/inter-var-latin.woff2"
         as="font"
         type="font/woff2"
-        href="https://assets.zeit.co/raw/upload/v1582989014/fonts/Inter-roman.var.woff2"
+        crossOrigin="anonymous"
       />
 
       {children}

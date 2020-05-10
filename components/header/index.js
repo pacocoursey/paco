@@ -28,16 +28,6 @@ import {
   Command as CommandIcon
 } from '@components/icons'
 
-const Logo = () => {
-  return (
-    <Link href="/">
-      <a aria-label="Navigate Home" className={styles.home}>
-        <LogoIcon />
-      </a>
-    </Link>
-  )
-}
-
 const Header = ({ title, content }) => {
   const router = useRouter()
   const [hint, setHint] = useState(false)
@@ -197,9 +187,11 @@ const Header = ({ title, content }) => {
   return (
     <nav className={styles.nav}>
       <div className={styles.header}>
-        <div className={styles.logo}>
-          <Logo />
-        </div>
+        <Link href="/">
+          <a aria-label="Navigate Home" className={styles.logo}>
+            <LogoIcon />
+          </a>
+        </Link>
 
         <Command
           max={5}

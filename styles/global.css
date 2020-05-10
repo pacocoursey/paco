@@ -4,14 +4,14 @@
 @import './nprogress.css';
 @import './inter.css';
 
-:root  {
+:root {
   /* Spacing */
   --gap-quarter: 0.25rem;
   --gap-half: 0.5rem;
   --gap: 1rem;
   --gap-double: 2rem;
   --small-gap: 4rem;
-  --big-gap: 10rem;
+  --big-gap: 4rem;
   --main-content: 45rem;
   --radius: 8px;
   --inline-radius: 5px;
@@ -46,21 +46,14 @@
   --blue-gray: #37609c;
 
   /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
   --font-mono: 'Consolas', monospace;
 
   /* Transitions */
   --transition: 0.1s ease-in-out;
   --transition-slow: 0.3s ease-in-out;
-}
-
-@supports (font-variation-settings: normal) {
-  :root {
-    --font-sans: 'Inter var', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-      'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-      'Helvetica Neue', sans-serif;
-  }
 }
 
 .light {
@@ -125,7 +118,7 @@ svg {
 p,
 li {
   letter-spacing: -0.33px;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
 }
 
 h1,
@@ -136,25 +129,29 @@ h5,
 h6 {
   font-family: var(--font-sans);
   font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: -1.07px;
+  line-height: 1.75;
 }
 
 h1 {
   font-size: 2.5rem;
   font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.89px;
 }
 
 h2 {
   font-size: 2rem;
+  letter-spacing: -0.69px;
 }
 
 h3 {
   font-size: 1.5rem;
+  letter-spacing: -0.47px;
 }
 
 h4 {
   font-size: 1.25rem;
+  letter-spacing: -0.33px;
 }
 
 hr {
@@ -228,6 +225,7 @@ article pre {
   overflow-x: auto;
   background: var(--lighter-gray);
   border-radius: var(--inline-radius);
+  line-height: 1.6;
   padding: 1rem;
 }
 
@@ -262,4 +260,12 @@ kbd {
   font-weight: 600;
   background: var(--lighter-gray);
   border-radius: 5px;
+}
+
+[id]::before {
+  content: '';
+  display: block;
+  height: 70px;
+  margin-top: -70px;
+  visibility: hidden;
 }
