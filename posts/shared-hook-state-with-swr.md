@@ -3,6 +3,7 @@ title: Shared Hook State with SWR
 description: Using useSWR to share state between hook calls.
 slug: shared-hook-state-with-swr
 date: May 9, 2020
+og: true
 ---
 
 [SWR](https://github.com/zeit/swr) is a React hook for data fetching that features a cache for requests. This is generally used to share the response from API calls and deduplicate requests, but SWR is flexible enough to support another use case: shared hook state. <a href="#footnote"><sup>1</sup></a>
