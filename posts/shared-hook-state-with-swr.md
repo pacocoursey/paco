@@ -38,7 +38,7 @@ This won't work, because each time we call `useUsername`, we receive a new insta
 
 ### Solving with Context
 
-With React context, we typically lift the theme state to the highest level and `useContext` to read the value in our components:
+With React context, we typically lift the username state to the highest level and `useContext` to read the value in our components:
 
 ```js
 const UsernameContext = createContext()
@@ -53,7 +53,7 @@ const UsernameProvider = ({ children }) => {
   const [username, setUsername] = useState('')
 
   return (
-    <UsernameContext.Provider value={[theme, setTheme]}>
+    <UsernameContext.Provider value={[username, setUsername]}>
       {children}
     </UsernameContext.Provider>
   )
