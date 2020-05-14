@@ -7,7 +7,7 @@
 
 .link > section {
   position: relative;
-  height: calc(1.5 * var(--big-gap));
+  height: calc(3.5 * var(--big-gap));
   object-fit: cover;
   background-size: cover;
   background-repeat: no-repeat;
