@@ -46,9 +46,8 @@
   --blue-gray: #37609c;
 
   /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont,
-    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-    Helvetica Neue, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   --font-mono: 'Consolas', monospace;
 
   /* Transitions */
@@ -207,15 +206,15 @@ a.reset:focus {
   color: var(--gray);
 }
 
-article *:not(pre) code {
+article *:not(pre) > code {
   font-weight: 600;
   font-family: var(--font-sans);
   font-size: 1rem;
   padding: 0 3px;
 }
 
-article *:not(pre) code::before,
-article *:not(pre) code::after {
+article *:not(pre) > code::before,
+article *:not(pre) > code::after {
   content: '\`';
   color: var(--gray);
   user-select: none;
@@ -268,4 +267,16 @@ kbd {
   height: 70px;
   margin-top: -70px;
   visibility: hidden;
+}
+
+summary {
+  cursor: pointer;
+  outline: none;
+}
+
+details {
+  border-radius: var(--radius);
+  background: var(--lightest-gray);
+  padding: 1rem;
+  border-radius: var(--radius);
 }
