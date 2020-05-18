@@ -36,6 +36,14 @@ const Header = ({ title, content }) => {
   const isMac = useRef()
 
   useEffect(() => {
+    router.prefetch('/blog')
+    router.prefetch('/reading')
+    router.prefetch('/design')
+    router.prefetch('/projects')
+    router.prefetch('/quotes')
+    router.prefetch('/words')
+    router.prefetch('/contact')
+
     if (!localStorage.getItem('hide-hint')) {
       setHint(true)
     }

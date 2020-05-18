@@ -6,8 +6,6 @@ date: May 17, 2020
 og: true
 ---
 
-_Mostly for personal future reference._
-
 If you want to add custom CSS to a website without using a [browser extension](https://userstyles.org/), you can proxy the site using a serverless function and inject a new stylesheet.
 
 I love [Aaron Swartz's blog](http://aaronsw.com/weblog/archive), but the font size is tiny, the content is not centered, and the colors aren't late-night friendly. Let's improve it.
