@@ -7,13 +7,13 @@
   z-index: 999;
   --overlay: rgba(0, 0, 0, 0.6);
   background: var(--overlay);
-  animation: screen 0.2s ease;
-  transition: background-color 0.2s ease;
-  will-change: background;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  will-change: opacity;
 }
 
-.screen.onExiting {
-  background: transparent !important;
+.screen.show {
+  opacity: 1;
 }
 
 :global(html.light) .screen {
@@ -35,14 +35,15 @@
   box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.4), 0px 0px 60px rgba(0, 0, 0, 0.5),
     inset 0px 1px 0px rgba(0, 0, 0, 0.6);
 
-  animation: appear 0.2s ease;
+  opacity: 0;
+  transform: scale(0.97);
   transition: transform 0.2s ease, opacity 0.2s ease;
   will-change: transform, opacity;
 }
 
-.command.onExiting {
-  opacity: 0;
-  transform: scale(0.98);
+.command.show {
+  opacity: 1;
+  transform: none;
 }
 
 :global(html.light) .command {
@@ -187,19 +188,6 @@
   width: 100%;
   height: 1px;
 }
-
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 @keyframes slide {
   from {
     opacity: 0;
@@ -209,15 +197,6 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes screen {
-  from {
-    background: transparent;
-  }
-  to {
-    background: var(--overlay);
   }
 }
 

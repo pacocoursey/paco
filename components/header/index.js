@@ -24,9 +24,12 @@ import {
   Words,
   Lightbulb,
   Quote,
-  Logo as LogoIcon,
-  Command as CommandIcon
+  Logo as LogoIcon
+  // Command as CommandIcon
 } from '@components/icons'
+import CommandItem from '@components/command/item'
+import CommandGroup from '@components/command/group'
+import CommandDivider from '@components/command/divider'
 
 const Logo = () => {
   return (
@@ -42,7 +45,6 @@ const Header = ({ title, content }) => {
   const router = useRouter()
   const [hint, setHint] = useState(false)
   const { theme, toggleTheme } = useTheme()
-  const [options, setOptions] = useState(null)
   const isMac = useRef()
 
   useEffect(() => {
@@ -194,6 +196,8 @@ const Header = ({ title, content }) => {
     [theme, router, toggleTheme]
   )
 
+  const [checked, setChecked] = useState(false)
+
   return (
     <nav className={styles.nav}>
       <div className={styles.header}>
@@ -225,12 +229,30 @@ const Header = ({ title, content }) => {
             )
           }
           placeholder="Type a command or search..."
-          items={options || defaultOptions}
-          onClose={() => setOptions(null)}
+          // items={options || defaultOptions}
+          // onClose={() => setOptions(null)}
         >
-          <button className={styles.command} title="⌘K">
-            <CommandIcon />
-          </button>
+          <CommandItem value="one" callback={() => alert('1')}>
+            Number 1
+          </CommandItem>
+
+          <CommandItem value="two" callback={() => alert('2')}>
+            Number 2
+          </CommandItem>
+
+          <CommandDivider />
+
+          <CommandItem value="three" callback={() => alert('3')}>
+            Number 3
+          </CommandItem>
+
+          <CommandGroup title="Collections">
+            <CommandItem value="sub 1">Group item 1</CommandItem>
+            <CommandItem value="sub 2">Group item 2</CommandItem>
+            <CommandItem value="sub 3">Group item 3</CommandItem>
+          </CommandGroup>
+
+          <CommandDivider />
         </Command>
 
         {content && <div className={styles.content}>{content}</div>}

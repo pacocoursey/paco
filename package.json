@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "@reach/auto-id": "^0.8.6",
+    "@reach/descendants": "^0.10.1",
     "@reach/portal": "^0.8.5",
     "body-scroll-lock": "^2.6.4",
     "classnames": "^2.2.6",
@@ -26,7 +27,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-intersection-observer": "^8.24.2",
-    "react-transition-group": "^4.3.0"
+    "use-delayed-render": "^0.0.3",
+    "use-key": "^1.0.1"
   },
   "devDependencies": {
     "@types/body-scroll-lock": "^2.6.1",
