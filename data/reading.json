@@ -123,14 +123,14 @@
       "key": "article"
     },
     {
-      "title": "Two Steps Forward, One Step Back | Jxnblk",
+      "title": "Two Steps Forward, One Step Back",
       "description": "Building UI with design constraints from utlity CSS to CSS-in-JS",
       "image": "https://jxnblk.com/avatar.png",
       "url": "https://jxnblk.com/blog/two-steps-forward/",
       "key": "blog"
     },
     {
-      "title": "The Design Graph | Jxnblk",
+      "title": "The Design Graph",
       "description": "A constraint-based system for organizing styles in UI design",
       "image": "https://jxnblk.com/avatar.png",
       "url": "https://jxnblk.com/blog/design-graph/",
@@ -198,7 +198,7 @@
       "key": "article"
     },
     {
-      "title": "Building Accessible Modals with React | Inside PSPDFKit",
+      "title": "Building Accessible Modals with React",
       "description": "In this blog post, we will look at some simple solutions that we use at PSPDFKit to make our modals more inclusive and accessible.",
       "image": "https://pspdfkit.com/images/blog/2018/building-accessible-modals-with-react/article-header-77d6e4d3.png",
       "url": "https://pspdfkit.com/blog/2018/building-accessible-modals-with-react/",
@@ -331,7 +331,7 @@
       "key": "video"
     },
     {
-      "title": "Getting Closure on React Hooks by Shawn Wang | JSConf.Asia 2019",
+      "title": "Getting Closure on React Hooks",
       "description": "The design of React Hooks requires a good understanding of closures in JavaScript. In this talk, we’ll reintroduce closures by building a tiny clone of React...",
       "image": "https://i.ytimg.com/vi/KJP1E-Y-xyo/maxresdefault.jpg",
       "url": "https://www.youtube.com/watch?v=KJP1E-Y-xyo&feature=youtu.be",
