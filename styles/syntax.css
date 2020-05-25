@@ -1,16 +1,19 @@
-.token {
+.keyword {
+  font-weight: bold;
+  color: var(--keyword);
+}
+
+.token.operator,
+.token.punctuation,
+.token.string,
+.token.number,
+.token.builtin,
+.token.variable {
   color: var(--token);
 }
 
 .token.comment {
   color: var(--comment);
-}
-
-.token.string,
-.token.number,
-.token.builtin,
-.token.variable {
-  color: var(--fg);
 }
 
 .token.class-name,
