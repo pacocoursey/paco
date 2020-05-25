@@ -5,12 +5,8 @@ import Entry from '@components/entry'
 import { data as items } from '@data/music.json'
 
 const Music = () => {
-
   return (
-    <Page
-      title="Music"
-      description="Collection of exemplary electronic music."
-    >
+    <Page title="Music" description="Collection of exemplary electronic music.">
       <article>
         {items.map(entry => {
           return (
