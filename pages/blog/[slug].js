@@ -1,6 +1,5 @@
 import Post from '@components/post'
 import getPosts from '@lib/get-posts'
-import getPostsMeta from '@lib/get-posts-meta'
 import renderMarkdown from '@lib/render-markdown'
 
 const PostPage = props => {
@@ -9,14 +8,15 @@ const PostPage = props => {
 
 export const getStaticProps = ({ params: { slug } }) => {
   const posts = getPosts()
-  const meta = getPostsMeta(posts)
-  const post = posts.find(p => p.slug === slug)
+  const postIndex = posts.findIndex(p => p.slug === slug)
+  const post = posts[postIndex]
   const { body, ...rest } = post
 
   return {
     props: {
+      previous: posts[postIndex + 1] || null,
+      next: posts[postIndex - 1] || null,
       ...rest,
-      meta,
       html: renderMarkdown(body)
     }
   }

@@ -28,7 +28,7 @@ import {
   Command as CommandIcon
 } from '@components/icons'
 
-const Header = ({ title, content }) => {
+const Header = ({ title }) => {
   const router = useRouter()
   const [hint, setHint] = useState(false)
   const { theme, toggleTheme } = useTheme()
@@ -113,7 +113,7 @@ const Header = ({ title, content }) => {
             callback: () => router.push('/design')
           },
           {
-            name: 'Keyboard',
+            name: 'Keyboards',
             keybind: 'g k',
             icon: <M6 />,
             callback: () => router.push('/keyboards')
@@ -233,7 +233,7 @@ const Header = ({ title, content }) => {
           </button>
         </Command>
 
-        {content && <div className={styles.content}>{content}</div>}
+        {title && <div className={styles.content}>{title}</div>}
       </div>
     </nav>
   )

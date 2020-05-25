@@ -17,8 +17,10 @@
 }
 
 .type {
+  font-size: 1rem;
   line-height: 30px;
   flex-basis: 5rem;
+  white-space: nowrap;
   margin-right: var(--gap);
   color: var(--gray);
 }

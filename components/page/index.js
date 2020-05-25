@@ -5,11 +5,10 @@ import styles from './page.module.css'
 const Page = ({
   header = true,
   footer = true,
-  postFooter = false,
-  content,
   title,
   description,
   image,
+  showHeaderTitle = true,
   children
 }) => {
   return (
@@ -20,7 +19,7 @@ const Page = ({
         image={image}
       />
 
-      {header && <Header content={content} title={title} />}
+      {header && <Header title={showHeaderTitle && title} />}
       <main className={styles.main}>{children}</main>
     </div>
   )

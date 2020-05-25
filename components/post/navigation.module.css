@@ -1,0 +1,25 @@
+.navigation {
+  margin: var(--big-gap) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.previous, .next {
+  color: var(--gray);
+  transition: color var(--transition);
+}
+
+.next {
+  text-align: right;
+}
+
+.title {
+  color: var(--fg);
+  font-weight: bold;
+  margin-bottom: var(--gap-half);
+}
+
+.previous:hover, .next:hover {
+  color: var(--fg);
+}

@@ -1,15 +1,16 @@
 import { memo } from 'react'
 import cn from 'classnames'
 
+import Link from '@components/link'
 import styles from './text.module.css'
 
-const TextEntry = ({ title, description, type, comment, href }) => {
+const TextEntry = ({ title, description, type, comment, href, as }) => {
   return (
     <li className={styles.item}>
-      <a
+      <Link
         href={href}
-        target="_blank"
-        rel="noopener noreferrer"
+        as={as}
+        external={!as}
         title={`${title} (${description})`}
         className={styles.link}
       >
@@ -20,7 +21,7 @@ const TextEntry = ({ title, description, type, comment, href }) => {
             <p className={cn(styles.description, 'clamp')}>{description}</p>
           )}
         </div>
-      </a>
+      </Link>
     </li>
   )
 }

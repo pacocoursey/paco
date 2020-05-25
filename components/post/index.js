@@ -1,19 +1,29 @@
 import Head from 'next/head'
 
+import Navigation from './navigation'
 import Page from '@components/page'
-import PostsList from '@components/posts-list'
 import styles from './post.module.css'
 
-const Post = ({ title, slug, html, hidden, og, description, date, meta }) => {
+const Post = ({
+  title,
+  slug,
+  html,
+  hidden,
+  og,
+  description,
+  date,
+  previous,
+  next
+}) => {
   return (
     <Page
       slug={slug}
       title={title}
       description={description}
+      showHeaderTitle={false}
       image={
         og && `https://res.cloudinary.com/dsdlhtnpw/image/upload/${slug}.png`
       }
-      postFooter
     >
       <Head>
         {hidden && <meta name="robots" content="noindex" />}
@@ -26,7 +36,7 @@ const Post = ({ title, slug, html, hidden, og, description, date, meta }) => {
         }}
       />
 
-      <PostsList slug={slug} meta={meta} />
+      <Navigation previous={previous} next={next} />
     </Page>
   )
 }
