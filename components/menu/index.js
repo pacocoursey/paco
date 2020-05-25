@@ -1,102 +1,161 @@
-// import {
-//   createDescendantContext,
-//   useDescendants,
-//   DescendantProvider
-// } from '@reach/descendants'
 import {
-  createContext,
-  useState,
+  createDescendantContext,
+  useDescendantsInit,
+  DescendantProvider,
+  useDescendant
+} from '@reach/descendants'
+import {
   useCallback,
   useEffect,
+  useReducer,
+  useMemo,
+  useRef,
+  createContext,
   useContext
 } from 'react'
+const MenuContext = createContext()
+const useMenuContext = () => useContext(MenuContext)
 
-// export const DescendantContext = createDescendantContext(
-//   'MenuDescendantContext'
-// )
-export const MenuContext = createContext(null)
-export const TestContext = createContext(null)
+const DescendantContext = createDescendantContext('MenuDescendantContext')
 
-// Parent keeps state with all of the active children,
-// the children register and de-register themselves at will
-// Parent always renders all children, children opt in to render
+// HOOK
 
-const Menu = ({ children, search }) => {
-  const [descendants, setDescendants] = useState([])
-  const [active, setActive] = useState(0)
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'open': {
+      return { ...state, open: true }
+    }
+    case 'close': {
+      return { ...state, open: false }
+    }
+    case 'setActive': {
+      return { ...state, active: action.index }
+    }
+    case 'updateInput': {
+      return { ...state, search: action.search }
+    }
+    case 'setDescendants': {
+      return { ...state, descendants: action.descendants }
+    }
+    default: {
+      throw new Error('Invalid action type')
+    }
+  }
+}
 
-  useEffect(() => {
-    setActive(0)
-  }, [search])
+export const useMenu = () => {
+  const [descendants, setDescendants] = useDescendantsInit()
+  const [state, dispatch] = useReducer(reducer, {
+    open: true,
+    active: 0,
+    search: ''
+  })
 
-  const handle = useCallback(
-    e => {
-      switch (e.key) {
-        case 'ArrowDown': {
-          e.preventDefault()
-          setActive(active => {
-            const isAtEnd = active === descendants.length - 1
-
-            return isAtEnd ? active : active + 1
-          })
-          break
-        }
-        case 'ArrowUp': {
-          e.preventDefault()
-          setActive(active => {
-            const isAtStart = active === 0
-
-            return isAtStart ? active : active - 1
-          })
-          break
-        }
-        default: {
-          return
-        }
+  const actions = useMemo(() => {
+    return {
+      open: dispatch({ type: 'open' }),
+      close: dispatch({ type: 'close' }),
+      setActive(newIndex) {
+        dispatch({ type: 'setActive', index: newIndex })
+      },
+      updateInput(e) {
+        dispatch({ type: 'updateInput', search: e.target.value })
       }
-    },
-    [descendants]
-  )
+    }
+  }, [])
 
   useEffect(() => {
-    window.addEventListener('keydown', handle)
-    return () => window.removeEventListener('keydown', handle)
-  }, [handle])
+    actions.setActive(0)
+  }, [state.search, actions])
 
-  // console.log(active, descendants)
+  return [
+    { ...state, descendants },
+    { ...actions, setDescendants }
+  ]
+}
 
+// COMPONENTS
+
+export const Menu = ({ state, actions, children }) => {
   return (
-    <TestContext.Provider value={{ descendants, set: setDescendants }}>
-      <MenuContext.Provider value={{ active, setActive, search }}>
+    <DescendantProvider
+      context={DescendantContext}
+      items={state.descendants}
+      set={actions.setDescendants}
+    >
+      <MenuContext.Provider value={[state, actions]}>
         {children}
+        Active index: {state.active}
       </MenuContext.Provider>
-    </TestContext.Provider>
+    </DescendantProvider>
   )
 }
 
-export default Menu
+export const MenuInput = () => {
+  const [state, actions] = useMenuContext()
 
-export function useTest({ context, value, active }) {
-  const { set, descendants } = useContext(context)
+  const handleKeyDown = useCallback(
+    e => {
+      if (e.key === 'ArrowDown') {
+        actions.setActive(state.active + 1)
+      }
+    },
+    [actions, state]
+  )
 
-  useEffect(() => {
-    // The element is not active, remove it
-    if (!active) {
-      set(descendants => {
-        return descendants.filter(d => d !== value)
-      })
-    } else {
-      set(descendants => {
-        const existingIndex = descendants.findIndex(d => d === value)
+  return (
+    <input
+      type="text"
+      onChange={actions.updateInput}
+      value={state.search}
+      onKeyDown={handleKeyDown}
+    />
+  )
+}
 
-        if (existingIndex !== -1) {
-          return descendants
-        }
+export const MenuItem = ({ value, onClick, children }) => {
+  const [state, actions] = useMenuContext()
+  const ref = useRef(null)
 
-        return [...descendants, value]
-      })
-    }
-  }, [value, active]) // eslint-disable-line
+  const index = useDescendant(
+{
+      element: ref
+    },
+    DescendantContext
+  )
 
-  return descendants.findIndex(d => d === value)
+  const select = () => {
+    requestAnimationFrame(() => {
+      if (index !== state.active) {
+        actions.setActive(index)
+      }
+    })
+  }
+
+  return (
+    <div
+      aria-selected={index === state.active}
+      ref={ref}
+      onClick={() => {
+        select()
+        onClick?.()
+      }}
+      onMouseMove={select}
+      style={{ color: index === state.active ? 'red' : undefined }}
+    >
+      {children}
+    </div>
+  )
+}
+
+export const MenuItemKeybind = ({ children, command, shift, alt, ctrl }) => {
+  return (
+    <kbd>
+      {command && '⌘'}
+      {shift && '⇧'}
+      {alt && '⌥'}
+      {ctrl && '⌃'}
+      {children}
+    </kbd>
+  )
 }
