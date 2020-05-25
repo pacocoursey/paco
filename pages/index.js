@@ -16,7 +16,11 @@ const About = () => {
           <Link underline href="/music">
             trance lover
           </Link>{' '}
-          in search of flow.
+          in search of flow.{' '}
+          <Link underline href="/blog">
+            Writing
+          </Link>{' '}
+          about design and code.
         </p>
 
         <p>

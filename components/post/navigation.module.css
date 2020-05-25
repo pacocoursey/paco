@@ -6,7 +6,7 @@
 }
 
 .previous, .next {
-  color: var(--gray);
+  font-weight: 500;
   transition: color var(--transition);
 }
 
@@ -15,11 +15,11 @@
 }
 
 .title {
-  color: var(--fg);
-  font-weight: bold;
+  font-weight: normal;
   margin-bottom: var(--gap-half);
 }
 
-.previous:hover, .next:hover {
+.previous:hover, .next:hover,
+.previous:focus, .next:focus {
   color: var(--fg);
 }
