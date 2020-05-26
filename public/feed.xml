@@ -9,9 +9,162 @@
             <link>https://paco.im</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sat, 04 Apr 2020 23:27:37 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 26 May 2020 00:00:51 GMT</lastBuildDate>
         <atom:link href="https://paco.im/feed.xml" rel="self" type="application/rss+xml"/>
         <language><![CDATA[en]]></language>
+        <item>
+            <title><![CDATA[Custom CSS via Serverless Proxy]]></title>
+            <description><![CDATA[<p>If you want to add custom CSS to a website without using a <a href="https://userstyles.org/" target="_blank" rel="noopener noreferrer">browser extension</a>, you can proxy the site using a serverless function and inject a new stylesheet.</p>
+<p>I love <a href="http://aaronsw.com/weblog/archive" target="_blank" rel="noopener noreferrer">Aaron Swartz&#39;s blog</a>, but the font size is tiny, the content is not centered, and the colors aren&#39;t late-night friendly. Let&#39;s improve it.</p>
+<p>Create <code>api/index.js</code> and add a server-side fetching library like <a href="https://github.com/node-fetch/node-fetch" target="_blank" rel="noopener noreferrer">node-fetch</a>:</p>
+<pre><code class="language-js">const fetch = require(&#39;node-fetch&#39;)
+
+module.exports = (req, res) =&gt; {
+  res.end()
+}</code></pre>
+<p>Fetch the HTML of the actual site:</p>
+<pre><code class="language-js">module.exports = (req, res) =&gt; {
+  const html = (
+    await (await fetch(&#39;http://aaronsw.com&#39; + req.url)).text()
+  )
+  res.end()
+}</code></pre>
+<p>Add a <code>link</code> tag to the head:</p>
+<pre><code class="language-js">const html = (
+  await (await fetch(&#39;http://aaronsw.com&#39; + req.url)).text()
+).replace(
+  &#39;&lt;/head&gt;&#39;,
+  &#39;&lt;link media=&quot;all&quot; href=&quot;/custom.css&quot; rel=&quot;stylesheet&quot; /&gt;&lt;/head&gt;&quot;
+)</code></pre>
+<p>Return the modified HTML. Use <code>.send</code> instead of passing the string to <code>.end</code> so that the correct content headers are set.</p>
+<pre><code class="language-js">res.send(html)</code></pre>
+<p>If the website content you&#39;re proxying doesn&#39;t update frequently, you should add caching of your serverless function&#39;s response. Aaron passed away a few years ago, so his blog isn&#39;t updated anymore.</p>
+<p>The final function looks like this:</p>
+<pre><code class="language-js">const fetch = require(&#39;node-fetch&#39;)
+
+module.exports = async (req, res) =&gt; {
+  const html = (
+    await (await fetch(&#39;http://aaronsw.com&#39; + req.url)).text()
+  ).replace(
+    &#39;&lt;/head&gt;&#39;,
+    &#39;&lt;link media=&quot;all&quot; href=&quot;/custom.css&quot; rel=&quot;stylesheet&quot; /&gt;&lt;/head&gt;&#39;
+  )
+
+  // 1 year
+  res.setHeader(&#39;Cache-Control&#39;, &#39;max-age=0, s-maxage=31536000&#39;)
+
+  res.send(html)
+  res.end()
+}</code></pre>
+<p>Add your custom CSS in a <code>custom.css</code> file.</p>
+<h2 id="deploy">Deploy</h2>
+<p>Create a <code>vercel.json</code> configuration file that rewrites all requests to your deployment through our <code>api/index</code> serverless function:</p>
+<pre><code class="language-json">{
+  &quot;rewrites&quot;: [{ &quot;source&quot;: &quot;/(.*)&quot;, &quot;destination&quot;: &quot;/api&quot; }]
+}</code></pre>
+<p>Deploy with Vercel:</p>
+<pre><code class="language-bash">$ vercel</code></pre>
+<p>Visit your deployment to see the proxy in action. My Aaron Swartz blog proxy is available here: <a href="https://aaronsw.now.sh/weblog/archive" target="_blank" rel="noopener noreferrer">aaronsw.now.sh/weblog/archive</a>.</p>
+]]></description>
+            <link>https://paco.im/blog/custom-css-via-proxy</link>
+            <guid isPermaLink="false">https://paco.im/blog/custom-css-via-proxy</guid>
+            <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
+            <pubDate>Sun, 17 May 2020 06:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Shared Hook State with SWR]]></title>
+            <description><![CDATA[<p><a href="https://github.com/zeit/swr" target="_blank" rel="noopener noreferrer">SWR</a> is a React hook for data fetching that features a cache for requests. This is generally used to share the response from API calls and deduplicate requests, but SWR is flexible enough to support another use case: shared hook state. <a href="#footnote"><sup>1</sup></a></p>
+<p>Let&#39;s look at an example of a <code>useUsername</code> hook:</p>
+<pre><code class="language-js">const useUsername = () =&gt; {
+  return useState(&#39;&#39;)
+}
+
+const UsernameInput = () =&gt; {
+  const [username, setUsername] = useUsername()
+
+  return (
+    &lt;div&gt;
+      &lt;input value={username} onChange={setUsername} /&gt;
+    &lt;/div&gt;
+  )
+}
+
+const DisplayUsername = () =&gt; {
+  const [username] = useUsername()
+
+  return (
+    &lt;span&gt;Username: {username}&lt;/span&gt;
+  )
+}</code></pre>
+<p>This won&#39;t work, because each time we call <code>useUsername</code>, we receive a new instance of state. Updating the input won&#39;t affect what our <code>DisplayUsername</code> component renders.</p>
+<h3 id="solving-with-context">Solving with Context</h3>
+<p>With React context, we typically lift the username state to the highest level and <code>useContext</code> to read the value in our components:</p>
+<pre><code class="language-js">const UsernameContext = createContext()
+
+const App = () =&gt; (
+  &lt;UsernameProvider&gt;
+    {/* ... */}
+  &lt;/UsernameProvider&gt;
+)
+
+const UsernameProvider = ({ children }) =&gt; {
+  const [username, setUsername] = useState(&#39;&#39;)
+
+  return (
+    &lt;UsernameContext.Provider value={[username, setUsername]}&gt;
+      {children}
+    &lt;/UsernameContext.Provider&gt;
+  )
+}
+
+const DisplayUsername = () =&gt; {
+  const [username] = useContext(UsernameContext)
+
+  return (
+    &lt;span&gt;Username: {username}
+  )
+}</code></pre>
+<p>This will work, but in big applications you&#39;ll end up with a lot of context.</p>
+<h2 id="solving-with-swr">Solving with SWR</h2>
+<p>We can simulate <code>useState</code> with SWR by using the <a href="https://github.com/zeit/swr#bound-mutate" target="_blank" rel="noopener noreferrer"><code>mutate</code></a> function as our <code>setState</code>, and the <a href="https://github.com/zeit/swr#options" target="_blank" rel="noopener noreferrer"><code>config.initialData</code></a> option the initial state. Now when we call <code>mutate</code>, the updated data will be reflected everywhere the hook is used.</p>
+<pre><code class="language-js">import useSWR from &#39;swr&#39;
+
+const useUsername = () =&gt; {
+  const { data: username, mutate: setUsername } = useSWR(&#39;username&#39;, {
+    initialData: &#39;&#39;
+  })
+
+  return [username, setUsername]
+}</code></pre>
+<p>It works, no context required. Every <code>useUsername</code> will share the same state, and calling <code>setUsername</code> will update the state across all uses of the hook.</p>
+<h3 id="usesharedstate">useSharedState</h3>
+<p>We can go one step further and build a shared addition to <code>useState</code>:</p>
+<pre><code class="language-js">const useSharedState = (key, initial) =&gt; {
+  const { data: state, mutate: setState } = useSWR(key, {
+    initialData: initial
+  })
+
+  return [state, setState]
+}</code></pre>
+<p>Use it like <code>useState</code>, but pass a key as the first argument:</p>
+<pre><code class="language-js">const [username, setUsername] = useSharedState(&#39;username&#39;, &#39;paco&#39;)
+const [os, setOS] = useSharedState(&#39;os&#39;, &#39;macos&#39;)</code></pre>
+<p>SWR is mainly used to manage remote data requests, but it also provides a powerful cache and API that you can use to share local state between hooks. Kudos to <a href="https://twitter.com/shuding_" target="_blank" rel="noopener noreferrer">Shu</a> for his excellent work!</p>
+<hr>
+<div id="footnote"></div>
+
+<ol>
+<li><p>Two components using the same React hook <a href="https://reactjs.org/docs/hooks-custom.html#:~:text=Do%20two%20components%20using%20the%20same%20Hook%20share%20state" target="_blank" rel="noopener noreferrer"><strong>don&#39;t share state by default</strong></a>.</p>
+</li>
+<li><p>SWR uses a client-side only cache, so your data won&#39;t persist between sessions or windows unless you keep external state like <code>localStorage</code>, at which point SWR may not be useful.</p>
+</li>
+</ol>
+]]></description>
+            <link>https://paco.im/blog/shared-hook-state-with-swr</link>
+            <guid isPermaLink="false">https://paco.im/blog/shared-hook-state-with-swr</guid>
+            <dc:creator><![CDATA[Paco Coursey]]></dc:creator>
+            <pubDate>Sat, 09 May 2020 06:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[CSS Previous Sibling Selector]]></title>
             <description><![CDATA[<p>There is no previous sibling selector in CSS. Instead, we can achieve the same behavior by using flexbox and the <code>order</code> property.</p>
@@ -172,8 +325,32 @@ document.head.removeChild(css)</code></pre>
         </item>
         <item>
             <title><![CDATA[Better Next.js Imports]]></title>
-            <description><![CDATA[<p>Nine days after writing this post, the Next.js team <a href="https://github.com/zeit/next.js/pull/11293" target="_blank" rel="noopener noreferrer">landed support for paths</a> in <code>tsconfig.json</code> and <code>jsconfig.json</code> by default!</p>
+            <description><![CDATA[<p>Nine days after first writing this post, the Next.js team <a href="https://github.com/zeit/next.js/pull/11293" target="_blank" rel="noopener noreferrer">landed support for paths</a> in <code>tsconfig.json</code> and <code>jsconfig.json</code> by default! In Next.js 9.4 and onwards, you only need to specify a <code>baseURL</code> in your config file to support absolute imports:</p>
+<pre><code class="language-json">// tsconfig.json or jsconfig.json
+{
+  compilerOptions: {
+    &quot;baseURL&quot;: &quot;.&quot;
+  }
+}
+
+// import Button from &#39;components/button&#39;</code></pre>
+<p>To use a custom prefix, add a <code>paths</code> configuration:</p>
+<pre><code class="language-json">{
+  compilerOptions: {
+    &quot;baseURL&quot;: &quot;.&quot;,
+    &quot;paths&quot;: {
+      &quot;@components/*&quot;: [&quot;components/*&quot;]
+    }
+  }
+}
+
+// import Button from &#39;@components/button&#39;</code></pre>
 <hr>
+<p>Editors like VSCode automatically support the config in <code>jsconfig.json</code>, so Command+Click to jump to the source of a file will work as usual. <a href="https://github.com/tleunen/babel-plugin-module-resolver#editors-autocompletion" target="_blank" rel="noopener noreferrer">Atom and IntelliJ</a> also have support for rewrites.</p>
+<hr>
+<details>
+  <summary>The original post, using a babel plugin.</summary>
+
 <p>Relative import statements are a pain. To avoid <code>../</code> chains, improve code portability, and type less, I&#39;ve started using <a href="https://github.com/tleunen/babel-plugin-module-resolver" target="_blank" rel="noopener noreferrer"><code>babel-plugin-module-resolver</code></a> in my Next.js projects.</p>
 <p>The goal is to transform verbose import statements like this:</p>
 <pre><code class="language-js">import Button from &#39;../../../../components/button&#39;</code></pre>
@@ -210,9 +387,7 @@ document.head.removeChild(css)</code></pre>
   &quot;include&quot;: [&quot;**/*.ts&quot;, &quot;**/*.tsx&quot;, &quot;**/*.js&quot;, &quot;**/*.jsx&quot;]
 }</code></pre>
 <p>Now you can update your import statements to use the new syntax!</p>
-<hr>
-<p>You don&#39;t have to use <code>@</code> as the prefix, that&#39;s simply my preference. You can make it fully absolute (<code>import Button from &#39;components/button&#39;</code>) or use another prefix (<code>import Button from &#39;$$components/button&#39;</code>).</p>
-<p>Editors like VSCode automatically support the config in <code>jsconfig.json</code>, so Command+Click to jump to the source of a file will work as usual. <a href="https://github.com/tleunen/babel-plugin-module-resolver#editors-autocompletion" target="_blank" rel="noopener noreferrer">Atom and IntelliJ</a> also have support for rewrites.</p>
+</details>
 ]]></description>
             <link>https://paco.im/blog/better-nextjs-imports</link>
             <guid isPermaLink="false">https://paco.im/blog/better-nextjs-imports</guid>

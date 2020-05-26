@@ -6,10 +6,12 @@ const Previous = ({ previous, next }) => {
   return (
     <div className={styles.navigation}>
       <div className={styles.previous}>
-        <Link href="/blog/[post]" gray as={`/blog/${previous.slug}`}>
-          <div className={styles.title}>← Older</div>
-          {previous.title}
-        </Link>
+        {previous && (
+          <Link href="/blog/[post]" gray as={`/blog/${previous.slug}`}>
+            <div className={styles.title}>← Older</div>
+            {previous.title}
+          </Link>
+        )}
       </div>
 
       <div className={styles.next}>

@@ -29,7 +29,6 @@ const Design = () => {
         })}
 
         {nonImageItems.map(entry => {
-          console.log(entry)
           return (
             <TextEntry
               key={`${entry.title}-${entry.url}`}
