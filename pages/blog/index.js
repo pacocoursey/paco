@@ -8,7 +8,7 @@ const Blog = ({ posts }) => {
   return (
     <Page
       title="Blog"
-      description="Collection of articles, blog posts, and videos that I enjoyed."
+      description="Writing about design and code."
     >
       <article>
         <ul>
