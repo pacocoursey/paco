@@ -58,3 +58,7 @@ input[type='checkbox']:focus {
   box-shadow: 0 0 0 2px var(--gray);
   border-color: var(--fg);
 }
+
+.token-line:not(:last-child) {
+  min-height: 1.4rem;
+}

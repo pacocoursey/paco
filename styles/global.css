@@ -15,6 +15,18 @@
   --radius: 8px;
   --inline-radius: 5px;
 
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  --font-mono: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo',
+    monospace;
+
+  /* Transitions */
+  --transition: 0.1s ease-in-out;
+  --transition-slow: 0.3s ease-in-out;
+}
+
+:root {
   /* Dark Mode Colors */
   --bg: #131415;
   --fg: #fafbfc;
@@ -32,28 +44,7 @@
   --comment: #999;
   --keyword: #fff;
   --name: #fff;
-
-  /* Static Colors */
-  --blue: #007aff;
-  --green: #34c759;
-  --indigo: #5856d6;
-  --orange: #ff9500;
-  --pink: #ff2d55;
-  --purple: #af52de;
-  --red: #ff3b30;
-  --teal: #5ac8fa;
-  --yellow: #ffcc00;
-  --blue-gray: #37609c;
-
-  /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  --font-mono: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo',
-    monospace;
-
-  /* Transitions */
-  --transition: 0.1s ease-in-out;
-  --transition-slow: 0.3s ease-in-out;
+  --highlight: #2e2e2e;
 }
 
 .light {
@@ -72,6 +63,7 @@
   --comment: #999;
   --keyword: #000;
   --name: #333;
+  --highlight: #eaeaea;
 }
 
 * {
@@ -231,7 +223,7 @@ article pre {
   overflow-x: auto;
   background: var(--lightest-gray);
   border-radius: var(--inline-radius);
-  line-height: 1.6;
+  line-height: 1.8;
   padding: 1rem;
   font-size: 0.875rem;
 }
