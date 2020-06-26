@@ -49,7 +49,7 @@ const Header = ({ title }) => {
     }
 
     isMac.current = window.navigator.platform.indexOf('Mac') > -1
-  }, [])
+  }, [router])
 
   const defaultOptions = useMemo(
     () => [

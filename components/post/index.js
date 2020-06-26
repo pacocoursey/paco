@@ -24,7 +24,6 @@ const Post = ({
   previous,
   next
 }) => {
-  console.log(og)
   return (
     <Page
       slug={slug}
