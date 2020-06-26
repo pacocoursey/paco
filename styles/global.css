@@ -169,21 +169,6 @@ button {
   font-size: inherit;
 }
 
-article {
-  max-width: var(--main-content);
-  margin: 0 auto;
-  line-height: 1.9;
-}
-
-article > * + * {
-  margin-top: 2em;
-}
-
-article p {
-  color: var(--article-color);
-  transition: color var(--transition);
-}
-
 p a,
 a.reset {
   outline: none;
@@ -203,35 +188,6 @@ a.reset:focus {
 pre,
 code {
   font-family: var(--font-mono);
-}
-
-article *:not(pre) > code {
-  font-weight: 600;
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  padding: 0 3px;
-}
-
-article *:not(pre) > code::before,
-article *:not(pre) > code::after {
-  content: '\`';
-  color: var(--gray);
-  user-select: none;
-}
-
-article pre {
-  overflow-x: auto;
-  background: var(--lightest-gray);
-  border-radius: var(--inline-radius);
-  line-height: 1.8;
-  padding: 1rem;
-  font-size: 0.875rem;
-}
-
-article img {
-  max-width: 100%;
-  width: var(--main-content);
-  border-radius: var(--radius);
 }
 
 .clamp {
