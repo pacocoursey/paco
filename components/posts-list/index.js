@@ -16,6 +16,7 @@ const Posts = ({ slug, posts, paginate }) => {
 
         return (
           <TextEntry
+            key={`post-item-${post.slug}`}
             href="/blog/[slug]"
             as={`/blog/${post.slug}`}
             title={post.title}

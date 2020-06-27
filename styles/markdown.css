@@ -15,7 +15,10 @@ article p {
 
 article img {
   max-width: 100%;
-  width: var(--main-content);
+  /* width: var(--main-content); */
+  width: auto;
+  margin: auto;
+  display: block;
   border-radius: var(--radius);
 }
 
@@ -23,13 +26,13 @@ article img {
 
 article ul {
   padding: 0;
-  list-style-position: outside;
+  list-style-position: inside;
   list-style-type: circle;
 }
 
 article ol {
   padding: 0;
-  list-style-position: outside;
+  list-style-position: inside;
 }
 
 article ul li.reset {
