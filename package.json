@@ -12,7 +12,9 @@
   "license": "MIT",
   "dependencies": {
     "@reach/auto-id": "^0.8.6",
+    "@reach/combobox": "^0.10.5",
     "@reach/descendants": "^0.10.3",
+    "@reach/dialog": "^0.10.5",
     "@reach/portal": "^0.8.5",
     "body-scroll-lock": "^2.6.4",
     "classnames": "^2.2.6",

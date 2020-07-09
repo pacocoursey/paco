@@ -205,56 +205,6 @@ const Header = ({ title, content }) => {
           <Logo />
         </div>
 
-        <Command
-          max={5}
-          width="calc(var(--main-content) - var(--gap))"
-          top={
-            hint && (
-              <div className={styles.hint}>
-                <div>
-                  Press{' '}
-                  {isMac.current === true ? <kbd>⌘ K</kbd> : <kbd>⌃ K</kbd>} to
-                  open this menu anywhere.
-                </div>
-
-                <Button
-                  onClick={() => {
-                    localStorage.setItem('hide-hint', '1')
-                    setHint(false)
-                  }}
-                >
-                  Got it
-                </Button>
-              </div>
-            )
-          }
-          placeholder="Type a command or search..."
-          // items={options || defaultOptions}
-          // onClose={() => setOptions(null)}
-        >
-          <CommandItem value="one" callback={() => alert('1')}>
-            Number 1
-          </CommandItem>
-
-          <CommandItem value="two" callback={() => alert('2')}>
-            Number 2
-          </CommandItem>
-
-          <CommandDivider />
-
-          <CommandItem value="three" callback={() => alert('3')}>
-            Number 3
-          </CommandItem>
-
-          <CommandGroup title="Collections">
-            <CommandItem value="sub 1">Group item 1</CommandItem>
-            <CommandItem value="sub 2">Group item 2</CommandItem>
-            <CommandItem value="sub 3">Group item 3</CommandItem>
-          </CommandGroup>
-
-          <CommandDivider />
-        </Command>
-
         {content && <div className={styles.content}>{content}</div>}
       </div>
     </nav>
