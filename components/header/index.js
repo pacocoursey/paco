@@ -204,6 +204,7 @@ const Header = ({ title, content }) => {
         <div className={styles.logo}>
           <Logo />
         </div>
+        hihihi
 
         {content && <div className={styles.content}>{content}</div>}
       </div>
