@@ -1,4 +1,11 @@
-import { useEffect, createContext, useContext, useRef, forwardRef } from 'react'
+import {
+  useEffect,
+  createContext,
+  useContext,
+  useRef,
+  forwardRef,
+  useCallback
+} from 'react'
 import { useId } from '@reach/auto-id'
 import { DialogOverlay, DialogContent } from '@reach/dialog'
 import {
@@ -138,12 +145,23 @@ export function CommandItem({ children, callback }) {
 
   const isActive = active === index
 
+  const handleMouse = useCallback(
+    throttle(() => {
+      requestAnimationFrame(() => {
+        setActive(index)
+      })
+    }, 50),
+    [setActive, index]
+  )
+
   return (
     <li
       ref={ref}
       onClick={callback}
-      // TODO: debounce this
-      onMouseMove={() => setActive(index)}
+      // Have to use mouseMove instead of mouseEnter, consider:
+      // mouse over item 1, press down arrow, move mouse inside of item 1
+      // active item should be item 1 again, not item 2
+      onMouseMove={handleMouse}
       style={{
         color: isActive ? '#fff' : '#888'
       }}
@@ -177,3 +195,13 @@ export const CommandInput = forwardRef(({ ...props }, ref) => {
     />
   )
 })
+
+function throttle(fn, interval) {
+  let pending = false
+  return (...args) => {
+    if (pending) return
+    pending = true
+    fn(...args)
+    setTimeout(() => (pending = false), interval)
+  }
+}
