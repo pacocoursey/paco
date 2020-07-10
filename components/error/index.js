@@ -8,6 +8,7 @@ const Error = ({ status }) => {
   return (
     <Page title={status || 'Error'}>
       <Head>
+        {/* TODO: update me */}
         <title>404 — Paco Coursey</title>
       </Head>
 

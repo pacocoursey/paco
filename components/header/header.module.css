@@ -46,6 +46,7 @@
   padding: 0 var(--gap);
   max-width: var(--main-content);
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 

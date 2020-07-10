@@ -1,4 +1,4 @@
-import Head from '@components/head'
+import SEO from '@components/seo'
 import Header from '@components/header'
 import styles from './page.module.css'
 
@@ -13,7 +13,8 @@ const Page = ({
 }) => {
   return (
     <div className={styles.wrapper}>
-      <Head
+      <SEO
+        // TODO: update me
         title={`${title ? `${title} - ` : ''}Paco Coursey`}
         description={description}
         image={image}

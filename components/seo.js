@@ -1,11 +1,13 @@
 import NextHead from 'next/head'
 
+// TODO: update me
 const defaultOgImage =
   'https://res.cloudinary.com/dsdlhtnpw/image/upload/v1572673557/og-image_budbm8.png'
 
 const Head = ({
+  // TODO: update me
   title = 'Paco Coursey',
-  description = "Hi, I'm Paco. Frontend developer and designer.",
+  description = "Hi, I'm Paco.",
   image = defaultOgImage,
   children
 }) => {
@@ -24,12 +26,14 @@ const Head = ({
       <meta name="og:image" content={image} />
 
       {/* URL */}
-      <meta name="og:url" content="https://paco.im" />
+      <meta name="og:url" content="Your Website" />
 
       {/* General */}
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Language" content="en" />
       <meta name="twitter:card" content="summary_large_image" />
+
+      {/* TODO: update me */}
       <meta name="twitter:site" content="@pacocoursey" />
       <meta name="apple-mobile-web-app-title" content="Paco" />
       <meta name="author" content="Paco Coursey" />
@@ -38,6 +42,7 @@ const Head = ({
       <link
         rel="alternate"
         type="application/rss+xml"
+        // TODO: update me
         title="RSS Feed for paco.im"
         href="/feed.xml"
       />
@@ -69,6 +74,7 @@ const Head = ({
       <meta name="msapplication-TileColor" content="#ffffff" />
       <meta name="theme-color" content="#ffffff" />
 
+      {/* Inter font */}
       <link
         rel="preload"
         href="https://assets.vercel.com/raw/upload/v1587415301/fonts/2/inter-var-latin.woff2"

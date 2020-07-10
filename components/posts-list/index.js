@@ -7,7 +7,7 @@ const Posts = ({ slug, posts, paginate }) => {
   const [showMore, setShowMore] = useState(3)
 
   return (
-    <div className={styles.container}>
+    <ul className={styles.container}>
       {posts.slice(0, paginate ? showMore : undefined).map(post => {
         const date = new Date(post.date).toLocaleDateString('default', {
           month: 'numeric',
@@ -35,7 +35,7 @@ const Posts = ({ slug, posts, paginate }) => {
           Show More
         </button>
       )}
-    </div>
+    </ul>
   )
 }
 
