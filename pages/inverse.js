@@ -1,4 +1,10 @@
-import { useEffect, useReducer, useState, useRef } from 'react'
+import React, {
+  useEffect,
+  useReducer,
+  useState,
+  useRef,
+  cloneElement
+} from 'react'
 import {
   Command,
   CommandInput,
@@ -17,14 +23,6 @@ const Label = ({ children }) => {
   return <li className={styles.label}>{children}</li>
 }
 
-const Group = ({ children, title }) => {
-  return (
-    <>
-      <Label>{title}</Label>
-      {children}
-    </>
-  )
-}
 const BlogItems = () => [
   <CommandItem value="Post A" key="Post A">
     Post A
@@ -43,6 +41,20 @@ const PriceItems = ({ state: { search } }) => {
     <CommandItem key="pesos">{value * 22.36} Mexican Pesos</CommandItem>,
     <CommandItem key="egypt">{value * 16.06} Egyptian Pound</CommandItem>
   ]
+}
+
+const group = (title, search, items) => {
+  const filteredItems = matchSorter(items, search, { keys: ['props.value'] })
+
+  if (filteredItems.length) {
+    if (title) {
+      return [<Label>{title}</Label>, ...filteredItems]
+    }
+
+    return filteredItems
+  }
+
+  return []
 }
 
 const DefaultItems = ({ state, dispatch }) => {
@@ -74,11 +86,11 @@ const DefaultItems = ({ state, dispatch }) => {
     >
       Calculate Tax
     </CommandItem>,
-    <Group key="collection-1" title="HELLO">
-      <CommandItem value="Navigation 1">Navigation 1</CommandItem>
-      <CommandItem value="Navigation 2">Navigation 2</CommandItem>
+    ...group('Navigation', state.search, [
+      <CommandItem value="Navigation 1">Navigation 1</CommandItem>,
+      <CommandItem value="Navigation 2">Navigation 2</CommandItem>,
       <CommandItem value="Navigation 3">Navigation 3</CommandItem>
-    </Group>,
+    ]),
     <CommandItem
       value="Check me"
       key="Check me"
@@ -93,7 +105,18 @@ const DefaultItems = ({ state, dispatch }) => {
     </CommandItem>
   ]
 
-  return matchSorter(items, state.search, { keys: ['props.value'] })
+  return matchSorter(items, state.search, {
+    keys: [
+      item => {
+        // Always make labels a match
+        if (item.type === Label) {
+          return state.search
+        }
+
+        return item.props.value
+      }
+    ]
+  })
 }
 
 function reducer(state, action) {
@@ -178,12 +201,6 @@ const Test = () => {
         onDismiss={() => dispatch({ type: 'toggle' })}
       >
         <div className={styles.top}>
-          <Button
-            onClick={() => dispatch({ type: 'pop' })}
-            disabled={items.length === 1}
-          >
-            ←
-          </Button>
           <CommandInput
             ref={inputRef}
             value={search}
@@ -192,6 +209,11 @@ const Test = () => {
             }
             placeholder="Search..."
           />
+          {items.length > 1 && (
+            <Button onClick={() => dispatch({ type: 'pop' })}>←</Button>
+          )}
+
+          <Button onClick={() => dispatch({ type: 'toggle' })}>close</Button>
         </div>
 
         <CommandList>

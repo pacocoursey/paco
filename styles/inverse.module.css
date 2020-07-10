@@ -51,7 +51,6 @@
   background: 0;
   font-size: 1rem;
   color: var(--fg);
-  padding: var(--padding);
 }
 
 .command [data-command-input]::placeholder {
@@ -64,6 +63,11 @@
   list-style-type: none;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  border-top: 1px solid var(--lighter-gray);
+}
+
+.command [data-command-list-empty] {
+  border-top: none;
 }
 
 .command [data-command-item] {
@@ -103,7 +107,6 @@
   display: flex;
   align-items: center;
   padding: var(--padding);
-  border-bottom: 1px solid var(--lighter-gray);
 }
 
 .back {

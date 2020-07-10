@@ -112,7 +112,12 @@ export function CommandList({ children }) {
 
   return (
     <>
-      <ul role="listbox" id={listId} data-command-list="">
+      <ul
+        role="listbox"
+        id={listId}
+        data-command-list=""
+        data-command-list-empty={descendants.length === 0 ? '' : undefined}
+      >
         <DescendantProvider
           context={DescendantContext}
           items={descendants}
