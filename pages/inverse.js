@@ -18,6 +18,7 @@ import Page from '@components/page'
 import styles from '@styles/inverse.module.css'
 import Button from '@components/button'
 import useDelayedRender from 'use-delayed-render'
+import { GitHub } from '@components/icons'
 
 const Label = ({ children }) => {
   return <li className={styles.label}>{children}</li>
@@ -57,17 +58,35 @@ const group = (title, search, items) => {
   return []
 }
 
+const IconItem = ({ icon, children, ...props }) => {
+  return (
+    <CommandItem {...props}>
+      {icon && <GitHub />}
+      {children}
+    </CommandItem>
+  )
+}
+
+const SidebarItem = ({ children, ...props }) => {
+  return (
+    <ComandItem {...props}>
+      <div>{children}</div>
+    </ComandItem>
+  )
+}
+
 const DefaultItems = ({ state, dispatch }) => {
   const [checked, setChecked] = useState(false)
 
   const items = [
-    <CommandItem
+    <IconItem
       value="Toggle Theme"
       key="Toggle Theme"
       callback={() => alert('Toggle theme')}
+      icon
     >
       Toggle Theme
-    </CommandItem>,
+    </IconItem>,
     <CommandItem
       value="Search Blog"
       key="Search Blog"
