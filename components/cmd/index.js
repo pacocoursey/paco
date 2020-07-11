@@ -24,8 +24,8 @@ export function Command({
   'aria-label': label,
   open,
   onDismiss,
-  active,
-  setActive,
+  selected,
+  setSelected,
   className,
   overlayClassName
 }) {
@@ -34,8 +34,8 @@ export function Command({
   const context = {
     listId,
     label,
-    active,
-    setActive
+    selected,
+    setSelected
   }
 
   return (
@@ -57,26 +57,32 @@ export function Command({
 const inputs = ['select', 'button', 'textarea']
 
 export function CommandList({ children }) {
-  const { listId, active, setActive } = useCommand()
+  const { listId, selected, setSelected } = useCommand()
   const [descendants, setDescendants] = useDescendantsInit()
 
   useEffect(() => {
     function handleKey(e) {
       switch (e.key) {
         case 'ArrowDown': {
-          if (active < descendants.length - 1) {
-            setActive(active + 1)
+          // Don't move text cursor
+          e.preventDefault()
+
+          if (selected < descendants.length - 1) {
+            setSelected(selected + 1)
           }
           break
         }
         case 'ArrowUp': {
-          if (active > 0) {
-            setActive(active - 1)
+          // Don't move text cursor
+          e.preventDefault()
+
+          if (selected > 0) {
+            setSelected(selected - 1)
           }
           break
         }
         case 'Enter': {
-          const cb = descendants[active]?.callback
+          const cb = descendants[selected]?.callback
 
           if (!cb) {
             return
@@ -108,7 +114,7 @@ export function CommandList({ children }) {
 
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
-  }, [active, descendants, setActive, children])
+  }, [selected, descendants, setSelected, children])
 
   return (
     <>
@@ -138,7 +144,7 @@ export function CommandList({ children }) {
 
 export function CommandItem({ children, callback }) {
   const ref = useRef()
-  const { active, setActive } = useCommand()
+  const { selected, setSelected } = useCommand()
 
   const index = useDescendant(
     {
@@ -148,15 +154,15 @@ export function CommandItem({ children, callback }) {
     DescendantContext
   )
 
-  const isActive = active === index
+  const isActive = selected === index
 
   const handleMouse = useCallback(
     throttle(() => {
       requestAnimationFrame(() => {
-        setActive(index)
+        setSelected(index)
       })
     }, 50),
-    [setActive, index]
+    [setSelected, index]
   )
 
   return (
