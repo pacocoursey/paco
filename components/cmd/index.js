@@ -3,66 +3,20 @@ import {
   useContext,
   useRef,
   forwardRef,
-  useCallback,
-  SetStateAction,
-  Dispatch,
-  Ref
+  useCallback
 } from 'react'
 import { useId } from '@reach/auto-id'
 import { DialogOverlay, DialogContent } from '@reach/dialog'
 import {
   createDescendantContext,
   DescendantProvider,
-  useDescendant,
-  Descendant
+  useDescendant
 } from '@reach/descendants'
 
-export type SetSelected = (selected: number) => void
-
-type CommandContext = {
-  listId?: string
-  label: string
-  selected: number
-  setSelected: SetSelected
-  search: string
-}
-
-type FilterFunction = (props: CommandItemProps, search: string) => boolean
-
-export interface FilterProps {
-  filter?: FilterFunction
-}
-
-export type CommandDescendant = Descendant & {
-  callback: () => void
-  value?: string
-}
-
-export interface CommandItemProps {
-  callback: () => void
-}
-
-export interface CommandListProps {
-  descendants: Descendant[]
-  setDescendants: Dispatch<SetStateAction<Descendant<HTMLElement>[]>>
-}
-
-export interface CommandProps {
-  'aria-label': 'string'
-  open: boolean
-  selected: number
-  setSelected: SetSelected
-  search: string
-
-  className?: string
-  overlayClassName?: string
-  onDismiss?: () => void
-}
-
-export const DescendantContext = createDescendantContext<CommandDescendant>(
+export const DescendantContext = createDescendantContext(
   'CommandDescendantContext'
 )
-const CommandContext = createContext<CommandContext>({
+const CommandContext = createContext({
   listId: '',
   label: '',
   selected: -1,
@@ -71,7 +25,7 @@ const CommandContext = createContext<CommandContext>({
 })
 const useCommandCtx = () => useContext(CommandContext)
 
-export const Command: React.FC<CommandProps> = ({
+const CommandCore = ({
   children,
   'aria-label': label,
   open,
@@ -108,11 +62,10 @@ export const Command: React.FC<CommandProps> = ({
   )
 }
 
-export const CommandList: React.FC<CommandListProps> = forwardRef(
-  (
-    { descendants, setDescendants, children, ...props },
-    ref: Ref<HTMLUListElement>
-  ) => {
+export { CommandCore as Command }
+
+export const CommandList = forwardRef(
+  ({ descendants, setDescendants, children, ...props }, ref) => {
     const { listId } = useCommandCtx()
 
     return (
@@ -136,7 +89,26 @@ export const CommandList: React.FC<CommandListProps> = forwardRef(
         </ul>
 
         {descendants.length > 0 && (
-          <div aria-live="polite" role="status" data-command-list-results="">
+          <div
+            aria-live="polite"
+            role="status"
+            data-command-list-results=""
+            // We'll manually add styles h1ere: should be SR only
+            style={{
+              border: 0,
+              padding: 0,
+              clip: 'rect(0 0 0 0)',
+              clipPath: 'inset(100%)',
+              height: 1,
+              width: 1,
+              margin: -1,
+              overflow: 'hidden',
+              position: 'absolute',
+              appearance: 'none',
+              whiteSpace: 'nowrap',
+              wordWrap: 'normal'
+            }}
+          >
             {descendants.length} results available.
           </div>
         )}
@@ -145,18 +117,16 @@ export const CommandList: React.FC<CommandListProps> = forwardRef(
   }
 )
 
-const FilterContext = createContext<FilterFunction | null | undefined>(null)
+const FilterContext = createContext(null)
 export const useFilter = () => useContext(FilterContext)
 
-export const Filter: React.FC<FilterProps> = ({ filter, children }) => {
+export const Filter = ({ filter, children }) => {
   return (
     <FilterContext.Provider value={filter}>{children}</FilterContext.Provider>
   )
 }
 
-export const CommandItem: React.FC<CommandItemProps> = (
-  props: CommandItemProps
-) => {
+export const CommandItem = props => {
   const filter = useFilter()
   const { search } = useCommandCtx()
 
@@ -170,12 +140,8 @@ export const CommandItem: React.FC<CommandItemProps> = (
   return null
 }
 
-export const CommandItemInner: React.FC<CommandItemProps> = ({
-  children,
-  callback,
-  ...props
-}) => {
-  const ref = useRef<HTMLLIElement>(null)
+export const CommandItemInner = ({ children, callback, ...props }) => {
+  const ref = useRef(null)
   const { selected, setSelected } = useCommandCtx()
 
   const index = useDescendant(
@@ -217,31 +183,29 @@ export const CommandItemInner: React.FC<CommandItemProps> = ({
   )
 }
 
-export const CommandInput = forwardRef(
-  ({ ...props }, ref: Ref<HTMLInputElement>) => {
-    const { listId, label } = useCommandCtx()
+export const CommandInput = forwardRef(({ ...props }, ref) => {
+  const { listId, label } = useCommandCtx()
 
-    return (
-      <input
-        ref={ref}
-        {...props}
-        type="text"
-        // a11y
-        aria-expanded={true}
-        aria-autocomplete="list"
-        autoComplete="off"
-        role="combobox"
-        aria-label={label}
-        aria-owns={listId}
-        data-command-input=""
-      />
-    )
-  }
-)
+  return (
+    <input
+      ref={ref}
+      {...props}
+      type="text"
+      // a11y
+      aria-expanded={true}
+      aria-autocomplete="list"
+      autoComplete="off"
+      role="combobox"
+      aria-label={label}
+      aria-owns={listId}
+      data-command-input=""
+    />
+  )
+})
 
-function throttle(fn: any, interval: number) {
+function throttle(fn, interval) {
   let pending = false
-  return (...args: any[]) => {
+  return (...args) => {
     if (pending) return
     pending = true
     fn(...args)

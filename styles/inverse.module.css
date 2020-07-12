@@ -89,21 +89,6 @@
   color: var(--fg);
 }
 
-.command [data-command-list-results] {
-  border: 0;
-  padding: 0;
-  clip: rect(0 0 0 0);
-  clip-path: inset(100%);
-  height: 1px;
-  width: 1px;
-  margin: -1px;
-  overflow: hidden;
-  position: absolute;
-  appearance: none;
-  white-space: nowrap;
-  word-wrap: normal;
-}
-
 .top {
   display: flex;
   align-items: center;

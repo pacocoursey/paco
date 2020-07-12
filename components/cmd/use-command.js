@@ -1,26 +1,9 @@
 import { useEffect, useReducer, useRef, useMemo, useCallback } from 'react'
 import { useDescendantsInit } from '@reach/descendants'
-import { CommandDescendant } from './index'
 
 const inputs = ['select', 'button', 'textarea']
 
-interface State {
-  selected: number
-  open: boolean
-  search: string
-  items: React.ReactNode
-  rotate?: boolean
-}
-
-type Action =
-  | { type: 'toggle' }
-  | { type: 'close' }
-  | { type: 'open' }
-  | { type: 'setSelected'; selected: number }
-  | { type: 'setSearch'; value: string }
-  | { type: 'setItems'; items: any }
-
-function reducer(state: State, action: Action) {
+function reducer(state, action) {
   switch (action.type) {
     case 'toggle': {
       return { ...state, open: !state.open }
@@ -49,8 +32,8 @@ function reducer(state: State, action: Action) {
   }
 }
 
-export const useCommand = (defaults: Partial<State> | null, ...hooks: any) => {
-  const [descendants, setDescendants] = useDescendantsInit<CommandDescendant>()
+export const useCommand = (defaults, ...hooks) => {
+  const [descendants, setDescendants] = useDescendantsInit()
   const inputRef = useRef()
 
   let [state, dispatch] = useReducer(reducer, {
@@ -71,18 +54,15 @@ export const useCommand = (defaults: Partial<State> | null, ...hooks: any) => {
 
   const actions = useMemo(() => {
     return {
-      setSelected: (selected: number) =>
-        dispatch({ type: 'setSelected', selected }),
-      setSearch: (e: React.ChangeEvent<HTMLInputElement>) =>
-        dispatch({ type: 'setSearch', value: e.target.value }),
-      setItems: (items: React.ReactNode) =>
-        dispatch({ type: 'setItems', items }),
+      setSelected: selected => dispatch({ type: 'setSelected', selected }),
+      setSearch: e => dispatch({ type: 'setSearch', value: e.target.value }),
+      setItems: items => dispatch({ type: 'setItems', items }),
       close: () => dispatch({ type: 'close' }),
       open: () => dispatch({ type: 'open' })
     }
   }, [])
 
-  hooks.forEach((hook: any) => {
+  hooks.forEach(hook => {
     hook({
       dispatch,
       state,
@@ -116,14 +96,14 @@ export const useCommand = (defaults: Partial<State> | null, ...hooks: any) => {
 
 // Helper hooks
 
-export const useResetSelected = ({ dispatch, state }: any) => {
+export const useResetSelected = ({ dispatch, state }) => {
   useEffect(() => {
     // When search changes or item set changes
     dispatch({ type: 'setSelected', selected: 0 })
   }, [state.search, dispatch, state.items])
 }
 
-export const useResetSearch = ({ dispatch, state, inputRef }: any) => {
+export const useResetSearch = ({ dispatch, state, inputRef }) => {
   useEffect(() => {
     // When items change, reset the search field and focus the input
     dispatch({ type: 'setSearch', value: '' })
@@ -131,7 +111,7 @@ export const useResetSearch = ({ dispatch, state, inputRef }: any) => {
   }, [state.items, dispatch, inputRef])
 }
 
-const useKeydown = ({ dispatch, descendants, selected, rotate }: any) => {
+const useKeydown = ({ dispatch, descendants, selected, rotate }) => {
   const setLast = useCallback(() => {
     dispatch({ type: 'setSelected', selected: descendants.length - 1 })
   }, [dispatch, descendants])
@@ -170,7 +150,7 @@ const useKeydown = ({ dispatch, descendants, selected, rotate }: any) => {
   }, [dispatch, selected, setLast, rotate])
 
   useEffect(() => {
-    function handleKey(e: KeyboardEvent) {
+    function handleKey(e) {
       switch (e.key) {
         case 'Home': {
           e.preventDefault()
@@ -204,7 +184,7 @@ const useKeydown = ({ dispatch, descendants, selected, rotate }: any) => {
             if (
               inputs.indexOf(document.activeElement.tagName.toLowerCase()) !==
                 -1 ||
-              (document.activeElement as HTMLElement).contentEditable === 'true'
+              document.activeElement.contentEditable === 'true'
             ) {
               return
             }

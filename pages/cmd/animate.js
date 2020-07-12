@@ -133,8 +133,7 @@ const Test = () => {
   } = useCommand(
     {
       open: true,
-      items: [DefaultItems],
-      rotate: true
+      items: [DefaultItems]
     },
     useResetSelected,
     useResetSearch
