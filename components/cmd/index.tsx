@@ -27,17 +27,25 @@ type CommandContext = {
   search: string
 }
 
-const DescendantContext = createDescendantContext<CommandDescendant>(
-  'CommandDescendantContext'
-)
-const CommandContext = createContext<CommandContext>({
-  listId: '',
-  label: '',
-  selected: -1,
-  setSelected: () => {},
-  search: ''
-})
-const useCommandCtx = () => useContext(CommandContext)
+type FilterFunction = (props: CommandItemProps, search: string) => boolean
+
+export interface FilterProps {
+  filter?: FilterFunction
+}
+
+export type CommandDescendant = Descendant & {
+  callback: () => void
+  value?: string
+}
+
+export interface CommandItemProps {
+  callback: () => void
+}
+
+export interface CommandListProps {
+  descendants: Descendant[]
+  setDescendants: Dispatch<SetStateAction<Descendant<HTMLElement>[]>>
+}
 
 export interface CommandProps {
   'aria-label': 'string'
@@ -50,6 +58,18 @@ export interface CommandProps {
   overlayClassName?: string
   onDismiss?: () => void
 }
+
+const DescendantContext = createDescendantContext<CommandDescendant>(
+  'CommandDescendantContext'
+)
+const CommandContext = createContext<CommandContext>({
+  listId: '',
+  label: '',
+  selected: -1,
+  setSelected: () => {},
+  search: ''
+})
+const useCommandCtx = () => useContext(CommandContext)
 
 export const Command: React.FC<CommandProps> = ({
   children,
@@ -88,11 +108,6 @@ export const Command: React.FC<CommandProps> = ({
   )
 }
 
-interface CommandListProps {
-  descendants: Descendant[]
-  setDescendants: Dispatch<SetStateAction<Descendant<HTMLElement>[]>>
-}
-
 export const CommandList: React.FC<CommandListProps> = ({
   descendants,
   setDescendants,
@@ -128,22 +143,12 @@ export const CommandList: React.FC<CommandListProps> = ({
 }
 
 const FilterContext = createContext<FilterFunction | null | undefined>(null)
-const useFilter = () => useContext(FilterContext)
-
-type FilterFunction = (props: CommandItemProps, search: string) => boolean
-
-export interface FilterProps {
-  filter?: FilterFunction
-}
+export const useFilter = () => useContext(FilterContext)
 
 export const Filter: React.FC<FilterProps> = ({ filter, children }) => {
   return (
     <FilterContext.Provider value={filter}>{children}</FilterContext.Provider>
   )
-}
-
-export interface CommandItemProps {
-  callback: () => void
 }
 
 export const CommandItem: React.FC<CommandItemProps> = (
@@ -160,11 +165,6 @@ export const CommandItem: React.FC<CommandItemProps> = (
   }
 
   return null
-}
-
-export type CommandDescendant = Descendant & {
-  callback: () => void
-  value?: string
 }
 
 export const CommandItemInner: React.FC<CommandItemProps> = ({
