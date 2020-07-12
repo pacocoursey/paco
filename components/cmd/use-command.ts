@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef, useMemo } from 'react'
+import { useEffect, useReducer, useRef, useMemo, useCallback } from 'react'
 import { useDescendantsInit } from '@reach/descendants'
 import { CommandDescendant } from './index'
 
@@ -9,6 +9,7 @@ interface State {
   open: boolean
   search: string
   items: React.ReactNode
+  rotate?: boolean
 }
 
 type Action =
@@ -61,61 +62,12 @@ export const useCommand = (defaults: Partial<State> | null, ...hooks: any) => {
   })
   const { search, selected, open, items } = state
 
-  useEffect(() => {
-    function handleKey(e: KeyboardEvent) {
-      switch (e.key) {
-        case 'ArrowDown': {
-          // Don't move text cursor
-          e.preventDefault()
-
-          if (selected < descendants.length - 1) {
-            dispatch({ type: 'setSelected', selected: selected + 1 })
-          }
-          break
-        }
-        case 'ArrowUp': {
-          // Don't move text cursor
-          e.preventDefault()
-
-          if (selected > 0) {
-            dispatch({ type: 'setSelected', selected: selected - 1 })
-          }
-          break
-        }
-        case 'Enter': {
-          const cb = descendants[selected]?.callback
-
-          if (!cb) {
-            return
-          }
-
-          if (document.activeElement) {
-            // Ignore [Enter] when button, select, textarea, or contentEditable is focused
-            if (
-              inputs.indexOf(document.activeElement.tagName.toLowerCase()) !==
-                -1 ||
-              (document.activeElement as HTMLElement).contentEditable === 'true'
-            ) {
-              return
-            }
-
-            // Ignore [Enter] on inputs that aren't a CommandInput
-            if (!document.activeElement.hasAttribute('data-command-input')) {
-              return
-            }
-          }
-
-          cb()
-          break
-        }
-        default:
-          break
-      }
-    }
-
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
-  }, [selected, descendants])
+  useKeydown({
+    dispatch,
+    descendants,
+    selected,
+    rotate: defaults?.rotate || false
+  })
 
   const actions = useMemo(() => {
     return {
@@ -177,4 +129,101 @@ export const useResetSearch = ({ dispatch, state, inputRef }: any) => {
     dispatch({ type: 'setSearch', value: '' })
     inputRef?.current?.focus()
   }, [state.items, dispatch, inputRef])
+}
+
+const useKeydown = ({ dispatch, descendants, selected, rotate }: any) => {
+  const setLast = useCallback(() => {
+    dispatch({ type: 'setSelected', selected: descendants.length - 1 })
+  }, [dispatch, descendants])
+
+  const setFirst = useCallback(() => {
+    dispatch({ type: 'setSelected', selected: 0 })
+  }, [dispatch])
+
+  const setNext = useCallback(() => {
+    const atBottom = selected === descendants.length - 1
+
+    if (atBottom) {
+      if (rotate) {
+        // Loop back to the top
+        dispatch({
+          type: 'setSelected',
+          selected: (selected + 1) % descendants.length
+        })
+      }
+    } else {
+      dispatch({ type: 'setSelected', selected: selected + 1 })
+    }
+  }, [dispatch, selected, rotate, descendants])
+
+  const setPrev = useCallback(() => {
+    const atTop = selected === 0
+
+    if (atTop) {
+      if (rotate) {
+        // Loop back to bottom
+        setLast()
+      }
+    } else {
+      dispatch({ type: 'setSelected', selected: selected - 1 })
+    }
+  }, [dispatch, selected, setLast, rotate])
+
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      switch (e.key) {
+        case 'Home': {
+          e.preventDefault()
+          setFirst()
+          break
+        }
+        case 'End': {
+          e.preventDefault()
+          setLast()
+          break
+        }
+        case 'ArrowDown': {
+          e.preventDefault()
+          setNext()
+          break
+        }
+        case 'ArrowUp': {
+          e.preventDefault()
+          setPrev()
+          break
+        }
+        case 'Enter': {
+          const cb = descendants[selected]?.callback
+
+          if (!cb) {
+            return
+          }
+
+          if (document.activeElement) {
+            // Ignore [Enter] when button, select, textarea, or contentEditable is focused
+            if (
+              inputs.indexOf(document.activeElement.tagName.toLowerCase()) !==
+                -1 ||
+              (document.activeElement as HTMLElement).contentEditable === 'true'
+            ) {
+              return
+            }
+
+            // Ignore [Enter] on inputs that aren't a CommandInput
+            if (!document.activeElement.hasAttribute('data-command-input')) {
+              return
+            }
+          }
+
+          cb()
+          break
+        }
+        default:
+          break
+      }
+    }
+
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [selected, descendants, dispatch, setFirst, setLast, setNext, setPrev])
 }

@@ -24,7 +24,7 @@ const textFilter = ({ value }, search) => {
   return !!matchSorter([value], search).length
 }
 
-const BlogItems = () => [
+const BlogItems = () => (
   <Filter filter={textFilter}>
     <CommandItem value="Post A" key="Post A">
       Post A
@@ -33,17 +33,19 @@ const BlogItems = () => [
       Post B
     </CommandItem>
   </Filter>
-]
+)
 
 const PriceItems = ({ state: { search } }) => {
   const value = Number(search)
 
-  return [
-    <CommandItem key="euros">{value * 0.88} Euros</CommandItem>,
-    <CommandItem key="pounds">{value * 0.8} Pound sterling</CommandItem>,
-    <CommandItem key="pesos">{value * 22.36} Mexican Pesos</CommandItem>,
-    <CommandItem key="egypt">{value * 16.06} Egyptian Pound</CommandItem>
-  ]
+  return (
+    <>
+      <CommandItem key="euros">{value * 0.88} Euros</CommandItem>,
+      <CommandItem key="pounds">{value * 0.8} Pound sterling</CommandItem>,
+      <CommandItem key="pesos">{value * 22.36} Mexican Pesos</CommandItem>,
+      <CommandItem key="egypt">{value * 16.06} Egyptian Pound</CommandItem>
+    </>
+  )
 }
 
 const Label = ({ children, values, search }) => {
@@ -95,7 +97,7 @@ const DefaultItems = ({ state, actions }) => {
     actions.setItems([...state.items, PriceItems])
   }, [state.items, actions])
 
-  const items = [
+  return (
     <Filter filter={textFilter}>
       <CommandItem value="Toggle Theme" key="Toggle Theme">
         Toggle Theme
@@ -116,9 +118,7 @@ const DefaultItems = ({ state, actions }) => {
         Check me
       </CommandItem>
     </Filter>
-  ]
-
-  return items
+  )
 }
 
 const Test = () => {
@@ -133,7 +133,8 @@ const Test = () => {
   } = useCommand(
     {
       open: true,
-      items: [DefaultItems]
+      items: [DefaultItems],
+      rotate: true
     },
     useResetSelected,
     useResetSearch

@@ -59,7 +59,7 @@ export interface CommandProps {
   onDismiss?: () => void
 }
 
-const DescendantContext = createDescendantContext<CommandDescendant>(
+export const DescendantContext = createDescendantContext<CommandDescendant>(
   'CommandDescendantContext'
 )
 const CommandContext = createContext<CommandContext>({
