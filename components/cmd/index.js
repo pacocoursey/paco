@@ -3,7 +3,8 @@ import {
   useContext,
   useRef,
   forwardRef,
-  useCallback
+  useCallback,
+  useEffect
 } from 'react'
 import { useId } from '@reach/auto-id'
 import { DialogOverlay, DialogContent } from '@reach/dialog'
@@ -174,6 +175,15 @@ const CommandItemInner = ({ children, callback, ...props }) => {
     }, 50),
     [setSelected, index]
   )
+
+  useEffect(() => {
+    // This item has become active, scroll it into view
+    if (isActive && ref.current) {
+      ref.current.scrollIntoView({
+        block: 'nearest'
+      })
+    }
+  }, [isActive])
 
   return (
     <li
