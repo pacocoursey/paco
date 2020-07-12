@@ -23,28 +23,6 @@ const textFilter = ({ value }, search) => {
   return !!matchSorter([value], search).length
 }
 
-const BlogItems = () => [
-  <Filter filter={textFilter}>
-    <CommandItem value="Post A" key="Post A">
-      Post A
-    </CommandItem>
-    <CommandItem value="Post B" key="Post B">
-      Post B
-    </CommandItem>
-  </Filter>
-]
-
-const PriceItems = ({ state: { search } }) => {
-  const value = Number(search)
-
-  return [
-    <CommandItem key="euros">{value * 0.88} Euros</CommandItem>,
-    <CommandItem key="pounds">{value * 0.8} Pound sterling</CommandItem>,
-    <CommandItem key="pesos">{value * 22.36} Mexican Pesos</CommandItem>,
-    <CommandItem key="egypt">{value * 16.06} Egyptian Pound</CommandItem>
-  ]
-}
-
 const DefaultItems = ({ state, actions }) => {
   const [checked, setChecked] = useState(false)
 
@@ -52,23 +30,15 @@ const DefaultItems = ({ state, actions }) => {
     setChecked(c => !c)
   }, [])
 
-  const goBlog = useCallback(() => {
-    actions.setItems([...state.items, BlogItems])
-  }, [state.items, actions])
-
-  const goPricing = useCallback(() => {
-    actions.setItems([...state.items, PriceItems])
-  }, [state.items, actions])
-
   const items = [
     <Filter filter={textFilter}>
       <CommandItem value="Toggle Theme" key="Toggle Theme">
         Toggle Theme
       </CommandItem>
-      <CommandItem value="Search Blog" key="Search Blog" callback={goBlog}>
+      <CommandItem value="Search Blog" key="Search Blog">
         Search blog...
       </CommandItem>
-      <CommandItem value="Calculate" key="Calculate" callback={goPricing}>
+      <CommandItem value="Calculate" key="Calculate">
         Calculate Tax...
       </CommandItem>
       <CommandItem value="Check me" key="Check me" callback={x}>
@@ -85,6 +55,11 @@ const DefaultItems = ({ state, actions }) => {
   return items
 }
 
+const details = {
+  'Toggle Theme': 'some contents here yayayayayay',
+  'Search Blog': 'Post A, Post B'
+}
+
 const Test = () => {
   const {
     open,
@@ -92,12 +67,13 @@ const Test = () => {
     inputRef,
     search,
     items,
+    selectedValue,
     listProps,
     commandProps
   } = useCommand(
     {
       open: true,
-      items: [DefaultItems]
+      items: DefaultItems
     },
     useResetSelected,
     useResetSearch
@@ -111,11 +87,11 @@ const Test = () => {
   // Can't do this inside of useCommand because it relies on useDelayedRender
   useEffect(() => {
     if (!mounted) {
-      actions.setItems([DefaultItems])
+      actions.setItems(DefaultItems)
     }
   }, [mounted, actions])
 
-  const Items = items[items.length - 1]
+  const Items = items
 
   return (
     <Page title="Command">
@@ -140,11 +116,6 @@ const Test = () => {
             onChange={actions.setSearch}
             placeholder="Search..."
           />
-          {items.length > 1 && (
-            <Button onClick={() => actions.setItems(items.slice(0, -1))}>
-              ←
-            </Button>
-          )}
 
           <Button onClick={actions.close}>close</Button>
         </div>
@@ -152,6 +123,8 @@ const Test = () => {
         <CommandList {...listProps}>
           <Items state={{ items, search, open }} actions={actions} />
         </CommandList>
+
+        {details[selectedValue]}
       </Command>
     </Page>
   )
