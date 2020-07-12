@@ -126,3 +126,8 @@
   font-size: 0.875rem;
   background: var(--lighter-gray);
 }
+
+.container {
+  transition: height 0.1s ease;
+  will-change: height;
+}

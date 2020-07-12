@@ -108,39 +108,42 @@ export const Command: React.FC<CommandProps> = ({
   )
 }
 
-export const CommandList: React.FC<CommandListProps> = ({
-  descendants,
-  setDescendants,
-  children
-}) => {
-  const { listId } = useCommandCtx()
+export const CommandList: React.FC<CommandListProps> = forwardRef(
+  (
+    { descendants, setDescendants, children, ...props },
+    ref: Ref<HTMLUListElement>
+  ) => {
+    const { listId } = useCommandCtx()
 
-  return (
-    <>
-      <ul
-        role="listbox"
-        id={listId}
-        data-command-list=""
-        data-command-list-empty={descendants.length === 0 ? '' : undefined}
-      >
-        <DescendantProvider
-          // @ts-ignore Ye idk how to fix this, types suck
-          context={DescendantContext}
-          items={descendants}
-          set={setDescendants}
+    return (
+      <>
+        <ul
+          ref={ref}
+          role="listbox"
+          id={listId}
+          data-command-list=""
+          data-command-list-empty={descendants.length === 0 ? '' : undefined}
+          {...props}
         >
-          {children}
-        </DescendantProvider>
-      </ul>
+          <DescendantProvider
+            // @ts-ignore Ye idk how to fix this, types suck
+            context={DescendantContext}
+            items={descendants}
+            set={setDescendants}
+          >
+            {children}
+          </DescendantProvider>
+        </ul>
 
-      {descendants.length > 0 && (
-        <div aria-live="polite" role="status" data-command-list-results="">
-          {descendants.length} results available.
-        </div>
-      )}
-    </>
-  )
-}
+        {descendants.length > 0 && (
+          <div aria-live="polite" role="status" data-command-list-results="">
+            {descendants.length} results available.
+          </div>
+        )}
+      </>
+    )
+  }
+)
 
 const FilterContext = createContext<FilterFunction | null | undefined>(null)
 export const useFilter = () => useContext(FilterContext)
