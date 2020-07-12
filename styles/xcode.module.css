@@ -17,6 +17,7 @@
 }
 
 .command {
+  outline: none;
   position: relative;
   margin: 0 auto;
   z-index: 9999;
@@ -76,7 +77,6 @@
   outline: none;
   font-size: 1rem;
   cursor: pointer;
-  padding: var(--padding);
   height: var(--height);
   display: flex;
   align-items: center;
@@ -84,8 +84,9 @@
   min-height: 60px;
 }
 
-.command [data-command-item][aria-selected] {
+.command [data-command-item][aria-selected] .left {
   background: var(--lightest-gray);
+  background: #334159;
   color: var(--fg);
 }
 
@@ -120,9 +121,46 @@
   align-items: center;
   min-height: 5px;
   color: var(--gray);
-  padding: var(--padding);
+  padding-left: var(--gap-half);
   padding-top: 2px;
   padding-bottom: 2px;
-  font-size: 0.875rem;
-  background: var(--lighter-gray);
+  font-size: 0.75rem;
+}
+
+.sidebar {
+  border-top: 1px solid var(--light-gray);
+  display: flex;
+}
+
+.sidebar [data-command-list] {
+  flex-shrink: 0;
+}
+
+.sidebar [data-command-item] {
+  padding: 0 var(--gap);
+  border-top: 1px solid var(--light-gray);
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.sidebar [data-command-item] svg {
+  margin-right: var(--gap-half);
+}
+
+.sidebar [data-command-item][aria-selected] {
+  background: #334159;
+  border-color: #3479F6;
+}
+
+.sidebar .details {
+  border-left: 1px solid var(--gray);
+  padding: var(--gap);
+}
+
+.details h4 {
+  margin: 0;
+}
+
+.details > * + * {
+  display: block;
+  margin-top: var(--gap);
 }

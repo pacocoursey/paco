@@ -1195,7 +1195,7 @@
     prop-types "^15.7.2"
     tslib "^2.0.0"
 
-"@reach/utils@0.10.5":
+"@reach/utils@0.10.5", "@reach/utils@^0.10.5":
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/@reach/utils/-/utils-0.10.5.tgz#fbac944d29565f6dd7abd0e1b13950e99b1e470b"
   integrity sha512-5E/xxQnUbmpI/LrufBAOXjunl96DnqX6B4zC2MO2KH/dRzLug5gM5VuOwV26egsp0jvsSPxojwciOhS43px3qw==

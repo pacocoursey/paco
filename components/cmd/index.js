@@ -1,5 +1,4 @@
 import {
-  useEffect,
   createContext,
   useContext,
   useRef,
@@ -10,14 +9,13 @@ import { useId } from '@reach/auto-id'
 import { DialogOverlay, DialogContent } from '@reach/dialog'
 import {
   createDescendantContext,
-  useDescendantsInit,
   DescendantProvider,
   useDescendant
 } from '@reach/descendants'
 
 const DescendantContext = createDescendantContext('List')
 const CommandContext = createContext({})
-const useCommand = () => useContext(CommandContext)
+const useCommandCtx = () => useContext(CommandContext)
 
 export function Command({
   children,
@@ -54,67 +52,8 @@ export function Command({
   )
 }
 
-const inputs = ['select', 'button', 'textarea']
-
-export function CommandList({ children }) {
-  const { listId, selected, setSelected } = useCommand()
-  const [descendants, setDescendants] = useDescendantsInit()
-
-  useEffect(() => {
-    function handleKey(e) {
-      switch (e.key) {
-        case 'ArrowDown': {
-          // Don't move text cursor
-          e.preventDefault()
-
-          if (selected < descendants.length - 1) {
-            setSelected(selected + 1)
-          }
-          break
-        }
-        case 'ArrowUp': {
-          // Don't move text cursor
-          e.preventDefault()
-
-          if (selected > 0) {
-            setSelected(selected - 1)
-          }
-          break
-        }
-        case 'Enter': {
-          const cb = descendants[selected]?.callback
-
-          if (!cb) {
-            return
-          }
-
-          if (document.activeElement) {
-            // Ignore [Enter] when button, select, textarea, or contentEditable is focused
-            if (
-              inputs.indexOf(document.activeElement.tagName.toLowerCase()) !==
-                -1 ||
-              document.activeElement.contentEditable === 'true'
-            ) {
-              return
-            }
-
-            // Ignore [Enter] on inputs that aren't a CommandInput
-            if (!document.activeElement.hasAttribute('data-command-input')) {
-              return
-            }
-          }
-
-          cb()
-          break
-        }
-        default:
-          break
-      }
-    }
-
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
-  }, [selected, descendants, setSelected, children])
+export function CommandList({ descendants, setDescendants, children }) {
+  const { listId } = useCommandCtx()
 
   return (
     <>
@@ -144,7 +83,7 @@ export function CommandList({ children }) {
 
 export function CommandItem({ children, callback }) {
   const ref = useRef()
-  const { selected, setSelected } = useCommand()
+  const { selected, setSelected } = useCommandCtx()
 
   const index = useDescendant(
     {
@@ -173,9 +112,6 @@ export function CommandItem({ children, callback }) {
       // mouse over item 1, press down arrow, move mouse inside of item 1
       // active item should be item 1 again, not item 2
       onMouseMove={handleMouse}
-      style={{
-        color: isActive ? '#fff' : '#888'
-      }}
       // a11y
       tabIndex={-1}
       aria-selected={isActive || undefined}
@@ -188,7 +124,7 @@ export function CommandItem({ children, callback }) {
 }
 
 export const CommandInput = forwardRef(({ ...props }, ref) => {
-  const { listId, label } = useCommand()
+  const { listId, label } = useCommandCtx()
 
   return (
     <input

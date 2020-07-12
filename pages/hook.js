@@ -18,10 +18,6 @@ import styles from '@styles/inverse.module.css'
 import Button from '@components/button'
 import useDelayedRender from 'use-delayed-render'
 
-const Label = ({ children }) => {
-  return <li className={styles.label}>{children}</li>
-}
-
 const BlogItems = () => [
   <CommandItem value="Post A" key="Post A">
     Post A
@@ -40,20 +36,6 @@ const PriceItems = ({ state: { search } }) => {
     <CommandItem key="pesos">{value * 22.36} Mexican Pesos</CommandItem>,
     <CommandItem key="egypt">{value * 16.06} Egyptian Pound</CommandItem>
   ]
-}
-
-const group = (title, search, items) => {
-  const filteredItems = matchSorter(items, search, { keys: ['props.value'] })
-
-  if (filteredItems.length) {
-    if (title) {
-      return [<Label>{title}</Label>, ...filteredItems]
-    }
-
-    return filteredItems
-  }
-
-  return []
 }
 
 const DefaultItems = ({ state, actions }) => {
@@ -81,11 +63,6 @@ const DefaultItems = ({ state, actions }) => {
     <CommandItem value="Calculate" key="Calculate" callback={goPricing}>
       Calculate Tax
     </CommandItem>,
-    ...group('Navigation', state.search, [
-      <CommandItem value="Navigation 1">Navigation 1</CommandItem>,
-      <CommandItem value="Navigation 2">Navigation 2</CommandItem>,
-      <CommandItem value="Navigation 3">Navigation 3</CommandItem>
-    ]),
     <CommandItem value="Check me" key="Check me" callback={x}>
       <input
         type="checkbox"
@@ -96,22 +73,19 @@ const DefaultItems = ({ state, actions }) => {
     </CommandItem>
   ]
 
-  console.log(items)
-  return matchSorter(items, state.search, {
-    keys: [
-      item => {
-        // Always make labels a match
-        if (item.type === Label) {
-          return state.search
-        }
-
-        return item.props.value
-      }
-    ]
-  })
+  return items
 }
 
 const Test = () => {
+  const state = useCommand(
+    {
+      open: true,
+      items: [DefaultItems]
+    },
+    useResetSelected,
+    useResetSearch
+  )
+
   const {
     selected,
     open,
@@ -121,13 +95,7 @@ const Test = () => {
     items,
     descendants,
     setDescendants
-  } = useCommand(
-    {
-      items: [DefaultItems]
-    },
-    useResetSelected,
-    useResetSearch
-  )
+  } = state
 
   const { mounted, rendered } = useDelayedRender(open, {
     enterDelay: -1,
