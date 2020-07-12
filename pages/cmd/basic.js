@@ -7,14 +7,14 @@ import {
 
 const Basic = () => {
   return (
-    <Command aria-label="Basic Command">
+    <Command aria-label="Basic Command" open={true}>
       <CommandInput placeholder="Hello there..." />
 
       <CommandList>
-        <CommandItem callback={() => {}} value="hello">
+        <CommandItem callback={() => alert('hello')} value="hello">
           Hello
         </CommandItem>
-        <CommandItem callback={() => {}} value="hello two">
+        <CommandItem callback={() => alert('hihihi')} value="hello two">
           Hello two
         </CommandItem>
       </CommandList>

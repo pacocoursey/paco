@@ -13,9 +13,7 @@ import {
   useDescendant
 } from '@reach/descendants'
 
-export const DescendantContext = createDescendantContext(
-  'CommandDescendantContext'
-)
+const DescendantContext = createDescendantContext('CommandDescendantContext')
 const CommandContext = createContext({
   listId: '',
   label: '',
@@ -46,6 +44,11 @@ const CommandCore = ({
     search
   }
 
+  if (selected === undefined) {
+    throw new Error(`Missing required props in Command.
+    - Did you mean to use 'cmd/uncontrolled'?`)
+  }
+
   return (
     <CommandContext.Provider value={context}>
       <DialogOverlay
@@ -67,6 +70,14 @@ export { CommandCore as Command }
 export const CommandList = forwardRef(
   ({ descendants, setDescendants, children, ...props }, ref) => {
     const { listId } = useCommandCtx()
+
+    if (!descendants || !setDescendants) {
+      throw new Error(
+        `Missing descendants in CommandList.
+        - Did you mean to import from 'cmd/uncontrolled'?
+        - If using useCommand, remember to pass {...listProps}.`
+      )
+    }
 
     return (
       <>
@@ -140,7 +151,7 @@ export const CommandItem = props => {
   return null
 }
 
-export const CommandItemInner = ({ children, callback, ...props }) => {
+const CommandItemInner = ({ children, callback, ...props }) => {
   const ref = useRef(null)
   const { selected, setSelected } = useCommandCtx()
 

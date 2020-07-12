@@ -3,7 +3,7 @@ import { useCommand } from './use-command'
 import matchSorter from 'match-sorter'
 
 import { Command, Filter, CommandInput, CommandList } from '.'
-export { CommandItem } from '.'
+export { CommandItem, Filter, useFilter } from '.'
 
 const ControlledContext = createContext({})
 export const useControlled = () => useContext(ControlledContext)
@@ -13,7 +13,7 @@ const textFilter = ({ value }, search) => {
   return !!matchSorter([value], search).length
 }
 
-const ControlledCommand = ({ children, open: openProp }) => {
+const ControlledCommand = ({ children, open: openProp, ...props }) => {
   const {
     open,
     actions,
@@ -28,6 +28,7 @@ const ControlledCommand = ({ children, open: openProp }) => {
 
   return (
     <Command
+      {...props}
       {...commandProps}
       open={open}
       search={search}
