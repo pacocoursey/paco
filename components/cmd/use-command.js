@@ -49,7 +49,8 @@ export const useCommand = (defaults, ...hooks) => {
     dispatch,
     descendants,
     selected,
-    rotate: defaults?.rotate || false
+    rotate: defaults?.rotate || false,
+    element: defaults?.element
   })
 
   const actions = useMemo(() => {
@@ -111,7 +112,7 @@ export const useResetSearch = ({ dispatch, state, inputRef }) => {
   }, [state.items, dispatch, inputRef])
 }
 
-const useKeydown = ({ dispatch, descendants, selected, rotate }) => {
+const useKeydown = ({ dispatch, descendants, selected, rotate, element }) => {
   const setLast = useCallback(() => {
     dispatch({ type: 'setSelected', selected: descendants.length - 1 })
   }, [dispatch, descendants])
@@ -203,7 +204,18 @@ const useKeydown = ({ dispatch, descendants, selected, rotate }) => {
       }
     }
 
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
-  }, [selected, descendants, dispatch, setFirst, setLast, setNext, setPrev])
+    const el = element || window
+
+    el.addEventListener('keydown', handleKey)
+    return () => el.removeEventListener('keydown', handleKey)
+  }, [
+    selected,
+    descendants,
+    dispatch,
+    setFirst,
+    setLast,
+    setNext,
+    setPrev,
+    element
+  ])
 }

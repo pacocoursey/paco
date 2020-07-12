@@ -1,3 +1,17 @@
+/*
+
+TODO:
+
+- CommandCore: how to handle virtualization?
+
+- CommandCore: should wrap with Dialog by default or let user do it?
+  - Nope, let the user do it.
+
+- useCommand: where should keybinds be registered? don't want global window
+  - Pass {element} to useCommand(). Or do it yourself.
+
+*/
+
 import {
   createContext,
   useContext,
@@ -7,7 +21,6 @@ import {
   useEffect
 } from 'react'
 import { useId } from '@reach/auto-id'
-import { DialogOverlay, DialogContent } from '@reach/dialog'
 import {
   createDescendantContext,
   DescendantProvider,
@@ -24,47 +37,43 @@ const CommandContext = createContext({
 })
 const useCommandCtx = () => useContext(CommandContext)
 
-const CommandCore = ({
-  children,
-  'aria-label': label,
-  open,
-  selected,
-  setSelected,
-  search,
-  onDismiss,
-  className,
-  overlayClassName
-}) => {
-  const listId = useId()
+const CommandCore = forwardRef(
+  (
+    {
+      children,
+      'aria-label': label,
+      open,
+      selected,
+      setSelected,
+      search,
+      className
+    },
+    ref
+  ) => {
+    const listId = useId()
 
-  const context = {
-    listId,
-    label,
-    selected,
-    setSelected,
-    search
-  }
+    const context = {
+      listId,
+      label,
+      selected,
+      setSelected,
+      search
+    }
 
-  if (selected === undefined) {
-    throw new Error(`Missing required props in Command.
+    if (selected === undefined) {
+      throw new Error(`Missing required props in Command.
     - Did you mean to use 'cmd/uncontrolled'?`)
-  }
+    }
 
-  return (
-    <CommandContext.Provider value={context}>
-      <DialogOverlay
-        isOpen={open}
-        className={overlayClassName}
-        data-command-overlay=""
-        onDismiss={onDismiss}
-      >
-        <DialogContent className={className} data-command="" aria-label={label}>
+    return (
+      <CommandContext.Provider value={context}>
+        <div data-command="" className={className} ref={ref}>
           {children}
-        </DialogContent>
-      </DialogOverlay>
-    </CommandContext.Provider>
-  )
-}
+        </div>
+      </CommandContext.Provider>
+    )
+  }
+)
 
 export { CommandCore as Command }
 
