@@ -4,9 +4,6 @@ TODO:
 
 - CommandCore: how to handle virtualization?
 
-- CommandCore: should wrap with Dialog by default or let user do it?
-  - Nope, let the user do it.
-
 - useCommand: where should keybinds be registered? don't want global window
   - Pass {element} to useCommand(). Or do it yourself.
 
@@ -26,6 +23,7 @@ import {
   DescendantProvider,
   useDescendant
 } from '@reach/descendants'
+import { DialogContent, DialogOverlay } from '@reach/dialog'
 
 const DescendantContext = createDescendantContext('CommandDescendantContext')
 const CommandContext = createContext({
@@ -46,7 +44,10 @@ const CommandCore = forwardRef(
       selected,
       setSelected,
       search,
-      className
+      className,
+      overlayClassName,
+      onDismiss,
+      ...props
     },
     ref
   ) => {
@@ -67,9 +68,21 @@ const CommandCore = forwardRef(
 
     return (
       <CommandContext.Provider value={context}>
-        <div data-command="" className={className} ref={ref}>
-          {children}
-        </div>
+        <DialogOverlay
+          isOpen={open}
+          className={overlayClassName}
+          data-command-overlay=""
+          onDismiss={onDismiss}
+        >
+          <DialogContent
+            className={className}
+            data-command=""
+            aria-label={label}
+            {...props}
+          >
+            {children}
+          </DialogContent>
+        </DialogOverlay>
       </CommandContext.Provider>
     )
   }
