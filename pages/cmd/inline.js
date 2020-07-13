@@ -14,9 +14,10 @@ import {
 } from '@components/cmd/use-command'
 import matchSorter from 'match-sorter'
 import cn from 'classnames'
+import { Dialog, DialogOverlay, DialogContent } from '@reach/dialog'
 
 import Page from '@components/page'
-import styles from '@styles/inverse.module.css'
+import styles from '@styles/inline.module.css'
 import Button from '@components/button'
 import useDelayedRender from 'use-delayed-render'
 
@@ -129,11 +130,9 @@ const Test = () => {
     search,
     items,
     listProps,
-    commandProps,
-    descendants
+    commandProps
   } = useCommand(
     {
-      open: true,
       items: [DefaultItems]
     },
     useResetSelected,
@@ -155,11 +154,14 @@ const Test = () => {
   const Items = items[items.length - 1]
 
   const listRef = useRef()
+  const buttonRef = useRef()
 
   return (
     <Page title="Command">
       <h1>Command Testing</h1>
-      <button onClick={actions.open}>Toggle</button>
+      <Button onClick={actions.open} ref={buttonRef}>
+        Search stuff v
+      </Button>
 
       <Command
         {...commandProps}
@@ -171,6 +173,13 @@ const Test = () => {
         overlayClassName={cn(styles.screen, {
           [styles.show]: rendered
         })}
+        isOpen={open}
+        onDismiss={actions.close}
+        style={{
+          position: 'absolute',
+          top: buttonRef.current?.offsetTop,
+          left: buttonRef.current?.offsetLeft
+        }}
       >
         <div className={styles.top}>
           <CommandInput
@@ -184,14 +193,10 @@ const Test = () => {
               ←
             </Button>
           )}
-
-          <Button onClick={actions.close}>close</Button>
         </div>
 
         <div
-          className={cn(styles.container, {
-            [styles.empty]: descendants.length === 0
-          })}
+          className={styles.container}
           style={{ height: listRef.current?.offsetHeight }}
         >
           <CommandList {...listProps} ref={listRef}>

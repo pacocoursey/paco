@@ -17,16 +17,13 @@
 }
 
 .command {
-  position: relative;
-  margin: 0 auto;
   z-index: 9999;
   border-radius: 10px;
   overflow: hidden;
-  top: calc(30px + var(--big-gap) + (3 * var(--gap-double)));
   background: var(--bg);
   box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.4), 0px 0px 60px rgba(0, 0, 0, 0.5),
     inset 0px 1px 0px rgba(0, 0, 0, 0.6);
-  width: 700px;
+  width: 200px;
 
   opacity: 0;
   transform: scale(0.97);
@@ -46,11 +43,11 @@
 
 .command [data-command-input] {
   outline: none;
-  height: 60px;
+  height: 32px;
   width: 100%;
   border: 0;
   background: 0;
-  font-size: 1rem;
+  font-size: 0.875rem;
   color: var(--fg);
 }
 
@@ -62,19 +59,26 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  border-top: 1px solid var(--lighter-gray);
+}
+
+.command [data-command-list-empty] {
+  border-top: none;
 }
 
 .command [data-command-item] {
   display: block;
   outline: none;
-  font-size: 1rem;
+  font-size: 0.875rem;
   cursor: pointer;
   padding: var(--padding);
   height: var(--height);
   display: flex;
   align-items: center;
   color: var(--gray);
-  min-height: 60px;
+  min-height: 40px;
 }
 
 .command [data-command-item][aria-selected] {
@@ -106,17 +110,6 @@
 }
 
 .container {
-  max-height: 300px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
   transition: height 0.1s ease;
   will-change: height;
-}
-
-.container {
-  border-top: 1px solid var(--lighter-gray);
-}
-
-.container.empty {
-  border-top: none;
 }
