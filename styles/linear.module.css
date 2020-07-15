@@ -1,0 +1,85 @@
+.screen {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  --overlay: rgba(0, 0, 0, 0.6);
+  background: var(--overlay);
+  --padding: 0 20px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.screen.show {
+  opacity: 1;
+}
+
+.command {
+  composes: command from './inverse.module.css';
+  background: linear-gradient(
+    136.61deg,
+    rgb(49, 49, 54) 13.72%,
+    rgb(43, 43, 50) 74.3%
+  );
+  color: rgb(214, 214, 214);
+  caret-color: rgb(110, 94, 210);
+  margin: 0 auto;
+  font-family: 'Inter';
+  border-radius: 8px;
+}
+
+.command.show {
+  opacity: 1;
+  transform: none;
+}
+
+.command [data-command-input] {
+  font-size: 18px;
+  height: 61px;
+  border-bottom-color: rgb(60, 60, 64);
+}
+
+.command [data-command-input]::placeholder {
+  color: #81808d;
+}
+
+.command [data-command-item] {
+  font-size: 14px;
+  border-left: 2px solid transparent;
+  color: rgb(214, 214, 214);
+}
+
+.command [data-command-item][aria-selected] {
+  background: rgb(55, 55, 60);
+  border-left-color: rgb(94, 106, 210);
+}
+
+.label {
+  height: 22px;
+  background: rgba(247, 247, 248, 0.03);
+  font-size: 12px;
+  color: rgb(129, 128, 142);
+  margin: 1px 0;
+}
+
+/* span.icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+span.keybind kbd {
+  color: rgb(215, 216, 219);
+  font-size: 11px;
+  background: rgb(80, 80, 84);
+  border-radius: 3px;
+  padding: 4px 3px 4px 4px;
+  text-transform: uppercase;
+  text-align: center;
+  display: inline-block;
+  height: unset;
+  width: unset;
+  line-height: 110%;
+  min-width: 20px;
+} */

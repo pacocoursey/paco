@@ -45,6 +45,7 @@
 }
 
 .command [data-command-input] {
+  padding: 0 var(--gap);
   outline: none;
   height: 60px;
   width: 100%;
@@ -65,11 +66,11 @@
 }
 
 .command [data-command-item] {
+  padding: 0 var(--gap);
   display: block;
   outline: none;
   font-size: 1rem;
   cursor: pointer;
-  padding: var(--padding);
   height: var(--height);
   display: flex;
   align-items: center;
