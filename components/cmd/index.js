@@ -33,6 +33,8 @@ const CommandContext = createContext({
   setSelected: () => {},
   search: ''
 })
+
+const inputs = ['select', 'button', 'textarea']
 const useCommandCtx = () => useContext(CommandContext)
 
 const CommandCore = forwardRef(
@@ -113,7 +115,6 @@ export const CommandList = forwardRef(
           {...props}
         >
           <DescendantProvider
-            // @ts-ignore Ye idk how to fix this, types suck
             context={DescendantContext}
             items={descendants}
             set={setDescendants}
@@ -127,7 +128,7 @@ export const CommandList = forwardRef(
             aria-live="polite"
             role="status"
             data-command-list-results=""
-            // We'll manually add styles h1ere: should be SR only
+            // We'll manually add styles here: should be SR only
             style={{
               border: 0,
               padding: 0,
@@ -180,9 +181,7 @@ const CommandItemInner = ({ children, callback, ...props }) => {
 
   const index = useDescendant(
     {
-      element: ref.current,
-      callback,
-      ...props
+      element: ref.current
     },
     DescendantContext
   )
@@ -206,6 +205,35 @@ const CommandItemInner = ({ children, callback, ...props }) => {
       })
     }
   }, [isActive])
+
+  const handleKey = useCallback(
+    e => {
+      if (!callback || !isActive || e.key !== 'Enter') return
+
+      if (document.activeElement) {
+        // Ignore [Enter] when button, select, textarea, or contentEditable is focused
+        if (
+          inputs.indexOf(document.activeElement.tagName.toLowerCase()) !== -1 ||
+          document.activeElement.contentEditable === 'true'
+        ) {
+          return
+        }
+
+        // Ignore [Enter] on inputs that aren't a CommandInput
+        if (!document.activeElement.hasAttribute('data-command-input')) {
+          return
+        }
+      }
+
+      callback()
+    },
+    [callback, isActive]
+  )
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [handleKey])
 
   return (
     <li

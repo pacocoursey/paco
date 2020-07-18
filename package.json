@@ -31,7 +31,7 @@
     "react-intersection-observer": "^8.24.2",
     "react-window": "^1.8.5",
     "use-delayed-render": "^0.0.3",
-    "use-key": "^1.0.1"
+    "use-key": "file:.yalc/use-key"
   },
   "devDependencies": {
     "@types/body-scroll-lock": "^2.6.1",

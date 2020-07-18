@@ -7899,10 +7899,8 @@ use-delayed-render@^0.0.3:
     "@types/react" "^16.9.34"
     microbundle "^0.12.0-next.9"
 
-use-key@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/use-key/-/use-key-1.0.1.tgz#1acfca65b724fb9aace714c502af64bc637ee750"
-  integrity sha512-Gu+jYezTMbC4v8P/TaDpARVe2Pno0CZ6FCU7cdG4FQqPebXv63DoY7Lfe9HZDzOi0v/sfzUJKYCYc4VuZ50nXQ==
+"use-key@file:.yalc/use-key":
+  version "1.0.0"
 
 use-sidecar@^1.0.1:
   version "1.0.2"
