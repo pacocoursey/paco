@@ -96,27 +96,38 @@ const HeaderMenu = () => {
   const router = useRouter()
   const { toggleTheme } = useTheme()
 
+  const closeOnCallback = useCallback(
+    cb => {
+      cb()
+      actions.close()
+    },
+    [actions]
+  )
+
   const keymap = useMemo(() => {
     return {
-      t: () => toggleTheme(),
+      t: () => closeOnCallback(() => toggleTheme()),
       // Blog
-      'g b': () => router.push('/blog'),
+      'g b': () => closeOnCallback(() => router.push('/blog')),
       // Navigation
-      'g h': () => router.push('/'),
+      'g h': () => closeOnCallback(() => router.push('/')),
       'g c': () => router.push('/contact'),
       // Collections
-      'g r': () => router.push('/reading'),
-      'g d': () => router.push('/design'),
-      'g k': () => router.push('/keyboards'),
-      'g m': () => router.push('/music'),
-      'g p': () => router.push('/projects'),
-      'g q': () => router.push('/quotes'),
-      'g w': () => router.push('/words'),
-      'g i': () => router.push('/ideas'),
+      'g r': () => closeOnCallback(() => router.push('/reading')),
+      'g d': () => closeOnCallback(() => router.push('/design')),
+      'g k': () => closeOnCallback(() => router.push('/keyboards')),
+      'g m': () => closeOnCallback(() => router.push('/music')),
+      'g p': () => closeOnCallback(() => router.push('/projects')),
+      'g q': () => closeOnCallback(() => router.push('/quotes')),
+      'g w': () => closeOnCallback(() => router.push('/words')),
+      'g i': () => closeOnCallback(() => router.push('/ideas')),
       // Social
-      'g t': () => window.open('https://twitter.com/pacocoursey', '_blank')
+      'g t': () =>
+        closeOnCallback(() =>
+          window.open('https://twitter.com/pacocoursey', '_blank')
+        )
     }
-  }, [toggleTheme, router])
+  }, [toggleTheme, router, closeOnCallback])
 
   // Register the keybinds globally
   useKey(keymap)
@@ -186,7 +197,7 @@ const HeaderMenu = () => {
           }}
         >
           <CommandList {...listProps} ref={listRef}>
-            <CommandData.Provider value={{ actions, keymap }}>
+            <CommandData.Provider value={{ keymap }}>
               <Items
                 state={{ items, search, open }}
                 actions={actions}
@@ -298,20 +309,10 @@ const DefaultItems = ({ actions, state, keymap }) => {
 }
 
 const Item = memo(({ icon, children, callback, keybind, ...props }) => {
-  const { keymap, actions } = useCommandData()
-
-  const callbackAndClose = useCallback(() => {
-    if (callback) {
-      callback()
-    } else if (keymap[keybind]) {
-      keymap[keybind]()
-    }
-
-    actions.close()
-  }, [callback, actions, keymap, keybind])
+  const { keymap } = useCommandData()
 
   return (
-    <CommandItem {...props} callback={callbackAndClose}>
+    <CommandItem {...props} callback={callback || keymap[keybind]}>
       <div>
         <div className={styles.icon}>{icon}</div>
         {children || props.value}

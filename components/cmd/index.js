@@ -1,14 +1,3 @@
-/*
-
-TODO:
-
-- CommandCore: how to handle virtualization?
-
-- useCommand: where should keybinds be registered? don't want global window
-  - Pass {element} to useCommand(). Or do it yourself.
-
-*/
-
 import {
   createContext,
   useContext,
