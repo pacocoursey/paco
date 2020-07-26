@@ -114,7 +114,7 @@ const HeaderMenu = () => {
       'g w': () => router.push('/words'),
       'g i': () => router.push('/ideas'),
       // Social
-      'g t': () => window.open('https://github.com/pacocoursey', '_blank')
+      'g t': () => window.open('https://twitter.com/pacocoursey', '_blank')
     }
   }, [toggleTheme, router])
 
