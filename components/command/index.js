@@ -45,8 +45,8 @@ import headerStyles from '@components/header/header.module.css'
 import Button from '@components/button'
 import useTheme from '@lib/theme'
 
-const KeyMap = React.createContext({})
-const useKeyMap = () => React.useContext(KeyMap)
+const CommandData = React.createContext({})
+const useCommandData = () => React.useContext(CommandData)
 
 const HeaderMenu = () => {
   const {
@@ -186,13 +186,13 @@ const HeaderMenu = () => {
           }}
         >
           <CommandList {...listProps} ref={listRef}>
-            <KeyMap.Provider value={keymap}>
+            <CommandData.Provider value={{ actions, keymap }}>
               <Items
                 state={{ items, search, open }}
                 actions={actions}
                 keymap={keymap}
               />
-            </KeyMap.Provider>
+            </CommandData.Provider>
           </CommandList>
         </div>
       </Command>
@@ -298,10 +298,20 @@ const DefaultItems = ({ actions, state, keymap }) => {
 }
 
 const Item = memo(({ icon, children, callback, keybind, ...props }) => {
-  const keymap = useKeyMap()
+  const { keymap, actions } = useCommandData()
+
+  const callbackAndClose = useCallback(() => {
+    if (callback) {
+      callback()
+    } else if (keymap[keybind]) {
+      keymap[keybind]()
+    }
+
+    actions.close()
+  }, [callback, actions, keymap, keybind])
 
   return (
-    <CommandItem {...props} callback={callback || keymap[keybind]}>
+    <CommandItem {...props} callback={callbackAndClose}>
       <div>
         <div className={styles.icon}>{icon}</div>
         {children || props.value}
