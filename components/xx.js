@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useRef } from 'react'
+import React, { memo, useEffect, useRef } from 'react'
 import matchSorter from 'match-sorter'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
@@ -9,8 +9,7 @@ import {
   Command,
   CommandInput,
   CommandItem,
-  CommandList,
-  useFilter
+  CommandList
 } from '@components/cmd'
 import {
   useCommand,
@@ -176,161 +175,27 @@ const BlogItems = () => (
   </>
 )
 
-const Label = ({ children, values, search }) => {
-  const filter = useFilter()
-
-  const shouldRender =
-    typeof filter === 'function' ? filter(values, search) : true
-
-  if (shouldRender) {
-    return <li className={styles.label}>{children}</li>
-  }
-
-  return null
-}
-
-const labelFilter = (values, search) => {
-  return !!matchSorter(values, search).length
-}
-
-const BlogGroup = ({ state, actions }) => {
-  const router = useRouter()
-  const values = ['Blog', 'Search blog...']
-
+const Label = ({ title, values, search }) => {
   return (
-    <>
-      <Filter filter={labelFilter}>
-        <Label values={values} search={state.search}>
-          Blog
-        </Label>
-      </Filter>
-      <Item
-        value="Blog"
-        icon={<Pencil />}
-        callback={() => router.push('/blog')}
-      />
-      <Item
-        value="Search blog..."
-        icon={<Search />}
-        callback={() => actions.setItems([...state.items, BlogItems])}
-      />
-      <Item
-        value="RSS"
-        icon={<RSS />}
-        callback={() => router.push('/feed.xml')}
-      />
-    </>
+    <div className={styles.label} aria-hidden>
+      {title}
+    </div>
   )
 }
 
-const CollectionGroup = ({ state }) => {
-  const values = ['Reading']
-  const router = useRouter()
-
+const Group = ({ children, title }) => {
   return (
-    <>
-      <Filter filter={labelFilter}>
-        <Label values={values} search={state.search}>
-          Collections
-        </Label>
-      </Filter>
-      <Item
-        value="Reading"
-        icon={<Book />}
-        callback={() => router.push('/reading')}
-      />
-      <Item
-        value="Design"
-        icon={<Design />}
-        callback={() => router.push('/design')}
-      />
-      <Item
-        value="Keyboards"
-        icon={<M6 />}
-        callback={() => router.push('/keyboards')}
-      />
-      <Item
-        value="Music"
-        icon={<Music />}
-        callback={() => router.push('/music')}
-      />
-      <Item
-        value="Projects"
-        icon={<Document />}
-        callback={() => router.push('/projects')}
-      />
-      <Item
-        value="Quotes"
-        icon={<Quote />}
-        callback={() => router.push('/quotes')}
-      />
-      <Item
-        value="Words"
-        icon={<Words />}
-        callback={() => router.push('/words')}
-      />
-      <Item
-        value="Ideas"
-        icon={<Lightbulb />}
-        callback={() => router.push('/ideas')}
-      />
-    </>
-  )
-}
-
-const NavigationGroup = ({ state }) => {
-  const router = useRouter()
-  const values = ['Home', 'Contact']
-
-  return (
-    <>
-      <Filter filter={labelFilter}>
-        <Label values={values} search={state.search}>
-          Navigation
-        </Label>
-      </Filter>
-      <Item
-        value="Home"
-        icon={<ArrowRight />}
-        callback={() => router.push('/')}
-      />
-      <Item
-        value="Contact"
-        icon={<ArrowRight />}
-        callback={() => router.push('/contact')}
-      />
-    </>
-  )
-}
-
-const SocialGroup = ({ state }) => {
-  const values = ['GitHub', 'Twitter']
-
-  return (
-    <>
-      <Filter filter={labelFilter}>
-        <Label values={values} search={state.search}>
-          Social
-        </Label>
-      </Filter>
-      <Item
-        value="GitHub"
-        icon={<GitHub />}
-        callback={() => window.open('https://github.com/pacocoursey', '_blank')}
-      />
-      <Item
-        value="Twitter"
-        icon={<Twitter />}
-        callback={() =>
-          window.open('https://twitter.com/pacocoursey', '_blank')
-        }
-      />
-    </>
+    <li className={styles.group}>
+      {/* TODO: check if aria-label is needed */}
+      <ul aria-label={title}>{children}</ul>
+      <Label title={title} />
+    </li>
   )
 }
 
 const DefaultItems = props => {
   const { theme, toggleTheme } = useTheme()
+  const router = useRouter()
 
   return (
     <Filter filter={textFilter}>
@@ -341,10 +206,98 @@ const DefaultItems = props => {
         callback={() => toggleTheme()}
         keybind="t"
       />
-      <BlogGroup {...props} />
-      <CollectionGroup {...props} />
-      <NavigationGroup {...props} />
-      <SocialGroup {...props} />
+      <Group title="Blog">
+        <Item
+          value="Blog"
+          icon={<Pencil />}
+          callback={() => router.push('/blog')}
+        />
+        <Item
+          value="Search blog..."
+          icon={<Search />}
+          callback={() =>
+            props.actions.setItems([...props.state.items, BlogItems])
+          }
+        />
+        <Item
+          value="RSS"
+          icon={<RSS />}
+          callback={() => router.push('/feed.xml')}
+        />
+      </Group>
+
+      <Group title="Collection">
+        <Item
+          value="Reading"
+          icon={<Book />}
+          callback={() => router.push('/reading')}
+        />
+        <Item
+          value="Design"
+          icon={<Design />}
+          callback={() => router.push('/design')}
+        />
+        <Item
+          value="Keyboards"
+          icon={<M6 />}
+          callback={() => router.push('/keyboards')}
+        />
+        <Item
+          value="Music"
+          icon={<Music />}
+          callback={() => router.push('/music')}
+        />
+        <Item
+          value="Projects"
+          icon={<Document />}
+          callback={() => router.push('/projects')}
+        />
+        <Item
+          value="Quotes"
+          icon={<Quote />}
+          callback={() => router.push('/quotes')}
+        />
+        <Item
+          value="Words"
+          icon={<Words />}
+          callback={() => router.push('/words')}
+        />
+        <Item
+          value="Ideas"
+          icon={<Lightbulb />}
+          callback={() => router.push('/ideas')}
+        />
+      </Group>
+
+      <Group title="Navigation">
+        <Item
+          value="Home"
+          icon={<ArrowRight />}
+          callback={() => router.push('/')}
+        />
+        <Item
+          value="Contact"
+          icon={<ArrowRight />}
+          callback={() => router.push('/contact')}
+        />
+      </Group>
+
+      <Group title="Social">
+        <Item
+          value="GitHub"
+          icon={<GitHub />}
+          callback={() =>
+            window.open('https://github.com/pacocoursey', '_blank')
+          }
+        />
+        <Item
+          value="Twitter"
+          icon={<Twitter />}
+          callback={() =>
+            window.open('https://twitter.com/pacocoursey', '_blank')
+          }
+        />
+      </Group>
     </Filter>
   )
 }

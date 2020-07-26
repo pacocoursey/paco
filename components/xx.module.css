@@ -138,3 +138,21 @@
 .container.empty {
   border-top: none;
 }
+
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  order: 0;
+}
+
+.group > ul {
+  padding: 0;
+  order: 1;
+}
+
+.group > ul:empty ~ .label {
+  display: none;
+}
