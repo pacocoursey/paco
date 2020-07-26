@@ -217,14 +217,6 @@ kbd {
   border-radius: 5px;
 }
 
-[id]::before {
-  content: '';
-  display: block;
-  height: 70px;
-  margin-top: -70px;
-  visibility: hidden;
-}
-
 summary {
   cursor: pointer;
   outline: none;
