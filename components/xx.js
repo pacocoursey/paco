@@ -6,7 +6,7 @@ import useDelayedRender from 'use-delayed-render'
 
 import useKey from '@lib/use-key'
 
-// import postMeta from '@data/blog.json'
+import postMeta from '@data/blog.json'
 
 import {
   Filter,
@@ -206,16 +206,22 @@ const textFilter = ({ value }, search) => {
   return !!matchSorter([value], search).length
 }
 
-const BlogItems = () => (
-  <>
-    <CommandItem value="Post A" key="Post A">
-      Post A
-    </CommandItem>
-    <CommandItem value="Post B" key="Post B">
-      Post B
-    </CommandItem>
-  </>
-)
+const BlogItems = () => {
+  const router = useRouter()
+
+  return (
+    <Filter filter={textFilter}>
+      {postMeta.map(post => {
+        return (
+          <Item
+            value={post.title}
+            callback={() => router.push('/blog/[slug]', `/blog/${post.slug}`)}
+          />
+        )
+      })}
+    </Filter>
+  )
+}
 
 const Label = ({ title, values, search }) => {
   return (
