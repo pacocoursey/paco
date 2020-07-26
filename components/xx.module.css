@@ -174,3 +174,12 @@
 .group > ul:empty ~ .label {
   display: none;
 }
+
+.keybind {
+  display: flex;
+  align-items: center;
+}
+
+.keybind > kbd + kbd {
+  margin-left: 5px;
+}

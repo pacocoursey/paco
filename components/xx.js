@@ -1,8 +1,10 @@
-import React, { memo, useEffect, useRef } from 'react'
+import React, { memo, useEffect, useRef, useMemo, useCallback } from 'react'
 import matchSorter from 'match-sorter'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
 import useDelayedRender from 'use-delayed-render'
+
+import useKey from '@lib/use-key'
 
 import {
   Filter,
@@ -40,6 +42,9 @@ import styles from './xx.module.css'
 import headerStyles from '@components/header/header.module.css'
 import Button from '@components/button'
 import useTheme from '@lib/theme'
+
+const KeyMap = React.createContext({})
+const useKeyMap = () => React.useContext(KeyMap)
 
 const HeaderMenu = () => {
   const {
@@ -85,6 +90,53 @@ const HeaderMenu = () => {
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
   }, [actions])
+
+  const router = useRouter()
+  const { toggleTheme } = useTheme()
+
+  const keymap = useMemo(() => {
+    return {
+      t: () => toggleTheme(),
+      // Blog
+      'g b': () => router.push('/blog'),
+      // Navigation
+      'g h': () => router.push('/'),
+      'g c': () => router.push('/contact'),
+      // Collections
+      'g r': () => router.push('/reading'),
+      'g d': () => router.push('/design'),
+      'g k': () => router.push('/keyboards'),
+      'g m': () => router.push('/music'),
+      'g p': () => router.push('/projects'),
+      'g q': () => router.push('/quotes'),
+      'g w': () => router.push('/words'),
+      'g i': () => router.push('/ideas'),
+      // Social
+      'g t': () => window.open('https://github.com/pacocoursey', '_blank')
+    }
+  }, [toggleTheme, router])
+
+  // Register the keybinds globally
+  useKey(keymap)
+
+  const bounce = useCallback(() => {
+    if (inputRef.current) {
+      // Bounce the UI slightly
+      const command = inputRef.current.closest('[data-command]')
+      if (command) {
+        command.style.transform = 'scale(0.99)'
+        // Not exactly safe, but should be OK
+        setTimeout(() => {
+          command.style.transform = ''
+        }, 100)
+      }
+    }
+  }, [inputRef])
+
+  useEffect(() => {
+    // When items change, bounce the UI
+    bounce()
+  }, [items, bounce])
 
   return (
     <>
@@ -132,7 +184,13 @@ const HeaderMenu = () => {
           }}
         >
           <CommandList {...listProps} ref={listRef}>
-            <Items state={{ items, search, open }} actions={actions} />
+            <KeyMap.Provider value={keymap}>
+              <Items
+                state={{ items, search, open }}
+                actions={actions}
+                keymap={keymap}
+              />
+            </KeyMap.Provider>
           </CommandList>
         </div>
       </Command>
@@ -141,24 +199,6 @@ const HeaderMenu = () => {
 }
 
 export default HeaderMenu
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
 
 const textFilter = ({ value }, search) => {
   return !!matchSorter([value], search).length
@@ -193,8 +233,8 @@ const Group = ({ children, title }) => {
   )
 }
 
-const DefaultItems = props => {
-  const { theme, toggleTheme } = useTheme()
+const DefaultItems = ({ actions, state, keymap }) => {
+  const { theme } = useTheme()
   const router = useRouter()
 
   return (
@@ -203,21 +243,14 @@ const DefaultItems = props => {
         value="Toggle Theme"
         key="Toggle Theme"
         icon={theme === 'light' ? <Moon /> : <Sun />}
-        callback={() => toggleTheme()}
         keybind="t"
       />
       <Group title="Blog">
-        <Item
-          value="Blog"
-          icon={<Pencil />}
-          callback={() => router.push('/blog')}
-        />
+        <Item value="Blog" icon={<Pencil />} keybind="g b" />
         <Item
           value="Search blog..."
           icon={<Search />}
-          callback={() =>
-            props.actions.setItems([...props.state.items, BlogItems])
-          }
+          callback={() => actions.setItems([...state.items, BlogItems])}
         />
         <Item
           value="RSS"
@@ -227,59 +260,19 @@ const DefaultItems = props => {
       </Group>
 
       <Group title="Collection">
-        <Item
-          value="Reading"
-          icon={<Book />}
-          callback={() => router.push('/reading')}
-        />
-        <Item
-          value="Design"
-          icon={<Design />}
-          callback={() => router.push('/design')}
-        />
-        <Item
-          value="Keyboards"
-          icon={<M6 />}
-          callback={() => router.push('/keyboards')}
-        />
-        <Item
-          value="Music"
-          icon={<Music />}
-          callback={() => router.push('/music')}
-        />
-        <Item
-          value="Projects"
-          icon={<Document />}
-          callback={() => router.push('/projects')}
-        />
-        <Item
-          value="Quotes"
-          icon={<Quote />}
-          callback={() => router.push('/quotes')}
-        />
-        <Item
-          value="Words"
-          icon={<Words />}
-          callback={() => router.push('/words')}
-        />
-        <Item
-          value="Ideas"
-          icon={<Lightbulb />}
-          callback={() => router.push('/ideas')}
-        />
+        <Item value="Reading" icon={<Book />} keybind="g r" />
+        <Item value="Design" icon={<Design />} keybind="g d" />
+        <Item value="Keyboards" icon={<M6 />} keybind="g k" />
+        <Item value="Music" icon={<Music />} keybind="g m" />
+        <Item value="Projects" icon={<Document />} keybind="g p" />
+        <Item value="Quotes" icon={<Quote />} keybind="g q" />
+        <Item value="Words" icon={<Words />} keybind="g w" />
+        <Item value="Ideas" icon={<Lightbulb />} keybind="g i" />
       </Group>
 
       <Group title="Navigation">
-        <Item
-          value="Home"
-          icon={<ArrowRight />}
-          callback={() => router.push('/')}
-        />
-        <Item
-          value="Contact"
-          icon={<ArrowRight />}
-          callback={() => router.push('/contact')}
-        />
+        <Item value="Home" icon={<ArrowRight />} keybind="g h" />
+        <Item value="Contact" icon={<ArrowRight />} keybind="g c" />
       </Group>
 
       <Group title="Social">
@@ -290,26 +283,33 @@ const DefaultItems = props => {
             window.open('https://github.com/pacocoursey', '_blank')
           }
         />
-        <Item
-          value="Twitter"
-          icon={<Twitter />}
-          callback={() =>
-            window.open('https://twitter.com/pacocoursey', '_blank')
-          }
-        />
+        <Item value="Twitter" icon={<Twitter />} keybind="g t" />
       </Group>
     </Filter>
   )
 }
 
-const Item = memo(({ icon, children, keybind, ...props }) => {
+const Item = memo(({ icon, children, callback, keybind, ...props }) => {
+  const keymap = useKeyMap()
+
   return (
-    <CommandItem {...props}>
+    <CommandItem {...props} callback={callback || keymap[keybind]}>
       <div>
         <div className={styles.icon}>{icon}</div>
         {children || props.value}
       </div>
-      {keybind && <kbd className={styles.keybind}>{keybind}</kbd>}
+
+      {keybind && (
+        <span className={styles.keybind}>
+          {keybind.includes(' ') ? (
+            keybind.split(' ').map((key, i) => {
+              return <kbd key={`keybind-${key}-${i}`}>{key}</kbd>
+            })
+          ) : (
+            <kbd>{keybind}</kbd>
+          )}
+        </span>
+      )}
     </CommandItem>
   )
 })
