@@ -154,6 +154,7 @@
 }
 
 .container.empty {
+  height: 0;
   border-top: none;
 }
 
