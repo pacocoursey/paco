@@ -1,9 +1,7 @@
 import Link from 'next/link'
 
 import styles from './header.module.css'
-import {
-  Logo as LogoIcon
-} from '@components/icons'
+import { Logo as LogoIcon } from '@components/icons'
 import Command from '@components/command'
 
 const Header = ({ title, content }) => {

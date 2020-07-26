@@ -4,10 +4,6 @@ import cn from 'classnames'
 import { useRouter } from 'next/router'
 import useDelayedRender from 'use-delayed-render'
 
-import useKey from '@lib/use-key'
-
-import postMeta from '@data/blog.json'
-
 import {
   Filter,
   Command,
@@ -44,6 +40,8 @@ import styles from './command.module.css'
 import headerStyles from '@components/header/header.module.css'
 import Button from '@components/button'
 import useTheme from '@lib/theme'
+import useKey from '@lib/use-key'
+import postMeta from '@data/blog.json'
 
 const CommandData = React.createContext({})
 const useCommandData = () => React.useContext(CommandData)

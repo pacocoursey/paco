@@ -14,7 +14,6 @@ import {
 } from '@components/cmd/use-command'
 import matchSorter from 'match-sorter'
 import cn from 'classnames'
-import { Dialog, DialogOverlay, DialogContent } from '@reach/dialog'
 
 import Page from '@components/page'
 import styles from '@styles/inline.module.css'

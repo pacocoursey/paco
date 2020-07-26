@@ -1,21 +1,21 @@
-import { useReducer } from "react"
+import { useReducer } from 'react'
 
-const Popover = ({active, children}) => {
+const Popover = ({ active, children }) => {
   if (!active) return null
   return children
 }
 
-export const usePopover = (active) => {
+export const usePopover = active => {
   return useReducer(reducer, { active })
 }
 
 function reducer(state, action) {
   switch (action.type) {
     case 'close': {
-      return {...state, active: false }
+      return { ...state, active: false }
     }
     case 'open': {
-      return {...state, active: true }
+      return { ...state, active: true }
     }
     default: {
       throw new Error(`Invalid action.type: ${action.type}`)
