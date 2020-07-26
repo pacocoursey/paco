@@ -127,7 +127,7 @@ const HeaderMenu = () => {
           })}
           style={{
             height: listRef.current?.offsetHeight
-              ? listRef.current.offsetHeight + 1
+              ? Math.min(listRef.current.offsetHeight + 1, 300)
               : undefined
           }}
         >
@@ -305,9 +305,11 @@ const DefaultItems = props => {
 const Item = memo(({ icon, children, keybind, ...props }) => {
   return (
     <CommandItem {...props}>
-      <div className={styles.icon}>{icon}</div>
-      {children || props.value}
-      <div className={styles.keybind}>{keybind}</div>
+      <div>
+        <div className={styles.icon}>{icon}</div>
+        {children || props.value}
+      </div>
+      {keybind && <kbd className={styles.keybind}>{keybind}</kbd>}
     </CommandItem>
   )
 })

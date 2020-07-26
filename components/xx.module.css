@@ -48,7 +48,6 @@
     0px 20px 60px rgba(166, 173, 201, 0.1);
 }
 
-
 .command [data-command-list] {
   margin: 0;
   padding: 0;
@@ -80,6 +79,7 @@
   padding: 0 var(--gap);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   outline: none;
   font-size: 1rem;
   cursor: pointer;
@@ -88,6 +88,25 @@
   align-items: center;
   color: var(--gray);
   min-height: 60px;
+}
+
+.command [data-command-item] > div {
+  display: flex;
+  align-items: center;
+}
+
+.command [data-command-item] kbd {
+  user-select: none;
+  padding: 0;
+  font-weight: normal;
+  font-size: 0.875rem;
+  background: var(--lighter-gray);
+  color: var(--gray);
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
 }
 
 .icon {
@@ -124,7 +143,6 @@
 }
 
 .container {
-  max-height: 300px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   transition: height 0.1s ease;
