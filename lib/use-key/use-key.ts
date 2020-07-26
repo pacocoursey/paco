@@ -10,7 +10,21 @@ let listener: true | null = null
 const globalCallback = (e: KeyboardEvent) => {
   // Iterate a static array, otherwise Set contents can change during iteration
   const handlers = Array.from(globalKeybinds)
-  handlers.forEach((handler) => {
+
+  // If the current document focus is on an input element
+  // Don't try to trigger any of these keybinds
+  const el = document.activeElement
+  if (
+    el &&
+    ((el as HTMLElement).contentEditable === 'true' ||
+      el.tagName === 'INPUT' ||
+      el.tagName === 'TEXTAREA' ||
+      el.tagName === 'SELECT')
+  ) {
+    return
+  }
+
+  handlers.forEach(handler => {
     handler.handle(e)
   })
 }
@@ -27,8 +41,8 @@ function useKey(keybinds: Keybinds | null): void {
       // i.e. "Meta+k, Control+k" should not allow duplicates for either
       key
         .split(',')
-        .map((k) => k.trim())
-        .forEach((k) => {
+        .map(k => k.trim())
+        .forEach(k => {
           if (keybindsList.has(k)) {
             throw new Error(`Keybind "${k}" already in use.`)
           } else {
@@ -48,11 +62,11 @@ function useKey(keybinds: Keybinds | null): void {
     }
 
     return () => {
-      handlers.forEach((handler) => {
+      handlers.forEach(handler => {
         globalKeybinds.delete(handler)
       })
 
-      allKeybinds.forEach((k) => {
+      allKeybinds.forEach(k => {
         keybindsList.delete(k)
       })
 

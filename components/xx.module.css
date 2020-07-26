@@ -183,3 +183,29 @@
 .keybind > kbd + kbd {
   margin-left: 5px;
 }
+
+@media (max-width: 960px) {
+  .command {
+    --top: calc(30px + (3 * var(--gap-double)));
+    top: var(--top);
+  }
+}
+
+@media (max-width: 600px) {
+  .command {
+    top: var(--top);
+    height: calc(100vh - var(--top));
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+    animation: slide 0.2s ease;
+    max-height: calc(100vh - var(--top));
+
+    transform: scale(0.97) translateY(5%);
+  }
+
+  .container {
+    height: 100% !important;
+    /* Height of the iOS Safari Toolbar (:sadfari:) */
+    padding-bottom: 110px;
+  }
+}
