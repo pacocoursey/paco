@@ -40,7 +40,7 @@ import {
   GitHub,
   Twitter
 } from '@components/icons'
-import styles from './xx.module.css'
+import styles from './command.module.css'
 import headerStyles from '@components/header/header.module.css'
 import Button from '@components/button'
 import useTheme from '@lib/theme'

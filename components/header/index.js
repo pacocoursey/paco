@@ -4,7 +4,7 @@ import styles from './header.module.css'
 import {
   Logo as LogoIcon
 } from '@components/icons'
-import Command from '@components/xx'
+import Command from '@components/command'
 
 const Header = ({ title, content }) => {
   return (
