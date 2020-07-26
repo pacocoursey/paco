@@ -1,19 +1,17 @@
 import Page from '@components/page'
-import Links from '@components/links'
 import Entry from '@components/entry'
+import TextEntry from '@components/entry/text'
 
 // Data
-import useData from '@lib/use-data'
-import { data, schema } from '@data/design.json'
+import { data } from '@data/design.json'
 
 const Design = () => {
-  const { items: imageItems, filter } = useData(data.filter(x => x.image))
-  const { items: nonImageItems } = useData(data.filter(x => !x.image))
+  const imageItems = data.filter(x => x.image)
+  const nonImageItems = data.filter(x => !x.image)
 
   return (
     <Page
       title="Design"
-      content={<Links schema={schema} filter={filter} />}
       description="Collection of beautiful websites and portfolios that I admire."
     >
       <article>
@@ -24,6 +22,7 @@ const Design = () => {
               title={entry.title}
               image={entry.image}
               href={entry.url}
+              type={entry.key}
               description={entry.description}
             />
           )
@@ -31,11 +30,12 @@ const Design = () => {
 
         {nonImageItems.map(entry => {
           return (
-            <Entry
+            <TextEntry
               key={`${entry.title}-${entry.url}`}
               title={entry.title}
               image={entry.image}
               href={entry.url}
+              type={entry.key}
               description={entry.description}
             />
           )

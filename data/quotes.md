@@ -1,3 +1,9 @@
+> The sea is everything. It covers seven-tenths of the terrestrial globe. Its breath is pure and life-giving. It is an immense desert place where man is never lonely, for he senses the weaving of Creation on every hand. It is the physical embodiment of a supernatural existence... For the sea is itself nothing but **love and emotion**.
+
+[Twenty Thousand Leagues Under the Sea](https://www.amazon.com/000-Leagues-Under-Wordsworth-Classics/dp/1853260312), Jules Verne
+
+<br />
+
 > Solitude is also the key to true loving in our relationships. When we have a part of ourselves that is firm, confident, and alone, we don't need another person to fill us. We know that we have private spaces full of goodness and self-worth, and we grant those we love the same. We do not try to pry into every corner of their lives or to fill the emptiness inside us with their presence.
 >
 > People who don't know solitude never understand this. They are obsessed with the loneliness in their lives. They make unrealistic demands on those they love because they look to them to fill this loneliness. In the name of Love they smother those around them with their needs and expectations. They demand total absorption as part of a relationship, and they fear the freedom of those to whom they try to give their love.

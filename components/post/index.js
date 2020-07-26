@@ -1,19 +1,40 @@
 import Head from 'next/head'
 
+import Navigation from './navigation'
 import Page from '@components/page'
-import PostsList from '@components/posts-list'
 import styles from './post.module.css'
 
-const Post = ({ title, slug, html, hidden, og, description, date, meta }) => {
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}
+
+const Post = ({
+  title,
+  slug,
+  html,
+  hidden,
+  og,
+  description,
+  date,
+  previous,
+  next
+}) => {
   return (
     <Page
       slug={slug}
       title={title}
       description={description}
+      showHeaderTitle={false}
       image={
-        og && `https://res.cloudinary.com/dsdlhtnpw/image/upload/${slug}.png`
+        og && og === true
+          ? `https://res.cloudinary.com/dsdlhtnpw/image/upload/${slug}.png`
+          : og
       }
-      postFooter
     >
       <Head>
         {hidden && <meta name="robots" content="noindex" />}
@@ -22,11 +43,13 @@ const Post = ({ title, slug, html, hidden, og, description, date, meta }) => {
 
       <article
         dangerouslySetInnerHTML={{
-          __html: `<span class="${styles.date}">${date}</span><h1 class="${styles.title}">${title}</h1>${html}`
+          __html: `<span class="${styles.date}">${date}</span><h1 class="${
+            styles.title
+          }">${escapeHtml(title)}</h1>${html}`
         }}
       />
 
-      <PostsList slug={slug} meta={meta} />
+      <Navigation previous={previous} next={next} />
     </Page>
   )
 }

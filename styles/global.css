@@ -1,21 +1,32 @@
-@import './links.css';
 @import './syntax.css';
 @import './markdown.css';
 @import './nprogress.css';
 @import './inter.css';
 
-:root  {
+:root {
   /* Spacing */
   --gap-quarter: 0.25rem;
   --gap-half: 0.5rem;
   --gap: 1rem;
   --gap-double: 2rem;
   --small-gap: 4rem;
-  --big-gap: 10rem;
+  --big-gap: 4rem;
   --main-content: 45rem;
   --radius: 8px;
   --inline-radius: 5px;
 
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  --font-mono: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo',
+    monospace;
+
+  /* Transitions */
+  --transition: 0.1s ease-in-out;
+  --transition-slow: 0.3s ease-in-out;
+}
+
+:root {
   /* Dark Mode Colors */
   --bg: #131415;
   --fg: #fafbfc;
@@ -24,43 +35,16 @@
   --lighter-gray: #222;
   --lightest-gray: #1a1a1a;
   --article-color: #eaeaea;
-  --header-bg: rgba(19, 20, 21, 0.8);
-  --gray-alpha: rgba(255, 255, 255, 0.3);
+  --header-bg: rgba(19, 20, 21, 0.45);
+  --gray-alpha: rgba(255, 255, 255, 0.5);
   --selection: rgba(255, 255, 255, 0.99);
 
   /* Syntax Highlighting */
-  --token: #888;
-  --comment: #666;
-  --name: #b5b5b5;
-
-  /* Static Colors */
-  --blue: #007aff;
-  --green: #34c759;
-  --indigo: #5856d6;
-  --orange: #ff9500;
-  --pink: #ff2d55;
-  --purple: #af52de;
-  --red: #ff3b30;
-  --teal: #5ac8fa;
-  --yellow: #ffcc00;
-  --blue-gray: #37609c;
-
-  /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  --font-mono: 'Consolas', monospace;
-
-  /* Transitions */
-  --transition: 0.1s ease-in-out;
-  --transition-slow: 0.3s ease-in-out;
-}
-
-@supports (font-variation-settings: normal) {
-  :root {
-    --font-sans: 'Inter var', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-      'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-      'Helvetica Neue', sans-serif;
-  }
+  --token: #999;
+  --comment: #999;
+  --keyword: #fff;
+  --name: #fff;
+  --highlight: #2e2e2e;
 }
 
 .light {
@@ -72,12 +56,14 @@
   --lightest-gray: #fafafa;
   --article-color: #212121;
   --header-bg: rgba(255, 255, 255, 0.8);
-  --gray-alpha: rgba(19, 20, 21, 0.3);
+  --gray-alpha: rgba(19, 20, 21, 0.5);
   --selection: rgba(0, 0, 0, 0.99);
 
-  --token: #494949;
-  --comment: #666;
+  --token: #666;
+  --comment: #999;
+  --keyword: #000;
   --name: #333;
+  --highlight: #eaeaea;
 }
 
 * {
@@ -125,7 +111,7 @@ svg {
 p,
 li {
   letter-spacing: -0.33px;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
 }
 
 h1,
@@ -136,25 +122,29 @@ h5,
 h6 {
   font-family: var(--font-sans);
   font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: -1.07px;
+  line-height: 1.75;
 }
 
 h1 {
   font-size: 2.5rem;
   font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.89px;
 }
 
 h2 {
   font-size: 2rem;
+  letter-spacing: -0.69px;
 }
 
 h3 {
   font-size: 1.5rem;
+  letter-spacing: -0.47px;
 }
 
 h4 {
   font-size: 1.25rem;
+  letter-spacing: -0.33px;
 }
 
 hr {
@@ -179,21 +169,6 @@ button {
   font-size: inherit;
 }
 
-article {
-  max-width: var(--main-content);
-  margin: 0 auto;
-  line-height: 1.9;
-}
-
-article > * + * {
-  margin-top: 2em;
-}
-
-article p {
-  color: var(--article-color);
-  transition: color var(--transition);
-}
-
 p a,
 a.reset {
   outline: none;
@@ -210,31 +185,9 @@ a.reset:focus {
   color: var(--gray);
 }
 
-article *:not(pre) code {
-  font-weight: 600;
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  padding: 0 3px;
-}
-
-article *:not(pre) code::before,
-article *:not(pre) code::after {
-  content: '\`';
-  color: var(--gray);
-  user-select: none;
-}
-
-article pre {
-  overflow-x: auto;
-  background: var(--lighter-gray);
-  border-radius: var(--inline-radius);
-  padding: 1rem;
-}
-
-article img {
-  max-width: 100%;
-  width: var(--main-content);
-  border-radius: var(--radius);
+pre,
+code {
+  font-family: var(--font-mono);
 }
 
 .clamp {
@@ -262,4 +215,24 @@ kbd {
   font-weight: 600;
   background: var(--lighter-gray);
   border-radius: 5px;
+}
+
+[id]::before {
+  content: '';
+  display: block;
+  height: 70px;
+  margin-top: -70px;
+  visibility: hidden;
+}
+
+summary {
+  cursor: pointer;
+  outline: none;
+}
+
+details {
+  border-radius: var(--radius);
+  background: var(--lightest-gray);
+  padding: 1rem;
+  border-radius: var(--radius);
 }

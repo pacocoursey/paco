@@ -5,9 +5,42 @@ slug: better-nextjs-imports
 date: March 15, 2020
 ---
 
-Nine days after writing this post, the Next.js team [landed support for paths](https://github.com/zeit/next.js/pull/11293) in `tsconfig.json` and `jsconfig.json` by default!
+Nine days after first writing this post, the Next.js team [landed support for paths](https://github.com/zeit/next.js/pull/11293) in `tsconfig.json` and `jsconfig.json` by default! In Next.js 9.4 and onwards, you only need to specify a `baseURL` in your config file to support absolute imports:
+
+```json
+// tsconfig.json or jsconfig.json
+{
+  compilerOptions: {
+    "baseURL": "."
+  }
+}
+
+// import Button from 'components/button'
+```
+
+To use a custom prefix, add a `paths` configuration:
+
+```json
+{
+  compilerOptions: {
+    "baseURL": ".",
+    "paths": {
+      "@components/*": ["components/*"]
+    }
+  }
+}
+
+// import Button from '@components/button'
+```
 
 ---
+
+Editors like VSCode automatically support the config in `jsconfig.json`, so Command+Click to jump to the source of a file will work as usual. [Atom and IntelliJ](https://github.com/tleunen/babel-plugin-module-resolver#editors-autocompletion) also have support for rewrites.
+
+---
+
+<details>
+  <summary>The original post, using a babel plugin.</summary>
 
 Relative import statements are a pain. To avoid `../` chains, improve code portability, and type less, I've started using [`babel-plugin-module-resolver`](https://github.com/tleunen/babel-plugin-module-resolver) in my Next.js projects.
 
@@ -71,9 +104,4 @@ If you're using a mixed JS/TS codebase, you should include JS files in your `tsc
 ```
 
 Now you can update your import statements to use the new syntax!
-
----
-
-You don't have to use `@` as the prefix, that's simply my preference. You can make it fully absolute (`import Button from 'components/button'`) or use another prefix (`import Button from '$$components/button'`).
-
-Editors like VSCode automatically support the config in `jsconfig.json`, so Command+Click to jump to the source of a file will work as usual. [Atom and IntelliJ](https://github.com/tleunen/babel-plugin-module-resolver#editors-autocompletion) also have support for rewrites.
+</details>

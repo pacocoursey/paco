@@ -16,7 +16,11 @@ const About = () => {
           <Link underline href="/music">
             trance lover
           </Link>{' '}
-          in search of flow.
+          in search of flow.{' '}
+          <Link underline href="/blog">
+            Writing
+          </Link>{' '}
+          about design and code.
         </p>
 
         <p>
@@ -24,7 +28,7 @@ const About = () => {
           <Link underline href="https://vercel.com" external>
             ▲ Vercel
           </Link>{' '}
-          to design better ways to deploy websites.
+          to build better ways to deploy websites.
         </p>
       </article>
     </Page>

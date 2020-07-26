@@ -9,7 +9,7 @@
   transition: color var(--transition);
 }
 
-.gray:hover {
+.gray:hover, .gray:focus {
   color: var(--fg);
 }
 
@@ -26,6 +26,6 @@
   transition: color var(--transition);
 }
 
-.underline:hover {
+.underline:hover, .underline:focus {
   color: var(--gray);
 }

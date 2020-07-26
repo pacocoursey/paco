@@ -1,27 +1,29 @@
 import React from 'react'
 
-import Post from '@components/post'
+import Page from '@components/page'
+import PostsList from '@components/posts-list'
 import getPosts from '@lib/get-posts'
-import getPostsMeta from '@lib/get-posts-meta'
-import renderMarkdown from '@lib/render-markdown'
 
-const Index = props => {
-  return <Post {...props} />
+const Blog = ({ posts }) => {
+  return (
+    <Page title="Blog" description="Writing about design and code.">
+      <article>
+        <ul>
+          <PostsList posts={posts} />
+        </ul>
+      </article>
+    </Page>
+  )
 }
 
 export const getStaticProps = () => {
   const posts = getPosts()
-  const meta = getPostsMeta(posts)
-  const post = getPosts().shift()
-  const { body, ...rest } = post
 
   return {
     props: {
-      meta,
-      ...rest,
-      html: renderMarkdown(body)
+      posts
     }
   }
 }
 
-export default Index
+export default Blog

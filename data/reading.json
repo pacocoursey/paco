@@ -15,6 +15,100 @@
   ],
   "data": [
     {
+      "title": "Chinese Window Lattice And CSS",
+      "description": "The traditional Chinese window lattice has a symmetrical beauty, as well as a very beautiful formal name.",
+      "url": "https://yuanchuan.dev/2019/05/15/window-lattice-and-css.html",
+      "key": "blog"
+    },
+    {
+      "title": "How (some) good corporate engineering blogs are written",
+      "description": "I've been comparing notes with people who run corporate engineering blogs",
+      "url": "https://danluu.com/corp-eng-blogs/",
+      "key": "blog"
+    },
+    {
+      "title": "Improved Next.js and Gatsby page load performance with granular chunking",
+      "description": "Learn how both Next.js and Gatsby have improved their build output to minimize duplicate code and improve page load performance ",
+      "image": "https://webdev.imgix.net/granular-chunking-nextjs/hero.png?auto=format&fit=max&w=1200",
+      "url": "https://web.dev/granular-chunking-nextjs/",
+      "key": "article"
+    },
+    {
+      "title": "Reach UI: Descendants",
+      "description": "A descendant index solution for better accessibility support in compound components.",
+      "image": "https://repository-images.githubusercontent.com/142967350/e180c880-f00f-11e9-8b4b-86585462f38c",
+      "url": "https://github.com/reach/reach-ui/tree/master/packages/descendants",
+      "key": "article"
+    },
+    {
+      "title": "Inversion of Control",
+      "description": "A simple principle that can drastically improve your reusable code\n",
+      "image": "https://kentcdodds.com/static/1fb348f89567317899776511fa6767cf/3e561/banner.jpg",
+      "url": "https://kentcdodds.com/blog/inversion-of-control/",
+      "key": "blog"
+    },
+    {
+      "title": "React Hooks: Compound Components",
+      "description": "How do compound components change with React hooks?\n",
+      "image": "https://kentcdodds.com/static/6415049a20f68a68f65bd9dbb99e8812/3e561/banner.jpg",
+      "url": "https://kentcdodds.com/blog/compound-components-with-react-hooks",
+      "key": "blog"
+    },
+    {
+      "title": "Limiting input type=”color” to a certain palette (from an image) | Christian Heilmann",
+      "description": "input type='color' supports a list attribute!",
+      "url": "https://christianheilmann.com/2020/04/22/limiting-input-type-color-to-a-certain-palette-from-an-image/",
+      "key": "blog"
+    },
+    {
+      "title": "How to transform black into any given color using only CSS filters",
+      "description": "My question is: given a target RGB color, what is the formula to recolor black (#000) into that color using only CSS filters?\n\nFor an answer to be accepted, it would need to provide a function (in ...",
+      "image": "https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon@2.png?v=73d79a89bded",
+      "url": "https://stackoverflow.com/questions/42966641/how-to-transform-black-into-any-given-color-using-only-css-filters/43960991#43960991",
+      "key": "article"
+    },
+    {
+      "title": "The Performance of Styled React Components",
+      "description": "Styling React components has always been a very discussed theme. Since the first release of React, hundreds of packages taking care of our styles have been published.",
+      "url": "https://blog.primehammer.com/the-performance-of-styled-react-components/",
+      "key": "blog"
+    },
+    {
+      "title": "web.dev: How we build the site and use Web Components",
+      "description": "In this first post from the web.dev engineering team, learn about how we build the site—including our use of Eleventy and Web Components. ",
+      "image": "https://webdev.imgix.net/how-we-build-webdev-and-use-web-components/hero.jpg?auto=format&fit=max&w=1200",
+      "url": "https://web.dev/how-we-build-webdev-and-use-web-components/",
+      "key": "article"
+    },
+    {
+      "title": "ESbuild Architecture",
+      "description": "An extremely fast JavaScript bundler and minifier.",
+      "image": "https://avatars0.githubusercontent.com/u/406394?s=400&v=4",
+      "url": "https://github.com/evanw/esbuild/blob/master/docs/architecture.md",
+      "key": "article"
+    },
+    {
+      "title": "Dark Mode",
+      "description": "After several years of using Jekyll, I switched over my website to Gatsby. Jekyll worked great for most things. The part that I struggled…",
+      "image": "https://varun.ca/static/dark-mode-d7bcd67b724416a09b11518d48926d9c.gif",
+      "url": "https://varun.ca/dark-mode/",
+      "key": "blog"
+    },
+    {
+      "title": "Rebuilding our tech stack for a new Facebook",
+      "description": "Building a new web app for today’s browsers, we completely rebuilt our tech stack to achieve our goals for performance and sustainable future growth.",
+      "image": "https://engineering.fb.com/wp-content/uploads/2020/05/Comet_hero.jpg",
+      "url": "https://engineering.fb.com/web/facebook-redesign/",
+      "key": "article"
+    },
+    {
+      "title": "How To Speak by Patrick Winston",
+      "description": "MIT How to Speak, IAP 2018 Instructor: Patrick Winston View the complete course: https://ocw.mit.edu/how_to_speak Patrick Winston's How to Speak talk has bee...",
+      "image": "https://i.ytimg.com/vi/Unzc731iCUY/maxresdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=Unzc731iCUY",
+      "key": "video"
+    },
+    {
       "title": "Acrobat on the Web, Powered by WebAssembly",
       "description": "We describe how we used WebAssembly to bring Adobe’s performant and pixel-perfect rendering on the Web with the Document Cloud View SDK.",
       "image": "https://miro.medium.com/max/480/1*HqelSM6beWmKZHdo_oF3Yg.png",
@@ -29,14 +123,14 @@
       "key": "article"
     },
     {
-      "title": "Two Steps Forward, One Step Back | Jxnblk",
+      "title": "Two Steps Forward, One Step Back",
       "description": "Building UI with design constraints from utlity CSS to CSS-in-JS",
       "image": "https://jxnblk.com/avatar.png",
       "url": "https://jxnblk.com/blog/two-steps-forward/",
       "key": "blog"
     },
     {
-      "title": "The Design Graph | Jxnblk",
+      "title": "The Design Graph",
       "description": "A constraint-based system for organizing styles in UI design",
       "image": "https://jxnblk.com/avatar.png",
       "url": "https://jxnblk.com/blog/design-graph/",
@@ -104,7 +198,7 @@
       "key": "article"
     },
     {
-      "title": "Building Accessible Modals with React | Inside PSPDFKit",
+      "title": "Building Accessible Modals with React",
       "description": "In this blog post, we will look at some simple solutions that we use at PSPDFKit to make our modals more inclusive and accessible.",
       "image": "https://pspdfkit.com/images/blog/2018/building-accessible-modals-with-react/article-header-77d6e4d3.png",
       "url": "https://pspdfkit.com/blog/2018/building-accessible-modals-with-react/",
@@ -237,7 +331,7 @@
       "key": "video"
     },
     {
-      "title": "Getting Closure on React Hooks by Shawn Wang | JSConf.Asia 2019",
+      "title": "Getting Closure on React Hooks",
       "description": "The design of React Hooks requires a good understanding of closures in JavaScript. In this talk, we’ll reintroduce closures by building a tiny clone of React...",
       "image": "https://i.ytimg.com/vi/KJP1E-Y-xyo/maxresdefault.jpg",
       "url": "https://www.youtube.com/watch?v=KJP1E-Y-xyo&feature=youtu.be",
