@@ -32,6 +32,6 @@
       "@data/*": ["data/*"]
     }
   },
-  "exclude": ["./api/**"],
+  "exclude": ["node_modules"],
   "include": ["**/*.ts", "**/*.tsx", "**/*.js"]
 }

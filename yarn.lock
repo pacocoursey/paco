@@ -7449,10 +7449,10 @@ use-callback-ref@^1.2.1, use-callback-ref@^1.2.3:
   resolved "https://registry.yarnpkg.com/use-callback-ref/-/use-callback-ref-1.2.4.tgz#d86d1577bfd0b955b6e04aaf5971025f406bea3c"
   integrity sha512-rXpsyvOnqdScyied4Uglsp14qzag1JIemLeTWGKbwpotWht57hbP78aNT+Q4wdFKQfQibbUX4fb6Qb4y11aVOQ==
 
-use-delayed-render@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/use-delayed-render/-/use-delayed-render-0.0.6.tgz#f3275b5d8a6c32afbb15d06ab75ff06f638463df"
-  integrity sha512-dR4BG4fEEh+/QGRmxbyi5Ws4R7K35OJW+5vSkjDRwCjc8sIUw86fE6R5KrO62QoHymSqLZNsNmh0iKyZoVkqWg==
+use-delayed-render@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/use-delayed-render/-/use-delayed-render-0.0.7.tgz#3d35ab7c26cadc1b31b8cb4ec58342c88c3b082e"
+  integrity sha512-Lb4Sd4P50CYRQ5k2Y9SRjMDTBG3Ous7TmfCGOzabKZf3ibQwIuyF3M2q6iiGLH+BicXZJumXgJDeHRnAfZM7Gg==
 
 use-sidecar@^1.0.1:
   version "1.0.2"

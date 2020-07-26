@@ -27,7 +27,7 @@
     "react-intersection-observer": "^8.24.2",
     "react-window": "^1.8.5",
     "swr": "^0.2.0",
-    "use-delayed-render": "^0.0.6"
+    "use-delayed-render": "^0.0.7"
   },
   "devDependencies": {
     "@types/body-scroll-lock": "^2.6.1",
