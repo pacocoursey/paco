@@ -4,14 +4,15 @@ import {
   useRef,
   forwardRef,
   useCallback,
-  useEffect
+  useEffect,
+  useMemo
 } from 'react'
 import { useId } from '@reach/auto-id'
 import {
   createDescendantContext,
   DescendantProvider,
   useDescendant
-} from '@reach/descendants'
+} from '@lib/descendants'
 import { DialogContent, DialogOverlay } from '@reach/dialog'
 
 const DescendantContext = createDescendantContext('CommandDescendantContext')
@@ -26,7 +27,7 @@ const CommandContext = createContext({
 const inputs = ['select', 'button', 'textarea']
 const useCommandCtx = () => useContext(CommandContext)
 
-const CommandCore = forwardRef(
+export const Command = forwardRef(
   (
     {
       children,
@@ -79,7 +80,7 @@ const CommandCore = forwardRef(
   }
 )
 
-export { CommandCore as Command }
+Command.displayName = 'Command'
 
 export const CommandList = forwardRef(
   ({ descendants, setDescendants, children, ...props }, ref) => {
@@ -141,6 +142,8 @@ export const CommandList = forwardRef(
   }
 )
 
+CommandList.displayName = 'CommandList'
+
 const FilterContext = createContext(null)
 export const useFilter = () => useContext(FilterContext)
 
@@ -150,25 +153,42 @@ export const Filter = ({ filter, children }) => {
   )
 }
 
-export const CommandItem = props => {
+// export const CommandItem = props => {
+//   const filter = useFilter()
+//   const { search } = useCommandCtx()
+
+//   const shouldRender =
+//     typeof filter === 'function' ? filter(props, search) : true
+
+//   // if (shouldRender) {
+//   //   return <CommandItemInner {...props} />
+//   // }
+//   return <CommandItemInner {...props} shouldRender={shouldRender} />
+
+//   return null
+// }
+
+export const CommandItem = ({ children, callback, ...props }) => {
+  const ref = useRef(null)
+  const { selected, setSelected } = useCommandCtx()
+
   const filter = useFilter()
   const { search } = useCommandCtx()
 
   const shouldRender =
     typeof filter === 'function' ? filter(props, search) : true
 
-  if (shouldRender) {
-    return <CommandItemInner {...props} />
-  }
+  // const filteredProps = useMemo(() => {
+  //   let filtered = {}
+  //   for (const key of Object.keys(props)) {
+  //     const prop = props[key]
+  //     if (typeof prop !== 'function') filtered[key] = prop
+  //   }
 
-  return null
-}
+  //   return filtered
+  // }, [props])
 
-const CommandItemInner = ({ children, callback, ...props }) => {
-  const ref = useRef(null)
-  const { selected, setSelected } = useCommandCtx()
-
-  const index = useDescendant(
+  const { index, unregisterDescendant } = useDescendant(
     {
       element: ref.current
     },
@@ -224,6 +244,11 @@ const CommandItemInner = ({ children, callback, ...props }) => {
     return () => window.removeEventListener('keydown', handleKey)
   }, [handleKey])
 
+  if (!shouldRender) {
+    unregisterDescendant(ref.current)
+    return null
+  }
+
   return (
     <li
       ref={ref}
@@ -238,7 +263,7 @@ const CommandItemInner = ({ children, callback, ...props }) => {
       role="option"
       data-command-item=""
     >
-      {children}
+      {children} : {index}
     </li>
   )
 }
@@ -262,6 +287,8 @@ export const CommandInput = forwardRef(({ ...props }, ref) => {
     />
   )
 })
+
+CommandInput.displayName = 'CommandInput'
 
 function throttle(fn, interval) {
   let pending = false

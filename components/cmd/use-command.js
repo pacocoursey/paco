@@ -1,5 +1,5 @@
-import { useEffect, useReducer, useRef, useMemo, useCallback } from 'react'
-import { useDescendantsInit } from '@reach/descendants'
+import { useEffect, useReducer, useRef, useMemo, useCallback, useState } from 'react'
+import { useDescendantsInit } from '@lib/descendants'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -31,8 +31,10 @@ function reducer(state, action) {
 }
 
 export const useCommand = (defaults, ...hooks) => {
-  const [descendants, setDescendants] = useDescendantsInit()
+  // const [descendants, setDescendants] = useDescendantsInit()
+  const descendants = useRef([])
   const inputRef = useRef()
+  const [, forceUpdate] = useState()
 
   let [state, dispatch] = useReducer(reducer, {
     search: '',
@@ -45,7 +47,7 @@ export const useCommand = (defaults, ...hooks) => {
 
   useKeydown({
     dispatch,
-    descendants,
+    descendants: descendants.current,
     selected,
     rotate: defaults?.rotate || false,
     element: defaults?.element
@@ -71,26 +73,39 @@ export const useCommand = (defaults, ...hooks) => {
     })
   })
 
-  return {
-    descendants,
-    setDescendants,
-    inputRef,
-    items,
-    search,
-    selected,
-    open,
-    actions,
-    selectedValue: descendants[selected]?.value,
-    listProps: {
-      descendants,
-      setDescendants
-    },
-    commandProps: {
+  const commandProps = useMemo(() => {
+    return {
       search,
       selected,
       setSelected: actions.setSelected,
       onDismiss: actions.close
     }
+  }, [search, selected, actions])
+
+  const setDescendants = useCallback((f) => {
+    if (typeof f === 'function') {
+      descendants.current =  f(descendants.current)
+    } else {
+      descendants.current = f
+    }
+
+    // forceUpdate({})
+    console.log('updated descs', descendants.current)
+  }, [])
+
+  return {
+    inputRef,
+    items,
+    search,
+    selected,
+    descendants: descendants.current,
+    open,
+    actions,
+    listProps: {
+      descendants: descendants.current,
+      setDescendants
+    },
+    commandProps
   }
 }
 
