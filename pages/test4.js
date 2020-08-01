@@ -100,7 +100,7 @@ const List = ({ children }) => {
 
 const Item = ({ children, selected, setSelected, ...props }) => {
   const ref = useRef()
-  const index = useDescendant(ref.current, Descendants)
+  const index = useDescendant({ element: ref.current }, Descendants)
   const active = selected === index
 
   return (

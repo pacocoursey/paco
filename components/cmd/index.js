@@ -156,7 +156,12 @@ const CommandItemInner = ({ children, callback, ...props }) => {
   const ref = useRef(null)
   const { selected, setSelected } = useCommandCtx()
 
-  const index = useDescendant(ref.current, DescendantContext)
+  const index = useDescendant(
+    {
+      element: ref.current
+    },
+    DescendantContext
+  )
 
   const isActive = selected === index
 
@@ -221,7 +226,7 @@ const CommandItemInner = ({ children, callback, ...props }) => {
       role="option"
       data-command-item=""
     >
-      {children} : {index}
+      {children}
     </li>
   )
 }
