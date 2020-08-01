@@ -4,7 +4,7 @@ import {
   useDescendant,
   createDescendants,
   useDescendants
-} from '@lib/desc2'
+} from '@lib/descendants'
 import matchSorter from 'match-sorter'
 const names = getNames()
 

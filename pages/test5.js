@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react'
 import { getNames } from 'country-list'
 import {
+  createDescendantContext,
   useDescendant,
-  createDescendants,
-  useDescendants
-} from '@lib/desc2'
+  useDescendantsInit,
+  DescendantProvider
+} from '@lib/reach'
 import matchSorter from 'match-sorter'
 const names = getNames()
 
@@ -79,21 +80,28 @@ const Test = () => {
 
 export default Test
 
-const Descendants = createDescendants()
+const Descendants = createDescendantContext('test')
 
 const List = ({ children }) => {
-  const context = useDescendants()
+  const [list, setList] = useDescendantsInit()
 
   return (
     <ul>
-      <Descendants.Provider value={context}>{children}</Descendants.Provider>
+      <DescendantProvider set={setList} items={list} context={Descendants}>
+        {children}
+      </DescendantProvider>
     </ul>
   )
 }
 
 const Item = ({ children, selected, setSelected, ...props }) => {
   const ref = useRef()
-  const index = useDescendant(ref.current, Descendants)
+  const index = useDescendant(
+    {
+      element: ref.current
+    },
+    Descendants
+  )
   const active = selected === index
 
   return (
