@@ -1,10 +1,11 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { getNames } from 'country-list'
 import {
   useDescendant,
   createDescendants,
   useDescendants
 } from '@lib/descendants'
+import matchSorter from 'match-sorter'
 const names = getNames()
 
 function shuffle(array) {
@@ -14,21 +15,21 @@ function shuffle(array) {
 const Test = () => {
   const [list, setList] = useState(names.slice(0, 2))
   const [show, setShow] = useState(true)
-  // const [filter, setFilter] = useState('')
-  // const [selected, setSelected] = useState(0)
-  // const filteredNames = matchSorter(names.slice(0, 80), filter)
+  const [filter, setFilter] = useState('')
+  const [selected, setSelected] = useState(0)
+  const filteredNames = matchSorter(names.slice(0, 5), filter)
 
-  // useEffect(() => {
-  //   setSelected(0)
-  // }, [filter])
+  useEffect(() => {
+    setSelected(0)
+  }, [filter])
 
   return (
     <>
-      {/* <input
+      <input
         type="text"
         value={filter}
         onChange={e => setFilter(e.target.value)}
-      /> */}
+      />
       <button onClick={() => setList([...list, `hi-${Math.random()}`])}>
         insert item
       </button>
@@ -59,17 +60,17 @@ const Test = () => {
       </button>
       {show && (
         <List>
-          {list.map(name => {
+          {/* {list.map(name => {
             return <Item key={name}>{name}</Item>
-          })}
+          })} */}
 
-          {/* {filteredNames.map(name => {
+          {filteredNames.map(name => {
             return (
               <Item key={name} selected={selected} setSelected={setSelected}>
                 {name}
               </Item>
             )
-          })} */}
+          })}
         </List>
       )}
     </>
@@ -81,11 +82,20 @@ export default Test
 const Descendants = createDescendants()
 
 const List = ({ children }) => {
-  const context = useDescendants()
+  const { list, ...context } = useDescendants()
+
+  // const renderCount = useRef(0)
+
+  // if (renderCount.current > 20) {
+  //   throw new Error('loop')
+  // }
+
+  // renderCount.current++
 
   return (
     <ul>
       <Descendants.Provider value={context}>{children}</Descendants.Provider>
+      {/* <p>{list.length} results</p> */}
     </ul>
   )
 }
@@ -101,7 +111,7 @@ const Item = ({ children, selected, setSelected, ...props }) => {
       {...props}
       style={{ color: active ? 'red' : undefined }}
       data-value={children}
-      // onMouseOver={() => setSelected(index)}
+      onMouseOver={() => setSelected(index)}
     >
       Item {children} ({index})
     </li>
