@@ -1,14 +1,10 @@
-import {
-  useState,
-  createContext,
-  useContext,
-  useRef,
-  useCallback,
-  useEffect,
-  useLayoutEffect
-} from 'react'
+import { useState, useRef } from 'react'
 import { getNames } from 'country-list'
-import matchSorter from 'match-sorter'
+import {
+  useDescendant,
+  createDescendants,
+  useDescendants
+} from '@lib/descendants'
 const names = getNames()
 
 function shuffle(array) {
@@ -18,17 +14,21 @@ function shuffle(array) {
 const Test = () => {
   const [list, setList] = useState(names.slice(0, 2))
   const [show, setShow] = useState(true)
-  const [filter, setFilter] = useState('')
-  const [selected, setSelected] = useState(0)
-  const filteredNames = matchSorter(names, filter)
+  // const [filter, setFilter] = useState('')
+  // const [selected, setSelected] = useState(0)
+  // const filteredNames = matchSorter(names.slice(0, 80), filter)
+
+  // useEffect(() => {
+  //   setSelected(0)
+  // }, [filter])
 
   return (
     <>
-      <input
+      {/* <input
         type="text"
         value={filter}
         onChange={e => setFilter(e.target.value)}
-      />
+      /> */}
       <button onClick={() => setList([...list, `hi-${Math.random()}`])}>
         insert item
       </button>
@@ -52,9 +52,6 @@ const Test = () => {
             const l = [...list]
             shuffle(l)
             return l
-            // const a = l[1]
-            // const b = l[0]
-            // return [a, b]
           })
         }
       >
@@ -62,17 +59,17 @@ const Test = () => {
       </button>
       {show && (
         <List>
-          {/* {list.map(name => {
+          {list.map(name => {
             return <Item key={name}>{name}</Item>
-          })} */}
+          })}
 
-          {filteredNames.map(name => {
+          {/* {filteredNames.map(name => {
             return (
               <Item key={name} selected={selected} setSelected={setSelected}>
                 {name}
               </Item>
             )
-          })}
+          })} */}
         </List>
       )}
     </>
@@ -81,72 +78,21 @@ const Test = () => {
 
 export default Test
 
-const ListContext = createContext({})
-const useList = () => useContext(ListContext)
+const Descendants = createDescendants()
 
 const List = ({ children }) => {
-  const list = useRef([])
-
-  const getDOMOrder = useCallback(element => {
-    const index = list.current.findIndex(item => {
-      if (!item || !element) return false
-
-      return Boolean(
-        item.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_PRECEDING
-      )
-    })
-
-    if (index === -1) {
-      return list.current.length
-    }
-
-    return index
-  }, [])
-
-  const remove = useCallback(element => {
-    if (!element) return
-
-    // console.log('remove', element)
-    list.current = list.current.filter(el => el !== element)
-  }, [])
-
-  const insert = useCallback(
-    element => {
-      if (!element) {
-        return -1
-      }
-
-      const insertionIndex = getDOMOrder(element)
-      // console.log('insert', element, 'at', insertionIndex)
-      list.current.splice(insertionIndex, 0, element)
-      return insertionIndex
-    },
-    [] // eslint-disable-line
-  )
-
-  useEffect(() => {
-    return () => (list.current = [])
-  }, [])
-
-  // console.log('list render', list.current)
+  const context = useDescendants()
 
   return (
     <ul>
-      <ListContext.Provider
-        value={{
-          insert,
-          remove
-        }}
-      >
-        {children}
-      </ListContext.Provider>
+      <Descendants.Provider value={context}>{children}</Descendants.Provider>
     </ul>
   )
 }
 
 const Item = ({ children, selected, setSelected, ...props }) => {
   const ref = useRef()
-  const index = useIndex(ref.current)
+  const index = useDescendant(ref.current, Descendants)
   const active = selected === index
 
   return (
@@ -155,48 +101,9 @@ const Item = ({ children, selected, setSelected, ...props }) => {
       {...props}
       style={{ color: active ? 'red' : undefined }}
       data-value={children}
-      onMouseOver={() => setSelected(index)}
+      // onMouseOver={() => setSelected(index)}
     >
       Item {children} ({index})
     </li>
   )
-}
-
-const useIndex = el => {
-  const { insert, remove } = useList()
-  const [count, setCount] = useState(0)
-  const [, forceUpdate] = useState()
-  const countRef = useRef(0)
-  const index = useRef(-1)
-  const x = useRef()
-
-  useLayoutEffect(() => {
-    if (count !== countRef.current) {
-      // Skip
-      // console.log('skipping', count, countRef.current)
-      countRef.current = count
-      return
-    }
-
-    if (!el) {
-      // console.log('force update')
-      forceUpdate({})
-    } else {
-      x.current = el
-      remove(el)
-      index.current = insert(el)
-      // console.log('updating count')
-      setCount(c => c + 1)
-    }
-
-    countRef.current = count
-  })
-
-  useEffect(() => {
-    return () => {
-      remove(x.current)
-    }
-  }, [])
-
-  return index.current
 }
