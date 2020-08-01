@@ -19,6 +19,7 @@ const Test = () => {
   const [list, setList] = useState(names.slice(0, 2))
   const [show, setShow] = useState(true)
   const [filter, setFilter] = useState('')
+  const [selected, setSelected] = useState(0)
   const filteredNames = matchSorter(names, filter)
 
   return (
@@ -67,7 +68,7 @@ const Test = () => {
 
           {filteredNames.map(name => {
             return (
-              <Item key={name}>
+              <Item key={name} selected={selected} setSelected={setSelected}>
                 {name}
               </Item>
             )
@@ -154,6 +155,7 @@ const Item = ({ children, selected, setSelected, ...props }) => {
       {...props}
       style={{ color: active ? 'red' : undefined }}
       data-value={children}
+      onMouseOver={() => setSelected(index)}
     >
       Item {children} ({index})
     </li>
