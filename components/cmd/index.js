@@ -4,15 +4,14 @@ import {
   useRef,
   forwardRef,
   useCallback,
-  useEffect,
-  useMemo
+  useEffect
 } from 'react'
 import { useId } from '@reach/auto-id'
 import {
   createDescendantContext,
   DescendantProvider,
   useDescendant
-} from '@lib/descendants'
+} from '@lib/reach'
 import { DialogContent, DialogOverlay } from '@reach/dialog'
 
 const DescendantContext = createDescendantContext('CommandDescendantContext')
