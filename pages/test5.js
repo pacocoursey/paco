@@ -18,7 +18,7 @@ const Test = () => {
   const [show, setShow] = useState(true)
   const [filter, setFilter] = useState('')
   const [selected, setSelected] = useState(0)
-  const filteredNames = matchSorter(names.slice(0, 200), filter)
+  const filteredNames = matchSorter(names.slice(0, 5), filter)
 
   useEffect(() => {
     setSelected(0)

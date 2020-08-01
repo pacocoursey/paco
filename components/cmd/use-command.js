@@ -1,5 +1,15 @@
-import { useEffect, useReducer, useRef, useMemo, useCallback, useState } from 'react'
-import { useDescendantsInit } from '@lib/descendants'
+import {
+  useEffect,
+  useReducer,
+  useRef,
+  useMemo,
+  useCallback,
+  useState
+} from 'react'
+// import { useDescendantsInit } from '@lib/descendants'
+import {
+  useDescendantsInit
+} from '@lib/desc2'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -31,10 +41,8 @@ function reducer(state, action) {
 }
 
 export const useCommand = (defaults, ...hooks) => {
-  // const [descendants, setDescendants] = useDescendantsInit()
-  const descendants = useRef([])
   const inputRef = useRef()
-  const [, forceUpdate] = useState()
+  const [list, setList] = useDescendantsInit()
 
   let [state, dispatch] = useReducer(reducer, {
     search: '',
@@ -47,7 +55,6 @@ export const useCommand = (defaults, ...hooks) => {
 
   useKeydown({
     dispatch,
-    descendants: descendants.current,
     selected,
     rotate: defaults?.rotate || false,
     element: defaults?.element
@@ -82,29 +89,23 @@ export const useCommand = (defaults, ...hooks) => {
     }
   }, [search, selected, actions])
 
-  const setDescendants = useCallback((f) => {
-    if (typeof f === 'function') {
-      descendants.current =  f(descendants.current)
-    } else {
-      descendants.current = f
-    }
-
-    // forceUpdate({})
-    console.log('updated descs', descendants.current)
-  }, [])
-
   return {
     inputRef,
     items,
     search,
     selected,
-    descendants: descendants.current,
+    // descendants: descendants.current,
     open,
     actions,
+    list,
     listProps: {
-      descendants: descendants.current,
-      setDescendants
+      list,
+      setList
     },
+    // listProps: {
+    //   descendants: descendants.current,
+    //   setDescendants
+    // },
     commandProps
   }
 }

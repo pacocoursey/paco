@@ -130,7 +130,7 @@ const Test = () => {
     items,
     listProps,
     commandProps,
-    descendants
+    list
   } = useCommand(
     {
       open: true,
@@ -190,7 +190,7 @@ const Test = () => {
 
         <div
           className={cn(styles.container, {
-            [styles.empty]: descendants.length === 0
+            [styles.empty]: list.length === 0
           })}
           style={{ height: listRef.current?.offsetHeight }}
         >

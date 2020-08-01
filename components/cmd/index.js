@@ -7,14 +7,9 @@ import {
   useEffect
 } from 'react'
 import { useId } from '@reach/auto-id'
-import {
-  createDescendantContext,
-  DescendantProvider,
-  useDescendant
-} from '@lib/reach'
 import { DialogContent, DialogOverlay } from '@reach/dialog'
+import { useDescendant, useDescendants, createDescendants } from '@lib/desc2'
 
-const DescendantContext = createDescendantContext('CommandDescendantContext')
 const CommandContext = createContext({
   listId: '',
   label: '',
@@ -81,17 +76,12 @@ export const Command = forwardRef(
 
 Command.displayName = 'Command'
 
-export const CommandList = forwardRef(
-  ({ descendants, setDescendants, children, ...props }, ref) => {
-    const { listId } = useCommandCtx()
+const DescendantContext = createDescendants()
 
-    if (!descendants || !setDescendants) {
-      throw new Error(
-        `Missing descendants in CommandList.
-        - Did you mean to import from 'cmd/uncontrolled'?
-        - If using useCommand, remember to pass {...listProps}.`
-      )
-    }
+export const CommandList = forwardRef(
+  ({ children, list, setList, ...props }, ref) => {
+    const { listId } = useCommandCtx()
+    const { insert, remove } = useDescendants(list, setList)
 
     return (
       <>
@@ -100,19 +90,15 @@ export const CommandList = forwardRef(
           role="listbox"
           id={listId}
           data-command-list=""
-          data-command-list-empty={descendants.length === 0 ? '' : undefined}
+          data-command-list-empty={list.length === 0 ? '' : undefined}
           {...props}
         >
-          <DescendantProvider
-            context={DescendantContext}
-            items={descendants}
-            set={setDescendants}
-          >
+          <DescendantContext.Provider value={{ list, insert, remove }}>
             {children}
-          </DescendantProvider>
+          </DescendantContext.Provider>
         </ul>
 
-        {descendants.length > 0 && (
+        {list.length > 0 && (
           <div
             aria-live="polite"
             role="status"
@@ -133,7 +119,7 @@ export const CommandList = forwardRef(
               wordWrap: 'normal'
             }}
           >
-            {descendants.length} results available.
+            {list.length} results available.
           </div>
         )}
       </>
@@ -152,47 +138,25 @@ export const Filter = ({ filter, children }) => {
   )
 }
 
-// export const CommandItem = props => {
-//   const filter = useFilter()
-//   const { search } = useCommandCtx()
-
-//   const shouldRender =
-//     typeof filter === 'function' ? filter(props, search) : true
-
-//   // if (shouldRender) {
-//   //   return <CommandItemInner {...props} />
-//   // }
-//   return <CommandItemInner {...props} shouldRender={shouldRender} />
-
-//   return null
-// }
-
-export const CommandItem = ({ children, callback, ...props }) => {
-  const ref = useRef(null)
-  const { selected, setSelected } = useCommandCtx()
-
+export const CommandItem = props => {
   const filter = useFilter()
   const { search } = useCommandCtx()
 
   const shouldRender =
     typeof filter === 'function' ? filter(props, search) : true
 
-  // const filteredProps = useMemo(() => {
-  //   let filtered = {}
-  //   for (const key of Object.keys(props)) {
-  //     const prop = props[key]
-  //     if (typeof prop !== 'function') filtered[key] = prop
-  //   }
+  if (shouldRender) {
+    return <CommandItemInner {...props} />
+  }
 
-  //   return filtered
-  // }, [props])
+  return null
+}
 
-  const { index, unregisterDescendant } = useDescendant(
-    {
-      element: ref.current
-    },
-    DescendantContext
-  )
+const CommandItemInner = ({ children, callback, ...props }) => {
+  const ref = useRef(null)
+  const { selected, setSelected } = useCommandCtx()
+
+  const index = useDescendant(ref.current, DescendantContext)
 
   const isActive = selected === index
 
@@ -242,11 +206,6 @@ export const CommandItem = ({ children, callback, ...props }) => {
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
   }, [handleKey])
-
-  if (!shouldRender) {
-    unregisterDescendant(ref.current)
-    return null
-  }
 
   return (
     <li

@@ -29,7 +29,6 @@ const Test = () => {
     search,
     listProps,
     selected,
-    // descendants,
     commandProps
   } = useCommand(
     {
@@ -60,13 +59,13 @@ const Test = () => {
       <div className={styles.container}>
         <CommandList {...listProps}>
           <Filter filter={textFilter}>
-            {/* {names.map(name => {
+            {names.map(name => {
               return (
                 <CommandItem value={name} key={name}>
                   {name}
                 </CommandItem>
               )
-            })} */}
+            })}
             {/* {x.map((_, i) => {
               return (
                 <CommandItem value={`list-${i}`} key={`list-${i}`}>
@@ -74,7 +73,7 @@ const Test = () => {
                 </CommandItem>
               )
             })} */}
-            <CommandItem value="one">One</CommandItem>
+            {/* <CommandItem value="one">One</CommandItem> */}
             {/* <CommandItem value="two">Two</CommandItem>
             <CommandItem value="three">Three</CommandItem>
             <CommandItem value="four">Four</CommandItem>

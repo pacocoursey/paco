@@ -3,7 +3,8 @@ import { getNames } from 'country-list'
 import {
   useDescendant,
   createDescendants,
-  useDescendants
+  useDescendants,
+  useDescendantsInit
 } from '@lib/desc2'
 import matchSorter from 'match-sorter'
 const names = getNames()
@@ -17,11 +18,13 @@ const Test = () => {
   const [show, setShow] = useState(true)
   const [filter, setFilter] = useState('')
   const [selected, setSelected] = useState(0)
-  const filteredNames = matchSorter(names.slice(0, 200), filter)
+  const filteredNames = matchSorter(names.slice(0, 5), filter)
 
   useEffect(() => {
     setSelected(0)
   }, [filter])
+
+  // const [descs, setDescs] = useDescendantsInit()
 
   return (
     <>
@@ -82,11 +85,15 @@ export default Test
 const Descendants = createDescendants()
 
 const List = ({ children }) => {
-  const context = useDescendants()
+  const [list, setList] = useState([])
+  const { insert, remove } = useDescendants(list, setList)
 
   return (
     <ul>
-      <Descendants.Provider value={context}>{children}</Descendants.Provider>
+      {/* <p>{list.length} items</p> */}
+      <Descendants.Provider value={{ insert, remove, list }}>
+        {children}
+      </Descendants.Provider>
     </ul>
   )
 }
