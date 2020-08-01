@@ -9,7 +9,6 @@ import {
 } from 'react'
 import { getNames } from 'country-list'
 import matchSorter from 'match-sorter'
-import { usePrevious } from '@reach/utils'
 const names = getNames()
 
 function shuffle(array) {
@@ -20,7 +19,7 @@ const Test = () => {
   const [list, setList] = useState(names.slice(0, 2))
   const [show, setShow] = useState(true)
   const [filter, setFilter] = useState('')
-  // const filteredNames = matchSorter(names.slice(0, 10), filter)
+  const filteredNames = matchSorter(names, filter)
 
   return (
     <>
@@ -29,7 +28,9 @@ const Test = () => {
         value={filter}
         onChange={e => setFilter(e.target.value)}
       />
-      <button onClick={() => setList([...list, 1, 1])}>insert item</button>
+      <button onClick={() => setList([...list, `hi-${Math.random()}`])}>
+        insert item
+      </button>
       <br />
       <button
         onClick={() =>
@@ -48,9 +49,11 @@ const Test = () => {
         onClick={() =>
           setList(list => {
             const l = [...list]
-            const a = l[1]
-            const b = l[0]
-            return [a, b]
+            shuffle(l)
+            return l
+            // const a = l[1]
+            // const b = l[0]
+            // return [a, b]
           })
         }
       >
@@ -58,17 +61,17 @@ const Test = () => {
       </button>
       {show && (
         <List>
-          {list.map(name => {
+          {/* {list.map(name => {
             return <Item key={name}>{name}</Item>
-          })}
+          })} */}
 
-          {/* {filteredNames.map(name => {
+          {filteredNames.map(name => {
             return (
-              <Item key={name} selected={selected} setSelected={setSelected}>
+              <Item key={name}>
                 {name}
               </Item>
             )
-          })} */}
+          })}
         </List>
       )}
     </>
@@ -82,7 +85,6 @@ const useList = () => useContext(ListContext)
 
 const List = ({ children }) => {
   const list = useRef([])
-  // const [, forceUpdate] = useState()
 
   const getDOMOrder = useCallback(element => {
     const index = list.current.findIndex(item => {
@@ -103,19 +105,19 @@ const List = ({ children }) => {
   const remove = useCallback(element => {
     if (!element) return
 
-    console.log('remove', element)
+    // console.log('remove', element)
     list.current = list.current.filter(el => el !== element)
-    // forceUpdate({})
   }, [])
 
   const insert = useCallback(
     element => {
+      if (!element) {
+        return -1
+      }
+
       const insertionIndex = getDOMOrder(element)
-      console.log('insert', element, 'at', insertionIndex)
-
+      // console.log('insert', element, 'at', insertionIndex)
       list.current.splice(insertionIndex, 0, element)
-      // forceUpdate({})
-
       return insertionIndex
     },
     [] // eslint-disable-line
@@ -125,13 +127,12 @@ const List = ({ children }) => {
     return () => (list.current = [])
   }, [])
 
-  console.log('list render', list.current)
+  // console.log('list render', list.current)
 
   return (
     <ul>
       <ListContext.Provider
         value={{
-          list: list.current,
           insert,
           remove
         }}
@@ -147,14 +148,6 @@ const Item = ({ children, selected, setSelected, ...props }) => {
   const index = useIndex(ref.current)
   const active = selected === index
 
-  const renderCount = useRef(0)
-
-  renderCount.current++
-
-  if (renderCount.current > 10) {
-    throw new Error('loop')
-  }
-
   return (
     <li
       ref={ref}
@@ -168,35 +161,40 @@ const Item = ({ children, selected, setSelected, ...props }) => {
 }
 
 const useIndex = el => {
+  const { insert, remove } = useList()
+  const [count, setCount] = useState(0)
   const [, forceUpdate] = useState()
-  const { insert, remove, list } = useList()
-  const skip = useRef()
+  const countRef = useRef(0)
+  const index = useRef(-1)
+  const x = useRef()
 
-  useEffect(() => {
-    if (skip.current === true) {
-      skip.current = false
+  useLayoutEffect(() => {
+    if (count !== countRef.current) {
+      // Skip
+      // console.log('skipping', count, countRef.current)
+      countRef.current = count
       return
     }
 
-    if (el) {
-      insert(el)
+    if (!el) {
+      // console.log('force update')
+      forceUpdate({})
+    } else {
+      x.current = el
+      remove(el)
+      index.current = insert(el)
+      // console.log('updating count')
+      setCount(c => c + 1)
     }
 
-    skip.current = true
-    forceUpdate({})
+    countRef.current = count
+  })
 
+  useEffect(() => {
     return () => {
-      if (skip.current === false) {
-        remove(el)
-      }
+      remove(x.current)
     }
-  })
+  }, [])
 
-  const index = list.findIndex(e => {
-    return e === el
-  })
-
-  skip.current = false
-
-  return index
+  return index.current
 }

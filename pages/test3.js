@@ -29,7 +29,9 @@ const Test = () => {
         value={filter}
         onChange={e => setFilter(e.target.value)}
       />
-      <button onClick={() => setList([...list, 1, 1])}>insert item</button>
+      <button onClick={() => setList([...list, `hi-${Math.random()}`])}>
+        insert item
+      </button>
       <br />
       <button
         onClick={() =>
@@ -82,7 +84,6 @@ const useList = () => useContext(ListContext)
 
 const List = ({ children }) => {
   const list = useRef([])
-  // const [, forceUpdate] = useState()
 
   const getDOMOrder = useCallback(element => {
     const index = list.current.findIndex(item => {
@@ -105,17 +106,17 @@ const List = ({ children }) => {
 
     console.log('remove', element)
     list.current = list.current.filter(el => el !== element)
-    // forceUpdate({})
   }, [])
 
   const insert = useCallback(
     element => {
+      if (!element) {
+        return -1
+      }
+
       const insertionIndex = getDOMOrder(element)
       console.log('insert', element, 'at', insertionIndex)
-
       list.current.splice(insertionIndex, 0, element)
-      // forceUpdate({})
-
       return insertionIndex
     },
     [] // eslint-disable-line
@@ -131,7 +132,6 @@ const List = ({ children }) => {
     <ul>
       <ListContext.Provider
         value={{
-          list: list.current,
           insert,
           remove
         }}
@@ -147,14 +147,6 @@ const Item = ({ children, selected, setSelected, ...props }) => {
   const index = useIndex(ref.current)
   const active = selected === index
 
-  const renderCount = useRef(0)
-
-  renderCount.current++
-
-  if (renderCount.current > 10) {
-    throw new Error('loop')
-  }
-
   return (
     <li
       ref={ref}
@@ -169,34 +161,26 @@ const Item = ({ children, selected, setSelected, ...props }) => {
 
 const useIndex = el => {
   const [, forceUpdate] = useState()
-  const { insert, remove, list } = useList()
-  const skip = useRef()
+  const { insert, remove } = useList()
 
   useEffect(() => {
-    if (skip.current === true) {
-      skip.current = false
-      return
+    if (!el) {
+      console.log('forcing update')
+      forceUpdate({})
     }
+  })
 
-    if (el) {
-      insert(el)
-    }
-
-    skip.current = true
-    forceUpdate({})
-
+  useEffect(() => {
     return () => {
-      if (skip.current === false) {
-        remove(el)
-      }
+      remove(el)
     }
-  })
+  }, [])
 
-  const index = list.findIndex(e => {
-    return e === el
-  })
-
-  skip.current = false
+  // This is close but it won't work, because the DOM hasn't updated yet
+  // (haven't finished render!)
+  // So we're comparing against an old DOM position when using comparePosition
+  remove(el)
+  const index = insert(el)
 
   return index
 }
