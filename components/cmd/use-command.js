@@ -46,6 +46,7 @@ export const useCommand = (defaults, ...hooks) => {
   useKeydown({
     dispatch,
     selected,
+    descendants: listProps.getList(),
     rotate: defaults?.rotate || false,
     element: defaults?.element
   })

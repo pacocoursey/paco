@@ -17,8 +17,8 @@ import styles from '@styles/inverse.module.css'
 // const x = Array(1000).fill(0)
 
 const textFilter = ({ value }, search) => {
-  return value.toLowerCase().startsWith(search.toLowerCase())
-  // return !!matchSorter([value], search).length
+  // return value.toLowerCase().startsWith(search.toLowerCase())
+  return !!matchSorter([value], search).length
 }
 
 const Test = () => {
