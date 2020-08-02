@@ -116,7 +116,11 @@ const X = ({ getList, children }) => {
     index.current = getList().findIndex(e => e === ref.current)
   }
 
-  return <li ref={ref}>{children} ({index.current})</li>
+  return (
+    <li ref={ref}>
+      {children} ({index.current})
+    </li>
+  )
 }
 
 export default Parent
