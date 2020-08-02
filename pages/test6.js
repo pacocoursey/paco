@@ -80,27 +80,26 @@ const ListContext = createContext({})
 const useList = () => useContext(ListContext)
 
 const List = ({ selected, setSelected, children }) => {
-  const { listRef, ...context } = useDescendants()
+  const { listRef, list } = useDescendants()
 
   useEffect(() => {
     const onKey = e => {
       if (e.key === 'Enter') {
-        const l = context.getList()
-        if (l[selected]?.callback) {
-          l[selected].callback()
+        if (list.current[selected]?.callback) {
+          list.current[selected].callback()
         }
       }
     }
 
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [context, selected])
+  }, [selected])
 
   return (
     <ul ref={listRef}>
-      <p>{context.getList().length} items</p>
+      <p>{list.current.length} items</p>
       <ListContext.Provider value={{ selected, setSelected }}>
-        <Descendants.Provider value={context}>{children}</Descendants.Provider>
+        <Descendants.Provider value={{ list }}>{children}</Descendants.Provider>
       </ListContext.Provider>
     </ul>
   )
