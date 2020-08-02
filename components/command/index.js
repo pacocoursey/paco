@@ -32,6 +32,7 @@ import {
   Quote,
   Words,
   Lightbulb,
+  ArrowLeft,
   ArrowRight,
   GitHub,
   Twitter
@@ -175,7 +176,7 @@ const HeaderMenu = () => {
           />
           {items.length > 1 && (
             <Button onClick={() => actions.setItems(items.slice(0, -1))}>
-              ←
+              <ArrowLeft size={18} />
             </Button>
           )}
         </div>
