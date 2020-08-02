@@ -36,6 +36,10 @@ export interface KeyBindingMap {
   [keybinding: string]: (event: KeyboardEvent) => void
 }
 
+export interface Options {
+  ignoreFocus?: boolean
+}
+
 /**
  * These are the modifier keys that change the meaning of keybindings.
  *
@@ -129,7 +133,8 @@ function match(event: KeyboardEvent, press: KeyBindingPress): boolean {
  */
 export default function keybindings(
   target: Window | HTMLElement,
-  keyBindingMap: KeyBindingMap
+  keyBindingMap: KeyBindingMap,
+  options: Options = {}
 ) {
   let keyBindings = Object.keys(keyBindingMap).map(key => {
     return [parse(key), keyBindingMap[key]] as const
@@ -149,14 +154,17 @@ export default function keybindings(
     }
 
     // Ignore event when a focusable item is focused
-    if (document.activeElement) {
-      if (
-        inputs.indexOf(document.activeElement.tagName.toLowerCase()) !== -1 ||
-        (document.activeElement as HTMLElement).contentEditable === 'true'
-      ) {
-        return
+    if (options.ignoreFocus) {
+      if (document.activeElement) {
+        if (
+          inputs.indexOf(document.activeElement.tagName.toLowerCase()) !== -1 ||
+          (document.activeElement as HTMLElement).contentEditable === 'true'
+        ) {
+          return
+        }
       }
     }
+
 
     keyBindings.forEach(keyBinding => {
       let sequence = keyBinding[0]

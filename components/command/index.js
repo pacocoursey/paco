@@ -118,8 +118,12 @@ const HeaderMenu = () => {
 
   // Register the keybinds globally
   useEffect(() => {
-    const unsub = tinykeys(window, { ...keymap, '$mod+k': actions.toggle })
-    return () => unsub()
+    const unsub = tinykeys(window, keymap, { ignoreFocus: true })
+    const unsub2 = tinykeys(window, { '$mod+k': actions.toggle })
+    return () => {
+      unsub()
+      unsub2()
+    }
   }, [keymap, actions.toggle])
 
   const bounce = useCallback(() => {
