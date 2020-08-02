@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createContext, useContext } from 'react'
 import { getNames } from 'country-list'
 import { useDescendant, createDescendants, useDescendants } from '@lib/desc3'
 import matchSorter from 'match-sorter'
@@ -13,7 +13,7 @@ const Test = () => {
   const [show, setShow] = useState(true)
   const [filter, setFilter] = useState('')
   const [selected, setSelected] = useState(0)
-  const filteredNames = matchSorter(names.slice(0, 200), filter)
+  const filteredNames = matchSorter(names.slice(0, 5), filter)
 
   useEffect(() => {
     setSelected(0)
@@ -55,14 +55,14 @@ const Test = () => {
         Shuffle
       </button>
       {show && (
-        <List>
+        <List selected={selected} setSelected={setSelected}>
           {/* {list.map(name => {
             return <Item key={name}>{name}</Item>
           })} */}
 
           {filteredNames.map(name => {
             return (
-              <Item key={name} selected={selected} setSelected={setSelected}>
+              <Item key={name} callback={() => console.log(name)}>
                 {name}
               </Item>
             )
@@ -76,20 +76,39 @@ const Test = () => {
 export default Test
 
 const Descendants = createDescendants()
+const ListContext = createContext({})
+const useList = () => useContext(ListContext)
 
-const List = ({ children }) => {
+const List = ({ selected, setSelected, children }) => {
   const { listRef, ...context } = useDescendants()
+
+  useEffect(() => {
+    const onKey = e => {
+      if (e.key === 'Enter') {
+        const l = context.getList()
+        if (l[selected]?.callback) {
+          l[selected].callback()
+        }
+      }
+    }
+
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [context, selected])
 
   return (
     <ul ref={listRef}>
       <p>{context.getList().length} items</p>
-      <Descendants.Provider value={context}>{children}</Descendants.Provider>
+      <ListContext.Provider value={{ selected, setSelected }}>
+        <Descendants.Provider value={context}>{children}</Descendants.Provider>
+      </ListContext.Provider>
     </ul>
   )
 }
 
-const Item = ({ children, selected, setSelected, ...props }) => {
-  const { index, itemRef: ref } = useDescendant(Descendants)
+const Item = ({ children, callback, ...props }) => {
+  const { selected, setSelected } = useList()
+  const { index, itemRef: ref } = useDescendant(Descendants, { callback })
   const active = selected === index
 
   return (
@@ -98,7 +117,8 @@ const Item = ({ children, selected, setSelected, ...props }) => {
       {...props}
       style={{ color: active ? 'red' : undefined }}
       data-value={children}
-      // onMouseOver={() => setSelected(index)}
+      onClick={callback}
+      onMouseOver={() => setSelected(index)}
     >
       Item {children} ({index})
     </li>

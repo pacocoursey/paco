@@ -79,7 +79,7 @@ Command.displayName = 'Command'
 const DescendantContext = createDescendants()
 
 export const CommandList = forwardRef(
-  ({ children, listRef, getList, ...props }, ref) => {
+  ({ children, listRef, list, ...props }, ref) => {
     const { listId } = useCommandCtx()
 
     return (
@@ -89,15 +89,15 @@ export const CommandList = forwardRef(
           role="listbox"
           id={listId}
           data-command-list=""
-          data-command-list-empty={getList().length === 0 ? '' : undefined}
+          data-command-list-empty={list.current.length === 0 ? '' : undefined}
           {...props}
         >
-          <DescendantContext.Provider value={{ getList }}>
+          <DescendantContext.Provider value={{ list }}>
             {children}
           </DescendantContext.Provider>
         </ul>
 
-        {getList().length > 0 && (
+        {list.current.length > 0 && (
           <div
             aria-live="polite"
             role="status"
@@ -118,7 +118,8 @@ export const CommandList = forwardRef(
               wordWrap: 'normal'
             }}
           >
-            {getList().length} results available.
+            {list.current.length} result{list.current.length > 1 ? 's' : ''}{' '}
+            available.
           </div>
         )}
       </>
@@ -154,7 +155,7 @@ export const CommandItem = props => {
 const CommandItemInner = ({ children, callback, ...props }) => {
   const { selected, setSelected } = useCommandCtx()
 
-  const { index, itemRef: ref } = useDescendant(DescendantContext)
+  const { index, itemRef: ref } = useDescendant(DescendantContext, { callback })
 
   const isActive = selected === index
 
@@ -175,35 +176,6 @@ const CommandItemInner = ({ children, callback, ...props }) => {
       })
     }
   }, [isActive])
-
-  const handleKey = useCallback(
-    e => {
-      if (!callback || !isActive || e.key !== 'Enter') return
-
-      if (document.activeElement) {
-        // Ignore [Enter] when button, select, textarea, or contentEditable is focused
-        if (
-          inputs.indexOf(document.activeElement.tagName.toLowerCase()) !== -1 ||
-          document.activeElement.contentEditable === 'true'
-        ) {
-          return
-        }
-
-        // Ignore [Enter] on inputs that aren't a CommandInput
-        if (!document.activeElement.hasAttribute('data-command-input')) {
-          return
-        }
-      }
-
-      callback()
-    },
-    [callback, isActive]
-  )
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
-  }, [handleKey])
 
   return (
     <li

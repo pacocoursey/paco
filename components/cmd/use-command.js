@@ -1,6 +1,8 @@
 import { useEffect, useReducer, useRef, useMemo, useCallback } from 'react'
 import { useDescendants } from '@lib/desc3'
 
+const inputs = ['select', 'button', 'textarea']
+
 function reducer(state, action) {
   switch (action.type) {
     case 'toggle': {
@@ -46,7 +48,7 @@ export const useCommand = (defaults, ...hooks) => {
   useKeydown({
     dispatch,
     selected,
-    descendants: listProps.getList(),
+    descendants: listProps.list.current,
     rotate: defaults?.rotate || false,
     element: defaults?.element
   })
@@ -87,7 +89,7 @@ export const useCommand = (defaults, ...hooks) => {
     selected,
     open,
     actions,
-    list: listProps.getList(),
+    list: listProps.list.current,
     listProps,
     commandProps
   }
@@ -169,6 +171,32 @@ const useKeydown = ({ dispatch, descendants, selected, rotate, element }) => {
         case 'ArrowUp': {
           e.preventDefault()
           setPrev()
+          break
+        }
+        case 'Enter': {
+          const cb = descendants[selected]?.callback
+
+          if (!cb) {
+            return
+          }
+
+          if (document.activeElement) {
+            // Ignore [Enter] when button, select, textarea, or contentEditable is focused
+            if (
+              inputs.indexOf(document.activeElement.tagName.toLowerCase()) !==
+                -1 ||
+              document.activeElement.contentEditable === 'true'
+            ) {
+              return
+            }
+
+            // Ignore [Enter] on inputs that aren't a CommandInput
+            if (!document.activeElement.hasAttribute('data-command-input')) {
+              return
+            }
+          }
+
+          cb()
           break
         }
         default:
