@@ -1,15 +1,5 @@
-import {
-  useEffect,
-  useReducer,
-  useRef,
-  useMemo,
-  useCallback,
-  useState
-} from 'react'
-// import { useDescendantsInit } from '@lib/descendants'
-import {
-  useDescendantsInit
-} from '@lib/desc2'
+import { useEffect, useReducer, useRef, useMemo, useCallback } from 'react'
+import { useDescendants } from '@lib/desc3'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -42,7 +32,7 @@ function reducer(state, action) {
 
 export const useCommand = (defaults, ...hooks) => {
   const inputRef = useRef()
-  const [list, setList] = useDescendantsInit()
+  const listProps = useDescendants()
 
   let [state, dispatch] = useReducer(reducer, {
     search: '',
@@ -94,18 +84,10 @@ export const useCommand = (defaults, ...hooks) => {
     items,
     search,
     selected,
-    // descendants: descendants.current,
     open,
     actions,
-    list,
-    listProps: {
-      list,
-      setList
-    },
-    // listProps: {
-    //   descendants: descendants.current,
-    //   setDescendants
-    // },
+    list: listProps.getList(),
+    listProps,
     commandProps
   }
 }

@@ -1,14 +1,14 @@
 import {
   createContext,
   useContext,
-  useRef,
   forwardRef,
   useCallback,
   useEffect
 } from 'react'
 import { useId } from '@reach/auto-id'
 import { DialogContent, DialogOverlay } from '@reach/dialog'
-import { useDescendant, useDescendants, createDescendants } from '@lib/desc2'
+import { useDescendant, createDescendants } from '@lib/desc3'
+import mergeRefs from 'react-merge-refs'
 
 const CommandContext = createContext({
   listId: '',
@@ -79,26 +79,25 @@ Command.displayName = 'Command'
 const DescendantContext = createDescendants()
 
 export const CommandList = forwardRef(
-  ({ children, list, setList, ...props }, ref) => {
+  ({ children, listRef, getList, ...props }, ref) => {
     const { listId } = useCommandCtx()
-    const { insert, remove } = useDescendants(list, setList)
 
     return (
       <>
         <ul
-          ref={ref}
+          ref={mergeRefs([listRef, ref])}
           role="listbox"
           id={listId}
           data-command-list=""
-          data-command-list-empty={list.length === 0 ? '' : undefined}
+          data-command-list-empty={getList().length === 0 ? '' : undefined}
           {...props}
         >
-          <DescendantContext.Provider value={{ list, insert, remove }}>
+          <DescendantContext.Provider value={{ getList }}>
             {children}
           </DescendantContext.Provider>
         </ul>
 
-        {list.length > 0 && (
+        {getList().length > 0 && (
           <div
             aria-live="polite"
             role="status"
@@ -119,7 +118,7 @@ export const CommandList = forwardRef(
               wordWrap: 'normal'
             }}
           >
-            {list.length} results available.
+            {getList().length} results available.
           </div>
         )}
       </>
@@ -153,15 +152,9 @@ export const CommandItem = props => {
 }
 
 const CommandItemInner = ({ children, callback, ...props }) => {
-  const ref = useRef(null)
   const { selected, setSelected } = useCommandCtx()
 
-  const index = useDescendant(
-    {
-      element: ref.current
-    },
-    DescendantContext
-  )
+  const { index, itemRef: ref } = useDescendant(DescendantContext)
 
   const isActive = selected === index
 

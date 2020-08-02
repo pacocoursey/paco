@@ -13,7 +13,7 @@ const Test = () => {
   const [show, setShow] = useState(true)
   const [filter, setFilter] = useState('')
   const [selected, setSelected] = useState(0)
-  const filteredNames = matchSorter(names, filter)
+  const filteredNames = matchSorter(names.slice(0, 200), filter)
 
   useEffect(() => {
     setSelected(0)
@@ -78,19 +78,18 @@ export default Test
 const Descendants = createDescendants()
 
 const List = ({ children }) => {
-  const { ref, ...context } = useDescendants()
+  const { listRef, ...context } = useDescendants()
 
   return (
-    <ul ref={ref}>
-      <p>{context.list.length} items</p>
+    <ul ref={listRef}>
+      <p>{context.getList().length} items</p>
       <Descendants.Provider value={context}>{children}</Descendants.Provider>
     </ul>
   )
 }
 
 const Item = ({ children, selected, setSelected, ...props }) => {
-  // const ref = useRef()
-  const { index, ref } = useDescendant(Descendants)
+  const { index, itemRef: ref } = useDescendant(Descendants)
   const active = selected === index
 
   return (

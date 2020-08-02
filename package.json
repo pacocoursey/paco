@@ -28,6 +28,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-intersection-observer": "^8.24.2",
+    "react-merge-refs": "^1.1.0",
     "react-window": "^1.8.5",
     "swr": "^0.2.0",
     "use-delayed-render": "^0.0.7"
