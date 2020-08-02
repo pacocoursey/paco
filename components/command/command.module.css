@@ -199,6 +199,7 @@
     border-radius: 20px 20px 0 0;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
     animation: slide 0.2s ease;
+    width: 100%;
     max-height: calc(100vh - var(--top));
 
     transform: scale(0.97) translateY(5%);
