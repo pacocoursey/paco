@@ -326,11 +326,3 @@ const Item = memo(({ icon, children, callback, keybind, ...props }) => {
     </CommandItem>
   )
 })
-
-// const Test = () => {
-// 	return (
-//     'hik'
-// 	)
-// }
-
-// export default Test

@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useRef, useMemo, useCallback } from 'react'
-import { useDescendants } from '@lib/desc3'
+import { useDescendants } from '@lib/descendants'
 
 const inputs = ['select', 'button', 'textarea']
 

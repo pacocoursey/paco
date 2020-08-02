@@ -7,7 +7,7 @@ import {
 } from 'react'
 import { useId } from '@reach/auto-id'
 import { DialogContent, DialogOverlay } from '@reach/dialog'
-import { useDescendant, createDescendants } from '@lib/desc3'
+import { useDescendant, createDescendants } from '@lib/descendants'
 import mergeRefs from 'react-merge-refs'
 
 const CommandContext = createContext({
@@ -18,7 +18,6 @@ const CommandContext = createContext({
   search: ''
 })
 
-const inputs = ['select', 'button', 'textarea']
 const useCommandCtx = () => useContext(CommandContext)
 
 export const Command = forwardRef(
