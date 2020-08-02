@@ -5,6 +5,7 @@ import {
   useState,
   useLayoutEffect
 } from 'react'
+import deepEqual from 'fast-deep-equal'
 
 // const Test = () => {
 //   const list = useRef([])
@@ -44,40 +45,78 @@ import {
 //   )
 // }
 
-const X = () => {
-  const [l, forceUpdate] = useState()
-  const [, forceUpdate2] = useState()
-  const skip = useRef(false)
+function shuffle(array) {
+  array.sort(() => Math.random() - 0.5)
+}
 
-  console.log('re-render')
+const Parent = () => {
+  const list = useRef([])
+  const [, forceUpdate] = useState()
+  const ref = useRef()
 
-  useEffect(() => {
-    console.log('skip to true')
-    skip.current = true
-  }, [l])
+  useLayoutEffect(() => {
+    const newList = Array.from(ref.current.querySelectorAll('[data-item]'))
 
-  useEffect(() => {
-    if (skip.current === false) {
-      console.log('effect')
-    }
-
-    return () => {
-      if (skip.current === false) {
-        console.log('effect cleanup')
-        skip.current = false
-      }
+    if (!deepEqual(newList, list.current)) {
+      console.log('parent effect', list.current)
+      list.current = newList
+      forceUpdate({})
     }
   })
 
+  const getList = useCallback(() => list.current, [])
+
+  const [items, setItems] = useState(['one', 'two'])
+
   return (
-    <div>
-      <button onClick={() => forceUpdate({})}>re-render</button>
-      <br />
-      <button onClick={() => forceUpdate2({})}>
-        re-render but this one is ok
+    <div ref={ref}>
+      <button
+        onClick={() => setItems(items => [...items, `item-${Math.random()}`])}
+      >
+        insert
       </button>
+      <br />
+      <button onClick={() => setItems(items => items.slice(0, -1))}>
+        remove
+      </button>
+      <br />
+      <button
+        onClick={() => {
+          setItems(items => {
+            const l = [...items]
+            shuffle(l)
+            return l
+          })
+        }}
+      >
+        shuffle
+      </button>
+      {items.map(item => {
+        return (
+          <X getList={getList} key={item}>
+            {item}
+          </X>
+        )
+      })}
+      <p>{list.current.length} items</p>
     </div>
   )
 }
 
-export default X
+const X = ({ getList, children }) => {
+  const ref = useRef()
+  const index = useRef(-1)
+
+  useLayoutEffect(() => {
+    ref.current.setAttribute('data-item', '')
+  })
+
+  console.log('item render', getList())
+  if (ref.current) {
+    index.current = getList().findIndex(e => e === ref.current)
+  }
+
+  return <li ref={ref}>{children} ({index.current})</li>
+}
+
+export default Parent
