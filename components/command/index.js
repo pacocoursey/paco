@@ -40,7 +40,7 @@ import styles from './command.module.css'
 import headerStyles from '@components/header/header.module.css'
 import Button from '@components/button'
 import useTheme from '@lib/theme'
-import useKey from '@lib/use-key'
+import tinykeys from '@lib/tinykeys'
 import postMeta from '@data/blog.json'
 
 const CommandData = React.createContext({})
@@ -80,17 +80,6 @@ const HeaderMenu = () => {
 
   const listRef = useRef()
 
-  useEffect(() => {
-    const handleKey = e => {
-      if (e.key === 'k' && e.metaKey) {
-        actions.toggle()
-      }
-    }
-
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
-  }, [actions])
-
   const router = useRouter()
   const { toggleTheme } = useTheme()
 
@@ -128,7 +117,10 @@ const HeaderMenu = () => {
   }, [toggleTheme, router, closeOnCallback])
 
   // Register the keybinds globally
-  useKey(keymap)
+  useEffect(() => {
+    const unsub = tinykeys(window, { ...keymap, '$mod+k': actions.toggle })
+    return () => unsub()
+  }, [keymap, actions.toggle])
 
   const bounce = useCallback(() => {
     if (inputRef.current) {
