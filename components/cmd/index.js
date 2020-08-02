@@ -174,6 +174,7 @@ const CommandItemInner = ({ children, callback, ...props }) => {
         block: 'nearest'
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive])
 
   return (
