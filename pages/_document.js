@@ -2,7 +2,10 @@ import React from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 import { themeStorageKey } from '@lib/theme'
-const bgVariableName = '--bg'
+const backgrounds = {
+  dark: '#131415',
+  light: '#fff'
+}
 
 class MyDocument extends Document {
   render() {
@@ -14,19 +17,11 @@ class MyDocument extends Document {
             dangerouslySetInnerHTML={{
               __html: `(function() {
                 try {
-                  var outdatedValue = localStorage.getItem('paco-light-mode')
-
-                  if (outdatedValue) {
-                    localStorage.setItem('${themeStorageKey}', 'light')
-                    localStorage.removeItem('paco-light-mode')
-                  }
-
-                  var mode = localStorage.getItem('${themeStorageKey}')
-                  if (!mode) return
-                  document.documentElement.classList.add(mode)
-                  var bgValue = getComputedStyle(document.documentElement)
-                    .getPropertyValue('${bgVariableName}')
-                  document.documentElement.style.background = bgValue
+                  var mode = localStorage.getItem('${themeStorageKey}');
+                  if (!mode) return;
+                  document.documentElement.setAttribute('data-theme', mode);
+                  document.documentElement.style.background =
+                    mode === 'dark' ? '${backgrounds.dark}' : '${backgrounds.light}';
                 } catch (e) {}
               })()`
             }}

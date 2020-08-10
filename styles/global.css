@@ -47,7 +47,7 @@
   --highlight: #2e2e2e;
 }
 
-.light {
+[data-theme="light"] {
   --bg: #fff;
   --fg: #000;
   --gray: #888;
