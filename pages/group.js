@@ -37,11 +37,13 @@ const useListFilter = (list, filter) => {
   return filterList
 }
 
-const Order = () => {
+const GroupPage = () => {
   const [filter, setFilter] = useState('')
 
   const { list, listRef } = useDescendants()
   const filteredList = useListFilter(list, filter)
+
+  console.log(filteredList)
 
   return (
     <>
@@ -50,12 +52,19 @@ const Order = () => {
         {/* <Group name="First">
           <Item>one</Item>
           <Item>two</Item>
-        </Group> */}
+        </Group>
 
-        <Item>one</Item>
+        <Item>three</Item> */}
+
+        <div>
+          <Item>zero</Item>
+        </div>
+        <Item fakeProp={2}>one</Item>
         <Item>two</Item>
 
         <Item>three</Item>
+
+        <Item>four</Item>
 
         {/* <Group name="Secondary">
           <Item>four</Item>
@@ -77,7 +86,7 @@ const List = ({ children, list, listRef, filterList }) => {
     // but it would be an optimization: only loop over a pre-calculated array once
     // compared to selectAll → sort → forEach (n*3?)
 
-    // const groupList = new Map()
+    const groupList = new Map()
 
     // Use an up to date DOM list
     Array.from(listRef.current.querySelectorAll('[data-descendant]'))
@@ -85,28 +94,39 @@ const List = ({ children, list, listRef, filterList }) => {
         return a.getAttribute('data-order') - b.getAttribute('data-order')
       })
       .forEach(item => {
-        // Re-order inside of parent (potentially group)
+        // If only child, no need (over optimization?)
+        // If has siblings, should re-insert inside of parent
+
+        // If has top level element that isn't direct parent, should re-insert but only once
+
         if (item.parentElement) {
-          // console.log('insert', item, 'in', item.parentElement)
-          // item.parentElement.appendChild(item)
+          // Re-insert into parent (does nothing if only child)
+          // console.log('re-ordering', item, 'inside of', item.parentElement)
+          item.parentElement.appendChild(item)
 
-          // if (item.parentElement !== listRef.current) {
-          //   const topEl = item.closest('[data-group]')
+          const topEl = item.closest('[data-list] > *')
 
-          //   if (!groupList.has(topEl)) {
-          //     groupList.set(topEl, true)
-          //     // console.log('inserting', topEl, 'into', topEl.parentElement)
-          //     topEl.parentElement.appendChild(topEl)
-          //   }
-          // }
+          if (!topEl || topEl === item || topEl === listRef.current) {
+            // Item is already at the top level, no point
+            return
+          }
+
+          // Skip if we already re-inserted this top level element
+          if (groupList.has(topEl)) {
+            // console.log('not moving', topEl, 'because of duplicates', item)
+            return
+          }
+
+          listRef.current.appendChild(topEl)
+          groupList.set(topEl, true)
         } else {
-          console.log('For some reason no parent', item)
+          console.log(item, 'has no parent')
         }
       })
   })
 
   return (
-    <ul ref={listRef}>
+    <ul ref={listRef} data-list="">
       <ListContext.Provider value={{ list: filterList }}>
         <Descs.Provider value={{ list }}>{children}</Descs.Provider>
       </ListContext.Provider>
@@ -114,19 +134,20 @@ const List = ({ children, list, listRef, filterList }) => {
   )
 }
 
-// const Group = ({ children, name }) => {
-//   const ref = useRef()
-//   const hide = ref.current && !ref.current.children.length
+const Group = ({ children, name }) => {
+  const ref = useRef()
+  const hide = false
+  // const hide = ref.current && !ref.current.children.length
 
-//   return (
-//     <li data-group="" style={{ listStyleType: 'none' }}>
-//       {!hide && <p>{name}</p>}
-//       <ul style={{ padding: 0 }} ref={ref}>
-//         {children}
-//       </ul>
-//     </li>
-//   )
-// }
+  return (
+    <li data-group="" style={{ listStyleType: 'none' }}>
+      {!hide && <p>{name}</p>}
+      <ul style={{ padding: 0 }} ref={ref}>
+        {children}
+      </ul>
+    </li>
+  )
+}
 
 const Item = ({ children }) => {
   const { list } = useList()
@@ -152,4 +173,4 @@ const Item = ({ children }) => {
   )
 }
 
-export default Order
+export default GroupPage
