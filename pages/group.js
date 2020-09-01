@@ -1,78 +1,116 @@
-import {
-  useState,
-  useLayoutEffect,
-  useEffect,
-  useRef,
-  createContext,
-  useContext
-} from 'react'
+import { useState, useLayoutEffect, createContext, useContext } from 'react'
 import {
   useDescendants,
   useDescendant,
-  createDescendants
+  createDescendants,
+  useGroup
 } from '@lib/descendants'
 import matchSorter from 'match-sorter'
 
 const Descs = createDescendants()
 
-const useListFilter = (list, filter) => {
-  const completeList = useRef(null)
+const useListFilter = (map, filter) => {
+  if (!map.current?.size) {
+    return null
+  }
 
-  useLayoutEffect(() => {
-    if (!completeList.current && list.current.length) {
-      completeList.current = list.current
-    }
+  // Use memo? have to watch for map changes somehow
+  const filterList = matchSorter(Array.from(map.current), filter, {
+    keys: [
+      item => {
+        const [, props] = item
+        return props?.value || false
+      }
+    ]
   })
-
-  useEffect(() => {
-    return () => (completeList.current = null)
-  }, [])
-
-  const filterList = completeList.current
-    ? matchSorter(completeList.current, filter, {
-        keys: ['value']
-      })
-    : null
 
   return filterList
 }
 
 const GroupPage = () => {
   const [filter, setFilter] = useState('')
+  const [addedItems, setAddedItems] = useState([])
 
-  const { list, listRef } = useDescendants()
-  const filteredList = useListFilter(list, filter)
+  const hookProps = useDescendants()
+  const filterList = useListFilter(hookProps.map, filter)
 
-  console.log(filteredList)
+  // console.log('full page render', hookProps.map.current, filterList)
 
   return (
     <>
+      <button
+        onClick={() => {
+          setAddedItems(items => [
+            ...items,
+            'item-' +
+              Math.random()
+                .toString(32)
+                .substring(2, 5)
+          ])
+        }}
+      >
+        Add Item
+      </button>
       <input value={filter} onChange={e => setFilter(e.target.value)} />
-      <List list={list} listRef={listRef} filterList={filteredList}>
-        {/* <Group name="First">
+      <List
+        hookProps={hookProps}
+        listRef={hookProps.ref}
+        filterList={filterList}
+      >
+        {/* With groups */}
+        <Group name="First">
           <Item>one</Item>
           <Item>two</Item>
         </Group>
 
-        <Item>three</Item> */}
-
-        <div>
-          <Item>zero</Item>
-        </div>
-        <Item fakeProp={2}>one</Item>
-        <Item>two</Item>
-
         <Item>three</Item>
 
-        <Item>four</Item>
-
-        {/* <Group name="Secondary">
+        <Group name="Secondary">
           <Item>four</Item>
           <Item>orange</Item>
-        </Group> */}
+        </Group>
 
-        <Item>orange</Item>
+        {/* Without groups */}
+        {/* <Item>zero</Item>
+        <Item>one</Item>
+        <Item>two</Item>
+        <Item>three</Item>
+        <Item>four</Item>
+        <Item>orange</Item> */}
+
+        {/* {addedItems.map(item => {
+          return <Item key={`added-item-${item}`}>{item}</Item>
+        })} */}
       </List>
+
+      {/* <button
+        onClick={() =>
+          console.log(
+            JSON.stringify(Array.from(hookProps.map.current.keys()), null, 2)
+          )
+        }
+      >
+        print map
+      </button>
+
+      <pre>
+        list:
+        {JSON.stringify(
+          hookProps.list.current.map(l => l._internalId),
+          null,
+          2
+        )}
+      </pre>
+
+      <pre>
+        added items:
+        {JSON.stringify(addedItems, null, 2)}
+      </pre>
+
+      <pre>
+        map:
+        {JSON.stringify(Array.from(hookProps.map.current.keys()), null, 2)}
+      </pre> */}
     </>
   )
 }
@@ -80,7 +118,7 @@ const GroupPage = () => {
 const ListContext = createContext({})
 const useList = () => useContext(ListContext)
 
-const List = ({ children, list, listRef, filterList }) => {
+const List = ({ children, listRef, filterList, hookProps }) => {
   useLayoutEffect(() => {
     // We cannot rely on filterList.element because the DOM node could be outdated
     // but it would be an optimization: only loop over a pre-calculated array once
@@ -94,11 +132,6 @@ const List = ({ children, list, listRef, filterList }) => {
         return a.getAttribute('data-order') - b.getAttribute('data-order')
       })
       .forEach(item => {
-        // If only child, no need (over optimization?)
-        // If has siblings, should re-insert inside of parent
-
-        // If has top level element that isn't direct parent, should re-insert but only once
-
         if (item.parentElement) {
           // Re-insert into parent (does nothing if only child)
           // console.log('re-ordering', item, 'inside of', item.parentElement)
@@ -128,19 +161,18 @@ const List = ({ children, list, listRef, filterList }) => {
   return (
     <ul ref={listRef} data-list="">
       <ListContext.Provider value={{ list: filterList }}>
-        <Descs.Provider value={{ list }}>{children}</Descs.Provider>
+        <Descs.Provider value={hookProps}>{children}</Descs.Provider>
       </ListContext.Provider>
     </ul>
   )
 }
 
 const Group = ({ children, name }) => {
-  const ref = useRef()
-  const hide = false
-  // const hide = ref.current && !ref.current.children.length
+  const { list } = useList()
+  const { ref, hide } = useGroup(list)
 
   return (
-    <li data-group="" style={{ listStyleType: 'none' }}>
+    <li style={{ listStyleType: 'none' }}>
       {!hide && <p>{name}</p>}
       <ul style={{ padding: 0 }} ref={ref}>
         {children}
@@ -152,24 +184,30 @@ const Group = ({ children, name }) => {
 const Item = ({ children }) => {
   const { list } = useList()
   const value = children
-  const { itemRef, index } = useDescendant(Descs, { value })
+  const { map } = useContext(Descs)
+  const { ref, index, id } = useDescendant(Descs, { value })
+
+  const hasUpdatedMap = map.current.has(id)
 
   // -2 means list wasn't ready yet, so always show
   // -1 means this item was filtered out
 
-  // TODO: deal with duplicated values
-  const order = list ? list.findIndex(item => item.value === value) : -2
+  // const order = -3
+  const order =
+    list && hasUpdatedMap
+      ? list.findIndex(([itemId]) => {
+          return itemId === id
+        })
+      : -2
 
   if (order === -1) {
     return null
   }
 
   return (
-    <div>
-      <li ref={itemRef} data-order={order}>
-        {children} ({index}) [{order}]
-      </li>
-    </div>
+    <li ref={ref} data-order={order}>
+      {children} ({index}) [{order}]
+    </li>
   )
 }
 
