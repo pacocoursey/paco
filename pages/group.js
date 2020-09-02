@@ -6,6 +6,8 @@ import {
   useGroup
 } from '@lib/descendants'
 import matchSorter from 'match-sorter'
+import { getNames } from 'country-list'
+const names = getNames()
 
 const Descs = createDescendants()
 
@@ -29,88 +31,22 @@ const useListFilter = (map, filter) => {
 
 const GroupPage = () => {
   const [filter, setFilter] = useState('')
-  const [addedItems, setAddedItems] = useState([])
 
   const hookProps = useDescendants()
   const filterList = useListFilter(hookProps.map, filter)
 
-  // console.log('full page render', hookProps.map.current, filterList)
-
   return (
     <>
-      <button
-        onClick={() => {
-          setAddedItems(items => [
-            ...items,
-            'item-' +
-              Math.random()
-                .toString(32)
-                .substring(2, 5)
-          ])
-        }}
-      >
-        Add Item
-      </button>
       <input value={filter} onChange={e => setFilter(e.target.value)} />
       <List
         hookProps={hookProps}
         listRef={hookProps.ref}
         filterList={filterList}
       >
-        {/* With groups */}
-        <Group name="First">
-          <Item>one</Item>
-          <Item>two</Item>
-        </Group>
-
-        <Item>three</Item>
-
-        <Group name="Secondary">
-          <Item>four</Item>
-          <Item>orange</Item>
-        </Group>
-
-        {/* Without groups */}
-        {/* <Item>zero</Item>
-        <Item>one</Item>
-        <Item>two</Item>
-        <Item>three</Item>
-        <Item>four</Item>
-        <Item>orange</Item> */}
-
-        {/* {addedItems.map(item => {
-          return <Item key={`added-item-${item}`}>{item}</Item>
-        })} */}
+        {names.map(name => {
+          return <Item key={`country-list-${name}`}>{name}</Item>
+        })}
       </List>
-
-      {/* <button
-        onClick={() =>
-          console.log(
-            JSON.stringify(Array.from(hookProps.map.current.keys()), null, 2)
-          )
-        }
-      >
-        print map
-      </button>
-
-      <pre>
-        list:
-        {JSON.stringify(
-          hookProps.list.current.map(l => l._internalId),
-          null,
-          2
-        )}
-      </pre>
-
-      <pre>
-        added items:
-        {JSON.stringify(addedItems, null, 2)}
-      </pre>
-
-      <pre>
-        map:
-        {JSON.stringify(Array.from(hookProps.map.current.keys()), null, 2)}
-      </pre> */}
     </>
   )
 }
@@ -134,7 +70,6 @@ const List = ({ children, listRef, filterList, hookProps }) => {
       .forEach(item => {
         if (item.parentElement) {
           // Re-insert into parent (does nothing if only child)
-          // console.log('re-ordering', item, 'inside of', item.parentElement)
           item.parentElement.appendChild(item)
 
           const topEl = item.closest('[data-list] > *')
@@ -146,7 +81,6 @@ const List = ({ children, listRef, filterList, hookProps }) => {
 
           // Skip if we already re-inserted this top level element
           if (groupList.has(topEl)) {
-            // console.log('not moving', topEl, 'because of duplicates', item)
             return
           }
 
@@ -192,7 +126,6 @@ const Item = ({ children }) => {
   // -2 means list wasn't ready yet, so always show
   // -1 means this item was filtered out
 
-  // const order = -3
   const order =
     list && hasUpdatedMap
       ? list.findIndex(([itemId]) => {
