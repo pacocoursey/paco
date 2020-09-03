@@ -1,11 +1,9 @@
 import React, { memo, useEffect, useRef, useMemo, useCallback } from 'react'
-import matchSorter from 'match-sorter'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
 import useDelayedRender from 'use-delayed-render'
 
 import {
-  Filter,
   Command,
   CommandInput,
   CommandItem,
@@ -119,11 +117,12 @@ const HeaderMenu = () => {
 
   // Register the keybinds globally
   useEffect(() => {
-    const unsub = tinykeys(window, keymap, { ignoreFocus: true })
-    const unsub2 = tinykeys(window, { '$mod+k': actions.toggle })
+    const unsubs = [
+      tinykeys(window, keymap, { ignoreFocus: true }),
+      tinykeys(window, { '$mod+k': actions.toggle })
+    ]
     return () => {
-      unsub()
-      unsub2()
+      unsubs.forEach(unsub => unsub())
     }
   }, [keymap, actions.toggle])
 
@@ -191,7 +190,7 @@ const HeaderMenu = () => {
               : undefined
           }}
         >
-          <CommandList {...listProps} ref={listRef}>
+          <CommandList {...listProps} ref={listRef} listRef={listProps.ref}>
             <CommandData.Provider value={{ keymap }}>
               <Items
                 state={{ items, search, open }}
@@ -208,25 +207,17 @@ const HeaderMenu = () => {
 
 export default HeaderMenu
 
-const textFilter = ({ value }, search) => {
-  return !!matchSorter([value], search).length
-}
-
 const BlogItems = () => {
   const router = useRouter()
 
-  return (
-    <Filter filter={textFilter}>
-      {postMeta.map(post => {
-        return (
-          <Item
-            value={post.title}
-            callback={() => router.push('/blog/[slug]', `/blog/${post.slug}`)}
-          />
-        )
-      })}
-    </Filter>
-  )
+  return postMeta.map(post => {
+    return (
+      <Item
+        value={post.title}
+        callback={() => router.push('/blog/[slug]', `/blog/${post.slug}`)}
+      />
+    )
+  })
 }
 
 const Label = ({ title, values, search }) => {
@@ -252,7 +243,7 @@ const DefaultItems = ({ actions, state, keymap }) => {
   const router = useRouter()
 
   return (
-    <Filter filter={textFilter}>
+    <>
       <Item
         value="Toggle Theme"
         key="Toggle Theme"
@@ -299,7 +290,7 @@ const DefaultItems = ({ actions, state, keymap }) => {
         />
         <Item value="Twitter" icon={<Twitter />} keybind="g t" />
       </Group>
-    </Filter>
+    </>
   )
 }
 

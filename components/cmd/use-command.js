@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useRef, useMemo, useCallback } from 'react'
 import { useDescendants } from '@lib/descendants'
+import matchSorter from 'match-sorter'
 
 const inputs = ['select', 'button', 'textarea']
 
@@ -32,6 +33,23 @@ function reducer(state, action) {
   }
 }
 
+const useListFilter = (map, filter) => {
+  if (!map.current?.size) {
+    return null
+  }
+
+  const filterList = matchSorter(Array.from(map.current), filter, {
+    keys: [
+      item => {
+        const [, props] = item
+        return props?.value || false
+      }
+    ]
+  })
+
+  return filterList
+}
+
 export const useCommand = (defaults, ...hooks) => {
   const inputRef = useRef()
   const listProps = useDescendants()
@@ -44,6 +62,8 @@ export const useCommand = (defaults, ...hooks) => {
     ...defaults
   })
   const { search, selected, open, items } = state
+
+  const filterList = useListFilter(listProps.map, search)
 
   useKeydown({
     dispatch,
@@ -78,9 +98,10 @@ export const useCommand = (defaults, ...hooks) => {
       search,
       selected,
       setSelected: actions.setSelected,
-      onDismiss: actions.close
+      onDismiss: actions.close,
+      filterList
     }
-  }, [search, selected, actions])
+  }, [search, selected, actions, filterList])
 
   return {
     inputRef,

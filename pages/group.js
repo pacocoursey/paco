@@ -86,8 +86,6 @@ const List = ({ children, listRef, filterList, hookProps }) => {
 
           listRef.current.appendChild(topEl)
           groupList.set(topEl, true)
-        } else {
-          console.log(item, 'has no parent')
         }
       })
   })

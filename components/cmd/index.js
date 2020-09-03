@@ -3,7 +3,8 @@ import {
   useContext,
   forwardRef,
   useCallback,
-  useEffect
+  useEffect,
+  useLayoutEffect
 } from 'react'
 import { useId } from '@reach/auto-id'
 import { DialogContent, DialogOverlay } from '@reach/dialog'
@@ -32,6 +33,7 @@ export const Command = forwardRef(
       className,
       overlayClassName,
       onDismiss,
+      filterList,
       ...props
     },
     ref
@@ -43,7 +45,8 @@ export const Command = forwardRef(
       label,
       selected,
       setSelected,
-      search
+      search,
+      filterList
     }
 
     if (selected === undefined) {
@@ -78,8 +81,45 @@ Command.displayName = 'Command'
 const DescendantContext = createDescendants()
 
 export const CommandList = forwardRef(
-  ({ children, listRef, list, ...props }, ref) => {
+  ({ children, listRef, list, map, force, ...props }, ref) => {
     const { listId } = useCommandCtx()
+
+    useLayoutEffect(() => {
+      if (!listRef.current) return
+
+      // We cannot rely on filterList.element because the DOM node could be outdated
+      // but it would be an optimization: only loop over a pre-calculated array once
+      // compared to selectAll → sort → forEach (n*3?)
+
+      const groupList = new Map()
+
+      // Use an up to date DOM list
+      Array.from(listRef.current.querySelectorAll('[data-descendant]'))
+        .sort((a, b) => {
+          return a.getAttribute('data-order') - b.getAttribute('data-order')
+        })
+        .forEach(item => {
+          if (item.parentElement) {
+            // Re-insert into parent (does nothing if only child)
+            item.parentElement.appendChild(item)
+
+            const topEl = item.closest('[data-command-list] > *')
+
+            if (!topEl || topEl === item || topEl === listRef.current) {
+              // Item is already at the top level, no point
+              return
+            }
+
+            // Skip if we already re-inserted this top level element
+            if (groupList.has(topEl)) {
+              return
+            }
+
+            listRef.current.appendChild(topEl)
+            groupList.set(topEl, true)
+          }
+        })
+    })
 
     return (
       <>
@@ -91,7 +131,7 @@ export const CommandList = forwardRef(
           data-command-list-empty={list.current.length === 0 ? '' : undefined}
           {...props}
         >
-          <DescendantContext.Provider value={{ list }}>
+          <DescendantContext.Provider value={{ list, map, force }}>
             {children}
           </DescendantContext.Provider>
         </ul>
@@ -128,33 +168,14 @@ export const CommandList = forwardRef(
 
 CommandList.displayName = 'CommandList'
 
-const FilterContext = createContext(null)
-export const useFilter = () => useContext(FilterContext)
-
-export const Filter = ({ filter, children }) => {
-  return (
-    <FilterContext.Provider value={filter}>{children}</FilterContext.Provider>
-  )
-}
-
-export const CommandItem = props => {
-  const filter = useFilter()
-  const { search } = useCommandCtx()
-
-  const shouldRender =
-    typeof filter === 'function' ? filter(props, search) : true
-
-  if (shouldRender) {
-    return <CommandItemInner {...props} />
-  }
-
-  return null
-}
-
-const CommandItemInner = ({ children, callback, ...props }) => {
-  const { selected, setSelected } = useCommandCtx()
-
-  const { index, itemRef: ref } = useDescendant(DescendantContext, { callback })
+export const CommandItem = ({ children, callback, ...props }) => {
+  const { selected, setSelected, filterList: list } = useCommandCtx()
+  const { index, ref, id } = useDescendant(DescendantContext, {
+    callback,
+    ...props
+  })
+  const { map } = useContext(DescendantContext)
+  const hasUpdatedMap = map.current.has(id)
 
   const isActive = selected === index
 
@@ -177,10 +198,22 @@ const CommandItemInner = ({ children, callback, ...props }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive])
 
+  const order =
+    list && hasUpdatedMap
+      ? list.findIndex(([itemId]) => {
+          return itemId === id
+        })
+      : -2
+
+  if (order === -1) {
+    return null
+  }
+
   return (
     <li
       ref={ref}
       onClick={callback}
+      data-order={order}
       // Have to use mouseMove instead of mouseEnter, consider:
       // mouse over item 1, press down arrow, move mouse inside of item 1
       // active item should be item 1 again, not item 2
