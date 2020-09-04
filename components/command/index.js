@@ -46,22 +46,18 @@ const CommandData = React.createContext({})
 const useCommandData = () => React.useContext(CommandData)
 
 const HeaderMenu = () => {
-  const {
-    open,
-    actions,
-    inputRef,
-    search,
-    items,
-    listProps,
-    list,
-    commandProps
-  } = useCommand(
+  const listRef = useRef()
+  const commandRef = useRef()
+  const router = useRouter()
+  const { toggleTheme } = useTheme()
+  const commandProps = useCommand(
     {
       items: [DefaultItems]
     },
     useResetSelected,
     useResetSearch
   )
+  const { open, actions, search, items, list } = commandProps
 
   const { mounted, rendered } = useDelayedRender(open, {
     enterDelay: -1,
@@ -76,11 +72,6 @@ const HeaderMenu = () => {
   }, [mounted, actions])
 
   const Items = items[items.length - 1]
-
-  const listRef = useRef()
-
-  const router = useRouter()
-  const { toggleTheme } = useTheme()
 
   const closeOnCallback = useCallback(
     cb => {
@@ -127,18 +118,15 @@ const HeaderMenu = () => {
   }, [keymap, actions.toggle])
 
   const bounce = useCallback(() => {
-    if (inputRef.current) {
+    if (commandRef.current) {
       // Bounce the UI slightly
-      const command = inputRef.current.closest('[data-command]')
-      if (command) {
-        command.style.transform = 'scale(0.99)'
-        // Not exactly safe, but should be OK
-        setTimeout(() => {
-          command.style.transform = ''
-        }, 100)
-      }
+      commandRef.current.style.transform = 'scale(0.99)'
+      // Not exactly safe, but should be OK
+      setTimeout(() => {
+        commandRef.current.style.transform = ''
+      }, 100)
     }
-  }, [inputRef])
+  }, [])
 
   useEffect(() => {
     // When items change, bounce the UI
@@ -157,6 +145,7 @@ const HeaderMenu = () => {
 
       <Command
         {...commandProps}
+        ref={commandRef}
         open={mounted}
         aria-label="Navigation Menu"
         className={cn(styles.command, {
@@ -167,12 +156,7 @@ const HeaderMenu = () => {
         })}
       >
         <div className={styles.top}>
-          <CommandInput
-            ref={inputRef}
-            value={search}
-            onChange={actions.setSearch}
-            placeholder="Type a command or search..."
-          />
+          <CommandInput placeholder="Type a command or search..." />
           {items.length > 1 && (
             <Button onClick={() => actions.setItems(items.slice(0, -1))}>
               <ArrowLeft size={18} />
@@ -182,7 +166,7 @@ const HeaderMenu = () => {
 
         <div
           className={cn(styles.container, {
-            [styles.empty]: list.length === 0
+            [styles.empty]: list.current.length === 0
           })}
           style={{
             height: listRef.current?.offsetHeight
@@ -190,7 +174,7 @@ const HeaderMenu = () => {
               : undefined
           }}
         >
-          <CommandList {...listProps} ref={listRef} listRef={listProps.ref}>
+          <CommandList ref={listRef}>
             <CommandData.Provider value={{ keymap }}>
               <Items
                 state={{ items, search, open }}
