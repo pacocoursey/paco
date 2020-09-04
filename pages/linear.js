@@ -12,8 +12,6 @@ const Test = () => {
     open: true
   })
 
-  console.log(commandProps)
-
   return (
     <Command
       className={styles.command}
