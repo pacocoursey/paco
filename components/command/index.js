@@ -7,13 +7,10 @@ import {
   Command,
   CommandInput,
   CommandItem,
-  CommandList
-} from '@components/cmd'
-import {
+  CommandList,
   useCommand,
-  useResetSelected,
   useResetSearch
-} from '@components/cmd/use-command'
+} from 'colist'
 
 import {
   Command as CommandIcon,
@@ -54,7 +51,6 @@ const HeaderMenu = () => {
     {
       items: [DefaultItems]
     },
-    useResetSelected,
     useResetSearch
   )
   const { open, actions, search, items, list } = commandProps

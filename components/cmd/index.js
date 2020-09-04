@@ -1,4 +1,5 @@
-import {
+import React, {
+  Fragment,
   createContext,
   useContext,
   forwardRef,
@@ -10,6 +11,7 @@ import { useId } from '@reach/auto-id'
 import { DialogContent, DialogOverlay } from '@reach/dialog'
 import mergeRefs from 'react-merge-refs'
 import { useDescendant, createDescendants } from './descendants'
+export { useCommand, useResetSearch } from './use-command'
 
 const CommandContext = createContext({})
 const useCommandCtx = () => useContext(CommandContext)
@@ -121,7 +123,7 @@ export const CommandList = forwardRef(({ children, ...props }, ref) => {
   })
 
   return (
-    <>
+    <Fragment>
       <ul
         ref={mergeRefs([listRef, ref])}
         role="listbox"
@@ -160,7 +162,7 @@ export const CommandList = forwardRef(({ children, ...props }, ref) => {
           available.
         </div>
       )}
-    </>
+    </Fragment>
   )
 })
 

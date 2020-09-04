@@ -2,10 +2,9 @@ import {
   Command,
   CommandList,
   CommandItem,
-  CommandInput
-} from '@components/cmd'
-import { useCommand } from '@components/cmd/use-command'
-import styles from '@styles/linear.module.css'
+  CommandInput,
+  useCommand
+} from 'colist'
 
 const Test = () => {
   const commandProps = useCommand({
@@ -14,8 +13,7 @@ const Test = () => {
 
   return (
     <Command
-      className={styles.command}
-      aria-label="Linear Command"
+      aria-label="Command menu"
       {...commandProps}
     >
       <CommandInput />

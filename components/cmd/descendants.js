@@ -1,4 +1,4 @@
-import {
+import React, {
   useState,
   createContext,
   useContext,
@@ -102,14 +102,7 @@ export const useDescendant = (ctx, props) => {
   return { index: index.current, ref, id: id.current }
 }
 
-const useIsomorphicLayoutEffect =
+export const useIsomorphicLayoutEffect =
   typeof window !== 'undefined' && window?.document?.createElement
     ? useLayoutEffect
     : useEffect
-
-export const useGroup = list => {
-  const ref = useRef()
-  const hide = ref.current && !ref.current.children.length
-
-  return { ref, hide }
-}

@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef, useMemo, useCallback } from 'react'
+import React, { useEffect, useReducer, useRef, useMemo, useCallback } from 'react'
 import { useDescendants } from './descendants'
 import matchSorter from 'match-sorter'
 
@@ -111,13 +111,6 @@ export const useCommand = (defaults, ...hooks) => {
 }
 
 // Helper hooks
-
-export const useResetSelected = ({ dispatch, state }) => {
-  useEffect(() => {
-    // When search changes or item set changes
-    dispatch({ type: 'setSelected', selected: 0 })
-  }, [state.search, dispatch, state.items])
-}
 
 export const useResetSearch = ({ dispatch, state, inputRef }) => {
   useEffect(() => {
