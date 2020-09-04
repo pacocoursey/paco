@@ -194,9 +194,10 @@ export default HeaderMenu
 const BlogItems = () => {
   const router = useRouter()
 
-  return postMeta.map(post => {
+  return postMeta.map((post, i) => {
     return (
       <Item
+        key={`blog-item-${post.title}-${i}`}
         value={post.title}
         callback={() => router.push('/blog/[slug]', `/blog/${post.slug}`)}
       />
