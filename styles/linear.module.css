@@ -1,0 +1,108 @@
+.screen {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  --overlay: rgba(0, 0, 0, 0.6);
+  background: var(--overlay);
+  transition: opacity 0.2s ease;
+}
+
+.command {
+  --padding: 0 20px;
+  margin-left: 200px;
+  margin-top: 200px;
+  z-index: 9999;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg);
+  box-shadow: 0px 5px 10px rgba(154, 160, 185, 0.05),
+    0px 15px 40px rgba(166, 173, 201, 0.09),
+    0px 20px 60px rgba(166, 173, 201, 0.1);
+  width: 200px;
+
+  transform: scale(0.97);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.command [data-command-list] {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.command [data-command-input] {
+  outline: none;
+  height: 32px;
+  width: 100%;
+  border: 0;
+  background: 0;
+  font-size: 0.875rem;
+  color: var(--fg);
+  padding: var(--padding);
+}
+
+.command [data-command-input]::placeholder {
+  color: var(--gray);
+}
+
+.command [data-command-list] {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  border-top: 1px solid var(--lighter-gray);
+}
+
+.command [data-command-list-empty] {
+  border-top: none;
+}
+
+.command [data-command-item] {
+  display: block;
+  outline: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: var(--padding);
+  height: var(--height);
+  display: flex;
+  align-items: center;
+  color: var(--gray);
+  min-height: 40px;
+}
+
+.command [data-command-item][aria-selected] {
+  background: var(--lightest-gray);
+  color: var(--fg);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  padding: var(--padding);
+}
+
+.back {
+  background: none;
+  color: #fff;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  min-height: 5px;
+  color: var(--gray);
+  padding: var(--padding);
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-size: 0.875rem;
+  background: var(--lighter-gray);
+}
+
+.container {
+  transition: height 0.1s ease;
+  will-change: height;
+}

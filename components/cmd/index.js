@@ -8,32 +8,34 @@ import {
 } from 'react'
 import { useId } from '@reach/auto-id'
 import { DialogContent, DialogOverlay } from '@reach/dialog'
-import { useDescendant, createDescendants } from '@lib/descendants'
 import mergeRefs from 'react-merge-refs'
+import { useDescendant, createDescendants } from './descendants'
 
-const CommandContext = createContext({
-  listId: '',
-  label: '',
-  selected: -1,
-  setSelected: () => {},
-  search: ''
-})
-
+const CommandContext = createContext({})
 const useCommandCtx = () => useContext(CommandContext)
 
 export const Command = forwardRef(
   (
     {
-      children,
-      'aria-label': label,
+      // Props forwarded via Context
       open,
       selected,
       setSelected,
+      ordering,
+      inputRef,
+      listRef,
+      map,
+      list,
+      force,
+      filterList,
       search,
+      actions,
+      // Props that are specifically used by Command, not forwarded
+      onDismiss,
+      'aria-label': label,
       className,
       overlayClassName,
-      onDismiss,
-      filterList,
+      children,
       ...props
     },
     ref
@@ -42,16 +44,17 @@ export const Command = forwardRef(
 
     const context = {
       listId,
-      label,
       selected,
       setSelected,
+      ordering,
+      inputRef,
+      listRef,
+      map,
+      list,
+      force,
+      filterList,
       search,
-      filterList
-    }
-
-    if (selected === undefined) {
-      throw new Error(`Missing required props in Command.
-    - Did you mean to use 'cmd/uncontrolled'?`)
+      actions
     }
 
     return (
@@ -80,101 +83,102 @@ Command.displayName = 'Command'
 
 const DescendantContext = createDescendants()
 
-export const CommandList = forwardRef(
-  ({ children, listRef, list, map, force, ...props }, ref) => {
-    const { listId } = useCommandCtx()
+export const CommandList = forwardRef(({ children, ...props }, ref) => {
+  const { listId, ordering, listRef, map, list, force } = useCommandCtx()
 
-    useLayoutEffect(() => {
-      if (!listRef.current) return
+  useLayoutEffect(() => {
+    if (!ordering) return
+    if (!listRef.current) return
 
-      // We cannot rely on filterList.element because the DOM node could be outdated
-      // but it would be an optimization: only loop over a pre-calculated array once
-      // compared to selectAll → sort → forEach (n*3?)
+    const groupList = new Map()
 
-      const groupList = new Map()
+    // Use an up to date DOM list
+    Array.from(listRef.current.querySelectorAll('[data-descendant]'))
+      .sort((a, b) => {
+        return a.getAttribute('data-order') - b.getAttribute('data-order')
+      })
+      .forEach(item => {
+        if (item.parentElement) {
+          // Re-insert into parent (does nothing if only child)
+          item.parentElement.appendChild(item)
 
-      // Use an up to date DOM list
-      Array.from(listRef.current.querySelectorAll('[data-descendant]'))
-        .sort((a, b) => {
-          return a.getAttribute('data-order') - b.getAttribute('data-order')
-        })
-        .forEach(item => {
-          if (item.parentElement) {
-            // Re-insert into parent (does nothing if only child)
-            item.parentElement.appendChild(item)
+          const topEl = item.closest('[data-command-list] > *')
 
-            const topEl = item.closest('[data-command-list] > *')
-
-            if (!topEl || topEl === item || topEl === listRef.current) {
-              // Item is already at the top level, no point
-              return
-            }
-
-            // Skip if we already re-inserted this top level element
-            if (groupList.has(topEl)) {
-              return
-            }
-
-            listRef.current.appendChild(topEl)
-            groupList.set(topEl, true)
+          if (!topEl || topEl === item || topEl === listRef.current) {
+            // Item is already at the top level, no point
+            return
           }
-        })
-    })
 
-    return (
-      <>
-        <ul
-          ref={mergeRefs([listRef, ref])}
-          role="listbox"
-          id={listId}
-          data-command-list=""
-          data-command-list-empty={list.current.length === 0 ? '' : undefined}
-          {...props}
+          // Skip if we already re-inserted this top level element
+          if (groupList.has(topEl)) {
+            return
+          }
+
+          listRef.current.appendChild(topEl)
+          groupList.set(topEl, true)
+        }
+      })
+  })
+
+  return (
+    <>
+      <ul
+        ref={mergeRefs([listRef, ref])}
+        role="listbox"
+        id={listId}
+        data-command-list=""
+        data-command-list-empty={list.current.length === 0 ? '' : undefined}
+        {...props}
+      >
+        <DescendantContext.Provider value={{ list, map, force }}>
+          {children}
+        </DescendantContext.Provider>
+      </ul>
+
+      {list.current.length > 0 && (
+        <div
+          aria-live="polite"
+          role="status"
+          data-command-list-results=""
+          // We'll manually add styles here: should be SR only
+          style={{
+            border: 0,
+            padding: 0,
+            clip: 'rect(0 0 0 0)',
+            clipPath: 'inset(100%)',
+            height: 1,
+            width: 1,
+            margin: -1,
+            overflow: 'hidden',
+            position: 'absolute',
+            appearance: 'none',
+            whiteSpace: 'nowrap',
+            wordWrap: 'normal'
+          }}
         >
-          <DescendantContext.Provider value={{ list, map, force }}>
-            {children}
-          </DescendantContext.Provider>
-        </ul>
-
-        {list.current.length > 0 && (
-          <div
-            aria-live="polite"
-            role="status"
-            data-command-list-results=""
-            // We'll manually add styles here: should be SR only
-            style={{
-              border: 0,
-              padding: 0,
-              clip: 'rect(0 0 0 0)',
-              clipPath: 'inset(100%)',
-              height: 1,
-              width: 1,
-              margin: -1,
-              overflow: 'hidden',
-              position: 'absolute',
-              appearance: 'none',
-              whiteSpace: 'nowrap',
-              wordWrap: 'normal'
-            }}
-          >
-            {list.current.length} result{list.current.length > 1 ? 's' : ''}{' '}
-            available.
-          </div>
-        )}
-      </>
-    )
-  }
-)
+          {list.current.length} result{list.current.length > 1 ? 's' : ''}{' '}
+          available.
+        </div>
+      )}
+    </>
+  )
+})
 
 CommandList.displayName = 'CommandList'
 
-export const CommandItem = ({ children, callback, ...props }) => {
-  const { selected, setSelected, filterList: list } = useCommandCtx()
-  const { index, ref, id } = useDescendant(DescendantContext, {
-    callback,
-    ...props
-  })
-  const { map } = useContext(DescendantContext)
+export const CommandItem = forwardRef(({ children, ...props }, ref) => {
+  const {
+    selected,
+    setSelected,
+    filterList: list,
+    search,
+    ordering,
+    map
+  } = useCommandCtx()
+  const { index, ref: descendantRef, id } = useDescendant(
+    DescendantContext,
+    props
+  )
   const hasUpdatedMap = map.current.has(id)
 
   const isActive = selected === index
@@ -190,8 +194,8 @@ export const CommandItem = ({ children, callback, ...props }) => {
 
   useEffect(() => {
     // This item has become active, scroll it into view
-    if (isActive && ref.current) {
-      ref.current.scrollIntoView({
+    if (isActive && descendantRef.current) {
+      descendantRef.current.scrollIntoView({
         block: 'nearest'
       })
     }
@@ -203,16 +207,25 @@ export const CommandItem = ({ children, callback, ...props }) => {
       ? list.findIndex(([itemId]) => {
           return itemId === id
         })
-      : -2
+      : undefined
 
-  if (order === -1) {
-    return null
+  // First match
+  useEffect(() => {
+    if (order === 0) {
+      setSelected(index)
+    }
+  }, [search, index, order, setSelected])
+
+  if (ordering) {
+    if (order === -1) {
+      return null
+    }
   }
 
   return (
     <li
-      ref={ref}
-      onClick={callback}
+      ref={mergeRefs([descendantRef, ref])}
+      onClick={props.callback}
       data-order={order}
       // Have to use mouseMove instead of mouseEnter, consider:
       // mouse over item 1, press down arrow, move mouse inside of item 1
@@ -227,14 +240,18 @@ export const CommandItem = ({ children, callback, ...props }) => {
       {children}
     </li>
   )
-}
+})
 
 export const CommandInput = forwardRef(({ ...props }, ref) => {
-  const { listId, label } = useCommandCtx()
+  const { listId, label, inputRef, search, actions } = useCommandCtx()
 
   return (
     <input
-      ref={ref}
+      ref={mergeRefs([ref, inputRef])}
+      value={search}
+      onChange={actions.setSearch}
+      // These props can override the value/onChange stuff if the user
+      // wants to control it manually
       {...props}
       type="text"
       // a11y

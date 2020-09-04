@@ -10,7 +10,7 @@ import {
   useDescendants,
   useDescendant,
   createDescendants
-} from '@lib/descendants'
+} from '@components/cmd/descendants'
 import matchSorter from 'match-sorter'
 
 const Descs = createDescendants()

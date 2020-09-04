@@ -1,17 +1,11 @@
 import { createContext, useContext } from 'react'
-import { useCommand } from './use-command'
-import matchSorter from 'match-sorter'
+import { useCommand, useResetSearch, useResetSelected } from './use-command'
 
-import { Command, Filter, CommandInput, CommandList } from '.'
-export { CommandItem, Filter, useFilter } from '.'
+import { Command, CommandInput, CommandList } from '.'
+export { CommandItem } from '.'
 
 const ControlledContext = createContext({})
 export const useControlled = () => useContext(ControlledContext)
-
-const textFilter = ({ value }, search) => {
-  if (!value) return true
-  return !!matchSorter([value], search).length
-}
 
 const ControlledCommand = ({ children, open: openProp, ...props }) => {
   const {
@@ -21,10 +15,14 @@ const ControlledCommand = ({ children, open: openProp, ...props }) => {
     search,
     listProps,
     commandProps
-  } = useCommand({
-    open: openProp,
-    items: []
-  })
+  } = useCommand(
+    {
+      open: openProp,
+      items: []
+    },
+    useResetSearch,
+    useResetSelected
+  )
 
   return (
     <Command
@@ -37,7 +35,7 @@ const ControlledCommand = ({ children, open: openProp, ...props }) => {
       <ControlledContext.Provider
         value={{ inputRef, listProps, setSearch: actions.setSearch }}
       >
-        <Filter filter={textFilter}>{children}</Filter>
+        {children}
       </ControlledContext.Provider>
     </Command>
   )
@@ -45,7 +43,13 @@ const ControlledCommand = ({ children, open: openProp, ...props }) => {
 
 const ControlledList = props => {
   const { listProps } = useControlled()
-  return <CommandList {...listProps} {...props}></CommandList>
+  return (
+    <CommandList
+      {...listProps}
+      listRef={listProps.ref}
+      {...props}
+    ></CommandList>
+  )
 }
 
 const ControlledInput = props => {

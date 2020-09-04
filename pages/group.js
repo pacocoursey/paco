@@ -4,7 +4,7 @@ import {
   useDescendant,
   createDescendants,
   useGroup
-} from '@lib/descendants'
+} from '@components/cmd/descendants'
 import matchSorter from 'match-sorter'
 import { getNames } from 'country-list'
 const names = getNames()

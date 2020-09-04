@@ -88,6 +88,13 @@ export const useDescendant = (ctx, props) => {
     }
   })
 
+  useEffect(() => {
+    return () => {
+      index.current = -1
+      id.current = undefined
+    }
+  }, [])
+
   index.current = list.current.findIndex(
     item => item._internalId === id.current
   )

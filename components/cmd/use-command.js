@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useRef, useMemo, useCallback } from 'react'
-import { useDescendants } from '@lib/descendants'
+import { useDescendants } from './descendants'
 import matchSorter from 'match-sorter'
 
 const inputs = ['select', 'button', 'textarea']
@@ -42,7 +42,7 @@ const useListFilter = (map, filter) => {
     keys: [
       item => {
         const [, props] = item
-        return props?.value || false
+        return props?.value || null
       }
     ]
   })
@@ -52,16 +52,17 @@ const useListFilter = (map, filter) => {
 
 export const useCommand = (defaults, ...hooks) => {
   const inputRef = useRef()
-  const listProps = useDescendants()
+  const { ref: listRef, ...listProps } = useDescendants()
 
   let [state, dispatch] = useReducer(reducer, {
     search: '',
     selected: 0,
     open: false,
     items: [],
+    ordering: true,
     ...defaults
   })
-  const { search, selected, open, items } = state
+  const { search, selected, open, items, ordering } = state
 
   const filterList = useListFilter(listProps.map, search)
 
@@ -93,26 +94,19 @@ export const useCommand = (defaults, ...hooks) => {
     })
   })
 
-  const commandProps = useMemo(() => {
-    return {
-      search,
-      selected,
-      setSelected: actions.setSelected,
-      onDismiss: actions.close,
-      filterList
-    }
-  }, [search, selected, actions, filterList])
-
   return {
     inputRef,
     items,
     search,
-    selected,
     open,
+    selected,
+    setSelected: actions.setSelected,
+    onDismiss: actions.close,
+    filterList,
+    ordering,
+    listRef,
     actions,
-    list: listProps.list.current,
-    listProps,
-    commandProps
+    ...listProps
   }
 }
 
