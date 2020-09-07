@@ -1,4 +1,4 @@
-# [paco.im](https://paco.im)
+# [paco.sh](https://paco.sh)
 
 [![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/pacocoursey/paco)
 

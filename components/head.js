@@ -24,7 +24,7 @@ const Head = ({
       <meta name="og:image" content={image} />
 
       {/* URL */}
-      <meta name="og:url" content="https://paco.im" />
+      <meta name="og:url" content="https://paco.sh" />
 
       {/* General */}
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -38,7 +38,7 @@ const Head = ({
       <link
         rel="alternate"
         type="application/rss+xml"
-        title="RSS Feed for paco.im"
+        title="RSS Feed for paco.sh"
         href="/feed.xml"
       />
 
