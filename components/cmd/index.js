@@ -20,7 +20,6 @@ export const Command = forwardRef(
   (
     {
       // Props forwarded via Context
-      open,
       selected,
       setSelected,
       ordering,
@@ -33,6 +32,8 @@ export const Command = forwardRef(
       search,
       actions,
       // Props that are specifically used by Command, not forwarded
+      dialog = true,
+      open,
       onDismiss,
       'aria-label': label,
       className,
@@ -57,6 +58,16 @@ export const Command = forwardRef(
       filterList,
       search,
       actions
+    }
+
+    if (!dialog) {
+      return (
+        <CommandContext.Provider value={context}>
+          <div data-command="" className={className}>
+            {children}
+          </div>
+        </CommandContext.Provider>
+      )
     }
 
     return (

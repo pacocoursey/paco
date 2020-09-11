@@ -4,18 +4,13 @@ import {
   CommandItem,
   CommandInput,
   useCommand
-} from 'colist'
+} from '@components/cmd'
 
 const Test = () => {
-  const commandProps = useCommand({
-    open: true
-  })
+  const commandProps = useCommand()
 
   return (
-    <Command
-      aria-label="Command menu"
-      {...commandProps}
-    >
+    <Command aria-label="Command menu" dialog={false} {...commandProps}>
       <CommandInput />
       <CommandList>
         <CommandItem value="No Priority">No Priority</CommandItem>
