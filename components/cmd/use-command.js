@@ -1,4 +1,10 @@
-import React, { useEffect, useReducer, useRef, useMemo, useCallback } from 'react'
+import React, {
+  useEffect,
+  useReducer,
+  useRef,
+  useMemo,
+  useCallback
+} from 'react'
 import { useDescendants } from './descendants'
 import matchSorter from 'match-sorter'
 
@@ -6,15 +12,6 @@ const inputs = ['select', 'button', 'textarea']
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'toggle': {
-      return { ...state, open: !state.open }
-    }
-    case 'close': {
-      return { ...state, open: false }
-    }
-    case 'open': {
-      return { ...state, open: true }
-    }
     case 'setSelected': {
       if (state.selected === action.selected) {
         return state
@@ -57,12 +54,11 @@ export const useCommand = (defaults, ...hooks) => {
   let [state, dispatch] = useReducer(reducer, {
     search: '',
     selected: 0,
-    open: false,
     items: [],
     ordering: true,
     ...defaults
   })
-  const { search, selected, open, items, ordering } = state
+  const { search, selected, items, ordering } = state
 
   const filterList = useListFilter(listProps.map, search)
 
@@ -78,10 +74,7 @@ export const useCommand = (defaults, ...hooks) => {
     return {
       setSelected: selected => dispatch({ type: 'setSelected', selected }),
       setSearch: e => dispatch({ type: 'setSearch', value: e.target.value }),
-      setItems: items => dispatch({ type: 'setItems', items }),
-      close: () => dispatch({ type: 'close' }),
-      open: () => dispatch({ type: 'open' }),
-      toggle: () => dispatch({ type: 'toggle' })
+      setItems: items => dispatch({ type: 'setItems', items })
     }
   }, [])
 
@@ -98,10 +91,8 @@ export const useCommand = (defaults, ...hooks) => {
     inputRef,
     items,
     search,
-    open,
     selected,
     setSelected: actions.setSelected,
-    onDismiss: actions.close,
     filterList,
     ordering,
     listRef,

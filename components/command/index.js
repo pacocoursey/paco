@@ -1,7 +1,15 @@
-import React, { memo, useEffect, useRef, useMemo, useCallback } from 'react'
+import React, {
+  memo,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+  useState
+} from 'react'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
 import useDelayedRender from 'use-delayed-render'
+import { DialogContent, DialogOverlay } from '@reach/dialog'
 
 import {
   Command,
@@ -10,7 +18,7 @@ import {
   CommandList,
   useCommand,
   useResetSearch
-} from 'colist'
+} from '@components/cmd'
 
 import {
   Command as CommandIcon,
@@ -53,7 +61,8 @@ const HeaderMenu = () => {
     },
     useResetSearch
   )
-  const { open, actions, search, items, list } = commandProps
+  const [open, setOpen] = useState(false)
+  const { actions, search, items, list } = commandProps
 
   const { mounted, rendered } = useDelayedRender(open, {
     enterDelay: -1,
@@ -69,13 +78,10 @@ const HeaderMenu = () => {
 
   const Items = items[items.length - 1]
 
-  const closeOnCallback = useCallback(
-    cb => {
-      cb()
-      actions.close()
-    },
-    [actions]
-  )
+  const closeOnCallback = useCallback(cb => {
+    cb()
+    setOpen(false)
+  }, [])
 
   const keymap = useMemo(() => {
     return {
@@ -106,12 +112,12 @@ const HeaderMenu = () => {
   useEffect(() => {
     const unsubs = [
       tinykeys(window, keymap, { ignoreFocus: true }),
-      tinykeys(window, { '$mod+k': actions.toggle })
+      tinykeys(window, { '$mod+k': () => setOpen(o => !o) })
     ]
     return () => {
       unsubs.forEach(unsub => unsub())
     }
-  }, [keymap, actions.toggle])
+  }, [keymap])
 
   const bounce = useCallback(() => {
     if (commandRef.current) {
@@ -134,53 +140,56 @@ const HeaderMenu = () => {
       <button
         className={headerStyles.command}
         title="⌘K"
-        onClick={actions.open}
+        onClick={() => setOpen(true)}
       >
         <CommandIcon />
       </button>
 
-      <Command
-        {...commandProps}
-        ref={commandRef}
-        open={mounted}
-        aria-label="Navigation Menu"
-        className={cn(styles.command, {
+      <DialogOverlay
+        isOpen={mounted}
+        className={cn(styles.screen, {
           [styles.show]: rendered
         })}
-        overlayClassName={cn(styles.screen, {
-          [styles.show]: rendered
-        })}
+        onDismiss={() => setOpen(false)}
       >
-        <div className={styles.top}>
-          <CommandInput placeholder="Type a command or search..." />
-          {items.length > 1 && (
-            <Button onClick={() => actions.setItems(items.slice(0, -1))}>
-              <ArrowLeft size={18} />
-            </Button>
-          )}
-        </div>
-
-        <div
-          className={cn(styles.container, {
-            [styles.empty]: list.current.length === 0
+        <DialogContent
+          className={cn(styles.command, {
+            [styles.show]: rendered
           })}
-          style={{
-            height: listRef.current?.offsetHeight
-              ? Math.min(listRef.current.offsetHeight + 1, 300)
-              : undefined
-          }}
         >
-          <CommandList ref={listRef}>
-            <CommandData.Provider value={{ keymap }}>
-              <Items
-                state={{ items, search, open }}
-                actions={actions}
-                keymap={keymap}
-              />
-            </CommandData.Provider>
-          </CommandList>
-        </div>
-      </Command>
+          <Command {...commandProps} ref={commandRef}>
+            <div className={styles.top}>
+              <CommandInput placeholder="Type a command or search..." />
+              {items.length > 1 && (
+                <Button onClick={() => actions.setItems(items.slice(0, -1))}>
+                  <ArrowLeft size={18} />
+                </Button>
+              )}
+            </div>
+
+            <div
+              className={cn(styles.container, {
+                [styles.empty]: list.current.length === 0
+              })}
+              style={{
+                height: listRef.current?.offsetHeight
+                  ? Math.min(listRef.current.offsetHeight + 1, 300)
+                  : undefined
+              }}
+            >
+              <CommandList ref={listRef}>
+                <CommandData.Provider value={{ keymap }}>
+                  <Items
+                    state={{ items, search, open }}
+                    actions={actions}
+                    keymap={keymap}
+                  />
+                </CommandData.Provider>
+              </CommandList>
+            </div>
+          </Command>
+        </DialogContent>
+      </DialogOverlay>
     </>
   )
 }

@@ -8,7 +8,6 @@ import React, {
   useLayoutEffect
 } from 'react'
 import { useId } from '@reach/auto-id'
-import { DialogContent, DialogOverlay } from '@reach/dialog'
 import mergeRefs from 'react-merge-refs'
 import { useDescendant, createDescendants } from './descendants'
 export { useCommand, useResetSearch } from './use-command'
@@ -32,12 +31,7 @@ export const Command = forwardRef(
       search,
       actions,
       // Props that are specifically used by Command, not forwarded
-      dialog = true,
-      open,
-      onDismiss,
-      'aria-label': label,
       className,
-      overlayClassName,
       children,
       ...props
     },
@@ -60,33 +54,11 @@ export const Command = forwardRef(
       actions
     }
 
-    if (!dialog) {
-      return (
-        <CommandContext.Provider value={context}>
-          <div data-command="" className={className}>
-            {children}
-          </div>
-        </CommandContext.Provider>
-      )
-    }
-
     return (
       <CommandContext.Provider value={context}>
-        <DialogOverlay
-          isOpen={open}
-          className={overlayClassName}
-          data-command-overlay=""
-          onDismiss={onDismiss}
-        >
-          <DialogContent
-            className={className}
-            data-command=""
-            aria-label={label}
-            {...props}
-          >
-            {children}
-          </DialogContent>
-        </DialogOverlay>
+        <div data-command="" className={className}>
+          {children}
+        </div>
       </CommandContext.Provider>
     )
   }
@@ -256,7 +228,7 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
 })
 
 export const CommandInput = forwardRef(({ ...props }, ref) => {
-  const { listId, label, inputRef, search, actions } = useCommandCtx()
+  const { listId, inputRef, search, actions } = useCommandCtx()
 
   return (
     <input
@@ -272,7 +244,6 @@ export const CommandInput = forwardRef(({ ...props }, ref) => {
       aria-autocomplete="list"
       autoComplete="off"
       role="combobox"
-      aria-label={label}
       aria-owns={listId}
       data-command-input=""
     />
