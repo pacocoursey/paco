@@ -177,7 +177,7 @@ useDescendants heavily relies on refs to avoid unnecessary re-renders, which mak
 
 It also heavily relies on the DOM. Under the hood, we use `document.querySelectorAll` to get all of the descendant DOM elements, and then keep an up-to-date list of their relative indeces.
 
-This is because React provides no easy way of querying the component tree, and recursively checking `children` in the parent would be slow. But the DOM does, and the DOM always represents the state of our descendants.
+This is because React provides no easy way of querying the component tree, and recursively checking `children` in the parent would be slow. But the DOM does provide an easy way to query the tree, and the DOM always represents the accurate state of our descendants.
 
 Another downside of @reach/descendants was that any props passed to an item must be memoized. Passing an un-memoized function caused an infinite re-render. In useDescendants, you can pass any props, memoized or not, because we keep them in a ref.
 
