@@ -31,7 +31,7 @@ $ yarn add use-descendants
 
 <br />
 
-## Example
+## Example ([live](https://codesandbox.io/s/use-descendants-demo-wi96j?file=/src/App.js))
 
 In this example, we'll create a menu with items that can be selected on hover.
 
@@ -47,7 +47,7 @@ const MenuContext = createContext()
 
 const Menu = ({ children }) => {
   const { ref, ...contextProps } = useDescendants()
-  const [selected, setSelected] = useState(-1)
+  const [selected, setSelected] = useState(0)
 
   return (
     <DescendantContext.Provider value={contextProps}>
