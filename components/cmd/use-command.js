@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useCallback
 } from 'react'
-import { useDescendants } from './descendants'
+import { useDescendants } from '@components/use-descendants'
 import matchSorter from 'match-sorter'
 
 const inputs = ['select', 'button', 'textarea']
@@ -30,15 +30,16 @@ function reducer(state, action) {
   }
 }
 
-const useListFilter = (map, filter) => {
-  if (!map.current?.size) {
+const filter = (map, filter) => {
+  const values = Object.values(map.current)
+
+  if (!values.length) {
     return null
   }
 
-  const filterList = matchSorter(Array.from(map.current), filter, {
+  const filterList = matchSorter(values, filter, {
     keys: [
-      item => {
-        const [, props] = item
+      props => {
         return props?.value || null
       }
     ]
@@ -60,7 +61,9 @@ export const useCommand = (defaults, ...hooks) => {
   })
   const { search, selected, items, ordering } = state
 
-  const filterList = useListFilter(listProps.map, search)
+  const filterList = filter(listProps.map, search)
+
+  console.log(listProps.list.current)
 
   useKeydown({
     dispatch,

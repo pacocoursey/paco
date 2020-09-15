@@ -10,7 +10,7 @@ const Test = () => {
   const commandProps = useCommand()
 
   return (
-    <Command aria-label="Command menu" dialog={false} {...commandProps}>
+    <Command {...commandProps}>
       <CommandInput />
       <CommandList>
         <CommandItem value="No Priority">No Priority</CommandItem>

@@ -9,7 +9,7 @@ import React, {
 } from 'react'
 import { useId } from '@reach/auto-id'
 import mergeRefs from 'react-merge-refs'
-import { useDescendant, createDescendants } from './descendants'
+import { useDescendant, createDescendants } from '@components/use-descendants'
 export { useCommand, useResetSearch } from './use-command'
 
 const CommandContext = createContext({})
@@ -164,7 +164,7 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
     DescendantContext,
     props
   )
-  const hasUpdatedMap = map.current.has(id)
+  const hasUpdatedMap = !!map.current[id]
 
   const isActive = selected === index
 
@@ -188,9 +188,9 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
   }, [isActive])
 
   const order =
-    list && hasUpdatedMap
-      ? list.findIndex(([itemId]) => {
-          return itemId === id
+    list && list.length && hasUpdatedMap
+      ? list.findIndex(({ _internalId }) => {
+          return _internalId === id
         })
       : undefined
 
@@ -226,6 +226,8 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
     </li>
   )
 })
+
+CommandItem.displayName = 'CommandItem'
 
 export const CommandInput = forwardRef(({ ...props }, ref) => {
   const { listId, inputRef, search, actions } = useCommandCtx()

@@ -284,7 +284,7 @@ const DefaultItems = ({ actions, state, keymap }) => {
   )
 }
 
-const Item = memo(({ icon, children, callback, keybind, ...props }) => {
+const Item = ({ icon, children, callback, keybind, ...props }) => {
   const { keymap } = useCommandData()
 
   return (
@@ -307,4 +307,4 @@ const Item = memo(({ icon, children, callback, keybind, ...props }) => {
       )}
     </CommandItem>
   )
-})
+}

@@ -6,14 +6,13 @@ import React, {
   useLayoutEffect,
   useEffect
 } from 'react'
-import deepEqual from 'fast-deep-equal'
 
 export const createDescendants = () => createContext({})
 
 export const useDescendants = () => {
   const list = useRef([])
-  const map = useRef(new Map())
-  const [, forceUpdate] = useState()
+  const map = useRef({})
+  const [, force] = useState()
   const ref = useRef()
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -24,34 +23,25 @@ export const useDescendants = () => {
       ref.current.querySelectorAll('[data-descendant]')
     )
 
-    if (
-      // If the DOM elements changed
-      !deepEqual(
-        newList,
-        list.current.map(e => e.element)
-      )
-    ) {
+    // If the DOM elements changed (element arrays are different)
+    const domListChanged =
+      newList.length !== list.current.length ||
+      !newList.every((e, i) => {
+        return list.current[i].element === e
+      })
+
+    if (domListChanged) {
       list.current = newList.map(element => {
-        const props = map.current.get(element.getAttribute('data-descendant'))
+        const props = map.current[element.getAttribute('data-descendant')]
 
         return {
           element,
           ...props
         }
       })
-      forceUpdate({})
+      force({})
     }
   })
-
-  useEffect(() => {
-    return () => {
-      // Clear "state"
-      list.current = []
-      map.current = new Map()
-    }
-  }, [])
-
-  const [, force] = useState({})
 
   return {
     ref,
@@ -61,6 +51,7 @@ export const useDescendants = () => {
   }
 }
 
+// No idea what the chance of collision is here, probably fine?
 const genId = () =>
   `_${Math.random()
     .toString(36)
@@ -73,11 +64,18 @@ export const useDescendant = (ctx, props) => {
   const id = useRef(genId())
 
   useIsomorphicLayoutEffect(() => {
-    map.current.set(id.current, { ...props, _internalId: id.current })
-    force()
+    // Do this once, on mount, so that parent map is populated ASAP
+    map.current[id.current] = { ...props, _internalId: id.current }
+    force({})
 
     return () => {
-      map.current.delete(id.current)
+      // Remove from parent "state" on unmount
+      delete map.current[id.current]
+      list.current = list.current.filter(a => a._internalId !== id.current)
+
+      // Clean up local "state"
+      index.current = -1
+      id.current = undefined
     }
   }, [])
 
@@ -88,12 +86,10 @@ export const useDescendant = (ctx, props) => {
     }
   })
 
-  useEffect(() => {
-    return () => {
-      index.current = -1
-      id.current = undefined
-    }
-  }, [])
+  // Keep props up to date on every render
+  if (map.current?.[id.current]) {
+    map.current[id.current] = { ...props, _internalId: id.current }
+  }
 
   index.current = list.current.findIndex(
     item => item._internalId === id.current
