@@ -2,7 +2,7 @@
 
 > Warning: useDescendants is experimental and primarily intended for personal use. It heavily relies on refs and the DOM and likely will not be concurrent mode compatible.
 
-useDescendants is a react hook for keeping track of descendant components and their relative indeces. It's based off the [@reach/descendants](https://www.npmjs.com/package/@reach/descendants) package, but is much faster and smaller.
+useDescendants is a react hook for keeping track of descendant components and their relative indeces. It's based off the [@reach/descendants](https://www.npmjs.com/package/@reach/descendants) package, but is much faster and half the size, with no dependencies.
 
 If you want to understand more about what this package does or why we need it, read the [Problem Complex](https://www.npmjs.com/package/@reach/descendants) from the @reach/descendants package.
 
@@ -27,6 +27,84 @@ This enables component composition:
 
 ```
 $ yarn add use-descendants
+```
+
+<br />
+
+## Example
+
+In this example, we'll create a menu with items that can be selected on hover.
+
+```js
+import {
+  createDescendants,
+  useDescendants,
+  useDescendant
+} from 'use-descendants'
+
+const DescendantContext = createDescendants()
+const MenuContext = createContext()
+
+const Menu = ({ children }) => {
+  const { ref, ...contextProps } = useDescendants()
+  const [selected, setSelected] = useState(-1)
+
+  return (
+    <DescendantContext.Provider value={contextProps}>
+      <MenuContext.Provider value={{ selected, setSelected }}>
+        <div role="menu" ref={ref}>
+          {children}
+        </div>
+      </MenuContext.Provider>
+    </DescendantContext.Provider>
+  )
+}
+
+const MenuItem = ({ children }) => {
+  const { selected, setSelected } = useContext(MenuContext)
+  const { index, ref } = useDescendant(DescendantContext)
+
+  const isSelected = index === selected
+
+  return (
+    <div
+      role="menuitem"
+      ref={ref}
+      data-selected={isSelected}
+      onMouseMove={() => setSelected(index)}
+    >
+      {children}
+    </div>
+  )
+}
+```
+
+Pretty simple, right? The beauty of this API is that Menu's children can be wrapped arbitrarily, as opposed to normal rendering techniques.
+
+```jsx
+// Before
+<Menu>
+  {items.map(item => (
+    <MenuItem>{item}</MenuItem>
+  ))}
+</Menu>
+```
+
+```jsx
+// After, use any component tree
+<Menu>
+  <MenuItem>Hello</MenuItem>
+  <BlogMenuItems />
+  <RedItem>Im Red</RedItem>
+
+  <>
+    <>
+      <>
+        <MenuItem>Deep</MenuItem>
+      </>
+    </>
+  </>
+</Menu>
 ```
 
 <br />
@@ -93,80 +171,6 @@ const { ref, index, id } = useDescendant(context, props?)
 
 <br />
 
-## Example
-
-In this example, we'll create a menu with items that can be selected on hover.
-
-```js
-import {
-  createDescendants,
-  useDescendants,
-  useDescendant
-} from 'use-descendants'
-
-const DescendantContext = createDescendants()
-const MenuContext = createContext()
-
-const Menu = ({ children }) => {
-  const { ref, ...contextProps } = useDescendants()
-  const [selected, setSelected] = useState(-1)
-
-  return (
-    <DescendantContext.Provider value={contextProps}>
-      <MenuContext.Provider value={{ selected, setSelected }}>
-        <div role="menu" ref={ref}>
-          {children}
-        </div>
-      </MenuContext.Provider>
-    </DescendantContext.Provider>
-  )
-}
-
-const MenuItem = ({ children }) => {
-  const { selected, setSelected } = useContext(MenuContext)
-  const { index, ref } = useDescendant(DescendantContext)
-
-  const isSelected = index === selected
-
-  return (
-    <div
-      role="menuitem"
-      ref={ref}
-      data-selected={isSelected}
-      onMouseMove={() => setSelected(index)}
-    >
-      {children}
-    </div>
-  )
-}
-```
-
-Pretty simple, right? The beauty of this API is that Menu's children can be wrapped arbitrarily, as opposed to normal rendering techniques.
-
-```js
-// Before
-<Menu>
-  {items.map(item => <MenuItem>{item}</MenuItem>)}
-</Menu>
-
-// After, use any component tree
-<Menu>
-  <MenuItem>Hello</MenuItem>
-  <BlogMenuItems />
-  <RedItem>I'm Red</RedItem>
-
-  <>
-    <>
-      <>
-        <MenuItem>Deep</MenuItem>
-      </>
-    </>
-  </>
-</Menu>
-```
-
-<br />
-
 ## Why?
 
 To enable composable APIs instead of falling back to rendering data arrays. I prefer abstractions like `<select><option /></select>` instead of `<select options={[]} />`.
@@ -196,3 +200,6 @@ const props = map.current[id] // All of the props passed to `useDescendant` by t
 
 This makes it easy to pass data from the children back up to the parent.
 
+## Credits
+
+- [@reach/descendants](https://www.npmjs.com/package/@reach/descendants) and [Chance](https://twitter.com/chancethedev), who introduced me to this concept
