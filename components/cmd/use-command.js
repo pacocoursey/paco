@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useCallback
 } from 'react'
-import { useDescendants } from '@components/use-descendants'
+import { useDescendants } from 'use-descendants'
 import matchSorter from 'match-sorter'
 
 const inputs = ['select', 'button', 'textarea']

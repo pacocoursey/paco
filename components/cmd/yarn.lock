@@ -3243,6 +3243,11 @@ unquote@~1.1.1:
   resolved "https://registry.yarnpkg.com/unquote/-/unquote-1.1.1.tgz#8fded7324ec6e88a0ff8b905e7c098cdc086d544"
   integrity sha1-j97XMk7G6IoP+LkF58CYzcCG1UQ=
 
+use-descendants@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/use-descendants/-/use-descendants-0.0.1.tgz#15cf9ff5aeee9199d9c148e6c3c2810805f2334f"
+  integrity sha512-K3D7MQb62g4wx5oYtKtqa4w76AhrtQYfLMgvyxU0A/7OdXS1x00bqJE0iEe1Ls6lvQEC78YAPOzx4kvlfqmOkw==
+
 util.promisify@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/util.promisify/-/util.promisify-1.0.1.tgz#6baf7774b80eeb0f7520d8b81d07982a59abbaee"

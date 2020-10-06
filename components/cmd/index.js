@@ -9,7 +9,7 @@ import React, {
 } from 'react'
 import { useId } from '@reach/auto-id'
 import mergeRefs from 'react-merge-refs'
-import { useDescendant, createDescendants } from '@components/use-descendants'
+import { useDescendant, createDescendants } from 'use-descendants'
 export { useCommand, useResetSearch } from './use-command'
 
 const CommandContext = createContext({})
