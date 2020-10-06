@@ -1,5 +1,4 @@
 import React, {
-  memo,
   useEffect,
   useRef,
   useMemo,
@@ -18,7 +17,7 @@ import {
   CommandList,
   useCommand,
   useResetSearch
-} from '@components/cmd'
+} from 'colist'
 
 import {
   Command as CommandIcon,

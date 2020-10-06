@@ -242,8 +242,10 @@ export const CommandInput = forwardRef(({ ...props }, ref) => {
       {...props}
       type="text"
       // a11y
-      aria-expanded={true}
+      // https://www.w3.org/TR/wai-aria-practices/examples/combobox/aria1.1pattern/listbox-combo.html
+      aria-expanded={true} // The listbox (results) is always shown
       aria-autocomplete="list"
+      aria-haspopup="listbox"
       autoComplete="off"
       role="combobox"
       aria-owns={listId}
