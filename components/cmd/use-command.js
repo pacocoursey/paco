@@ -10,7 +10,8 @@ const useCommand = ({
   ordering = true,
   filter = defaultFilter,
   loop = false,
-  element
+  element,
+  ...props
 } = {}) => {
   const { ref: listRef, ...listProps } = useDescendants()
   const [selected, setSelected] = useState(selectedProp)
@@ -38,7 +39,8 @@ const useCommand = ({
     filterList,
     ordering,
     listRef,
-    ...listProps
+    ...listProps,
+    ...props
   }
 }
 
@@ -64,13 +66,7 @@ function defaultFilter(map, filter) {
   return filterList
 }
 
-const useKeydown = ({
-  setSelected,
-  descendants,
-  selected,
-  loop,
-  element
-}) => {
+const useKeydown = ({ setSelected, descendants, selected, loop, element }) => {
   const setLast = useCallback(() => {
     setSelected(descendants.length - 1)
   }, [setSelected, descendants])

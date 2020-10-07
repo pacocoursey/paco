@@ -19,53 +19,23 @@ const useCommandCtx = () => useContext(CommandContext)
 export const Command = forwardRef(
   (
     {
-      // Props forwarded via Context
-      selected,
-      setSelected,
-      ordering,
-      listRef,
-      map,
-      list,
-      force,
-      filterList,
-      search,
-      setSearch,
       // Props that are specifically used by Command, not forwarded
       className,
       children,
+      // Props forwarded via Context
       ...props
     },
     ref
   ) => {
     const listId = useId()
 
-    const context = useMemo(() => {
-      return {
+    const context = useMemo(
+      () => ({
         listId,
-        selected,
-        setSelected,
-        ordering,
-        listRef,
-        map,
-        list,
-        force,
-        filterList,
-        search,
-        setSearch
-      }
-    }, [
-      listId,
-      selected,
-      setSelected,
-      ordering,
-      listRef,
-      map,
-      list,
-      force,
-      filterList,
-      search,
-      setSearch
-    ])
+        ...props
+      }),
+      [listId, props]
+    )
 
     return (
       <CommandContext.Provider value={context}>
@@ -175,7 +145,9 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
     filterList: list,
     search,
     ordering,
-    map
+    map,
+    itemClass,
+    selectedItemClass
   } = useCommandCtx()
   const { index, ref: descendantRef, id } = useDescendant(
     DescendantContext,
@@ -229,6 +201,13 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
       ref={mergeRefs([descendantRef, ref])}
       onClick={props.callback}
       data-order={order}
+      className={
+        isActive
+          ? selectedItemClass
+            ? itemClass + ' ' + selectedItemClass
+            : itemClass
+          : itemClass
+      }
       // Have to use mouseMove instead of mouseEnter, consider:
       // mouse over item 1, press down arrow, move mouse inside of item 1
       // active item should be item 1 again, not item 2
@@ -237,6 +216,7 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
       aria-selected={isActive || undefined}
       role="option"
       data-command-item=""
+      data-command-selected={isActive ? '' : undefined}
     >
       {children}
     </li>
