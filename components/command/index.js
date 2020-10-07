@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useRef,
-  useMemo,
-  useCallback,
-  useState
-} from 'react'
+import React, { useEffect, useRef, useMemo, useCallback, useState } from 'react'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
 import useDelayedRender from 'use-delayed-render'
@@ -16,8 +10,8 @@ import {
   CommandItem,
   CommandList,
   useCommand,
-  useResetSearch
-} from 'colist'
+  usePages
+} from '@components/cmd'
 
 import {
   Command as CommandIcon,
@@ -54,14 +48,10 @@ const HeaderMenu = () => {
   const commandRef = useRef()
   const router = useRouter()
   const { toggleTheme } = useTheme()
-  const commandProps = useCommand(
-    {
-      items: [DefaultItems]
-    },
-    useResetSearch
-  )
+  const commandProps = useCommand()
+  const [pages, setPages] = usePages(commandProps, DefaultItems)
   const [open, setOpen] = useState(false)
-  const { actions, search, items, list } = commandProps
+  const { search, list } = commandProps
 
   const { mounted, rendered } = useDelayedRender(open, {
     enterDelay: -1,
@@ -71,11 +61,11 @@ const HeaderMenu = () => {
   // Can't do this inside of useCommand because it relies on useDelayedRender
   useEffect(() => {
     if (!mounted) {
-      actions.setItems([DefaultItems])
+      setPages([DefaultItems])
     }
-  }, [mounted, actions])
+  }, [mounted, setPages])
 
-  const Items = items[items.length - 1]
+  const Items = pages[pages.length - 1]
 
   const closeOnCallback = useCallback(cb => {
     cb()
@@ -132,7 +122,7 @@ const HeaderMenu = () => {
   useEffect(() => {
     // When items change, bounce the UI
     bounce()
-  }, [items, bounce])
+  }, [pages, bounce])
 
   return (
     <>
@@ -159,8 +149,8 @@ const HeaderMenu = () => {
           <Command {...commandProps} ref={commandRef}>
             <div className={styles.top}>
               <CommandInput placeholder="Type a command or search..." />
-              {items.length > 1 && (
-                <Button onClick={() => actions.setItems(items.slice(0, -1))}>
+              {pages.length > 1 && (
+                <Button onClick={() => setPages(pages.slice(0, -1))}>
                   <ArrowLeft size={18} />
                 </Button>
               )}
@@ -177,10 +167,10 @@ const HeaderMenu = () => {
               }}
             >
               <CommandList ref={listRef}>
-                <CommandData.Provider value={{ keymap }}>
+                <CommandData.Provider value={keymap}>
                   <Items
-                    state={{ items, search, open }}
-                    actions={actions}
+                    state={{ pages, search, open }}
+                    setPages={setPages}
                     keymap={keymap}
                   />
                 </CommandData.Provider>
@@ -227,7 +217,7 @@ const Group = ({ children, title }) => {
   )
 }
 
-const DefaultItems = ({ actions, state, keymap }) => {
+const DefaultItems = ({ setPages, state, keymap }) => {
   const { theme } = useTheme()
   const router = useRouter()
 
@@ -244,7 +234,7 @@ const DefaultItems = ({ actions, state, keymap }) => {
         <Item
           value="Search blog..."
           icon={<Search />}
-          callback={() => actions.setItems([...state.items, BlogItems])}
+          callback={() => setPages([...state.pages, BlogItems])}
         />
         <Item
           value="RSS"
@@ -284,7 +274,7 @@ const DefaultItems = ({ actions, state, keymap }) => {
 }
 
 const Item = ({ icon, children, callback, keybind, ...props }) => {
-  const { keymap } = useCommandData()
+  const keymap = useCommandData()
 
   return (
     <CommandItem {...props} callback={callback || keymap[keybind]}>

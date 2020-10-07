@@ -31,6 +31,7 @@
   box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.4), 0px 0px 60px rgba(0, 0, 0, 0.5),
     inset 0px 1px 0px rgba(0, 0, 0, 0.6);
   width: 700px;
+  outline: none;
 
   opacity: 0;
   transform: scale(0.97);

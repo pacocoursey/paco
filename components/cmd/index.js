@@ -12,6 +12,7 @@ import { useId } from '@reach/auto-id'
 import mergeRefs from 'react-merge-refs'
 import { useDescendant, createDescendants } from 'use-descendants'
 export { default as useCommand } from './use-command'
+export { default as usePages } from './use-pages'
 
 const CommandContext = createContext({})
 const useCommandCtx = () => useContext(CommandContext)

@@ -28,7 +28,11 @@ const useCommand = ({
   })
 
   const handleSearch = useCallback(e => {
-    setSearch(e.target.value)
+    if (e) {
+      setSearch(e.target.value)
+    } else {
+      setSearch(e)
+    }
   }, [])
 
   return {
