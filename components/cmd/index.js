@@ -48,9 +48,12 @@ export const Command = forwardRef(
       <CommandContext.Provider value={context}>
         <div data-command="" className={className}>
           {/* Should be SR only, just used for labelling */}
-          <label htmlFor={inputId} style={srOnlyStyles}>
-            {label}
-          </label>
+          {label && (
+            <label htmlFor={inputId} style={srOnlyStyles}>
+              {label}
+            </label>
+          )}
+
           {children}
         </div>
       </CommandContext.Provider>

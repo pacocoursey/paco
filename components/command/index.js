@@ -49,7 +49,9 @@ const HeaderMenu = () => {
   const commandRef = useRef()
   const router = useRouter()
   const { toggleTheme } = useTheme()
-  const commandProps = useCommand()
+  const commandProps = useCommand({
+    label: 'Site Navigation'
+  })
   const [pages, setPages] = usePages(commandProps, DefaultItems)
   const [open, setOpen] = useState(false)
   const { search, list } = commandProps
