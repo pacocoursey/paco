@@ -1,33 +1,50 @@
-import React, {
-  useEffect,
-  useReducer,
-  useRef,
-  useMemo,
-  useCallback
-} from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useDescendants } from 'use-descendants'
 import matchSorter from 'match-sorter'
 
 const inputs = ['select', 'button', 'textarea']
 
-function reducer(state, action) {
-  switch (action.type) {
-    case 'setSelected': {
-      if (state.selected === action.selected) {
-        return state
-      }
+export const useCommand = ({
+  search: searchProp = '',
+  selected: selectedProp = 0,
+  ordering = true,
+  filter = defaultFilter,
+  rotate = false,
+  element
+}) => {
+  const { ref: listRef, ...listProps } = useDescendants()
+  const [selected, setSelected] = useState(selectedProp)
+  const [search, setSearch] = useState(searchProp)
 
-      return { ...state, selected: action.selected }
-    }
-    case 'setSearch': {
-      return { ...state, search: action.value }
-    }
-    default:
-      return state
+  const filterList = filter(listProps.map, search)
+
+  useKeydown({
+    setSelected,
+    selected,
+    descendants: listProps.list.current,
+    rotate,
+    element
+  })
+
+  const handleSearch = useCallback(e => {
+    setSearch(e.target.value)
+  }, [])
+
+  return {
+    search,
+    selected,
+    setSelected,
+    setSearch: handleSearch,
+    filterList,
+    ordering,
+    listRef,
+    ...listProps
   }
 }
 
-const defaultFilter = (map, filter) => {
+// Helpers
+
+function defaultFilter(map, filter) {
   const values = Object.values(map.current)
 
   if (!values.length) {
@@ -45,68 +62,20 @@ const defaultFilter = (map, filter) => {
   return filterList
 }
 
-export const useCommand = (defaults, ...hooks) => {
-  const { ref: listRef, ...listProps } = useDescendants()
-
-  let [state, dispatch] = useReducer(reducer, {
-    search: '',
-    selected: 0,
-    ordering: true,
-    filter: defaultFilter,
-    ...defaults
-  })
-  const { search, selected, ordering } = state
-
-  const filter = defaults.filter || defaultFilter
-  const filterList = filter(listProps.map, search)
-
-  console.log(listProps.list.current)
-
-  useKeydown({
-    dispatch,
-    selected,
-    descendants: listProps.list.current,
-    rotate: defaults?.rotate || false,
-    element: defaults?.element
-  })
-
-  const actions = useMemo(() => {
-    return {
-      setSelected: selected => dispatch({ type: 'setSelected', selected }),
-      setSearch: e => dispatch({ type: 'setSearch', value: e.target.value })
-    }
-  }, [])
-
-  hooks.forEach(hook => {
-    hook({
-      dispatch,
-      state,
-      defaults
-    })
-  })
-
-  return {
-    search,
-    selected,
-    setSelected: actions.setSelected,
-    filterList,
-    ordering,
-    listRef,
-    actions,
-    ...listProps
-  }
-}
-
-// Helper hooks
-
-const useKeydown = ({ dispatch, descendants, selected, rotate, element }) => {
+const useKeydown = ({
+  setSelected,
+  descendants,
+  selected,
+  rotate,
+  element
+}) => {
   const setLast = useCallback(() => {
-    dispatch({ type: 'setSelected', selected: descendants.length - 1 })
-  }, [dispatch, descendants])
+    setSelected(descendants.length - 1)
+  }, [setSelected, descendants])
 
   const setFirst = useCallback(() => {
-    dispatch({ type: 'setSelected', selected: 0 })
-  }, [dispatch])
+    setSelected(0)
+  }, [setSelected])
 
   const setNext = useCallback(() => {
     const atBottom = selected === descendants.length - 1
@@ -114,15 +83,12 @@ const useKeydown = ({ dispatch, descendants, selected, rotate, element }) => {
     if (atBottom) {
       if (rotate) {
         // Loop back to the top
-        dispatch({
-          type: 'setSelected',
-          selected: (selected + 1) % descendants.length
-        })
+        setSelected((selected + 1) % descendants.length)
       }
     } else {
-      dispatch({ type: 'setSelected', selected: selected + 1 })
+      setSelected(selected + 1)
     }
-  }, [dispatch, selected, rotate, descendants])
+  }, [selected, rotate, descendants, setSelected])
 
   const setPrev = useCallback(() => {
     const atTop = selected === 0
@@ -133,9 +99,9 @@ const useKeydown = ({ dispatch, descendants, selected, rotate, element }) => {
         setLast()
       }
     } else {
-      dispatch({ type: 'setSelected', selected: selected - 1 })
+      setSelected(selected - 1)
     }
-  }, [dispatch, selected, setLast, rotate])
+  }, [setSelected, selected, setLast, rotate])
 
   useEffect(() => {
     function handleKey(e) {
@@ -198,7 +164,7 @@ const useKeydown = ({ dispatch, descendants, selected, rotate, element }) => {
   }, [
     selected,
     descendants,
-    dispatch,
+    setSelected,
     setFirst,
     setLast,
     setNext,
