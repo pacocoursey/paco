@@ -9,7 +9,7 @@ const useCommand = ({
   selected: selectedProp = 0,
   ordering = true,
   filter = defaultFilter,
-  rotate = false,
+  loop = false,
   element
 } = {}) => {
   const { ref: listRef, ...listProps } = useDescendants()
@@ -22,7 +22,7 @@ const useCommand = ({
     setSelected,
     selected,
     descendants: listProps.list.current,
-    rotate,
+    loop,
     element
   })
 
@@ -68,7 +68,7 @@ const useKeydown = ({
   setSelected,
   descendants,
   selected,
-  rotate,
+  loop,
   element
 }) => {
   const setLast = useCallback(() => {
@@ -83,27 +83,27 @@ const useKeydown = ({
     const atBottom = selected === descendants.length - 1
 
     if (atBottom) {
-      if (rotate) {
+      if (loop) {
         // Loop back to the top
         setSelected((selected + 1) % descendants.length)
       }
     } else {
       setSelected(selected + 1)
     }
-  }, [selected, rotate, descendants, setSelected])
+  }, [selected, loop, descendants, setSelected])
 
   const setPrev = useCallback(() => {
     const atTop = selected === 0
 
     if (atTop) {
-      if (rotate) {
+      if (loop) {
         // Loop back to bottom
         setLast()
       }
     } else {
       setSelected(selected - 1)
     }
-  }, [setSelected, selected, setLast, rotate])
+  }, [setSelected, selected, setLast, loop])
 
   useEffect(() => {
     function handleKey(e) {
