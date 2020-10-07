@@ -10,7 +10,8 @@ import {
   CommandItem,
   CommandList,
   useCommand,
-  usePages
+  usePages,
+  CommandGroup
 } from '@components/cmd'
 
 import {
@@ -209,11 +210,9 @@ const Label = ({ title, values, search }) => {
 
 const Group = ({ children, title }) => {
   return (
-    <li className={styles.group}>
-      {/* TODO: check if aria-label is needed */}
-      <ul aria-label={title}>{children}</ul>
-      <Label title={title} />
-    </li>
+    <CommandGroup heading={<Label title={title} />} className={styles.group}>
+      {children}
+    </CommandGroup>
   )
 }
 

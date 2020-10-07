@@ -1,25 +1,52 @@
+import { useState } from 'react'
 import {
   Command,
   CommandList,
   CommandItem,
   CommandInput,
-  useCommand
+  useCommand,
+  CommandGroup
 } from '@components/cmd'
+import randomWords from 'random-words'
 
 const Test = () => {
-  const commandProps = useCommand()
+  const commandProps = useCommand({
+    selectedItemClass: 'hihihi'
+  })
+  const [extras, setExtras] = useState([])
+
+  function load() {
+    setExtras(extras => {
+      return [...extras, randomWords()]
+    })
+  }
 
   return (
-    <Command {...commandProps}>
-      <CommandInput />
-      <CommandList>
-        <CommandItem value="No Priority">No Priority</CommandItem>
-        <CommandItem value="Urgent">Urgent</CommandItem>
-        <CommandItem value="High">High</CommandItem>
-        <CommandItem value="Medium">Medium</CommandItem>
-        <CommandItem value="Low">Low</CommandItem>
-      </CommandList>
-    </Command>
+    <div>
+      <button onClick={load}>Load More</button>
+      <Command {...commandProps} label="Linear Command">
+        <CommandInput />
+        <CommandList>
+          <CommandGroup heading={'Hello there'}>
+            <CommandItem value="No Priority">No Priority</CommandItem>
+            <CommandItem value="Urgent">Urgent</CommandItem>
+          </CommandGroup>
+          <CommandItem value="High">High</CommandItem>
+          <CommandItem value="Medium">Medium</CommandItem>
+          <CommandItem value="Low">Low</CommandItem>
+
+          {extras.map(extra => {
+            return <CommandItem value={extra}>{extra}</CommandItem>
+          })}
+        </CommandList>
+      </Command>
+
+      <style jsx global>{`
+        .hihihi {
+          color: red;
+        }
+      `}</style>
+    </div>
   )
 }
 

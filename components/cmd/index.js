@@ -21,6 +21,7 @@ export const Command = forwardRef(
   (
     {
       // Props that are specifically used by Command, not forwarded
+      label,
       className,
       children,
       // Props forwarded via Context
@@ -29,18 +30,24 @@ export const Command = forwardRef(
     ref
   ) => {
     const listId = useId()
+    const inputId = useId()
 
     const context = useMemo(
       () => ({
         listId,
+        inputId,
         ...props
       }),
-      [listId, props]
+      [listId, inputId, props]
     )
 
     return (
       <CommandContext.Provider value={context}>
         <div data-command="" className={className}>
+          {/* Should be SR only, just used for labelling */}
+          <label htmlFor={inputId} style={srOnlyStyles}>
+            {label}
+          </label>
           {children}
         </div>
       </CommandContext.Provider>
@@ -113,20 +120,7 @@ export const CommandList = forwardRef(({ children, ...props }, ref) => {
           aria-live="polite"
           role="status"
           // We'll manually add styles here: should be SR only
-          style={{
-            border: 0,
-            padding: 0,
-            clip: 'rect(0 0 0 0)',
-            clipPath: 'inset(100%)',
-            height: 1,
-            width: 1,
-            margin: -1,
-            overflow: 'hidden',
-            position: 'absolute',
-            appearance: 'none',
-            whiteSpace: 'nowrap',
-            wordWrap: 'normal'
-          }}
+          style={srOnlyStyles}
         >
           {list.current.length} result{list.current.length > 1 ? 's' : ''}{' '}
           available.
@@ -226,7 +220,7 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
 CommandItem.displayName = 'CommandItem'
 
 export const CommandInput = forwardRef(({ ...props }, ref) => {
-  const { listId, search, setSearch } = useCommandCtx()
+  const { listId, inputId, search, setSearch } = useCommandCtx()
 
   return (
     <input
@@ -245,12 +239,37 @@ export const CommandInput = forwardRef(({ ...props }, ref) => {
       autoComplete="off"
       role="combobox"
       aria-owns={listId}
+      id={inputId}
       data-command-input=""
     />
   )
 })
 
 CommandInput.displayName = 'CommandInput'
+
+export const CommandGroup = ({ children, heading, separator, ...props }) => {
+  const headingId = useId()
+
+  return (
+    <>
+      {separator && <CommandSeparator />}
+      <li data-command-group="" role="presentation" {...props}>
+        <div aria-hidden id={headingId}>
+          {heading}
+        </div>
+        <ul role="group" aria-labelledby={headingId}>
+          {children}
+        </ul>
+      </li>
+    </>
+  )
+}
+
+const CommandSeparator = () => {
+  return <li data-command-separator="" role="separator" />
+}
+
+// Helpers
 
 function throttle(fn, interval) {
   let pending = false
@@ -260,4 +279,16 @@ function throttle(fn, interval) {
     fn(...args)
     setTimeout(() => (pending = false), interval)
   }
+}
+
+const srOnlyStyles = {
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  padding: '0',
+  margin: '-1px',
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  borderWidth: '0'
 }
