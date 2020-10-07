@@ -234,7 +234,6 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
       // active item should be item 1 again, not item 2
       onMouseMove={handleMouse}
       // a11y
-      tabIndex={-1}
       aria-selected={isActive || undefined}
       role="option"
       data-command-item=""
