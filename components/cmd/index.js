@@ -1,6 +1,7 @@
 import React, {
   Fragment,
   createContext,
+  useMemo,
   useContext,
   forwardRef,
   useCallback,
@@ -38,7 +39,21 @@ export const Command = forwardRef(
   ) => {
     const listId = useId()
 
-    const context = {
+    const context = useMemo(() => {
+      return {
+        listId,
+        selected,
+        setSelected,
+        ordering,
+        listRef,
+        map,
+        list,
+        force,
+        filterList,
+        search,
+        actions
+      }
+    }, [
       listId,
       selected,
       setSelected,
@@ -50,7 +65,7 @@ export const Command = forwardRef(
       filterList,
       search,
       actions
-    }
+    ])
 
     return (
       <CommandContext.Provider value={context}>
@@ -103,6 +118,10 @@ export const CommandList = forwardRef(({ children, ...props }, ref) => {
       })
   })
 
+  const DescendantProps = useMemo(() => {
+    return { list, map, force }
+  }, [list, map, force])
+
   return (
     <Fragment>
       <ul
@@ -113,7 +132,7 @@ export const CommandList = forwardRef(({ children, ...props }, ref) => {
         data-command-list-empty={list.current.length === 0 ? '' : undefined}
         {...props}
       >
-        <DescendantContext.Provider value={{ list, map, force }}>
+        <DescendantContext.Provider value={DescendantProps}>
           {children}
         </DescendantContext.Provider>
       </ul>
