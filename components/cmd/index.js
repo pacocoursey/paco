@@ -22,7 +22,6 @@ export const Command = forwardRef(
       selected,
       setSelected,
       ordering,
-      inputRef,
       listRef,
       map,
       list,
@@ -44,7 +43,6 @@ export const Command = forwardRef(
       selected,
       setSelected,
       ordering,
-      inputRef,
       listRef,
       map,
       list,
@@ -230,11 +228,11 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
 CommandItem.displayName = 'CommandItem'
 
 export const CommandInput = forwardRef(({ ...props }, ref) => {
-  const { listId, inputRef, search, actions } = useCommandCtx()
+  const { listId, search, actions } = useCommandCtx()
 
   return (
     <input
-      ref={mergeRefs([ref, inputRef])}
+      ref={ref}
       value={search}
       onChange={actions.setSearch}
       // These props can override the value/onChange stuff if the user

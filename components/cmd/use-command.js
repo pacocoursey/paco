@@ -22,15 +22,12 @@ function reducer(state, action) {
     case 'setSearch': {
       return { ...state, search: action.value }
     }
-    case 'setItems': {
-      return { ...state, items: action.items }
-    }
     default:
       return state
   }
 }
 
-const filter = (map, filter) => {
+const defaultFilter = (map, filter) => {
   const values = Object.values(map.current)
 
   if (!values.length) {
@@ -49,18 +46,18 @@ const filter = (map, filter) => {
 }
 
 export const useCommand = (defaults, ...hooks) => {
-  const inputRef = useRef()
   const { ref: listRef, ...listProps } = useDescendants()
 
   let [state, dispatch] = useReducer(reducer, {
     search: '',
     selected: 0,
-    items: [],
     ordering: true,
+    filter: defaultFilter,
     ...defaults
   })
-  const { search, selected, items, ordering } = state
+  const { search, selected, ordering } = state
 
+  const filter = defaults.filter || defaultFilter
   const filterList = filter(listProps.map, search)
 
   console.log(listProps.list.current)
@@ -76,8 +73,7 @@ export const useCommand = (defaults, ...hooks) => {
   const actions = useMemo(() => {
     return {
       setSelected: selected => dispatch({ type: 'setSelected', selected }),
-      setSearch: e => dispatch({ type: 'setSearch', value: e.target.value }),
-      setItems: items => dispatch({ type: 'setItems', items })
+      setSearch: e => dispatch({ type: 'setSearch', value: e.target.value })
     }
   }, [])
 
@@ -85,14 +81,11 @@ export const useCommand = (defaults, ...hooks) => {
     hook({
       dispatch,
       state,
-      inputRef,
       defaults
     })
   })
 
   return {
-    inputRef,
-    items,
     search,
     selected,
     setSelected: actions.setSelected,
@@ -105,14 +98,6 @@ export const useCommand = (defaults, ...hooks) => {
 }
 
 // Helper hooks
-
-export const useResetSearch = ({ dispatch, state, inputRef }) => {
-  useEffect(() => {
-    // When items change, reset the search field and focus the input
-    dispatch({ type: 'setSearch', value: '' })
-    inputRef?.current?.focus()
-  }, [state.items, dispatch, inputRef])
-}
 
 const useKeydown = ({ dispatch, descendants, selected, rotate, element }) => {
   const setLast = useCallback(() => {
