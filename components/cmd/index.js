@@ -11,7 +11,7 @@ import React, {
 import { useId } from '@reach/auto-id'
 import mergeRefs from 'react-merge-refs'
 import { useDescendant, createDescendants } from 'use-descendants'
-export { useCommand, useResetSearch } from './use-command'
+export { default as useCommand } from './use-command'
 
 const CommandContext = createContext({})
 const useCommandCtx = () => useContext(CommandContext)
@@ -29,7 +29,7 @@ export const Command = forwardRef(
       force,
       filterList,
       search,
-      actions,
+      setSearch,
       // Props that are specifically used by Command, not forwarded
       className,
       children,
@@ -51,7 +51,7 @@ export const Command = forwardRef(
         force,
         filterList,
         search,
-        actions
+        setSearch
       }
     }, [
       listId,
@@ -64,7 +64,7 @@ export const Command = forwardRef(
       force,
       filterList,
       search,
-      actions
+      setSearch
     ])
 
     return (
@@ -205,7 +205,7 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
   }, [isActive])
 
   const order =
-    list && list.length && hasUpdatedMap
+    !!list && hasUpdatedMap
       ? list.findIndex(({ _internalId }) => {
           return _internalId === id
         })
@@ -247,13 +247,13 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
 CommandItem.displayName = 'CommandItem'
 
 export const CommandInput = forwardRef(({ ...props }, ref) => {
-  const { listId, search, actions } = useCommandCtx()
+  const { listId, search, setSearch } = useCommandCtx()
 
   return (
     <input
       ref={ref}
       value={search}
-      onChange={actions.setSearch}
+      onChange={setSearch}
       // These props can override the value/onChange stuff if the user
       // wants to control it manually
       {...props}

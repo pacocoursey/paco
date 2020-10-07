@@ -4,14 +4,14 @@ import matchSorter from 'match-sorter'
 
 const inputs = ['select', 'button', 'textarea']
 
-export const useCommand = ({
+const useCommand = ({
   search: searchProp = '',
   selected: selectedProp = 0,
   ordering = true,
   filter = defaultFilter,
   rotate = false,
   element
-}) => {
+} = {}) => {
   const { ref: listRef, ...listProps } = useDescendants()
   const [selected, setSelected] = useState(selectedProp)
   const [search, setSearch] = useState(searchProp)
@@ -41,6 +41,8 @@ export const useCommand = ({
     ...listProps
   }
 }
+
+export default useCommand
 
 // Helpers
 
