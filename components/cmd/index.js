@@ -111,7 +111,6 @@ export const CommandList = forwardRef(({ children, ...props }, ref) => {
         <div
           aria-live="polite"
           role="status"
-          data-command-list-results=""
           // We'll manually add styles here: should be SR only
           style={{
             border: 0,
