@@ -6,8 +6,11 @@ import React, {
   forwardRef,
   useCallback,
   useEffect,
+  useRef,
+  useState,
   useLayoutEffect
 } from 'react'
+import clsx from 'clsx'
 import { useId } from '@reach/auto-id'
 import mergeRefs from 'react-merge-refs'
 import { useDescendant, createDescendants } from 'use-descendants'
@@ -62,7 +65,7 @@ const DescendantContext = createDescendants()
 export const CommandList = forwardRef(({ children, ...props }, ref) => {
   const { listId, ordering, listRef, map, list, force } = useCommandCtx()
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!ordering) return
     if (!listRef.current) return
 
@@ -195,13 +198,9 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
       ref={mergeRefs([descendantRef, ref])}
       onClick={props.callback}
       data-order={order}
-      className={
-        isActive
-          ? selectedItemClass
-            ? itemClass + ' ' + selectedItemClass
-            : itemClass
-          : itemClass
-      }
+      className={clsx(itemClass, {
+        [selectedItemClass]: isActive
+      })}
       // Have to use mouseMove instead of mouseEnter, consider:
       // mouse over item 1, press down arrow, move mouse inside of item 1
       // active item should be item 1 again, not item 2
@@ -249,15 +248,34 @@ CommandInput.displayName = 'CommandInput'
 
 export const CommandGroup = ({ children, heading, separator, ...props }) => {
   const headingId = useId()
+  const ref = useRef()
+  const [show, setShow] = useState(true)
+
+  useIsomorphicLayoutEffect(() => {
+    if (!ref.current) return
+    const count = ref.current.children.length
+    setShow(count !== 0)
+  })
 
   return (
     <>
       {separator && <CommandSeparator />}
-      <li data-command-group="" role="presentation" {...props}>
+      <li
+        data-command-group=""
+        role="presentation"
+        {...props}
+        style={
+          show
+            ? undefined
+            : {
+                display: 'none'
+              }
+        }
+      >
         <div aria-hidden id={headingId}>
           {heading}
         </div>
-        <ul role="group" aria-labelledby={headingId}>
+        <ul role="group" aria-labelledby={headingId} ref={ref}>
           {children}
         </ul>
       </li>
@@ -292,3 +310,8 @@ const srOnlyStyles = {
   whiteSpace: 'nowrap',
   borderWidth: '0'
 }
+
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' && window?.document?.createElement
+    ? useLayoutEffect
+    : useEffect
