@@ -148,7 +148,10 @@ const HeaderMenu = () => {
         })}
         onDismiss={() => setOpen(false)}
       >
-        <DialogContent className={styles['dialog-content']}>
+        <DialogContent
+          className={styles['dialog-content']}
+          aria-label="Site Navigation"
+        >
           <Command
             {...commandProps}
             ref={commandRef}
