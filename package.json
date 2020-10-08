@@ -20,11 +20,9 @@
     "match-sorter": "^4.0.2",
     "next": "^9.5.3",
     "nprogress": "^0.2.0",
-    "random-words": "^1.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-intersection-observer": "^8.24.2",
-    "react-merge-refs": "^1.1.0",
     "swr": "^0.2.0",
     "use-delayed-render": "^0.0.7"
   },
