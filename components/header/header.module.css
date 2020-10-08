@@ -9,7 +9,6 @@
   padding: 10px;
   margin: -10px;
   border-radius: var(--radius);
-  transition: background-color var(--transition);
 }
 
 .command:hover,
@@ -37,7 +36,6 @@
   top: 0;
   background-color: var(--header-bg);
   backdrop-filter: saturate(180%) blur(20px);
-  transition: background-color var(--transition);
 }
 
 .header {

@@ -10,7 +10,6 @@ article > * + * {
 
 article p {
   color: var(--article-color);
-  transition: color var(--transition);
 }
 
 article img {
