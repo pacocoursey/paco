@@ -22,6 +22,14 @@ article img {
   border-radius: var(--radius);
 }
 
+article [id]::before {
+  content: '';
+  display: block;
+  height: 70px;
+  margin-top: -70px;
+  visibility: hidden;
+}
+
 /* Lists */
 
 article ul {

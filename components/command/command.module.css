@@ -7,42 +7,43 @@
   z-index: 999;
   --overlay: rgba(0, 0, 0, 0.6);
   background: var(--overlay);
-  animation: screen 0.2s ease;
-  transition: background-color 0.2s ease;
-  will-change: background;
+  --padding: 0 20px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
-.screen.onExiting {
-  background: transparent !important;
+.screen.show {
+  opacity: 1;
 }
 
 :global(html[data-theme="light"]) .screen {
   --overlay: rgba(0, 0, 0, 0.3);
 }
 
-.command {
-  background: var(--bg);
-  position: relative;
-  z-index: 9999;
-  margin: 0 auto;
-  top: calc(30px + var(--big-gap) + (3 * var(--gap-double)));
-
-  --padding: 0 20px;
-  font-family: var(--font-sans);
-  max-width: var(--width);
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.4), 0px 0px 60px rgba(0, 0, 0, 0.5),
-    inset 0px 1px 0px rgba(0, 0, 0, 0.6);
-
-  animation: appear 0.2s ease;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  will-change: transform, opacity;
+.dialog-content {
+  display: contents;
 }
 
-.command.onExiting {
+.command {
+  position: relative;
+  margin: 0 auto;
+  z-index: 9999;
+  border-radius: 10px;
+  overflow: hidden;
+  top: calc(30px + var(--big-gap) + (3 * var(--gap-double)));
+  background: var(--bg);
+  box-shadow: 0px 30px 60px rgba(0, 0, 0, 0.4), 0px 0px 60px rgba(0, 0, 0, 0.5),
+    inset 0px 1px 0px rgba(0, 0, 0, 0.6);
+  width: 700px;
+
   opacity: 0;
-  transform: scale(0.98);
+  transform: scale(0.97);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.command.show {
+  opacity: 1;
+  transform: none;
 }
 
 :global(html[data-theme="light"]) .command {
@@ -51,11 +52,14 @@
     0px 20px 60px rgba(166, 173, 201, 0.1);
 }
 
-.command * {
-  box-sizing: border-box;
+.command [data-command-list] {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 
-.input {
+.command [data-command-input] {
+  padding: 0;
   outline: none;
   height: 60px;
   width: 100%;
@@ -63,65 +67,39 @@
   background: 0;
   font-size: 1rem;
   color: var(--fg);
-  padding: var(--padding);
-  border-bottom: 1px solid var(--lighter-gray);
 }
 
-.noResults input {
-  border: 0;
-}
-
-.input::placeholder {
+.command [data-command-input]::placeholder {
   color: var(--gray);
 }
 
-.list {
+.command [data-command-list] {
   margin: 0;
   padding: 0;
   list-style-type: none;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  transition: height 0.1s ease;
-  will-change: height;
 }
 
-.item {
-  display: block;
+.command [data-command-item] {
+  padding: 0 var(--gap);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   outline: none;
   font-size: 1rem;
   cursor: pointer;
-  padding: var(--padding);
   height: var(--height);
   display: flex;
-  justify-content: space-between;
   align-items: center;
   color: var(--gray);
+  min-height: 60px;
 }
 
-.active {
-  background: var(--lightest-gray);
-  color: var(--fg);
-}
-
-.left {
+.command [data-command-item] > div {
   display: flex;
   align-items: center;
 }
 
-.icon {
-  display: inline-flex;
-  min-width: 16px;
-  margin-right: 24px;
-}
-
-.keybind {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.875rem;
-}
-
-.keybind > kbd {
+.command [data-command-item] kbd {
   user-select: none;
   padding: 0;
   font-weight: normal;
@@ -135,8 +113,25 @@
   height: 24px;
 }
 
-.keybind > kbd + kbd {
-  margin-left: 5px;
+.icon {
+  margin-right: var(--gap);
+  display: flex;
+}
+
+.command [data-command-item][aria-selected] {
+  background: var(--lightest-gray);
+  color: var(--fg);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  padding: var(--padding);
+}
+
+.back {
+  background: none;
+  color: #fff;
 }
 
 .label {
@@ -151,74 +146,47 @@
   background: var(--lighter-gray);
 }
 
-.trigger {
-  outline: none;
+.container {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  transition: height 0.1s ease;
+  will-change: height;
+}
+
+.container {
+  border-top: 1px solid var(--lighter-gray);
+}
+
+.container.empty {
+  height: 0;
+  border-top: none;
+}
+
+.group {
   display: flex;
+  flex-direction: column;
 }
 
-.hidden {
-  border: 0;
+.label {
+  order: 0;
+}
+
+.group > ul {
   padding: 0;
-  clip: rect(0 0 0 0);
-  clip-path: inset(100%);
-  height: 1px;
-  width: 1px;
-  margin: -1px;
-  overflow: hidden;
-  position: absolute;
-  appearance: none;
-  white-space: nowrap;
-  word-wrap: normal;
+  order: 1;
 }
 
-.top {
+.group > ul:empty ~ .label {
+  display: none;
+}
+
+.keybind {
   display: flex;
   align-items: center;
-  font-size: 0.875rem;
-  padding: var(--padding);
-  padding-top: calc(var(--height) / 4);
-  padding-bottom: calc(var(--height) / 4);
-  border-bottom: 1px solid var(--lighter-gray);
 }
 
-.divider {
-  margin: calc(var(--height) * 0.1) 0;
-  background: var(--lighter-gray);
-  width: 100%;
-  height: 1px;
-}
-
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes slide {
-  from {
-    opacity: 0;
-    transform: translateY(5%);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes screen {
-  from {
-    background: transparent;
-  }
-  to {
-    background: var(--overlay);
-  }
+.keybind > kbd + kbd {
+  margin-left: 5px;
 }
 
 @media (max-width: 960px) {
@@ -235,16 +203,14 @@
     border-radius: 20px 20px 0 0;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
     animation: slide 0.2s ease;
+    width: 100%;
     max-height: calc(100vh - var(--top));
+
+    transform: scale(0.97) translateY(5%);
   }
 
-  .command.exit {
-    transform: translateY(5%);
-  }
-
-  .list {
-    max-height: calc(100% - var(--height)) !important;
-    height: unset !important;
+  .container {
+    height: 100% !important;
     /* Height of the iOS Safari Toolbar (:sadfari:) */
     padding-bottom: 110px;
   }
