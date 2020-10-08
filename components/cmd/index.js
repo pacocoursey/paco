@@ -149,10 +149,10 @@ export const CommandItem = forwardRef(({ children, ...props }, ref) => {
     itemClass,
     selectedItemClass
   } = useCommandCtx()
-  const { index, ref: descendantRef, id } = useDescendant(
-    DescendantContext,
-    props
-  )
+  const { index, ref: descendantRef, id } = useDescendant(DescendantContext, {
+    value: typeof children === 'string' ? children : undefined,
+    ...props
+  })
   const hasUpdatedMap = !!map.current[id]
 
   const isActive = selected === index
