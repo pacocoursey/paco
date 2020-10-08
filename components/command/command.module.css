@@ -16,7 +16,7 @@
   opacity: 1;
 }
 
-:global(html.light) .screen {
+:global(html[data-theme="light"]) .screen {
   --overlay: rgba(0, 0, 0, 0.3);
 }
 
@@ -46,7 +46,7 @@
   transform: none;
 }
 
-:global(html.light) .command {
+:global(html[data-theme="light"]) .command {
   box-shadow: 0px 5px 10px rgba(154, 160, 185, 0.05),
     0px 15px 40px rgba(166, 173, 201, 0.09),
     0px 20px 60px rgba(166, 173, 201, 0.1);

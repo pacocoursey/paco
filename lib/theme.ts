@@ -14,7 +14,7 @@ const getTheme = (): Theme => {
 const setLightMode = () => {
   try {
     localStorage.setItem(themeStorageKey, 'light')
-    document.documentElement.classList.add('light')
+    document.documentElement.setAttribute('data-theme', 'light')
   } catch (err) {
     console.error(err)
   }
@@ -23,13 +23,14 @@ const setLightMode = () => {
 const setDarkMode = () => {
   try {
     localStorage.setItem(themeStorageKey, 'dark')
-    document.documentElement.classList.remove('light')
+    document.documentElement.setAttribute('data-theme', 'dark')
   } catch (err) {
     console.error(err)
   }
 }
 
 const disableAnimation = () => {
+  document.documentElement.style.background = ''
   const css = document.createElement('style')
   css.type = 'text/css'
   css.appendChild(
