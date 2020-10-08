@@ -6,7 +6,7 @@ import {
   CommandInput,
   useCommand,
   CommandGroup
-} from '@components/cmd'
+} from 'cmdk'
 import randomWords from 'random-words'
 
 const Test = () => {

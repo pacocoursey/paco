@@ -12,7 +12,7 @@ import {
   useCommand,
   usePages,
   CommandGroup
-} from '@components/cmd'
+} from 'cmdk'
 
 import {
   Command as CommandIcon,

@@ -1285,32 +1285,12 @@
     react-remove-scroll "^2.3.0"
     tslib "^2.0.0"
 
-"@reach/dialog@^0.11.2":
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/@reach/dialog/-/dialog-0.11.2.tgz#44d99b4918cb211d4458f7cce3bee01c27c9c8ed"
-  integrity sha512-S3o+FbaiWDgjo6vrHWOGlHSnJRsnmLvh6u8auLu+/g4LBDcxW89zJFITLIvZxMHKHBuBG7q7bd7aSecSoKtcjA==
-  dependencies:
-    "@reach/portal" "0.11.2"
-    "@reach/utils" "0.11.2"
-    prop-types "^15.7.2"
-    react-focus-lock "^2.3.1"
-    react-remove-scroll "^2.3.0"
-    tslib "^2.0.0"
-
 "@reach/portal@0.10.5":
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/@reach/portal/-/portal-0.10.5.tgz#532ce8472fc99d6c556520f6c8d53333d89e49a4"
   integrity sha512-K5K8gW99yqDPDCWQjEfSNZAbGOQWSx5AN2lpuR1gDVoz4xyWpTJ0k0LbetYJTDVvLP/InEcR7AU42JaDYDCXQw==
   dependencies:
     "@reach/utils" "0.10.5"
-    tslib "^2.0.0"
-
-"@reach/portal@0.11.2":
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/@reach/portal/-/portal-0.11.2.tgz#19a671be9ff010a345892b81e710cb6e4d9f9762"
-  integrity sha512-/53A/rY5oX2Y7D5TpvsP+V5cSd+4MPY6f21mAmVn4DCVwpkCFOlJ059ZL7ixS85M0Jz48YQnnvBJUqwkxqUG/g==
-  dependencies:
-    "@reach/utils" "0.11.2"
     tslib "^2.0.0"
 
 "@reach/utils@0.10.5":
@@ -2456,16 +2436,21 @@ clone-deep@^4.0.1:
     kind-of "^6.0.2"
     shallow-clone "^3.0.0"
 
-colist@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/colist/-/colist-0.0.1.tgz#3229e0204c29eb298ae44c37ab5f64d20a1c58b9"
-  integrity sha512-/M6h2H70WbFZcIp2sgzLBS0oFjgqZ4Du2SlqnhV/zRKbT+zxS260ddiNPKxjwhqz4YVsZlCj49Rnmz56EzdIDg==
+clsx@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
+  integrity sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==
+
+cmdk@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/cmdk/-/cmdk-0.0.2.tgz#950bbd085887b9c012a706bb28841432b23a5714"
+  integrity sha512-pMUQbPtlUvbDAicQBwaIujHAwhLBfDxKetf/fm3Qjeb7r7mLJzW2n1WVsNYJBOVF87JB2cFStmrOQY5lCI34QA==
   dependencies:
     "@reach/auto-id" "^0.11.2"
-    "@reach/dialog" "^0.11.2"
-    fast-deep-equal "^3.1.3"
+    clsx "^1.1.1"
     match-sorter "^4.2.0"
     react-merge-refs "^1.1.0"
+    use-descendants "^0.0.1"
 
 collection-visit@^1.0.0:
   version "1.0.0"
@@ -2631,11 +2616,6 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
-
-country-list@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/country-list/-/country-list-2.2.0.tgz#e248338cafb97b2d86cf0784a25dceb4d52054d1"
-  integrity sha512-AS21pllCp72LmUztqXPVKXK3TRyap1XlohGLqN04cXH2rFB9vo7SnH5sMnqltZPnu9ie/x1se3UuCZJbGXErfw==
 
 create-ecdh@^4.0.0:
   version "4.0.3"
@@ -3539,11 +3519,6 @@ fast-deep-equal@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.1.tgz#545145077c501491e33b15ec408c294376e94ae4"
   integrity sha512-8UEa58QDLauDNfpbrX55Q9jrGHThw2ZMdOky5Gl1CDtVeJDPVrG4Jxx1N8jw2gkWaff5UUuX1KJd+9zGe2B+ZA==
-
-fast-deep-equal@^3.1.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
-  integrity sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
 
 fast-json-stable-stringify@^2.0.0:
   version "2.1.0"
@@ -7277,6 +7252,11 @@ use-delayed-render@^0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/use-delayed-render/-/use-delayed-render-0.0.7.tgz#3d35ab7c26cadc1b31b8cb4ec58342c88c3b082e"
   integrity sha512-Lb4Sd4P50CYRQ5k2Y9SRjMDTBG3Ous7TmfCGOzabKZf3ibQwIuyF3M2q6iiGLH+BicXZJumXgJDeHRnAfZM7Gg==
+
+use-descendants@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/use-descendants/-/use-descendants-0.0.1.tgz#15cf9ff5aeee9199d9c148e6c3c2810805f2334f"
+  integrity sha512-K3D7MQb62g4wx5oYtKtqa4w76AhrtQYfLMgvyxU0A/7OdXS1x00bqJE0iEe1Ls6lvQEC78YAPOzx4kvlfqmOkw==
 
 use-sidecar@^1.0.1:
   version "1.0.2"
