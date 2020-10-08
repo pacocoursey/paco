@@ -30,6 +30,7 @@ const Test = () => {
           <CommandGroup heading={'Hello there'}>
             <CommandItem value="No Priority">No Priority</CommandItem>
             <CommandItem value="Urgent">Urgent</CommandItem>
+            <CommandItem value="Hello">Hello</CommandItem>
           </CommandGroup>
           <CommandItem value="High">High</CommandItem>
           <CommandItem value="Medium">Medium</CommandItem>

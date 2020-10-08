@@ -46,7 +46,7 @@ export const Command = forwardRef(
 
     return (
       <CommandContext.Provider value={context}>
-        <div data-command="" className={className}>
+        <div data-command="" className={className} ref={ref}>
           {/* Should be SR only, just used for labelling */}
           {label && (
             <label htmlFor={inputId} style={srOnlyStyles}>

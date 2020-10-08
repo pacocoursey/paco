@@ -29,14 +29,12 @@ import {
   Quote,
   Words,
   Lightbulb,
-  ArrowLeft,
   ArrowRight,
   GitHub,
   Twitter
 } from '@components/icons'
 import styles from './command.module.css'
 import headerStyles from '@components/header/header.module.css'
-import Button from '@components/button'
 import useTheme from '@lib/theme'
 import tinykeys from '@lib/tinykeys'
 import postMeta from '@data/blog.json'
@@ -111,21 +109,27 @@ const HeaderMenu = () => {
     }
   }, [keymap])
 
-  const bounce = useCallback(() => {
+  useEffect(() => {
+    // When items change, bounce the UI
     if (commandRef.current) {
       // Bounce the UI slightly
       commandRef.current.style.transform = 'scale(0.99)'
+      commandRef.current.style.transition = 'transform 0.1s ease'
       // Not exactly safe, but should be OK
       setTimeout(() => {
         commandRef.current.style.transform = ''
       }, 100)
     }
-  }, [])
+  }, [pages])
+
+  const heightRef = useRef()
 
   useEffect(() => {
-    // When items change, bounce the UI
-    bounce()
-  }, [pages, bounce])
+    if (!listRef.current || !heightRef.current) return
+
+    const height = Math.min(listRef.current.offsetHeight, 300)
+    heightRef.current.style.height = height + 'px'
+  })
 
   return (
     <>
@@ -144,30 +148,23 @@ const HeaderMenu = () => {
         })}
         onDismiss={() => setOpen(false)}
       >
-        <DialogContent
-          className={cn(styles.command, {
-            [styles.show]: rendered
-          })}
-        >
-          <Command {...commandProps} ref={commandRef}>
+        <DialogContent className={styles['dialog-content']}>
+          <Command
+            {...commandProps}
+            ref={commandRef}
+            className={cn(styles.command, {
+              [styles.show]: rendered
+            })}
+          >
             <div className={styles.top}>
               <CommandInput placeholder="Type a command or search..." />
-              {pages.length > 1 && (
-                <Button onClick={() => setPages(pages.slice(0, -1))}>
-                  <ArrowLeft size={18} />
-                </Button>
-              )}
             </div>
 
             <div
+              ref={heightRef}
               className={cn(styles.container, {
                 [styles.empty]: list.current.length === 0
               })}
-              style={{
-                height: listRef.current?.offsetHeight
-                  ? Math.min(listRef.current.offsetHeight + 1, 300)
-                  : undefined
-              }}
             >
               <CommandList ref={listRef}>
                 <CommandData.Provider value={keymap}>
