@@ -66,6 +66,12 @@ const useTheme = () => {
   )
 
   useEffect(() => {
+    // Disabling/enabling animation is expensive, don't run
+    // on initial render
+    if (theme === document.documentElement.getAttribute('data-theme')) {
+      return
+    }
+
     const enable = disableAnimation()
 
     if (theme === 'dark') {
@@ -77,10 +83,14 @@ const useTheme = () => {
     enable()
   }, [theme])
 
+  const toggleTheme = useCallback(() => {
+    setTheme(!theme || theme === 'dark' ? 'light' : 'dark')
+  }, [theme, setTheme])
+
   return {
     theme,
     setTheme,
-    toggleTheme: () => setTheme(!theme || theme === 'dark' ? 'light' : 'dark')
+    toggleTheme
   }
 }
 
