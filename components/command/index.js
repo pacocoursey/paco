@@ -154,7 +154,15 @@ const HeaderMenu = () => {
             })}
           >
             <div className={styles.top}>
-              <CommandInput placeholder="Type a command or search..." />
+              <CommandInput
+                placeholder={
+                  Items === ThemeItems
+                    ? 'Select a theme...'
+                    : Items === BlogItems
+                    ? 'Search for posts...'
+                    : 'Type a command or search...'
+                }
+              />
             </div>
 
             <div
