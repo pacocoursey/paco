@@ -1,13 +1,20 @@
-import { useCallback, useEffect, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 import NextHead from 'next/head'
 
-export type Theme = 'dark' | 'light' | 'system' | 'pink'
+export type Theme = 'dark' | 'light' | 'system'
 export const themeStorageKey = 'theme'
-export const themes = ['dark', 'light', 'system', 'pink']
+export const themes = ['dark', 'light', 'system']
 
-let mediaQuery: any = null
+const ThemeContext = createContext({})
+export const useTheme = () => useContext(ThemeContext)
 
-export const useTheme = () => {
+export const ThemeProvider: React.FC = ({ children }) => {
   const [theme, setThemeState] = useState(() => getTheme())
   const [resolvedTheme, setResolvedTheme] = useState(theme)
 
@@ -19,49 +26,30 @@ export const useTheme = () => {
     setThemeState('system')
   }, [])
 
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-color-scheme: dark)')
+
+    if (theme === 'system') {
+      media.addListener(handleMediaQuery)
+      handleMediaQuery(media)
+    }
+
+    return () => media.removeListener(handleMediaQuery)
+  }, [theme, handleMediaQuery])
+
   const setTheme = useCallback(
     (newTheme: Theme) => {
       // If it's not system we can update right away
       if (newTheme !== 'system') {
         changeTheme(newTheme)
         setThemeState(newTheme)
-
-        // New theme is not system, we can stop listening to the events
-        if (mediaQuery) mediaQuery.removeListener(handleMediaQuery)
-        mediaQuery = null
-        return
+      } else {
+        const media = window.matchMedia('(prefers-color-scheme: dark)')
+        handleMediaQuery(media)
       }
-
-      // Otherwise we need to check the resolved value to see what to
-      // apply to the DOM
-      if (!mediaQuery) {
-        mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-        mediaQuery.addListener(handleMediaQuery)
-      }
-
-      // Since this is a direct change, update the storage
-      handleMediaQuery(mediaQuery)
     },
     [handleMediaQuery]
   )
-
-  useEffect(() => {
-    // On mount, check if system theme
-    if (theme === 'system') {
-      if (!mediaQuery) {
-        mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-        mediaQuery.addListener(handleMediaQuery)
-      }
-
-      handleMediaQuery(mediaQuery)
-    }
-
-    return () => {
-      // Remove listener on unmount
-      if (mediaQuery) mediaQuery.removeListener(handleMediaQuery)
-      mediaQuery = null
-    }
-  }, [handleMediaQuery]) // eslint-disable-line
 
   useEffect(() => {
     const handleStorage = (e: any) => {
@@ -77,17 +65,21 @@ export const useTheme = () => {
     return () => window.removeEventListener('storage', handleStorage)
   }, [setTheme])
 
-  return {
-    theme,
-    resolvedTheme: theme === 'system' ? resolvedTheme : theme,
-    setTheme,
-    themes
-  }
+  return (
+    <ThemeContext.Provider
+      value={{
+        theme,
+        resolvedTheme: theme === 'system' ? resolvedTheme : theme,
+        setTheme,
+        themes
+      }}
+    >
+      {children}
+    </ThemeContext.Provider>
+  )
 }
 
-export const InjectTheme = () => {
-  useTheme()
-
+export const ThemeScript = () => {
   return (
     <NextHead>
       <script

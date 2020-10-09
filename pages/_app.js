@@ -18,16 +18,16 @@ Router.events.on('routeChangeError', () => {
 })
 
 import '@styles/global.css'
-import { InjectTheme } from '@lib/theme'
+import { ThemeProvider, ThemeScript } from '@lib/theme'
 
 class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props
     return (
-      <>
+      <ThemeProvider>
+        <ThemeScript />
         <Component {...pageProps} />
-        <InjectTheme />
-      </>
+      </ThemeProvider>
     )
   }
 }
