@@ -11,12 +11,33 @@ export type Theme = 'dark' | 'light' | 'system'
 export const themeStorageKey = 'theme'
 export const themes = ['dark', 'light', 'system']
 
-const ThemeContext = createContext({})
+export type NonSystemTheme = Exclude<Theme, 'system'>
+
+interface Context {
+  forcedTheme?: Theme
+  setTheme: (theme: Theme) => void
+  theme?: Theme
+  resolvedTheme?: NonSystemTheme
+  themes: string[]
+}
+
+const ThemeContext = createContext<Context>({
+  forcedTheme: undefined,
+  setTheme: _ => {},
+  theme: undefined,
+  resolvedTheme: undefined,
+  themes: []
+})
 export const useTheme = () => useContext(ThemeContext)
 
-export const ThemeProvider: React.FC = ({ children }) => {
-  const [theme, setThemeState] = useState(() => getTheme())
-  const [resolvedTheme, setResolvedTheme] = useState(theme)
+export interface ThemeProviderProps {
+  forcedTheme?: NonSystemTheme
+}
+
+export const ThemeProvider: React.FC<any> = ({ Component, children }) => {
+  const forcedTheme = Component.theme || null
+  const [theme, setThemeState] = useState<Theme | undefined>(() => getTheme())
+  const [resolvedTheme, setResolvedTheme] = useState(() => getTheme())
 
   const handleMediaQuery = useCallback(e => {
     const isDark = e.matches
@@ -27,18 +48,24 @@ export const ThemeProvider: React.FC = ({ children }) => {
   }, [])
 
   useEffect(() => {
+    const t = forcedTheme || theme
     const media = window.matchMedia('(prefers-color-scheme: dark)')
 
-    if (theme === 'system') {
+    if (t === 'system') {
       media.addListener(handleMediaQuery)
       handleMediaQuery(media)
     }
 
     return () => media.removeListener(handleMediaQuery)
-  }, [theme, handleMediaQuery])
+  }, [theme, forcedTheme, handleMediaQuery])
 
   const setTheme = useCallback(
     (newTheme: Theme) => {
+      if (forcedTheme) {
+        console.warn('Cannot setTheme on a page with a forced theme.')
+        return
+      }
+
       // If it's not system we can update right away
       if (newTheme !== 'system') {
         changeTheme(newTheme)
@@ -48,7 +75,7 @@ export const ThemeProvider: React.FC = ({ children }) => {
         handleMediaQuery(media)
       }
     },
-    [handleMediaQuery]
+    [handleMediaQuery, forcedTheme]
   )
 
   useEffect(() => {
@@ -71,7 +98,8 @@ export const ThemeProvider: React.FC = ({ children }) => {
         theme,
         resolvedTheme: theme === 'system' ? resolvedTheme : theme,
         setTheme,
-        themes
+        themes,
+        forcedTheme
       }}
     >
       {children}
@@ -80,11 +108,24 @@ export const ThemeProvider: React.FC = ({ children }) => {
 }
 
 export const ThemeScript = () => {
+  const { forcedTheme } = useTheme()
+
   return (
     <NextHead>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `(function() {
+      {forcedTheme ? (
+        <script
+          key="next-themes-script"
+          dangerouslySetInnerHTML={{
+            __html: `(function() {
+          document.documentElement.setAttribute('data-theme', '${forcedTheme}')
+        })()`
+          }}
+        />
+      ) : (
+        <script
+          key="next-themes-script"
+          dangerouslySetInnerHTML={{
+            __html: `(function() {
           try {
             var mode = localStorage.getItem('${themeStorageKey}');
             if (!mode) return;
@@ -99,8 +140,9 @@ export const ThemeScript = () => {
             }
           } catch (e) {}
         })()`
-        }}
-      />
+          }}
+        />
+      )}
     </NextHead>
   )
 }
@@ -108,9 +150,9 @@ export const ThemeScript = () => {
 // Helpers
 
 const isServer = typeof window === 'undefined'
-const getTheme = (): Theme => {
-  if (isServer) return 'dark'
-  return (localStorage.getItem(themeStorageKey) as Theme) || 'dark'
+const getTheme = (): NonSystemTheme | undefined => {
+  if (isServer) return undefined
+  return (localStorage.getItem(themeStorageKey) as NonSystemTheme) || undefined
 }
 
 const disableAnimation = () => {
