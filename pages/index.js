@@ -8,6 +8,16 @@ const About = () => {
         <h1>Paco Coursey</h1>
 
         <p>
+          <Link href="/dark" underline>
+            Go to a dark page
+          </Link>{' '}
+          and then{' '}
+          <Link href="/light" underline>
+            go to a light page.
+          </Link>
+        </p>
+
+        <p>
           Frontend developer and designer,{' '}
           <Link underline href="/keyboards">
             mechanical keyboard
