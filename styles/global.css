@@ -64,6 +64,20 @@
   --highlight: #eaeaea;
 }
 
+[data-theme='pink'] {
+  --bg: #ffd1d9;
+  --fg: #000;
+  --gray: #ffb3ba;
+  --light-gray: #ff7b81;
+  --lighter-gray: #ff7b81;
+  --lightest-gray: #900fff;
+  --gray-alpha: #000;
+
+  --article-color: #000;
+
+  --header-bg: var(--bg);
+}
+
 * {
   box-sizing: border-box;
 }

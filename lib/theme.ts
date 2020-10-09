@@ -1,32 +1,13 @@
-import { useCallback, useEffect } from 'react'
-import useSWR from 'swr'
+import { useCallback, useEffect, useState } from 'react'
 
-export type Theme = 'dark' | 'light'
-
+export type Theme = 'dark' | 'light' | 'system' | 'pink'
 export const themeStorageKey = 'theme'
+export const themes = ['dark', 'light', 'system', 'pink']
 
 const isServer = typeof window === 'undefined'
 const getTheme = (): Theme => {
   if (isServer) return 'dark'
   return (localStorage.getItem(themeStorageKey) as Theme) || 'dark'
-}
-
-const setLightMode = () => {
-  try {
-    localStorage.setItem(themeStorageKey, 'light')
-    document.documentElement.setAttribute('data-theme', 'light')
-  } catch (err) {
-    console.error(err)
-  }
-}
-
-const setDarkMode = () => {
-  try {
-    localStorage.setItem(themeStorageKey, 'dark')
-    document.documentElement.setAttribute('data-theme', 'dark')
-  } catch (err) {
-    console.error(err)
-  }
 }
 
 const disableAnimation = () => {
@@ -53,44 +34,94 @@ const disableAnimation = () => {
   }
 }
 
+const changeTheme = (theme: string, storageTheme: string = theme) => {
+  const enable = disableAnimation()
+
+  if (storageTheme) {
+    localStorage.setItem(themeStorageKey, storageTheme)
+  }
+
+  document.documentElement.setAttribute('data-theme', theme)
+  enable()
+}
+
+let mediaQuery: any = null
+
 const useTheme = () => {
-  const { data: theme, mutate } = useSWR(themeStorageKey, getTheme, {
-    initialData: getTheme()
-  })
+  const [theme, setThemeState] = useState(() => getTheme())
+  const [resolvedTheme, setResolvedTheme] = useState(theme)
+
+  const handleMediaQuery = useCallback(e => {
+    const isDark = e.matches
+    const theme = isDark ? 'dark' : 'light'
+    changeTheme(theme, 'system')
+    setResolvedTheme(theme)
+    setThemeState('system')
+  }, [])
 
   const setTheme = useCallback(
     (newTheme: Theme) => {
-      mutate(newTheme, false)
+      // If it's not system we can update right away
+      if (newTheme !== 'system') {
+        changeTheme(newTheme)
+        setThemeState(newTheme)
+
+        // New theme is not system, we can stop listening to the events
+        if (mediaQuery) mediaQuery.removeListener(handleMediaQuery)
+        mediaQuery = null
+        return
+      }
+
+      // Otherwise we need to check the resolved value to see what to
+      // apply to the DOM
+      if (!mediaQuery) {
+        mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+        mediaQuery.addListener(handleMediaQuery)
+      }
+
+      // Since this is a direct change, update the storage
+      handleMediaQuery(mediaQuery)
     },
-    [mutate]
+    [handleMediaQuery]
   )
 
   useEffect(() => {
-    // Disabling/enabling animation is expensive, don't run
-    // on initial render
-    if (theme === document.documentElement.getAttribute('data-theme')) {
-      return
+    // On mount, check if system theme
+    if (theme === 'system') {
+      if (!mediaQuery) {
+        mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+        mediaQuery.addListener(handleMediaQuery)
+      }
+
+      handleMediaQuery(mediaQuery)
     }
 
-    const enable = disableAnimation()
+    return () => {
+      // Remove listener on unmount
+      if (mediaQuery) mediaQuery.removeListener(handleMediaQuery)
+      mediaQuery = null
+    }
+  }, [handleMediaQuery]) // eslint-disable-line
 
-    if (theme === 'dark') {
-      setDarkMode()
-    } else {
-      setLightMode()
+  useEffect(() => {
+    const handleStorage = (e: any) => {
+      if (e.key !== 'theme') {
+        return
+      }
+
+      const theme = e.newValue
+      setTheme(theme)
     }
 
-    enable()
-  }, [theme])
-
-  const toggleTheme = useCallback(() => {
-    setTheme(!theme || theme === 'dark' ? 'light' : 'dark')
-  }, [theme, setTheme])
+    window.addEventListener('storage', handleStorage)
+    return () => window.removeEventListener('storage', handleStorage)
+  }, [setTheme])
 
   return {
     theme,
+    resolvedTheme: theme === 'system' ? resolvedTheme : theme,
     setTheme,
-    toggleTheme
+    themes
   }
 }
 

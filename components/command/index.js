@@ -16,8 +16,7 @@ import {
 
 import {
   Command as CommandIcon,
-  Sun,
-  Moon,
+  Sparkles,
   Pencil,
   Search,
   RSS,
@@ -46,11 +45,10 @@ const HeaderMenu = () => {
   const listRef = useRef()
   const commandRef = useRef()
   const router = useRouter()
-  const { toggleTheme } = useTheme()
   const commandProps = useCommand({
     label: 'Site Navigation'
   })
-  const [pages, setPages] = usePages(commandProps, DefaultItems)
+  const [pages, setPages] = usePages(commandProps, ThemeItems)
   const [open, setOpen] = useState(false)
   const { search, list } = commandProps
 
@@ -75,7 +73,10 @@ const HeaderMenu = () => {
 
   const keymap = useMemo(() => {
     return {
-      t: () => closeOnCallback(() => toggleTheme()),
+      t: () => {
+        setPages([ThemeItems])
+        setOpen(true)
+      },
       // Blog
       'g b': () => closeOnCallback(() => router.push('/blog')),
       // Navigation
@@ -96,7 +97,7 @@ const HeaderMenu = () => {
           window.open('https://twitter.com/pacocoursey', '_blank')
         )
     }
-  }, [toggleTheme, router, closeOnCallback])
+  }, [router, closeOnCallback, setPages])
 
   // Register the keybinds globally
   useEffect(() => {
@@ -127,7 +128,7 @@ const HeaderMenu = () => {
   useEffect(() => {
     if (!listRef.current || !heightRef.current) return
 
-    const height = Math.min(listRef.current.offsetHeight, 300)
+    const height = Math.min(listRef.current.offsetHeight + 1, 300)
     heightRef.current.style.height = height + 'px'
   })
 
@@ -188,6 +189,23 @@ const HeaderMenu = () => {
 
 export default HeaderMenu
 
+const ThemeItems = () => {
+  const { theme: activeTheme, themes, setTheme } = useTheme()
+
+  return themes.map(theme => {
+    if (theme === activeTheme) return null
+    return (
+      <Item
+        value={theme}
+        key={`theme-${theme}`}
+        callback={() => setTheme(theme)}
+      >
+        {theme}
+      </Item>
+    )
+  })
+}
+
 const BlogItems = () => {
   const router = useRouter()
 
@@ -219,15 +237,13 @@ const Group = ({ children, title }) => {
 }
 
 const DefaultItems = ({ setPages, state, keymap }) => {
-  const { theme } = useTheme()
   const router = useRouter()
 
   return (
     <>
       <Item
-        value="Toggle Theme"
-        key="Toggle Theme"
-        icon={theme === 'light' ? <Moon /> : <Sun />}
+        value="Themes"
+        icon={<Sparkles />}
         keybind="t"
       />
       <Group title="Blog">

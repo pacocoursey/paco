@@ -34,7 +34,15 @@ class MyApp extends App {
                 try {
                   var mode = localStorage.getItem('${themeStorageKey}');
                   if (!mode) return;
-                  document.documentElement.setAttribute('data-theme', mode);
+                  if (mode === 'system') {
+                    var darkQuery = '(prefers-color-scheme: dark)'
+                    var preferDark = window.matchMedia(darkQuery)
+                    if (preferDark.media === darkQuery && !preferDark.matches) {
+                      document.documentElement.setAttribute('data-theme', 'light');
+                    }
+                  } else {
+                    document.documentElement.setAttribute('data-theme', mode);
+                  }
                 } catch (e) {}
               })()`
             }}
