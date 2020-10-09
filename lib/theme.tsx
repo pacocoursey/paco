@@ -3,7 +3,8 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useState
+  useState,
+  memo
 } from 'react'
 import NextHead from 'next/head'
 
@@ -107,7 +108,7 @@ export const ThemeProvider: React.FC<any> = ({ Component, children }) => {
   )
 }
 
-export const ThemeScript = () => {
+export const ThemeScript = memo(() => {
   const { forcedTheme } = useTheme()
 
   return (
@@ -145,7 +146,9 @@ export const ThemeScript = () => {
       )}
     </NextHead>
   )
-}
+})
+
+ThemeScript.displayName = 'NextThemesScript'
 
 // Helpers
 
