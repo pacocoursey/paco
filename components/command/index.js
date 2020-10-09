@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo, useCallback, useState } from 'react'
+import React, { useEffect, useRef, useMemo, useState } from 'react'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
 import useDelayedRender from 'use-delayed-render'
@@ -66,11 +66,6 @@ const HeaderMenu = () => {
 
   const Items = pages[pages.length - 1]
 
-  const closeOnCallback = useCallback(cb => {
-    cb()
-    setOpen(false)
-  }, [])
-
   const keymap = useMemo(() => {
     return {
       t: () => {
@@ -78,26 +73,24 @@ const HeaderMenu = () => {
         setOpen(true)
       },
       // Blog
-      'g b': () => closeOnCallback(() => router.push('/blog')),
+      'g b': () => router.push('/blog'),
       // Navigation
-      'g h': () => closeOnCallback(() => router.push('/')),
+      'g h': () => router.push('/'),
       'g c': () => router.push('/contact'),
       // Collections
-      'g r': () => closeOnCallback(() => router.push('/reading')),
-      'g d': () => closeOnCallback(() => router.push('/design')),
-      'g k': () => closeOnCallback(() => router.push('/keyboards')),
-      'g m': () => closeOnCallback(() => router.push('/music')),
-      'g p': () => closeOnCallback(() => router.push('/projects')),
-      'g q': () => closeOnCallback(() => router.push('/quotes')),
-      'g w': () => closeOnCallback(() => router.push('/words')),
-      'g i': () => closeOnCallback(() => router.push('/ideas')),
+      'g r': () => router.push('/reading'),
+      'g d': () => router.push('/design'),
+      'g k': () => router.push('/keyboards'),
+      'g m': () => router.push('/music'),
+      'g p': () => router.push('/projects'),
+      'g q': () => router.push('/quotes'),
+      'g w': () => router.push('/words'),
+      'g i': () => router.push('/ideas'),
       // Social
-      'g t': () =>
-        closeOnCallback(() =>
-          window.open('https://twitter.com/pacocoursey', '_blank')
-        )
+      'g t': () => () =>
+        window.open('https://twitter.com/pacocoursey', '_blank')
     }
-  }, [router, closeOnCallback, setPages])
+  }, [router, setPages])
 
   // Register the keybinds globally
   useEffect(() => {
@@ -171,12 +164,10 @@ const HeaderMenu = () => {
               })}
             >
               <CommandList ref={listRef}>
-                <CommandData.Provider value={keymap}>
-                  <Items
-                    state={{ pages, search, open }}
-                    setPages={setPages}
-                    keymap={keymap}
-                  />
+                <CommandData.Provider
+                  value={{ pages, search, open, setPages, keymap, setOpen }}
+                >
+                  <Items />
                 </CommandData.Provider>
               </CommandList>
             </div>
@@ -191,6 +182,7 @@ export default HeaderMenu
 
 const ThemeItems = () => {
   const { theme: activeTheme, themes, setTheme } = useTheme()
+  const { setOpen } = useCommandData()
 
   return themes.map(theme => {
     if (theme === activeTheme) return null
@@ -198,7 +190,10 @@ const ThemeItems = () => {
       <Item
         value={theme}
         key={`theme-${theme}`}
-        callback={() => setTheme(theme)}
+        callback={() => {
+          setTheme(theme)
+          setOpen(false)
+        }}
       >
         {theme}
       </Item>
@@ -236,18 +231,25 @@ const Group = ({ children, title }) => {
   )
 }
 
-const DefaultItems = ({ setPages, state, keymap }) => {
+const DefaultItems = () => {
   const router = useRouter()
+  const { setPages, pages } = useCommandData()
 
   return (
     <>
-      <Item value="Themes" icon={<Sparkles />} keybind="t" />
+      <Item
+        value="Themes"
+        icon={<Sparkles />}
+        keybind="t"
+        closeOnCallback={false}
+      />
       <Group title="Blog">
         <Item value="Blog" icon={<Pencil />} keybind="g b" />
         <Item
           value="Search blog..."
           icon={<Search />}
-          callback={() => setPages([...state.pages, BlogItems])}
+          closeOnCallback={false}
+          callback={() => setPages([...pages, BlogItems])}
         />
         <Item
           value="RSS"
@@ -286,11 +288,30 @@ const DefaultItems = ({ setPages, state, keymap }) => {
   )
 }
 
-const Item = ({ icon, children, callback, keybind, ...props }) => {
-  const keymap = useCommandData()
+const Item = ({
+  icon,
+  children,
+  callback,
+  closeOnCallback = true,
+  keybind,
+  ...props
+}) => {
+  const { keymap, setOpen } = useCommandData()
+
+  const cb = () => {
+    if (callback) {
+      callback()
+    } else {
+      keymap[keybind]?.()
+    }
+
+    if (closeOnCallback) {
+      setOpen(false)
+    }
+  }
 
   return (
-    <CommandItem {...props} callback={callback || keymap[keybind]}>
+    <CommandItem {...props} callback={cb}>
       <div>
         <div className={styles.icon}>{icon}</div>
         {children || props.value}
