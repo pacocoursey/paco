@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo, useState } from 'react'
+import React, { useEffect, useRef, useMemo, useState, memo } from 'react'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
 import useDelayedRender from 'use-delayed-render'
@@ -41,7 +41,7 @@ import postMeta from '@data/blog.json'
 const CommandData = React.createContext({})
 const useCommandData = () => React.useContext(CommandData)
 
-const HeaderMenu = () => {
+const CommandMenu = memo(() => {
   const listRef = useRef()
   const commandRef = useRef()
   const router = useRouter()
@@ -184,9 +184,10 @@ const HeaderMenu = () => {
       </DialogOverlay>
     </>
   )
-}
+})
 
-export default HeaderMenu
+CommandMenu.displayName = 'CommandMenu'
+export default CommandMenu
 
 const ThemeItems = () => {
   const { theme: activeTheme, themes, setTheme } = useTheme()

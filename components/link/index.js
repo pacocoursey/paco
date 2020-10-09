@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import NextLink from 'next/link'
 import cn from 'classnames'
 
@@ -63,4 +64,5 @@ const Link = ({
   )
 }
 
-export default Link
+Link.displayName = 'Link'
+export default memo(Link)
