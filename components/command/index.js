@@ -34,7 +34,7 @@ import {
 } from '@components/icons'
 import styles from './command.module.css'
 import headerStyles from '@components/header/header.module.css'
-import useTheme from '@lib/theme'
+import { useTheme } from '@lib/theme'
 import tinykeys from '@lib/tinykeys'
 import postMeta from '@data/blog.json'
 
@@ -241,11 +241,7 @@ const DefaultItems = ({ setPages, state, keymap }) => {
 
   return (
     <>
-      <Item
-        value="Themes"
-        icon={<Sparkles />}
-        keybind="t"
-      />
+      <Item value="Themes" icon={<Sparkles />} keybind="t" />
       <Group title="Blog">
         <Item value="Blog" icon={<Pencil />} keybind="g b" />
         <Item

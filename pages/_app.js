@@ -3,7 +3,6 @@ import Router from 'next/router'
 import App from 'next/app'
 import nprogress from 'nprogress'
 import debounce from 'lodash.debounce'
-import NextHead from 'next/head'
 
 // Only show nprogress after 500ms (slow loading)
 const start = debounce(nprogress.start, 500)
@@ -19,7 +18,7 @@ Router.events.on('routeChangeError', () => {
 })
 
 import '@styles/global.css'
-import { themeStorageKey } from '@lib/theme'
+import { InjectTheme } from '@lib/theme'
 
 class MyApp extends App {
   render() {
@@ -27,27 +26,7 @@ class MyApp extends App {
     return (
       <>
         <Component {...pageProps} />
-        <NextHead>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `(function() {
-                try {
-                  var mode = localStorage.getItem('${themeStorageKey}');
-                  if (!mode) return;
-                  if (mode === 'system') {
-                    var darkQuery = '(prefers-color-scheme: dark)'
-                    var preferDark = window.matchMedia(darkQuery)
-                    if (preferDark.media === darkQuery && !preferDark.matches) {
-                      document.documentElement.setAttribute('data-theme', 'light');
-                    }
-                  } else {
-                    document.documentElement.setAttribute('data-theme', mode);
-                  }
-                } catch (e) {}
-              })()`
-            }}
-          />
-        </NextHead>
+        <InjectTheme />
       </>
     )
   }
