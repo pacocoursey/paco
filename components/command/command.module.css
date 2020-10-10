@@ -90,6 +90,7 @@
   height: var(--height);
   display: flex;
   align-items: center;
+  text-transform: capitalize;
   color: var(--gray);
   min-height: 60px;
 }

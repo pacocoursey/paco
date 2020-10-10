@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import Link from 'next/link'
 
 import styles from './header.module.css'
@@ -22,4 +23,5 @@ const Header = ({ title, content }) => {
   )
 }
 
-export default Header
+Header.displayName = 'Header'
+export default memo(Header)

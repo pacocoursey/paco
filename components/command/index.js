@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo, useCallback, useState } from 'react'
+import React, { useEffect, useRef, useMemo, useState, memo } from 'react'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
 import useDelayedRender from 'use-delayed-render'
@@ -16,8 +16,7 @@ import {
 
 import {
   Command as CommandIcon,
-  Sun,
-  Moon,
+  Sparkles,
   Pencil,
   Search,
   RSS,
@@ -35,22 +34,21 @@ import {
 } from '@components/icons'
 import styles from './command.module.css'
 import headerStyles from '@components/header/header.module.css'
-import useTheme from '@lib/theme'
+import { useTheme } from 'next-themes'
 import tinykeys from '@lib/tinykeys'
 import postMeta from '@data/blog.json'
 
 const CommandData = React.createContext({})
 const useCommandData = () => React.useContext(CommandData)
 
-const HeaderMenu = () => {
+const CommandMenu = memo(() => {
   const listRef = useRef()
   const commandRef = useRef()
   const router = useRouter()
-  const { toggleTheme } = useTheme()
   const commandProps = useCommand({
     label: 'Site Navigation'
   })
-  const [pages, setPages] = usePages(commandProps, DefaultItems)
+  const [pages, setPages] = usePages(commandProps, ThemeItems)
   const [open, setOpen] = useState(false)
   const { search, list } = commandProps
 
@@ -68,35 +66,31 @@ const HeaderMenu = () => {
 
   const Items = pages[pages.length - 1]
 
-  const closeOnCallback = useCallback(cb => {
-    cb()
-    setOpen(false)
-  }, [])
-
   const keymap = useMemo(() => {
     return {
-      t: () => closeOnCallback(() => toggleTheme()),
+      t: () => {
+        setPages([ThemeItems])
+        setOpen(true)
+      },
       // Blog
-      'g b': () => closeOnCallback(() => router.push('/blog')),
+      'g b': () => router.push('/blog'),
       // Navigation
-      'g h': () => closeOnCallback(() => router.push('/')),
+      'g h': () => router.push('/'),
       'g c': () => router.push('/contact'),
       // Collections
-      'g r': () => closeOnCallback(() => router.push('/reading')),
-      'g d': () => closeOnCallback(() => router.push('/design')),
-      'g k': () => closeOnCallback(() => router.push('/keyboards')),
-      'g m': () => closeOnCallback(() => router.push('/music')),
-      'g p': () => closeOnCallback(() => router.push('/projects')),
-      'g q': () => closeOnCallback(() => router.push('/quotes')),
-      'g w': () => closeOnCallback(() => router.push('/words')),
-      'g i': () => closeOnCallback(() => router.push('/ideas')),
+      'g r': () => router.push('/reading'),
+      'g d': () => router.push('/design'),
+      'g k': () => router.push('/keyboards'),
+      'g m': () => router.push('/music'),
+      'g p': () => router.push('/projects'),
+      'g q': () => router.push('/quotes'),
+      'g w': () => router.push('/words'),
+      'g i': () => router.push('/ideas'),
       // Social
-      'g t': () =>
-        closeOnCallback(() =>
-          window.open('https://twitter.com/pacocoursey', '_blank')
-        )
+      'g t': () => () =>
+        window.open('https://twitter.com/pacocoursey', '_blank')
     }
-  }, [toggleTheme, router, closeOnCallback])
+  }, [router, setPages])
 
   // Register the keybinds globally
   useEffect(() => {
@@ -127,7 +121,7 @@ const HeaderMenu = () => {
   useEffect(() => {
     if (!listRef.current || !heightRef.current) return
 
-    const height = Math.min(listRef.current.offsetHeight, 300)
+    const height = Math.min(listRef.current.offsetHeight + 1, 300)
     heightRef.current.style.height = height + 'px'
   })
 
@@ -160,7 +154,15 @@ const HeaderMenu = () => {
             })}
           >
             <div className={styles.top}>
-              <CommandInput placeholder="Type a command or search..." />
+              <CommandInput
+                placeholder={
+                  Items === ThemeItems
+                    ? 'Select a theme...'
+                    : Items === BlogItems
+                    ? 'Search for posts...'
+                    : 'Type a command or search...'
+                }
+              />
             </div>
 
             <div
@@ -170,12 +172,10 @@ const HeaderMenu = () => {
               })}
             >
               <CommandList ref={listRef}>
-                <CommandData.Provider value={keymap}>
-                  <Items
-                    state={{ pages, search, open }}
-                    setPages={setPages}
-                    keymap={keymap}
-                  />
+                <CommandData.Provider
+                  value={{ pages, search, open, setPages, keymap, setOpen }}
+                >
+                  <Items />
                 </CommandData.Provider>
               </CommandList>
             </div>
@@ -184,9 +184,31 @@ const HeaderMenu = () => {
       </DialogOverlay>
     </>
   )
-}
+})
 
-export default HeaderMenu
+CommandMenu.displayName = 'CommandMenu'
+export default CommandMenu
+
+const ThemeItems = () => {
+  const { theme: activeTheme, themes, setTheme } = useTheme()
+  const { setOpen } = useCommandData()
+
+  return themes.map(theme => {
+    if (theme === activeTheme) return null
+    return (
+      <Item
+        value={theme}
+        key={`theme-${theme}`}
+        callback={() => {
+          setTheme(theme)
+          setOpen(false)
+        }}
+      >
+        {theme}
+      </Item>
+    )
+  })
+}
 
 const BlogItems = () => {
   const router = useRouter()
@@ -218,24 +240,25 @@ const Group = ({ children, title }) => {
   )
 }
 
-const DefaultItems = ({ setPages, state, keymap }) => {
-  const { theme } = useTheme()
+const DefaultItems = () => {
   const router = useRouter()
+  const { setPages, pages } = useCommandData()
 
   return (
     <>
       <Item
-        value="Toggle Theme"
-        key="Toggle Theme"
-        icon={theme === 'light' ? <Moon /> : <Sun />}
+        value="Themes"
+        icon={<Sparkles />}
         keybind="t"
+        closeOnCallback={false}
       />
       <Group title="Blog">
         <Item value="Blog" icon={<Pencil />} keybind="g b" />
         <Item
           value="Search blog..."
           icon={<Search />}
-          callback={() => setPages([...state.pages, BlogItems])}
+          closeOnCallback={false}
+          callback={() => setPages([...pages, BlogItems])}
         />
         <Item
           value="RSS"
@@ -274,11 +297,30 @@ const DefaultItems = ({ setPages, state, keymap }) => {
   )
 }
 
-const Item = ({ icon, children, callback, keybind, ...props }) => {
-  const keymap = useCommandData()
+const Item = ({
+  icon,
+  children,
+  callback,
+  closeOnCallback = true,
+  keybind,
+  ...props
+}) => {
+  const { keymap, setOpen } = useCommandData()
+
+  const cb = () => {
+    if (callback) {
+      callback()
+    } else {
+      keymap[keybind]?.()
+    }
+
+    if (closeOnCallback) {
+      setOpen(false)
+    }
+  }
 
   return (
-    <CommandItem {...props} callback={callback || keymap[keybind]}>
+    <CommandItem {...props} callback={cb}>
       <div>
         <div className={styles.icon}>{icon}</div>
         {children || props.value}

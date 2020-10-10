@@ -2334,10 +2334,10 @@ clsx@^1.1.1:
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
   integrity sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==
 
-cmdk@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/cmdk/-/cmdk-0.0.3.tgz#671f9e379948d87fdcea0aff37432cdbef39afc5"
-  integrity sha512-ASkJL0i+DhHomizODH+DKA0JEDtRPReT5qQ5of4bmWdojLLctSnpfJXumiyOsGQsSWZiI+w79GfMQveo5f0Akg==
+cmdk@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/cmdk/-/cmdk-0.0.4.tgz#b6820927794353171b7d1e05886bf8e8a629b7b8"
+  integrity sha512-mokxS/pXs8qvDrLTXS/cuZ3sXlHSM2ckPLYesN5N++FZ/1UtcG2gV2NGzP6lxt6d0aWAa/TGi8lDnQYkEWZwOA==
   dependencies:
     "@reach/auto-id" "^0.11.2"
     clsx "^1.1.1"
@@ -4924,6 +4924,11 @@ neo-async@^2.5.0, neo-async@^2.6.1, neo-async@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
+
+next-themes@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/next-themes/-/next-themes-0.0.3.tgz#de9da9930e3e034e4c84eb39a7c00e2683a456f4"
+  integrity sha512-aDVK7yUyfho0wK8guSPlzeBGiY9nQtsq07q8pAFiLSECN/JO1a9VCEe9FklQz/norUqhAQHF4HfC8emoP75dFQ==
 
 next-tick@~1.0.0:
   version "1.0.0"

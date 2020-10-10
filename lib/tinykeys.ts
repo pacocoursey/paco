@@ -56,7 +56,7 @@ let TIMEOUT = 1000
 /**
  * When focus is on these elements, ignore the keydown event.
  */
-let inputs = ['select', 'button', 'textarea', 'input']
+let inputs = ['select', 'textarea', 'input']
 
 /**
  * Parses a "Key Binding String" into its parts

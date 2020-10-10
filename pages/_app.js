@@ -3,7 +3,6 @@ import Router from 'next/router'
 import App from 'next/app'
 import nprogress from 'nprogress'
 import debounce from 'lodash.debounce'
-import NextHead from 'next/head'
 
 // Only show nprogress after 500ms (slow loading)
 const start = debounce(nprogress.start, 500)
@@ -19,28 +18,15 @@ Router.events.on('routeChangeError', () => {
 })
 
 import '@styles/global.css'
-import { themeStorageKey } from '@lib/theme'
+import { ThemeProvider } from 'next-themes'
 
 class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props
     return (
-      <>
+      <ThemeProvider disableTransitionOnChange defaultTheme="dark">
         <Component {...pageProps} />
-        <NextHead>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `(function() {
-                try {
-                  var mode = localStorage.getItem('${themeStorageKey}');
-                  if (!mode) return;
-                  document.documentElement.setAttribute('data-theme', mode);
-                } catch (e) {}
-              })()`
-            }}
-          />
-        </NextHead>
-      </>
+      </ThemeProvider>
     )
   }
 }
