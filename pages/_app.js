@@ -18,14 +18,18 @@ Router.events.on('routeChangeError', () => {
 })
 
 import '@styles/global.css'
-import { ThemeProvider, ThemeScript } from '@lib/theme'
+import { ThemeProvider } from 'packages/next-themes'
 
 class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props
     return (
-      <ThemeProvider {...this.props}>
-        <ThemeScript />
+      <ThemeProvider
+        forcedTheme={Component.theme || undefined}
+        disableTransitionOnChange
+        defaultTheme="dark"
+        attribute="data-theme"
+      >
         <Component {...pageProps} />
       </ThemeProvider>
     )

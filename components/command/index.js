@@ -34,7 +34,7 @@ import {
 } from '@components/icons'
 import styles from './command.module.css'
 import headerStyles from '@components/header/header.module.css'
-import { useTheme } from '@lib/theme'
+import { useTheme } from 'packages/next-themes'
 import tinykeys from '@lib/tinykeys'
 import postMeta from '@data/blog.json'
 
