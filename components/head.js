@@ -1,4 +1,5 @@
 import NextHead from 'next/head'
+import { useTheme } from 'next-themes'
 
 const defaultOgImage =
   'https://res.cloudinary.com/dsdlhtnpw/image/upload/v1572673557/og-image_budbm8.png'
@@ -9,6 +10,8 @@ const Head = ({
   image = defaultOgImage,
   children
 }) => {
+  const { system: theme } = useTheme()
+
   return (
     <NextHead>
       {/* Title */}
@@ -43,31 +46,42 @@ const Head = ({
       />
 
       {/* Favicons */}
-      <link
-        rel="apple-touch-icon"
-        sizes="180x180"
-        href="/favicon/apple-touch-icon.png"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="32x32"
-        href="/favicon/favicon-32x32.png"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href="/favicon/favicon-16x16.png"
-      />
-      <link rel="manifest" href="/favicon/site.webmanifest" />
-      <link
-        rel="mask-icon"
-        href="/favicon/safari-pinned-tab.svg"
-        color="#000000"
-      />
-      <meta name="msapplication-TileColor" content="#ffffff" />
-      <meta name="theme-color" content="#ffffff" />
+      <link rel="manifest" href="/favicons/manifest.json" />
+      <meta name="theme-color" content="#000000" />
+      <link rel="mask-icon" href="/favicons/pinned.svg" color="#000000" />
+
+      {/* Dynamic favicon */}
+      {!theme || theme === 'dark' ? (
+        <>
+          <link
+            rel="icon"
+            type="image/svg+xml"
+            href="/favicons/dark.svg"
+            key="dynamic-favicon"
+          />
+          <link
+            rel="alternate icon"
+            type="image/png"
+            href="/favicons/dark.png"
+            key="dynamic-favicon-alternate"
+          />
+        </>
+      ) : (
+        <>
+          <link
+            rel="icon"
+            type="image/svg+xml"
+            href="/favicons/light.svg"
+            key="dynamic-favicon"
+          />
+          <link
+            rel="alternate icon"
+            type="image/png"
+            href="/favicons/light.png"
+            key="dynamic-favicon-alternate"
+          />
+        </>
+      )}
 
       <link
         rel="preload"

@@ -6,3 +6,5 @@ out
 /public/feed.xml
 dist/
 packages/
+yalc.lock
+.yalc
