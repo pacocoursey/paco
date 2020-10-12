@@ -10,7 +10,7 @@ const Head = ({
   image = defaultOgImage,
   children
 }) => {
-  const { system: theme } = useTheme()
+  const { systemTheme } = useTheme()
 
   return (
     <NextHead>
@@ -65,7 +65,7 @@ const Head = ({
       />
 
       {/* Dynamic favicon */}
-      {!theme || theme === 'dark' ? (
+      {!systemTheme || systemTheme === 'dark' ? (
         <>
           <link
             rel="alternate icon"

@@ -19,7 +19,7 @@
     "lodash.debounce": "^4.0.8",
     "match-sorter": "^4.0.2",
     "next": "^9.5.4",
-    "next-themes": "0.0.4-beta.0",
+    "next-themes": "^0.0.4",
     "nprogress": "^0.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
