@@ -14,6 +14,15 @@ const Head = ({
 
   return (
     <NextHead>
+      {/* Preload font */}
+      <link
+        rel="preload"
+        href="https://assets.vercel.com/raw/upload/v1587415301/fonts/2/inter-var-latin.woff2"
+        as="font"
+        type="font/woff2"
+        crossOrigin="anonymous"
+      />
+
       {/* Title */}
       <title>{title}</title>
       <meta name="og:title" content={title} />
@@ -49,6 +58,11 @@ const Head = ({
       <link rel="manifest" href="/favicons/manifest.json" />
       <meta name="theme-color" content="#000000" />
       <link rel="mask-icon" href="/favicons/pinned.svg" color="#000000" />
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="/favicons/apple-touch-icon.png"
+      />
 
       {/* Dynamic favicon */}
       {!theme || theme === 'dark' ? (
@@ -82,15 +96,6 @@ const Head = ({
           />
         </>
       )}
-
-      <link
-        rel="preload"
-        href="https://assets.vercel.com/raw/upload/v1587415301/fonts/2/inter-var-latin.woff2"
-        as="font"
-        type="font/woff2"
-        crossOrigin="anonymous"
-      />
-
       {children}
     </NextHead>
   )
