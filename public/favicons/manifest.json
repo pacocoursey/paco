@@ -1,0 +1,52 @@
+{
+  "name": "Paco",
+  "short_name": "Paco",
+  "icons": [
+    {
+      "sizes": "114x114",
+      "src": "/favicons/favicon-144x144.png"
+    },
+    {
+      "sizes": "120x120",
+      "src": "/favicons/favicon-144x144.png"
+    },
+    {
+      "sizes": "144x144",
+    "src": "/favicons/favicon-144x144.png"
+    },
+    {
+      "sizes": "152x152",
+      "src": "/favicons/favicon-144x144.png"
+    },
+    {
+      "sizes": "180x180",
+      "src": "/favicons/favicon-144x144.png"
+    },
+    {
+      "sizes": "57x57",
+      "src": "/favicons/favicon-144x144.png"
+    },
+    {
+      "sizes": "60x60",
+      "src": "/favicons/favicon-144x144.png"
+    },
+    {
+      "sizes": "72x72",
+      "src": "/favicons/favicon-144x144.png"
+    },
+    {
+      "sizes": "76x76",
+      "src": "/favicons/favicon-144x144.png"
+    },
+    {
+      "src": "/favicons/192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://github.githubassets.com/app-icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
