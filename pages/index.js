@@ -1,5 +1,6 @@
 import Page from '@components/page'
 import Link from '@components/link'
+import Notification from '@components/notification'
 
 const About = () => {
   return (
@@ -31,6 +32,34 @@ const About = () => {
           to build better ways to deploy websites.
         </p>
       </article>
+
+      <br />
+      <br />
+
+      <Notification
+        title="Blog"
+        text="Perfect Next.js Dark Mode"
+        index={0}
+        date="Today"
+      />
+      <Notification
+        title="Music"
+        text="Group Therapy 400, Helly Larsen, Falling"
+        index={1}
+        date="Yesterday"
+      />
+      <Notification
+        title="Blog"
+        text="macOS Color Picker"
+        index={2}
+        date="10/2"
+      />
+      <Notification
+        title="Reading"
+        text="Anxiety, Going Native, Accessible Dialog"
+        index={3}
+        date="9/27"
+      />
     </Page>
   )
 }
