@@ -26,6 +26,7 @@
     "react": "npm:@preact/compat@^0.0.3",
     "react-dom": "npm:@preact/compat@^0.0.3",
     "react-ssr-prepass": "npm:preact-ssr-prepass@^1.1.1",
+    "react-intersection-observer": "^8.24.2",
     "swr": "^0.2.0",
     "use-delayed-render": "^0.0.7"
   },
