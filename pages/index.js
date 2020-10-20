@@ -8,6 +8,7 @@ const About = () => {
         <h1>Paco Coursey</h1>
 
         <p>
+          ijijijijij
           Frontend developer and designer,{' '}
           <Link underline href="/keyboards">
             mechanical keyboard
