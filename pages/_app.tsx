@@ -7,7 +7,7 @@ import debounce from 'lodash.debounce'
 // Only show nprogress after 500ms (slow loading)
 const start = debounce(nprogress.start, 500)
 Router.events.on('routeChangeStart', start)
-Router.events.on('routeChangeComplete', url => {
+Router.events.on('routeChangeComplete', () => {
   start.cancel()
   nprogress.done()
   window.scrollTo(0, 0)
@@ -24,7 +24,15 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props
     return (
-      <ThemeProvider disableTransitionOnChange defaultTheme="dark">
+      <ThemeProvider
+        disableTransitionOnChange
+        defaultTheme="dark"
+        value={{
+          dark: 'dark-theme',
+          light: 'light-theme',
+          xxx: 'hihi'
+        }}
+      >
         <Component {...pageProps} />
       </ThemeProvider>
     )
