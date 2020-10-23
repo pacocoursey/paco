@@ -11,14 +11,14 @@ After trying many apps, my favorite macOS color picker remains the built in util
 1. Open Script Editor and create a new document
 2. Enter `choose color`
 
-![Creating a new applescript script](/blog/macos-color-picker/new-script.jpg)
+<img src="/blog/macos-color-picker/new-script.jpg" alt="Creating a new AppleScript script" width="500" height="480" />
 
 3. Save as an Application in your Applications folder
 
-![Saving the color picker script as an application](/blog/macos-color-picker/saving.png)
+<img src="/blog/macos-color-picker/saving.png" width="1682" height="1006" alt="Saving the color picker script as an application" />
 
 4. Launch your new Color Picker application. I use the second tab with RGB Sliders to easily copy the hex code.
 
-![Open color picker application panel](/blog/macos-color-picker/panel.jpg)
+<img src="/blog/macos-color-picker/panel.jpg" width="300" height="532" alt="Open color picker application panel" />
 
 Pressing escape closes the app. That's it. No installation necessary, the colors are always accurate, and you can even save a few favorites to the grid at the bottom.
