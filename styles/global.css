@@ -37,12 +37,17 @@
   --gray-alpha: rgba(255, 255, 255, 0.5);
   --selection: rgba(255, 255, 255, 0.99);
 
+  --image-shadow: drop-shadow(0 25px 25px rgba(0, 0, 0, 1));
+
   /* Syntax Highlighting */
   --token: #999;
   --comment: #999;
   --keyword: #fff;
   --name: #fff;
   --highlight: #2e2e2e;
+
+  /* Get rid of @reach warning */
+  --reach-dialog: 1
 }
 
 [data-theme='light'] {
@@ -56,6 +61,8 @@
   --header-bg: rgba(255, 255, 255, 0.8);
   --gray-alpha: rgba(19, 20, 21, 0.5);
   --selection: rgba(0, 0, 0, 0.99);
+
+  --image-shadow: drop-shadow(0 25px 25px rgba(74, 74, 139, 0.25));
 
   --token: #666;
   --comment: #999;

@@ -21,7 +21,4 @@ After trying many apps, my favorite macOS color picker remains the built in util
 
 ![Open color picker application panel](/blog/macos-color-picker/panel.jpg)
 
-<br />
-<br />
-
 Pressing escape closes the app. That's it. No installation necessary, the colors are always accurate, and you can even save a few favorites to the grid at the bottom.
