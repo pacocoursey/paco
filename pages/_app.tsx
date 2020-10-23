@@ -24,15 +24,7 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props
     return (
-      <ThemeProvider
-        disableTransitionOnChange
-        defaultTheme="dark"
-        value={{
-          dark: 'dark-theme',
-          light: 'light-theme',
-          xxx: 'hihi'
-        }}
-      >
+      <ThemeProvider disableTransitionOnChange defaultTheme="dark">
         <Component {...pageProps} />
       </ThemeProvider>
     )
