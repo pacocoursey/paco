@@ -96,6 +96,10 @@ const Head = ({
           />
         </>
       )}
+
+      {/* Splitbee analytics */}
+      <script async src="https://cdn.splitbee.io/sb.js"></script>
+
       {children}
     </NextHead>
   )
