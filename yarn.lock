@@ -5204,10 +5204,10 @@ neo-async@^2.5.0, neo-async@^2.6.1, neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-next-themes@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/next-themes/-/next-themes-0.0.8.tgz#2a1748317085afbc2509e2c32bd04af4f0f6cb7d"
-  integrity sha512-dyrh+/bZW4hkecFEg2rfwOLLzU2UnE7KfiwcV0mIwkPrO+1n1WvwkC8nabgKA5Eoi8stkYfjmA72FxTaWEOHtg==
+next-themes@0.0.13-beta.1:
+  version "0.0.13-beta.1"
+  resolved "https://registry.yarnpkg.com/next-themes/-/next-themes-0.0.13-beta.1.tgz#ade850c2ffe83bb37c89a3f4a71ba12df60c120d"
+  integrity sha512-ZpHbZeeIbOnSuscb4FDi+E9VAj8aCOnNyYni3HVaYgl7Nt8HQr+kvi+7BicXGdPXI2u8G50jIHOtzP6+z4i6gA==
 
 next-tick@~1.0.0:
   version "1.0.0"
