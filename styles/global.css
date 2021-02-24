@@ -64,6 +64,26 @@
   --highlight: #eaeaea;
 }
 
+[data-theme='pink'] {
+  --bg: #212529;
+  --fg: #ffdeeb;
+  --gray: #868e96;
+  --light-gray: #343a40;
+  --lighter-gray: #495057;
+  --lightest-gray: #343a40;
+  --article-color: #ffdeeb;
+  --header-bg: rgb(33, 37, 41, 0.8);
+  --gray-alpha: rgba(255, 255, 255, 0.5);
+  --selection: rgb(255, 222, 235, 0.99);
+
+  --token: #999;
+  --comment: #999;
+  --keyword: #ffdeeb;
+  --name: #ffdeeb;
+  --highlight: #495057;
+}
+
+
 * {
   box-sizing: border-box;
 }
