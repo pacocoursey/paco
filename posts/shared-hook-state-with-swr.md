@@ -72,14 +72,14 @@ This will work, but in big applications you'll end up with a lot of context.
 
 ## Solving with SWR
 
-We can simulate `useState` with SWR by using the [`mutate`](https://github.com/zeit/swr#bound-mutate) function as our `setState`, and the [`config.initialData`](https://github.com/zeit/swr#options) option the initial state. Now when we call `mutate`, the updated data will be reflected everywhere the hook is used.
+We can simulate `useState` with SWR by using the [`mutate`](https://swr.vercel.app/docs/mutation) function as our `setState`, and the [`config.fallbackData`](https://swr.vercel.app/docs/options#options) option as the initial state. Now when we call `mutate`, the updated data will be reflected everywhere the hook is used.
 
 ```js
 import useSWR from 'swr'
 
 const useUsername = () => {
   const { data: username, mutate: setUsername } = useSWR('username', {
-    initialData: ''
+    fallbackData: ''
   })
 
   return [username, setUsername]
@@ -95,7 +95,7 @@ We can go one step further and build a shared addition to `useState`:
 ```js
 const useSharedState = (key, initial) => {
   const { data: state, mutate: setState } = useSWR(key, {
-    initialData: initial
+    fallbackData: initial
   })
 
   return [state, setState]
