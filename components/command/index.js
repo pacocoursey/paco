@@ -291,7 +291,14 @@ const DefaultItems = () => {
             window.open('https://github.com/pacocoursey', '_blank')
           }
         />
-        <Item value="Twitter" icon={<Twitter />} keybind="g t" />
+        <Item
+          value="Twitter"
+          icon={<Twitter />}
+          keybind="g t"
+          callback={() =>
+            window.open('https://twitter.com/pacocoursey', '_blank')
+          }
+        />
       </Group>
     </>
   )
