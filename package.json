@@ -45,7 +45,7 @@
     "eslint-plugin-react-hooks": "^2.5.0",
     "gray-matter": "^4.0.2",
     "lowdb": "^1.0.0",
-    "marked": "^1.1.0",
+    "marked": "^4.0.10",
     "next-unused": "^0.0.3",
     "open-graph-scraper": "^3.6.2",
     "postcss-flexbugs-fixes": "^5.0.2",
