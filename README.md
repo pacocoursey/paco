@@ -1,3 +1,5 @@
+> This is my outdated personal site from 2020. You are free to clone and use it as a template.
+
 # [paco.sh](https://paco.sh)
 
 [![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/pacocoursey/paco)
