@@ -1,8 +1,11 @@
 import NextHead from 'next/head'
 import { useTheme } from 'next-themes'
+import { useRouter } from 'next/router'
 
+const BASE_URL = `https://paco.sh`
 const defaultOgImage =
   'https://res.cloudinary.com/dsdlhtnpw/image/upload/v1572673557/og-image_budbm8.png'
+const useCurrentPath = () => useRouter().asPath.split("?")[0];
 
 const Head = ({
   title = 'Paco Coursey',
@@ -11,6 +14,7 @@ const Head = ({
   children
 }) => {
   const { systemTheme } = useTheme()
+  const path = useCurrentPath()
 
   return (
     <NextHead>
@@ -37,6 +41,8 @@ const Head = ({
 
       {/* URL */}
       <meta name="og:url" content="https://paco.sh" />
+      <link key="canonical" rel="canonical" href={BASE_URL + path} />
+
 
       {/* General */}
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
